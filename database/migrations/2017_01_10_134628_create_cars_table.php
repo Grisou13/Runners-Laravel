@@ -23,8 +23,6 @@ class CreateCarsTable extends Migration
             $table->integer('seats');
             $table->string('comment');
             $table->string('shortname');
-            $table->integer('car_types_id')->unsigned();
-            $table->foreign('car_types_id')->references('id')->on('car_types');
         });
     }
 
