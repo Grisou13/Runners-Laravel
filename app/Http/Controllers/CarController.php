@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Car;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -44,9 +43,9 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Car $car)
+    public function show($id)
     {
-        return view("car.show",compact("car"));
+        //
     }
 
     /**
