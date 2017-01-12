@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('phone');
             $table->boolean('sex');
-            $table->text('qr_code')->unique();
+            $table->string('qr_code')->unique();
             $table->rememberToken();
             $table->timestamps();
         });
