@@ -16,7 +16,17 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
+/**
+ * @var Dingo\Api\Routing\Router
+ */
 $api = app('Dingo\Api\Routing\Router');
 $api->version("v1",function($api){
-  $api->resource("users",'Api\V1\UserController');
+    $api->group(['namespace' => 'App\Http\Controllers\Api\V1'],function($api){
+        $api->get("/",function(){
+            return "hi";
+        });
+        $api->resource("users",'UserController');
+    });
+
+
 });
