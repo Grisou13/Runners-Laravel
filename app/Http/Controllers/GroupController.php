@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -13,7 +14,9 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
+        $cars = DB::table('groups')->get();
+
+        return view('group.index', ["cars" => $cars]);
     }
 
     /**

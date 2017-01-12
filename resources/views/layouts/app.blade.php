@@ -11,9 +11,10 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{{asset("css/app.css")}}" rel="stylesheet">
 
     <!-- Scripts -->
+    <script src="{{asset("js/groupManagement.js")}}" type="text/javascript"></script>
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -82,6 +83,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="{{asset("/js/app.js")}}"></script>
 </body>
 </html>
