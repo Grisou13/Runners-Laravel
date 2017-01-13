@@ -25,8 +25,10 @@ $api->version("v1",function($api){
         $api->get("/",function(){
             return "hi";
         });
-        $api->resource("users",'UserController');
+        $api->resource("user",'UserController');
+        $api->resource("group",'GroupController');
+        $api->resource("car",'CarController', ["except"=>"delete"]);
+        $api->resource("run",'UserController');
+
     });
-
-
 });
