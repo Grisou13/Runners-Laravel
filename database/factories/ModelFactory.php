@@ -21,16 +21,17 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
         "first_name"=>$faker->name,
         "last_name"=>$faker->lastName,
-        "shortname"=>str_random(4),
+        "shortname"=>$faker->unique()->name,
         "sex"=>$faker->boolean,
         "phone"=>$faker->phoneNumber,
-        "qr_code"=>str_random(255)
+        "qr_code"=>str_random(255),
+        "group_id"=>factory(\App\Group::class)->create()->id
     ];
 });
 
 $factory->define(App\Car::class, function (Faker\Generator $faker){
     return [
-        "licence_plates"=>"VD ".$faker->numberBetween(1000000,200000),
+        "license_plates"=>"VD ".$faker->numberBetween(1000000,200000),
         "brand"=>$faker->company,
         "model"=>$faker->word,
         "color"=>$faker->colorName,
@@ -42,7 +43,7 @@ $factory->define(App\Car::class, function (Faker\Generator $faker){
 });
 $factory->define(App\CarType::class, function (Faker\Generator $faker){
     return [
-        "type"=>$faker->word,
+        "type"=>$faker->unique()->word,
         "description"=>$faker->text
     ];
 });
@@ -58,6 +59,6 @@ $factory->define(App\Run::class, function (Faker\Generator $faker){
 });
 $factory->define(App\Group::class, function (Faker\Generator $faker){
     return [
-        "active"=>$faker->boolean
+        "active"=>true
     ];
 });

@@ -16,9 +16,9 @@ class RunSeeder extends Seeder
             $this->call(UserSeeder::class);
 
 
-        $user = User::find(2);
-        factory(\App\Run::class,10)->create()->each(function(\App\Run $run) use ($user){
-            $run->user()->save($user);
+
+        factory(\App\Run::class,10)->create()->each(function(\App\Run $run){
+            $run->user()->associate(User::find(2));
         });
 
     }

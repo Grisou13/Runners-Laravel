@@ -12,7 +12,7 @@ class CarSeeder extends Seeder
     public function run()
     {
         factory(\App\Car::class,50)->create()->each(function(\App\Car $c){
-            $c->type()->save(factory(\App\CarType::class)->make());
+            $c->type()->associate(factory(\App\CarType::class)->make());
         });
     }
 }

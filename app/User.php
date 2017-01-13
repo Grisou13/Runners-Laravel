@@ -32,7 +32,7 @@ class User extends Authenticatable
     }
     public function group()
     {
-        return $this->hasOne(Group::class);
+        return $this->belongsTo(Group::class);
     }
 
     public function runs()

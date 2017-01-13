@@ -12,13 +12,18 @@ class UserSeeder extends Seeder
     public function run()
     {
         \App\User::create([
+            "email"=>"root@localhost",
+            "phone"=>"",
+            "sex"=>true,
+            "qr_code"=>"",
             "first_name"=>"root",
             "shortname"=>"rootsey",
             "last_name"=>"toor",
             "password"=>bcrypt("root")
         ]);
-        factory(\App\User::class,5)->create()->each(function(\App\User $u){
-            $u->group()->save(factory(\App\Group::class)->make());
-        });
+        factory(\App\User::class,10)->create();
+//        factory(\App\User::class,5)->create()->each(function(\App\User $u){
+//            $u->group()->save(factory(\App\Group::class)->make());
+//        });
     }
 }
