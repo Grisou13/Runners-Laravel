@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Http\Helpers\Helper;
+use App\Group;
 
 class GroupController extends Controller
 {
@@ -14,9 +16,23 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $cars = DB::table('groups')->get();
+        // get the groups name (Group A, Group B, Group AA, etc...)
+        // can manage 702 different groups name
+        $alphabet = Helper::mkrange("A", "ZZ");
 
-        return view('group.index', ["cars" => $cars]);
+        // query the groups. we use the "lazy loading" to get the users
+        $groups = Group::all();
+        //$groups = Group::with('users')->get();
+
+        $i = 0;
+        foreach($groups as $g){
+            // add the label
+            $g->label = $alphabet[$i];
+            $i ++;
+
+
+        }
+        return view('group.index', ["groups" => $groups]);
     }
 
     /**

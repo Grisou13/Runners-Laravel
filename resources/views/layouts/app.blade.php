@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link href="{{asset("css/app.css")}}" rel="stylesheet">
-
+    <link href="{{asset("css/group.css")}}" rel="stylesheet">
     <!-- Scripts -->
     <script src="{{asset("js/groupManagement.js")}}" type="text/javascript"></script>
     <script>
