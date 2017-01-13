@@ -8,7 +8,7 @@ var containers = document.querySelectorAll(".panel");
 
 dragula("panel", {
     isContainer: function (el) {
-        console.log(el);
+        console.log(el.contains("td"));
     }
 });
 
