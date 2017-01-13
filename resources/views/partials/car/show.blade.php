@@ -12,7 +12,11 @@
     <td>
 
         <!-- delete the nerd (uses the destroy method DESTROY /nerds/{id} -->
-        <!-- we will add this later since its a little more complicated than the other two buttons -->
+        <form method="post" action="car/{{ $car->id }}"  class="pull-right">
+          <input type="hidden" value="DELETE" name="_method">
+          <input type="hidden" value="{{ csrf_token() }}" name="_token">
+          <input type="submit" value="Delete this car" class="btn btn-warning">
+        </form>
 
         <!-- show the nerd (uses the show method found at GET /nerds/{id} -->
         <a class="btn btn-small btn-success" href="{{ URL::to('car/' . $car->id) }}">Show this Car</a>

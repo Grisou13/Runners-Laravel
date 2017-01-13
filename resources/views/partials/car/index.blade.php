@@ -2,10 +2,13 @@
   <thead>
       <tr>
           <td>ID</td>
-          <td>Name</td>
-          <td>Email</td>
-          <td>Nerd Level</td>
-          <td>Actions</td>
+          <td>Licence</td>
+          <td>Brand</td>
+          <td>Model</td>
+          <td>Color</td>
+          <td>Seats</td>
+          <td>Comment</td>
+          <td>shortname</td>
       </tr>
   </thead>
   <tbody>
