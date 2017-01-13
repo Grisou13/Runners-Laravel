@@ -12,5 +12,5 @@
 </nav>
 
 <h1>Edit {{ $car->name }}</h1>
-@include("partials.car.create")
+@include("partials.car.edit")
 @endsection

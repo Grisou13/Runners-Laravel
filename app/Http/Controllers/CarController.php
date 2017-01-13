@@ -43,15 +43,19 @@ class CarController extends Controller
     public function store(Request $request){
 
         //TODO : Validation
-        $this->validate($request, [
-          'license_plates'   => 'required',
-          'brand'            => 'required',
-          'model'            => 'required'
-        ]);
+        // $this->validate($request, [
+        //   'license_plates'   => 'required',
+        //   'brand'            => 'required',
+        //   'model'            => 'required',
+        //   'car_types_id'     => 'required'
+        // ]);
 
-        $input = $request->all();
+        $input = $request->except(["_token"]);
 
-        Car::create($input);
+        $car = new Car($input);
+        $type = CarType::findOrFail($request->input("car_types_id"));
+        $car->car_types_id=$type->id;
+        $car->save();
 
         // redirect
         Session::flash("flash_message", "Successfully created car !");
@@ -78,7 +82,7 @@ class CarController extends Controller
     public function edit($id)
     {
         $car = Car::find($id);
-        return view("car.edit")->with('car', $car);
+        return view("car.edit")->with('car', $car)->with('car_types', CarType::all());
     }
 
     /**
@@ -90,36 +94,26 @@ class CarController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $rules = array(
-          'license_plates'        => 'required',
-          'brand'                 => 'required',
-          'model'                 => 'required',
-          'color'                 => 'required',
-          'seats'                 => 'required|numeric',
-          'comment'               => 'required',
-          'shortname'             => 'required',
-          'car_types_id'          => 'required|numeric'
-      );
-      $validator = Validator::make(Input::all(), $rules);
-      // validation on wait
-      // TODO: data validation
 
-      if($validator->fails()){
-        return Redirect::to("car/". $id ."/edit")->withErrors($validator)->withInput(Input::except('password'));
-      }else{
-        $car = Car::find($id);
-        $car->license_plates = Input::get('license_plates');
-        $car->brand = Input::get('brand');
-        $car->model = Input::get('model');
-        $car->color = Input::get('color');
-        $car->seats = Input::get('seats');
-        $car->comment = Input::get('comment');
-        $car->shortname = Input::get('shortname');
-        $car->car_types_id = Input::get('car_types_id');
-        $car->save();
+      $car = Car::findOrFail($id);
 
-        return redirect("car");
-      }
+      /*//TODO : Validation
+      $this->validate($request, [
+        'license_plates'   => 'required',
+        'brand'            => 'required',
+        'model'            => 'required'
+      ]);*/
+
+
+      $type = CarType::findOrFail($request->input("car_types_id"));
+      $car->car_types_id=$type->id;
+      $input = $request->all();
+
+      $car->fill($input)->save();
+
+      // redirect
+      Session::flash("flash_message", "Successfully created car !");
+      return redirect("car");
     }
 
     /**
