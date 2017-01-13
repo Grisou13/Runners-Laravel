@@ -9,9 +9,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 
+use App\Http\Controllers\Api\BaseController;
 use App\User;
+use Illuminate\Http\Request;
 
-class UserController
+class UserController extends BaseController
 {
     public function index()
     {
@@ -21,9 +23,22 @@ class UserController
     {
         return $user;
     }
+
+    /**
+     * @param Request $request
+     * @param User $user
+     */
+    public function update(Request $request, User $user)
+    {
+        $user->update($request->all());
+        return $this->response()->accepted(route("api.user.show",$user->id));
+    }
     public function store(Request $request)
     {
-        return;
+        $user = new User;
+        $user->fill($request->all());
+        $user->save();
+        return $this->response()->created(route("api.user.show",$user->id));
     }
     public function delete(User $user)
     {
