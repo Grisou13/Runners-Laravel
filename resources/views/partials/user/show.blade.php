@@ -1,11 +1,10 @@
 <tr>
-    <td>{{ $user->id }}</td>
     <td>{{ $user->first_name }}</td>
     <td>{{ $user->last_name }}</td>
     <td>{{ $user->shortname }}</td>
     <td>{{ $user->email }}</td>
     <td>{{ $user->phone }}</td>
-    <td>{{ $user->sex }}</td>
+    <td>{{ $user->sex == 0 ? "Female" : "Male"}}</td>
 
     <!-- we will also add show, edit, and delete buttons -->
     <td>

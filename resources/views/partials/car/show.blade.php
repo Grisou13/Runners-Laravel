@@ -1,5 +1,4 @@
 <tr>
-    <td>{{ $car->id }}</td>
     <td>{{ $car->license_plates }}</td>
     <td>{{ $car->brand }}</td>
     <td>{{ $car->model }}</td>
@@ -18,9 +17,9 @@
           <input type="submit" value="Delete this car" class="btn btn-warning">
         </form>
 
+
         <!-- show the nerd (uses the show method found at GET /nerds/{id} -->
         <a class="btn btn-small btn-success" href="{{ URL::to('car/' . $car->id) }}">Show this Car</a>
-
         <!-- edit this nerd (uses the edit method found at GET /nerds/{id}/edit -->
         <a class="btn btn-small btn-info" href="{{ URL::to('car/' . $car->id . '/edit') }}">Edit this Car</a>
 

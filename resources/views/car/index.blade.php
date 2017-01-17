@@ -3,8 +3,7 @@
 @section("content")
 <nav class="navbar navbar-inverse">
   <ul class="nav navbar-nav">
-      <li><a href="{{ URL::to('car') }}">View All Cars</a></li>
-      <li><a href="{{ URL::to('car/create') }}">Create a Car</a>
+      <li><a href="{{ URL::to('car/create') }}">Create a Cars</a>
   </ul>
 </nav>
 

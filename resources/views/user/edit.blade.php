@@ -7,7 +7,5 @@
         <li><a href="{{ URL::to('user/create') }}">Create a User</a>
     </ul>
 </nav>
-
-<h1>Edit {{ $user->first_name }}</h1>
 @include("partials.user.edit")
 @endsection

@@ -1,7 +1,6 @@
 <table class="table table-striped table-bordered">
   <thead>
       <tr>
-          <td>ID</td>
           <td>Licence</td>
           <td>Brand</td>
           <td>Model</td>
