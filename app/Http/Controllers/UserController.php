@@ -29,7 +29,7 @@ class UserController extends Controller
    */
   public function create()
   {
-      return view('user.create');
+      //
   }
 
   /**
@@ -39,7 +39,7 @@ class UserController extends Controller
    */
   public function store()
   {
-      //
+
   }
 
   /**
@@ -61,7 +61,8 @@ class UserController extends Controller
    */
   public function edit($id)
   {
-      //
+    $user = User::find($id);
+    return view("user.edit")->with('user', $user);
   }
 
   /**
@@ -70,9 +71,18 @@ class UserController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request, $id)
   {
-      //
+    /*//TODO : Validation
+    $this->validate($request, [
+      'license_plates'   => 'required',
+      'brand'            => 'required',
+      'model'            => 'required'
+    ]);*/
+    $user = User::findOrFail($id);
+    $input = $request->all();
+    $user->fill($input)->save();
+    return redirect('user');
   }
 
   /**
@@ -83,7 +93,11 @@ class UserController extends Controller
    */
   public function destroy($id)
   {
-      //
+    // delete
+    $user = User::find($id);
+    $user->delete();
+
+    return redirect('user');
   }
 
 }
