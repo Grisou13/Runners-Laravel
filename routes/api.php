@@ -16,19 +16,3 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
-/**
- * @var Dingo\Api\Routing\Router
- */
-$api = app('Dingo\Api\Routing\Router');
-$api->version("v1",function($api){
-    $api->group(['namespace' => 'App\Http\Controllers\Api\V1'],function($api){
-        $api->get("/",function(){
-            return "hi";
-        });
-        $api->resource("user",'UserController');
-        $api->resource("group",'GroupController');
-        $api->resource("car",'CarController', ["except"=>"delete"]);
-        $api->resource("run",'UserController');
-
-    });
-});

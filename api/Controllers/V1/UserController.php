@@ -6,10 +6,10 @@
  * Time: 13:44
  */
 
-namespace App\Http\Controllers\Api\V1;
+namespace Api\Controllers\V1;
 
 
-use App\Http\Controllers\Api\BaseController;
+use Api\Controllers\BaseController;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -24,24 +24,24 @@ class UserController extends BaseController
         return $user;
     }
 
-    /**
-     * @param Request $request
-     * @param User $user
-     */
     public function update(Request $request, User $user)
     {
         $user->update($request->all());
-        return $this->response()->accepted(route("api.user.show",$user->id));
+        return $this->response()->accepted(route("api.users.show",$user->id));
     }
     public function store(Request $request)
     {
         $user = new User;
         $user->fill($request->all());
         $user->save();
-        return $this->response()->created(route("api.user.show",$user->id));
+        return $this->response()->created(route("api.users.show",$user->id));
     }
     public function delete(User $user)
     {
         return $user->delete();
+    }
+    public function me()
+    {
+        return $this->user();
     }
 }

@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
             "email"=>"root@localhost",
             "phone"=>"",
             "sex"=>true,
-            "qr_code"=>"",
+            "qr_code"=>"root",
             "first_name"=>"root",
             "shortname"=>"rootsey",
             "last_name"=>"toor",
