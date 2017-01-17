@@ -11,6 +11,7 @@ namespace Api;
 
 use App\User;
 use Dingo\Api\Auth\Provider\Authorization;
+use Dingo\Api\Http\InternalRequest;
 use Dingo\Api\Routing\Route;
 use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
@@ -57,7 +58,8 @@ class ApiAuthProvider extends Authorization
 
     public function authenticate(Request $request, Route $route)
     {
-
+        if($request instanceof InternalRequest)
+            return true;
         //first get the token
         $token = $this->getToken($request);
         if(!$token)

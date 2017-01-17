@@ -30,6 +30,9 @@ class ApiServiceProvider extends RouteServiceProvider
         app('Dingo\Api\Exception\Handler')->register(function (ModelNotFoundException $exception) {
             throw new NotFoundHttpException($exception->getMessage() ,$previous = $exception);
         });
+//        app('Dingo\Api\Exception\Handler')->register(function (NotAuthorized $exception) {
+//            throw new NotFoundHttpException("akhgsdjaskd" ,$previous = $exception);
+//        });
     }
 
     /**

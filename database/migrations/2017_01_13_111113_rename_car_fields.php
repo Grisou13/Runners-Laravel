@@ -14,7 +14,7 @@ class RenameCarFields extends Migration
     public function up()
     {
         Schema::table("cars",function(Blueprint $table){
-            $table->renameColumn("license_plate","plate_number");
+            $table->renameColumn("license_plates","plate_number");
             $table->renameColumn("seats","nb_place");
             $table->renameColumn("shortname","name");
         });
