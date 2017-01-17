@@ -3,7 +3,7 @@
 @section("content")
 <nav class="navbar navbar-inverse">
   <div class="navbar-header">
-      <a class="navbar-brand" href="{{ URL::to('car') }}">Car Alert</a>
+      <a class="navbar-brand" href="{{ URL::to('car') }}">Cars Alert</a>
   </div>
   <ul class="nav navbar-nav">
       <li><a href="{{ URL::to('car') }}">View All Cars</a></li>
@@ -11,13 +11,7 @@
   </ul>
 </nav>
 
-<h1>All the Cars</h1>
+<h1>Create a Car</h1>
 
-<!-- will be used to show any messages -->
-@if (Session::has('message'))
-  <div class="alert alert-info">{{ Session::get('message') }}</div>
-@endif
-@include("partials.car.index",["cars"=>$cars])
-
-
+@include("partials.car.create",["car_types"=>$car_types])
 @endsection
