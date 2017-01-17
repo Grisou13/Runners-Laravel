@@ -1,5 +1,23 @@
 @extends("layouts.app")
 
 @section("content")
+<nav class="navbar navbar-inverse">
+  <div class="navbar-header">
+      <a class="navbar-brand" href="{{ URL::to('car') }}">Car Alert</a>
+  </div>
+  <ul class="nav navbar-nav">
+      <li><a href="{{ URL::to('car') }}">View All Cars</a></li>
+      <li><a href="{{ URL::to('car/create') }}">Create a Car</a>
+  </ul>
+</nav>
+
+<h1>All the Cars</h1>
+
+<!-- will be used to show any messages -->
+@if (Session::has('message'))
+  <div class="alert alert-info">{{ Session::get('message') }}</div>
+@endif
+@include("partials.car.index",["cars"=>$cars])
+
 
 @endsection
