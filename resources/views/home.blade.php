@@ -9,6 +9,10 @@
 
                 <div class="panel-body">
                     You are logged in!
+                    <li>
+                      <ul><a href="car">Véhicules</a></ul>
+                      <ul><a href="user">Personnes</a></ul>
+                    </li>
                 </div>
             </div>
         </div>

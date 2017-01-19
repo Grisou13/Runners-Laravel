@@ -130,4 +130,8 @@ class CarController extends Controller
 
         return redirect('car');
     }
+
+    public function cancel(){
+        return redirect('car');
+    }
 }

@@ -4,13 +4,10 @@
           <td>Licence</td>
           <td>Brand</td>
           <td>Model</td>
-          <td>Color</td>
-          <td>Seats</td>
-          <td>Comment</td>
-          <td>shortname</td>
+          <td>seats</td>
       </tr>
   </thead>
   <tbody>
-  @each("partials.car.show",$cars,"car")
+  @each("partials.car.list_item",$cars,"car")
   </tbody>
 </table>

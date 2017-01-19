@@ -3,8 +3,11 @@
 @section("content")
 <nav class="navbar navbar-inverse">
   <ul class="nav navbar-nav">
-      <li><a href="{{ URL::to('car/create') }}">Create a Cars</a>
+      <li style="display : none" id="create-car"><a href="{{ URL::to('car/create') }}">Create a Cars</a>
   </ul>
+  <button type="button" class="btn btn-success pull-right" id="padlock" onclick="enable()">
+    Closed padlock
+  </button>
 </nav>
 
 <h1>All the Cars</h1>

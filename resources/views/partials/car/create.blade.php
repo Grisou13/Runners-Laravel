@@ -54,6 +54,13 @@
                 </div>
 
                 <div class="form-group">
+                  <label for="stat" class="col-md-4 control-label">Status </label>
+                  <div class="col-md-6">
+                    <input type="text" id="stat" name="stat" class="form-control" required autofocus>
+                  </div>
+                </div>
+
+                <div class="form-group">
                   <label for="type" class="col-md-4 control-label">Type </label>
                   <div class="col-md-6">
                     <select id="type" name="car_types_id" class="form-control" required autofocus>
