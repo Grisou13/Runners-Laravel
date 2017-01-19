@@ -73,7 +73,11 @@ class ApiAuthProvider extends Authorization
     }
     protected function getUserToken($token)
     {
+<<<<<<< HEAD
         $user = User::where("qr_code",$token);
+=======
+        $user = User::where("access_token",$token);
+>>>>>>> api-v1
         if($user->count() != 1)//only 1 user can have the access token
             throw new UnauthorizedHttpException("User-Token","Unable to find any user with token={$token}");
 

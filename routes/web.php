@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
+<<<<<<< HEAD
 Route::resource("/groups", "GroupController");
 
 Auth::routes();
@@ -42,3 +43,8 @@ app.blade.php
 routes
 web.php
 composer.lock
+=======
+Route::resource('car', 'CarController');
+
+Auth::routes();
+>>>>>>> api-v1
