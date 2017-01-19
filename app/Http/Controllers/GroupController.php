@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Helpers\Helper;
 use App\Group;
+use App\User;
 
 class GroupController extends Controller
 {

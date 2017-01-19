@@ -3,20 +3,14 @@
 @section("content")
 
     @foreach($groups as $group)
-        <table border="1" align="left" class="table-group">
-            <tr>
-                <th>{{$group->label}}</th>
-            </tr>
-
+        <div id="container-{{$group->id}}" class="panel panel-default col-md-2">
+            <div class="panel-heading">{{$group->label}}</div>
             <!-- display the users in the group -->
             @foreach($group->users()->get() as $user)
-
-                <tr>
-                    <td >{{$user->first_name}}  {{$user->last_name}}</td>
-                </tr>
+                <div id="{{$user->id}}" class="panel-body">
+                    {{$user->first_name}}  {{$user->last_name}}
+                </div>
             @endforeach
-
-        </table>
+        </div>
     @endforeach
-
 @endsection
