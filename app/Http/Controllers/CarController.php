@@ -79,9 +79,8 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Car $car)
     {
-        $car = Car::find($id);
         return view("car.edit")->with('car', $car)->with('car_types', CarType::all());
     }
 

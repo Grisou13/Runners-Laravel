@@ -13,11 +13,16 @@ use Api\Controllers\BaseController;
 use App\User;
 use Illuminate\Http\Request;
 
+use Unlu\Laravel\Api\QueryBuilder;
+
 class UserController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
-        return User::all();
+        $queryBuilder = new QueryBuilder(new User, $request);
+        if($request->has("paginated"))
+          return $queryBuilder->build()->paginate();
+        return $queryBuilder->build()->get();
     }
     public function show(User $user)
     {
