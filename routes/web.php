@@ -19,8 +19,26 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::resource("/groups", "GroupController"); 
+Route::resource("/groups", "GroupController");
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Discard all changes
+Unstaged Files (0)
+Name
+Expand All
+Tree View
+Staged Files (4)Unstage all changes
+Name
+Expand All
+Tree View
+config
+1
+resources
+views
+layouts
+app.blade.php
+routes
+web.php
+composer.lock
