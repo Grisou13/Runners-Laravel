@@ -3,17 +3,6 @@
  * Injected automatically view ApiServiceProvider
  * @var $api Dingo\Api\Routing\Router
  */
-<<<<<<< HEAD
-$api->version("v1",function(Dingo\Api\Routing\Router $api){
-    $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api){
-        $api->get("users/me","UserController@me");
-        $api->resource("users",'UserController');
-        $api->resource("groups",'GroupController');
-        $api->resource("cars",'CarController', ["except"=>"delete"]);
-        $api->resource("runs",'RunController');
-
-    });
-=======
 $api->get("/",function(){
   return "helloooo";
 });
@@ -23,9 +12,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->resource("groups",'GroupController',["as"=>"api"]);
     $api->resource("cars",'CarController', ["as"=>"api","except"=>"delete"]);
     $api->resource("runs",'RunController',["as"=>"api"]);
-
 });
-
 $api->get("test",function(){
     return "
 <head>
@@ -41,7 +28,6 @@ var geocoder;
     }
     map = new google.maps.Map(document.getElementById(\"map\"), mapOptions);
   }
-
   function codeAddress() {
     var address = document.getElementById(\"address\").value;
     geocoder.geocode( { 'address': address}, function(results, status) {
@@ -66,5 +52,4 @@ var geocoder;
     <input type=\"button\" value=\"Encode\" onclick=\"codeAddress()\">
   </div>
 </body>";
->>>>>>> api-v1
 });

@@ -5,10 +5,7 @@
  * Date: 13.01.2017
  * Time: 08:33
  */
-
 namespace Api;
-
-
 use App\User;
 use Dingo\Api\Auth\Provider\Authorization;
 use Dingo\Api\Http\InternalRequest;
@@ -19,7 +16,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-
 /**
  * Class ApiAuthProvider
  * Authorizes X-Acces-Token requests from the Runners mobile app.
@@ -44,7 +40,6 @@ class ApiAuthProvider extends Authorization
             return true;
         if(parent::validateAuthorizationHeader($request))
             return true;
-
         throw new BadRequestHttpException;
     }
     /**
@@ -55,7 +50,6 @@ class ApiAuthProvider extends Authorization
      *
      * @return mixed
      */
-
     public function authenticate(Request $request, Route $route)
     {
         if($request instanceof InternalRequest)
@@ -64,7 +58,6 @@ class ApiAuthProvider extends Authorization
         $token = $this->getToken($request);
         if(!$token)
             throw new UnauthorizedHttpException("Access-Token","Unable to authenticate, no token");
-
         if($this->validateTokenIntegrity($token))
         {
             return $this->getUserToken($token);
@@ -73,19 +66,13 @@ class ApiAuthProvider extends Authorization
     }
     protected function getUserToken($token)
     {
-<<<<<<< HEAD
-        $user = User::where("qr_code",$token);
-=======
-        $user = User::where("access_token",$token);
->>>>>>> api-v1
+        $user = User::where("accesstoken",$token);
         if($user->count() != 1)//only 1 user can have the access token
             throw new UnauthorizedHttpException("User-Token","Unable to find any user with token={$token}");
-
         return $user->first();
     }
     private function getToken($request)
     {
-
         try {
             //check the headers first
             $this->validateAuthorizationHeader($request);
@@ -99,10 +86,8 @@ class ApiAuthProvider extends Authorization
             else
                 throw $exception;
         }
-
         return $token;
     }
-
     private function parseAuthorizationHeader(Request $request)
     {
         //get token either from X-Access-Token or Authorization header
@@ -110,7 +95,6 @@ class ApiAuthProvider extends Authorization
             return trim(str_ireplace($this->getAuthorizationMethod(), '', $request->header('authorization')));
         });
     }
-
     /**
      * Dummy method, but could be useful
      * @param $token

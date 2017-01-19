@@ -14,8 +14,8 @@ class RenameRunFields extends Migration
     public function up()
     {
         Schema::table('runs', function (Blueprint $table) {
-            $table->json("geo_from");
-            $table->json("geo_to");
+            $table->text("geo_from");
+            $table->text("geo_to");
 
             $table->renameColumn('start_date', 'start_at');
             $table->renameColumn("end_date","end_at");

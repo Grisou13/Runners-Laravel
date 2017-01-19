@@ -30,9 +30,8 @@ class GroupController extends Controller
             // add the label
             $g->label = $alphabet[$i];
             $i ++;
-
-
         }
+        
         return view('group.index', ["groups" => $groups]);
     }
 

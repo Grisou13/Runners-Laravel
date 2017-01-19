@@ -140,13 +140,8 @@ return [
     'errorFormat' => [
         'message' => ':message',
         'errors' => ':errors',
-<<<<<<< HEAD
-        'code' => ':code',
-        'status_code' => ':status_code',
-=======
         'status_code' => ':code',
         'code' => ':status_code',
->>>>>>> api-v1
         'debug' => ':debug',
     ],
 
@@ -174,11 +169,8 @@ return [
     */
 
     'auth' => [
-<<<<<<< HEAD
-
-=======
         "access-token"=>Api\ApiAuthProvider::class
->>>>>>> api-v1
+
     ],
 
     /*
@@ -224,14 +216,12 @@ return [
     'defaultFormat' => env('API_DEFAULT_FORMAT', 'json'),
 
     'formats' => [
-<<<<<<< HEAD
 
-        'json' => Dingo\Api\Http\Response\Format\Json::class,
-=======
+
+        // 'json' => Dingo\Api\Http\Response\Format\Json::class,
+
         'json'=>Api\Responses\Json::class,
+
+    ]
         //'json' => Dingo\Api\Http\Response\Format\Json::class,
->>>>>>> api-v1
-
-    ],
-
 ];

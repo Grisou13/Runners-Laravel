@@ -6,15 +6,12 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "barryvdh/laravel-debugbar": "^2.3",
         "dingo/api": "=v1.0.0-beta7",
         "doctrine/dbal": "^2.5",
-<<<<<<< HEAD
-        "laravel/framework": "5.3.*"
-=======
+
         "laravel/framework": "5.3.*",
         "unlu/laravel-api-query-builder": "^1.6"
->>>>>>> api-v1
+
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

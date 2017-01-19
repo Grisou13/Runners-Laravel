@@ -11,11 +11,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ApiServiceProvider extends RouteServiceProvider
 {
     protected $namespace = 'Api\Controllers';
-<<<<<<< HEAD
-    protected $version = "V1";
-=======
+
     protected $version = "v1";
->>>>>>> api-v1
+
     /**
      * Bootstrap the application services.
      *
