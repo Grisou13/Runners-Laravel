@@ -18,6 +18,12 @@ function enable() {
          $(this).removeAttr('disabled');
          $(this).attr('enabled', 'enabled');
       });
+
+      $('textarea:disabled, select:disabled').each(function () {
+         $(this).removeAttr('disabled');
+         $(this).attr('enabled', 'enabled');
+      });
+
     }else{
 
       $("#padlock").attr('class', 'btn btn-success pull-right');
@@ -39,5 +45,10 @@ function enable() {
       });
       $("#padlock").removeAttr('disabled');
       $("#padlock").attr('enabled', 'enabled');
+
+      $('textarea:enabled, select:enabled').each(function () {
+         $(this).removeAttr('enabled');
+         $(this).attr('disabled', 'disabled');
+      });
     }
 }

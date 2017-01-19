@@ -50,7 +50,7 @@
                 <div class="form-group">
                   <label for="comment" class="col-md-4 control-label">Comment </label>
                   <div class="col-md-6">
-                    <textarea id="comment" name="comment" class="form-control" required autofocus>{{$car->comment}}</textarea>
+                    <textarea disabled id="comment" name="comment" class="form-control" required autofocus>{{$car->comment}}</textarea>
                   </div>
                 </div>
 
