@@ -25,7 +25,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         "sex"=>$faker->boolean,
         "phone_number"=>$faker->phoneNumber,
         "accesstoken"=>str_random(255),
-        "group_id"=>factory(\App\Group::class)->create()->id
+        "group_id"=>factory(\App\Group::class)->create()->id,
+        "stat"=>"active"
     ];
 });
 

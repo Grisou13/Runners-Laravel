@@ -26,7 +26,7 @@ class GroupController extends BaseController
     }
     public function update(Request $request, Group $group)
     {
-        
+
         $group->update($request->all());
 
 
