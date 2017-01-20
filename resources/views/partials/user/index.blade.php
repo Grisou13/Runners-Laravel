@@ -1,10 +1,10 @@
 <table class="table table-striped table-bordered">
   <thead>
       <tr>
-          <td>Licence</td>
-          <td>Brand</td>
-          <td>Model</td>
-          <td>seats</td>
+          <td>First name</td>
+          <td>Last name</td>
+          <td>Telephone number</td>
+          <td>Status</td>
       </tr>
   </thead>
   <tbody>

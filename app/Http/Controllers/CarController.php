@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 
+use App\Requests\CreateCarRequest;
+
 class CarController extends Controller
 {
     /**
@@ -16,8 +18,9 @@ class CarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
         $car = Car::all();
 
         // load the view and pass the car list
@@ -40,15 +43,7 @@ class CarController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
-
-        //TODO : Validation
-        // $this->validate($request, [
-        //   'license_plates'   => 'required',
-        //   'brand'            => 'required',
-        //   'model'            => 'required',
-        //   'car_types_id'     => 'required'
-        // ]);
+    public function store(CreateCarRequest $request){
 
         $input = $request->except(["_token"]);
 

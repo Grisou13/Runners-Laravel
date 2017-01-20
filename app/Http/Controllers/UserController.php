@@ -15,11 +15,19 @@ class UserController extends Controller
    *
    * @return Response
    */
-  public function index()
+  public function index(Request $request)
   {
-    $user = User::all();
+    if($request->has("status"))
+      $users = User::where("stat",$request->get("status"))->get();
+    else
+      $users = User::all();
     // load the view and pass the user list
-    return view('user.index')->with('users', $user);
+    //
+    $status = \DB::table('users')->distinct('stat')->select('stat')->get()->map(function ($stat) {
+      return $stat->stat;
+    });
+    //dd($users);
+    return view('user.index')->with('users', $users)->with("status",$status); //TODO: récuprer tout les statut depuis la table user
   }
 
   /**
