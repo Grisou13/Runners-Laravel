@@ -17,7 +17,8 @@
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
-            "accessToken"=>auth()->check() ? auth()->user()->qr_code : null
+            "accessToken"=>auth()->check() ? auth()->user()->qr_code : null,
+            "basePath"=>URL::to("/")
         ]); ?>
     </script>
 </head>

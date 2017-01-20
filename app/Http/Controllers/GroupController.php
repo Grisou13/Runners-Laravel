@@ -18,22 +18,24 @@ class GroupController extends Controller
     public function index()
     {
         // get the groups name (Group A, Group B, Group AA, etc...)
-        // can manage 702 different groups name
+        // can generate up to 702 different groups name
         $alphabet = Helper::mkrange("A", "ZZ");
 
-        // query the groups. we use the "lazy loading" to get the users
-        $groups = Group::all();
-        //$groups = Group::with('users')->get();
+        // Get all the groups that have at least one active user
+        $groups = Group::whereHas("users", function($query){
+            $query->where("stat", "active");
+        })->get();
 
+        
         $i = 0;
         foreach($groups as $g){
-            // add the label
+            // add the label (groups name)
             $g->label = $alphabet[$i];
             $i ++;
         }
-        $usersWithoutGroup = User::whereNull("group_id")->get();
 
-        //$noGroupUsers = User::where("stat", "not like", "%active%")->orWhereNull("stat")->get();
+        // get the users wihout groups. Theses users are in the "no group" container
+        $usersWithoutGroup = User::whereNull("group_id")->where("stat", "active")->get();
 
         return view('group.index', ["groups" => $groups, "no_group" => $usersWithoutGroup]);
     }

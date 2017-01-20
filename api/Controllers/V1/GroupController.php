@@ -43,10 +43,13 @@ class GroupController extends BaseController
     }
     public function store(Request $request)
     {
+
         $group = new Group;
         $group->fill($request->all());
+        $group->active = true;
         $group->save();
 
+        return $group->id;
         return $this->response()->created(route("groups.show",$group->id));
 
     }
