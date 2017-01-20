@@ -3,56 +3,24 @@
  * Injected automatically view ApiServiceProvider
  * @var $api Dingo\Api\Routing\Router
  */
-$api->get("/",function(){
-  return "helloooo";
-});
+$api->get("/","HomeController@home");
+
 $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api){
-    $api->get("users/me","UserController@me",["as"=>"api.users.me"]);
-    $api->resource("users",'UserController',["as"=>"api"]);
-    $api->resource("groups",'GroupController',["as"=>"api"]);
-    $api->resource("cars",'CarController', ["as"=>"api","except"=>"delete"]);
-    $api->resource("runs",'RunController',["as"=>"api"]);
+    $api->get("users/me",["uses"=>"UserController@me","as"=>"users.me"]);
+    $api->resource("users",'UserController');
+    //convinience routes, these will mainly do internal requests
+    $api->get("users/{user}/runs","UserController@run");
+    $api->get("users/me/runs","UserController@run");
+    $api->get("users/{user}/group","UserController@group");
+    $api->get("users/me/group","UserController@group");
+
+    $api->resource("groups",'GroupController');
+    $api->resource("cars",'CarController', ["except"=>"delete"]);
+    $api->resource("runs",'RunController');
 
 });
 
-$api->get("test",function(){
-    return "
-<head>
-<script>
-var geocoder;
-  var map;
-  function initialize() {
-    geocoder = new google.maps.Geocoder();
-    var latlng = new google.maps.LatLng(-34.397, 150.644);
-    var mapOptions = {
-      zoom: 8,
-      center: latlng
-    }
-    map = new google.maps.Map(document.getElementById(\"map\"), mapOptions);
-  }
-
-  function codeAddress() {
-    var address = document.getElementById(\"address\").value;
-    geocoder.geocode( { 'address': address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-      console.log(results);
-        map.setCenter(results[0].geometry.location);
-        var marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location
-        });
-      } else {
-        alert(\"Geocode was not successful for the following reason: \" + status);
-      }
-    });
-  }
-</script>
-</head>
-<body onload=\"initialize()\">
- <div id=\"map\" style=\"width: 320px; height: 480px;\"></div>
-  <div>
-    <input id=\"address\" type=\"textbox\" value=\"Sydney, NSW\">
-    <input type=\"button\" value=\"Encode\" onclick=\"codeAddress()\">
-  </div>
-</body>";
+$api->get("/test",function(){
+    $dispatcher = app('Dingo\Api\Dispatcher');
+    return $dispatcher->get("api/users");
 });

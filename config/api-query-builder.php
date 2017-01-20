@@ -6,7 +6,7 @@ return [
 
     'orderBy' => [
         [
-            'column' => 'id',
+            'column' => 'created_at',
             'direction' => 'desc'
         ]
     ],

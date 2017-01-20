@@ -14,6 +14,9 @@ use App\User;
 use Illuminate\Http\Request;
 
 use Unlu\Laravel\Api\QueryBuilder;
+use Api\Requests\Filtering\RequestFilter;
+
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UserController extends BaseController
 {
@@ -24,9 +27,14 @@ class UserController extends BaseController
           return $queryBuilder->build()->paginate();
         return $queryBuilder->build()->get();
     }
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
-        return $user;
+        $queryBuilder = new RequestFilter($user, $request);
+        //return $user;
+        $user = $queryBuilder->build()->get();
+        if($user->count() != 1)//just in case something happens during the querying of the model
+          throw new HttpException("sorry bru");
+        return $user->first();//we need to get the index 0, since RequestFilter can only use a global query ->returns a list of 1 item
     }
 
     public function update(Request $request, User $user)
