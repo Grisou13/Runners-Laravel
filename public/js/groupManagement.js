@@ -61,7 +61,17 @@ var drake = dragula(containers, {
             return false;
         }
 
-        return sibling.classList.contains("panel-body");
+        if(sibling.classList.contains("panel-body")){
+            return true;
+        }else if(target.classList.contains("panel")){
+            // if you want to move an element to an empty group list
+            target.appendChild(el);
+            
+            console.log("fuck it im over");
+        }else{
+            return false;
+        }
+        return ;
     }
 });
 // if(sibling.classList.contains("panel-body")){
