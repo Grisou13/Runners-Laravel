@@ -31,10 +31,11 @@ class GroupController extends Controller
             $g->label = $alphabet[$i];
             $i ++;
         }
+        $usersWithoutGroup = User::whereNull("group_id")->get();
 
-        $noGroupUsers = User::where("stat", "not like", "%active%")->orWhereNull("stat")->get();
+        //$noGroupUsers = User::where("stat", "not like", "%active%")->orWhereNull("stat")->get();
 
-        return view('group.index', ["groups" => $groups, "no_group" => $noGroupUsers]);
+        return view('group.index', ["groups" => $groups, "no_group" => $usersWithoutGroup]);
     }
 
     /**

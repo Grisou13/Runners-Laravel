@@ -17,13 +17,13 @@
     @endforeach
 
     <!--  Display the list for users wihtout group -->
-
-    <!-- <div id="container-null" class="panel panel-default col-md-2">
+    <div id="container-null" class="panel panel-default col-md-2">
         <div class="panel-heading">Utilisateurs sans groupe</div>
         @foreach($no_group as $user)
             <div id="{{$user->id}}" class="panel-body">
                 {{$user->firstname}}  {{$user->lastname}}
             </div>
         @endforeach
-    </div> -->
+    </div>
+
 @endsection

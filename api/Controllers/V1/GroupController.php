@@ -33,6 +33,7 @@ class GroupController extends BaseController
         //$userID = $request->input()["data"];
 
         $user = User::findOrFail($request->get("user"));
+
         $user->group_id = $group->id;
 
         $user->save();
@@ -49,9 +50,17 @@ class GroupController extends BaseController
         return $this->response()->created(route("groups.show",$group->id));
 
     }
-    public function delete(Group $user)
+    public function destroy(Request $request, Group $group)
     {
-        return $user->delete();
+        // in this case, we want to delete the user from the given group
+        if($request->has("user")){
+            $user = User::findOrFail($request->get("user"));
+            $user->group_id = null;
+            $user->save();
+            return "true";
+        }
+
+        return $group->delete();
     }
 
 }

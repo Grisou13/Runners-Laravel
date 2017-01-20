@@ -12,22 +12,25 @@
  }
 
 function addUserToGroup(userID, groupID) {
-    // PUT|PATCH | /api/groups/{group} | groups.update  | Api\Controllers\V1\GroupController@update
-
-    //var json = JSON.Stringify({"user"})
     //TODO get users token
     var url = "/Runners-Laravel/public/api/groups/" + groupID + "?token=root";
-    //http://192.168.33.10/Runners-Laravel/public/api/groups/1?token=root
     var success = function(data) {
         console.log(data);
     };
     ajaxRequest(url,{user:userID}, success, "patch");
 
 }
+
 function removeUserFromGroup(userID, groupID) {
-    console.log("Remove");
-    console.log(userID);
-    console.log(groupID);
+    if(!confirm("Etes-vous sûr d'enlever l'utilisateur du groupe ?")){
+        location.reload();
+        return false;
+    }
+    var url = "/Runners-Laravel/public/api/groups/" + groupID + "?token=root&user="+userID;
+    var success = function(data) {
+        console.log(data);
+    };
+    ajaxRequest(url,{user:userID}, success, "delete");
 }
 function ajaxRequest(url, data, callback, method) {
     return jQuery.ajax({
@@ -68,7 +71,11 @@ drake.on("drop", function(el, target, source, sibling){
     userID = el.id;
     destGroupdID = target.id.replace("container-", "");
     sourceGroupID = source.id.replace("container-", "");
+    if(destGroupdID == "null"){
+        removeUserFromGroup(userID, sourceGroupID);
+    }else{
+        addUserToGroup(userID, destGroupdID);
+    }
 
-    addUserToGroup(userID, destGroupdID);
     //removeUserFromGroup(userID, sourceGroupID);
 });
