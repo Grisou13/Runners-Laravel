@@ -97,6 +97,21 @@
                                 @endif
                             </div>
                         </div>
+                        <!-- STATUS ..........................................................-->
+                        <div class="form-group{{ $errors->has('qr_code') ? ' has-error' : '' }}">
+                            <label for="stat" class="col-md-4 control-label">Status</label>
+
+                            <div class="col-md-6">
+                                <input id="stat" type="text" class="form-control" name="stat" value="{{ old('stat') }}" required autofocus>
+
+
+                                @if ($errors->has('qr_code'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('qr_code') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                         <!-- QR CODE ..........................................................-->
                         <div class="form-group{{ $errors->has('qr_code') ? ' has-error' : '' }}">
                             <label for="qr_code" class="col-md-4 control-label">QR Code</label>
@@ -126,6 +141,7 @@
                                 @endif
                             </div>
                         </div>
+
                         <!-- CONFIRM PASSWORD ..........................................................-->
                         <div class="form-group">
                             <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>

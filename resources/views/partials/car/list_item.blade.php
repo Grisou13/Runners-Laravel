@@ -14,7 +14,7 @@
         <form method="post" action="{{ route("car.destroy",$car) }}"  class="pull-right">
           <input type="hidden" value="DELETE" name="_method">
           <input type="hidden" value="{{ csrf_token() }}" name="_token">
-          <input disabled type="submit" value="Delete this car" class="btn btn-warning">
+          <input disabled type="submit" id="delete" value="Delete this car" class="btn btn-warning">
         </form>
     </td>
 </tr>

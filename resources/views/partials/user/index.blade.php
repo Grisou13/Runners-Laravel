@@ -1,15 +1,13 @@
 <table class="table table-striped table-bordered">
   <thead>
       <tr>
-          <td>First name</td>
-          <td>Last name</td>
-          <td>Shortname</td>
-          <td>Email</td>
-          <td>Phone number</td>
-          <td>Sex</td>
+          <td>Licence</td>
+          <td>Brand</td>
+          <td>Model</td>
+          <td>seats</td>
       </tr>
   </thead>
   <tbody>
-  @each("partials.user.show",$users,"user")
+  @each("partials.user.list_item",$users,"user")
   </tbody>
 </table>

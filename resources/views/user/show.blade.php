@@ -5,6 +5,11 @@
   <ul class="nav navbar-nav">
       <li><a href="{{ URL::to('user') }}">View All Users</a></li>
   </ul>
+  <form method="get" action="{{ url('user/'.$user->id.'/edit') }}">
+    <button type="submit" class="btn btn-success pull-right" id="padlock" onclick="enable()">
+      Closed padlock
+    </button>
+  </form>
 </nav>
 
 <h1>{{$user->first_name . " " . $user->last_name}}</h1>
@@ -17,6 +22,8 @@
           <td>Email</td>
           <td>Telephon number</td>
           <td>Sex</td>
+          <td>Status</td>
+          <td>QR Code</td>
       </tr>
   </thead>
   <tbody>
