@@ -15,7 +15,6 @@ var drake = null;
 function getNewGroup(){
     var base_path = window.Laravel.basePath;
     var url = base_path + "/api/groups?token=root";
-    console.log(url);
     var success = function(data) {
         // create a new container
         var newContainer = document.createElement("div");
@@ -23,14 +22,13 @@ function getNewGroup(){
         newContainer.classList.add("panel-default")
         newContainer.classList.add("col-md-2")
         newContainer.classList.add("enabledbutton")
-        newContainer.id = "container-"+data;
+        newContainer.id = "container-" + data;
         var heading = document.createElement("div");
         heading.classList.add("panel-heading");
-        heading.appendChild(document.createTextNode("le nomm du groupe"));
+        heading.appendChild(document.createTextNode("Nouveau groupe"));
         newContainer.appendChild(heading);
         document.querySelector("#group-container").appendChild(newContainer);
-        console.log(newContainer);
-        console.log(drake);
+        // add the container to the "dropable" containers
         drake.containers.push(newContainer);
     };
 

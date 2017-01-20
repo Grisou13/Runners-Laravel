@@ -29,7 +29,6 @@
         @endforeach
     </div>
 
-
     <div class="row">
         <!--  Display the list for users wihtout group -->
         <div id="container-null" class="panel panel-default col-md-2 disabledbutton">
@@ -42,7 +41,7 @@
         </div>
 
         <!-- New group -->
-        <button type="button" class="btn btn-default" onclick="getNewGroup()">Default</button>
+        <button type="button" class="btn btn-default disablesecondbutton" onclick="getNewGroup()">Default</button>
 
     </div>
 

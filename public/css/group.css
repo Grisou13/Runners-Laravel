@@ -32,3 +32,8 @@ Dragula CSS requirments
     pointer-events: none;
     opacity: 0.4;
 }
+
+.disablesecondbutton{
+    pointer-events: none;
+    opacity: 0.4;
+}
