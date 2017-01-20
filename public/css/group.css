@@ -27,3 +27,8 @@ Dragula CSS requirments
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
     filter: alpha(opacity=20);
 }
+
+.disabledbutton {
+    pointer-events: none;
+    opacity: 0.4;
+}

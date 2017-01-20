@@ -84,6 +84,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset("/js/app.js") }}"></script>
+    <script src="{{ asset("/js/padlock.js") }}"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
     <script src="{{ asset("/js/groupManagement.js") }}"></script>
 

@@ -1,6 +1,7 @@
 /**
  * Created by Eric.BOUSBAA on 12.01.2017.
  */
+
  //credits to http://stackoverflow.com/questions/2735067/how-to-convert-a-dom-node-list-to-an-array-in-javascript
  function toArray(obj) {
     var array = [];
@@ -18,7 +19,6 @@ function addUserToGroup(userID, groupID) {
         console.log(data);
     };
     ajaxRequest(url,{user:userID}, success, "patch");
-
 }
 
 function removeUserFromGroup(userID, groupID) {
@@ -32,6 +32,7 @@ function removeUserFromGroup(userID, groupID) {
     };
     ajaxRequest(url,{user:userID}, success, "delete");
 }
+
 function ajaxRequest(url, data, callback, method) {
     return jQuery.ajax({
         url: url,
@@ -51,13 +52,6 @@ var drake = dragula(containers, {
     accepts: function(el, target, source, sibling){
 
         if(!sibling){
-            /*
-            var popDiv = document.createElement("div");
-            popDiv.id = "pannel-content";
-            popDiv.class = "panel-body";
-            target.appendChild(popDiv);
-            */
-
             return false;
         }
 
@@ -66,17 +60,13 @@ var drake = dragula(containers, {
         }else if(target.classList.contains("panel")){
             // if you want to move an element to an empty group list
             target.appendChild(el);
-            
-            console.log("fuck it im over");
+
         }else{
             return false;
         }
-        return ;
     }
 });
-// if(sibling.classList.contains("panel-body")){
-//     console.log(target.id.replace("container-", ""));
-// }
+
 drake.on("drop", function(el, target, source, sibling){
     userID = el.id;
     destGroupdID = target.id.replace("container-", "");
@@ -87,5 +77,4 @@ drake.on("drop", function(el, target, source, sibling){
         addUserToGroup(userID, destGroupdID);
     }
 
-    //removeUserFromGroup(userID, sourceGroupID);
 });
