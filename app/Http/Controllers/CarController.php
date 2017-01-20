@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 
-use App\Requests\CreateCarRequest;
+use App\Http\Requests\CreateCarRequest;
 
 class CarController extends Controller
 {
@@ -21,10 +21,10 @@ class CarController extends Controller
     public function index(Request $request)
     {
 
-        $car = Car::all();
+        $cars = Car::all();
 
         // load the view and pass the car list
-        return view('car.index')->with('cars', $car);
+        return view('car.index')->with('cars', $cars);
     }
 
     /**
@@ -44,7 +44,6 @@ class CarController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CreateCarRequest $request){
-
         $input = $request->except(["_token"]);
 
         $car = new Car($input);
