@@ -17,7 +17,7 @@ class RenameUsersCols extends Migration
             $table->renameColumn('first_name', 'firstname');
             $table->renameColumn("last_name","lastname");
             $table->renameColumn("phone","phone_number");
-            $table->renameColumn("qr_code","access_token");
+            $table->renameColumn("qr_code","accesstoken");
             $table->renameColumn("shortname","name");
             //$table->string("name",40)->change();
         });
@@ -34,7 +34,7 @@ class RenameUsersCols extends Migration
             $table->renameColumn('firstname','first_name');
             $table->renameColumn("lastname","last_name");
             $table->renameColumn("phone_number","phone");
-            $table->renameColumn("access_token","qr_code");
+            $table->renameColumn("accesstoken","qr_code");
             $table->renameColumn("name","shortname");
             //$table->string("shortname")->unique()->change();
         });

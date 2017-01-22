@@ -170,6 +170,7 @@ return [
 
     'auth' => [
         "access-token"=>Api\ApiAuthProvider::class
+
     ],
 
     /*
@@ -215,9 +216,12 @@ return [
     'defaultFormat' => env('API_DEFAULT_FORMAT', 'json'),
 
     'formats' => [
+
+
+        // 'json' => Dingo\Api\Http\Response\Format\Json::class,
+
         'json'=>Api\Responses\Json::class,
+
+    ]
         //'json' => Dingo\Api\Http\Response\Format\Json::class,
-
-    ],
-
 ];

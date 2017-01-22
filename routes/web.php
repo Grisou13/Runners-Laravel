@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
+Route::resource("/groups", "GroupController");
 Route::resource('car', 'CarController');
 Route::post('car/cancel', 'CarController@cancel');
 

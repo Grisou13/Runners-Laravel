@@ -62,9 +62,9 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Car $car)
+    public function show($id)
     {
-        return view("car.show",compact("car"));
+        //
     }
 
     /**
@@ -75,6 +75,10 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
+<<<<<<< HEAD
+        $car = Car::find($id);
+=======
+>>>>>>> api-v1
         return view("car.edit")->with('car', $car)->with('car_types', CarType::all());
     }
 

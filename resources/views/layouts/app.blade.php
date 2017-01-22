@@ -11,13 +11,14 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
-
+    <link href="{{asset("/css/app.css")}}" rel="stylesheet">
+    <link href="{{asset("/css/group.css")}}" rel="stylesheet">
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
-            "accessToken"=>auth()->user()->access_token, "anonymous"
+            "accessToken"=>auth()->check() ? auth()->user()->qr_code : null,
+            "basePath"=>URL::to("/")
         ]); ?>
     </script>
 </head>
@@ -83,7 +84,10 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ url('/js/app.js') }}"></script>
-    <script src="{{ url('/js/padlock.js') }}"></script>
+    <script src="{{ asset("/js/app.js") }}"></script>
+    <script src="{{ asset("/js/padlock.js") }}"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
+    <script src="{{ asset("/js/groupManagement.js") }}"></script>
+
 </body>
 </html>

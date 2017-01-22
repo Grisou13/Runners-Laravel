@@ -8,11 +8,12 @@
         "php": ">=5.6.4",
         "dingo/api": "=v1.0.0-beta7",
         "doctrine/dbal": "^2.5",
+
         "laravel/framework": "5.3.*",
         "unlu/laravel-api-query-builder": "^1.6"
+
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.2",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",

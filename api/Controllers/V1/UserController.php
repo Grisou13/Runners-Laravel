@@ -26,6 +26,7 @@ class UserController extends BaseController
         if($request->has("paginated"))
           return $queryBuilder->build()->paginate();
         return $queryBuilder->build()->get();
+
     }
     public function show(Request $request, User $user)
     {
@@ -57,4 +58,5 @@ class UserController extends BaseController
     {
         return $this->user();
     }
+
 }

@@ -11,7 +11,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ApiServiceProvider extends RouteServiceProvider
 {
     protected $namespace = 'Api\Controllers';
+
     protected $version = "v1";
+
     /**
      * Publishes the configuration files in config/ in laravel's config system
      * @return void

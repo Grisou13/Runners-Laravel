@@ -26,21 +26,22 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         "name"=>$faker->unique()->name,
         "sex"=>$faker->boolean,
         "phone_number"=>$faker->phoneNumber,
-        "access_token"=>str_random(255),
-        "group_id"=>factory(\App\Group::class)->create()->id
+        "accesstoken"=>str_random(255),
+        "group_id"=>factory(\App\Group::class)->create()->id,
+        "stat"=>"active"
     ];
 });
 
 $factory->define(App\Car::class, function (Faker\Generator $faker){
     return [
-        "plate_number"=>"VD ".$faker->numberBetween(1000000,200000),
+        "license_plates"=>"VD ".$faker->numberBetween(1000000,200000),
         "brand"=>$faker->company,
         "model"=>$faker->word,
         "color"=>$faker->colorName,
-        "nb_place"=>$faker->numberBetween(3,7),
+        "seats"=>$faker->numberBetween(3,7),
         "comment"=>"",
-        "name"=>$faker->word,
-        "car_type_id"=>function(){return factory(App\CarType::class)->create()->id;}
+        "shortname"=>$faker->word,
+
     ];
 });
 $factory->define(App\CarType::class, function (Faker\Generator $faker){
