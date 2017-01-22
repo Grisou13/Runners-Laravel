@@ -66,7 +66,7 @@ class ApiAuthProvider extends Authorization
     }
     protected function getUserToken($token)
     {
-        $user = User::where("accesstoken",$token);
+        $user = User::where(User::getAccessTokenKey(),$token);
         if($user->count() != 1)//only 1 user can have the access token
             throw new UnauthorizedHttpException("User-Token","Unable to find any user with token={$token}");
         return $user->first();

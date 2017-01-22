@@ -1,12 +1,12 @@
 <tr>
-    <td>{{ $user->first_name }}</td>
-    <td>{{ $user->last_name }}</td>
-    <td>{{ $user->shortname }}</td>
+    <td>{{ $user->firstname }}</td>
+    <td>{{ $user->lastname }}</td>
+    <td>{{ $user->name }}</td>
     <td>{{ $user->email }}</td>
-    <td>{{ $user->phone }}</td>
+    <td>{{ $user->phone_number }}</td>
     <td>{{ $user->sex }}</td>
     <td>{{ $user->stat }}</td>
-    <td>{{ $user->qr_code}}</td>
+    <td>{{ $user->accesstoken}}</td>
     <!-- we will also add show, edit, and delete buttons -->
     <td>
 

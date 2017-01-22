@@ -34,13 +34,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Car::class, function (Faker\Generator $faker){
     return [
-        "license_plates"=>"VD ".$faker->numberBetween(1000000,200000),
+        "plate_number"=>"VD ".$faker->numberBetween(1000000,200000),
         "brand"=>$faker->company,
         "model"=>$faker->word,
         "color"=>$faker->colorName,
-        "seats"=>$faker->numberBetween(3,7),
+        "nb_place"=>$faker->numberBetween(3,7),
+        "car_type_id"=>function(){return factory(App\CarType::class)->create()->id;},
         "comment"=>"",
-        "shortname"=>$faker->word,
+        "name"=>$faker->word,
+        "stat"=>"Actif"
 
     ];
 });
@@ -100,7 +102,7 @@ $factory->define(App\Run::class, function (Faker\Generator $faker){
          \"place_id\" : \"ChIJP3Sa8ziYEmsRUKgyFmh9AQM\",
          \"types\" : [ \"colloquial_area\", \"locality\", \"political\" ]
       }");
-    $geoTo = trim("{  
+    $geoTo = trim("{
                     \"address_components\": [
                     {
                     \"long_name\": \"Genève Aéroport\",
@@ -189,7 +191,7 @@ $factory->define(App\Run::class, function (Faker\Generator $faker){
                     \"establishment\",
                     \"point_of_interest\"
                     ]
-                    
+
                     }");
     return [
         "start_at"=>$faker->dateTimeBetween("now","+13 days"),

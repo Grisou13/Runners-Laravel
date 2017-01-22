@@ -1,8 +1,8 @@
 <tr>
-    <td>{{ $car->license_plates }}</td>
+    <td>{{ $car->plate_number }}</td>
     <td>{{ $car->brand }}</td>
     <td>{{ $car->model }}</td>
-    <td>{{ $car->seats }}</td>
+    <td>{{ $car->nb_place }}</td>
 
     <!-- we will also add show, edit, and delete buttons -->
     <td>

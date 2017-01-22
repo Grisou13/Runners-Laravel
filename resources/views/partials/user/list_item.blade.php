@@ -1,7 +1,7 @@
 <tr>
-    <td>{{ $user->first_name }}</td>
-    <td>{{ $user->last_name }}</td>
-    <td>{{ $user->phone }}</td>
+    <td>{{ $user->firstname }}</td>
+    <td>{{ $user->lastname }}</td>
+    <td>{{ $user->phone_number }}</td>
     <td>{{ $user->stat }}</td>
     <!-- we will also add show, edit, and delete buttons -->
     <td>

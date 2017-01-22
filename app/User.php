@@ -39,4 +39,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Run::class);
     }
+    public static function getAccessTokenKey()
+    {
+      return "accesstoken";
+    }
 }
