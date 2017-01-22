@@ -22,13 +22,13 @@ class AddLinks extends Migration
       });
       //runs
       Schema::table('runs', function (Blueprint $table) {
-        $table->integer('user_id')->nullable()->unsigned();
+        $table->integer('user_id')->unsigned();
         $table->foreign('user_id')->references('id')->on('users');
       });
 
       //cars
       Schema::table('cars', function (Blueprint $table) {
-        $table->integer('car_types_id')->nullable()->unsigned();
+        $table->integer('car_types_id')->unsigned();
         $table->foreign('car_types_id')->references('id')->on('car_types');
 
       });

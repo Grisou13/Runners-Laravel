@@ -13,12 +13,12 @@ class UserSeeder extends Seeder
     {
         \App\User::create([
             "email"=>"root@localhost",
-            "phone"=>"",
+            "phone_number"=>"",
             "sex"=>true,
-            "qr_code"=>"",
-            "first_name"=>"root",
-            "shortname"=>"rootsey",
-            "last_name"=>"toor",
+            "access_token"=>"root",
+            "firstname"=>"root",
+            "name"=>"rootsey",
+            "lastname"=>"toor",
             "password"=>bcrypt("root")
         ]);
         factory(\App\User::class,10)->create();
