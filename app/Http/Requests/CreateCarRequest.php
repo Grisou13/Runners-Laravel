@@ -24,7 +24,7 @@ class CreateCarRequest extends FormRequest
     public function rules()
     {
         return [
-          'license_plates'   => 'required|unique:cars,license_plates',
+          'plate_number'   => 'required|unique:cars,plate_number',
           'brand'            => 'required',
           'model'            => 'required',
           'car_type_id'     => 'required'

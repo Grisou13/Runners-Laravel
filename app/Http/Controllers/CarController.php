@@ -54,13 +54,13 @@ class CarController extends Controller
         $input = $request->except(["_token"]);
 
         $car = new Car($input);
-        $type = CarType::findOrFail($request->input("car_types_id"));
+        $type = CarType::findOrFail($request->input("car_type_id"));
         $car->car_type_id=$type->id;
         $car->save();
 
         // redirect
         Session::flash("flash_message", "Successfully created car !");
-        return redirect("car");
+        return redirect()->route("car.index");
     }
 
     /**
@@ -92,10 +92,10 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Car $car)
     {
 
-      $car = Car::findOrFail($id);
+      //$car = Car::findOrFail($id);
 
       /*//TODO : Validation
       $this->validate($request, [
@@ -105,15 +105,19 @@ class CarController extends Controller
       ]);*/
 
 
-      $type = CarType::findOrFail($request->input("car_types_id"));
-      $car->car_type_id=$type->id;
       $input = $request->all();
 
       $car->fill($input)->save();
+      if($request->has("type"))
+      {
+        $type = CarType::findOrFail($request->input("type"));
 
+        $car->type()->associate($type);
+      }
+      $car->save();
       // redirect
       Session::flash("flash_message", "Successfully created car !");
-      return redirect("car");
+      return redirect()->back();
     }
 
     /**

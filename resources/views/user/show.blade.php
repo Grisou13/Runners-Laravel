@@ -30,4 +30,25 @@
 @include("partials.user.show")
 </tbody>
 </table>
+
+<div class="row">
+  <div class="col-xs-6 col-md-3">
+      <div class="thumbnail">
+        @if($user->profileImage() != null)
+        <a href="{{ url('images/' . $user->profileImage()->filename)}}" class="thumbnail">
+          <img src="{{ url('images/' . $user->profileImage()->filename)}}" alt="facepicture">
+        </a>
+        @endif
+      </div>
+  </div>
+  <div class="col-xs-6 col-md-3">
+      <div class="thumbnail">
+        @if($user->licenseImage() != null)
+          <a href="{{ url('images/' . $user->licenseImage()->filename)}}" class="thumbnail">
+            <img src="{{ url('images/' . $user->licenseImage()->filename)}}" alt="facepicture">
+          </a>
+        @endif
+      </div>
+  </div>
+</div>
 @endsection

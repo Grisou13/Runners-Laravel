@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Session;
 use App\User;
+use App\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
@@ -54,6 +55,7 @@ class UserController extends Controller
   public function edit($id)
   {
     $user = User::find($id);
+
     return view("user.edit")->with('user', $user);
   }
 

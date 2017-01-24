@@ -25,3 +25,4 @@ $router->post("car/{car}/comment",["as"=>"car.comments.store","uses"=>"CarContro
 Route::post('car/cancel', 'CarController@cancel');
 
 Route::resource('user', 'UserController');
+Route::post('upload/image', ['as' => 'image.upload', 'uses' => 'ImageController@upload']); // upload image for users

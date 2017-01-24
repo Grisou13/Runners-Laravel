@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateImageTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+      Schema::create('images', function (Blueprint $table) {
+        $table->increments('id');
+        $table->timestamps();
+        $table->string('filename');
+        $table->string('original');
+        $table->string('type'); // type is a varchar because it allows to filter more easily in the api
+      });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+      Schema::dropIfExists('images');
+    }
+}
