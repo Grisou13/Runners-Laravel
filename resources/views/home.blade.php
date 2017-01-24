@@ -12,6 +12,7 @@
                     <li>
                       <ul><a href="car">Véhicules</a></ul>
                       <ul><a href="user">Personnes</a></ul>
+                      <ul><a href="groups">Groupes</a></ul>
                     </li>
                 </div>
             </div>

@@ -34,6 +34,10 @@ php -r "unlink('composer-setup.php');"
 ```
 
 ### Laravel setup
+The following commands will :
+- Install all the necessary depedencies
+- Set-up a new database (make sure the database exists)
+- Seed your database with dump data
 ```
 cp .env.example .env
 composer install
@@ -41,3 +45,9 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 To get more specifications use the [laravel documentation](https://laravel.com/docs/5.3/installation).
+
+### Access to basics functionnalities
+Go to the URL public/home.  
+You need to login the go further. If you correctly used the seed the login is simply :  
+username : root@localhost  
+password : root
