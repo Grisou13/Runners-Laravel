@@ -24,3 +24,4 @@ Route::resource('car', 'CarController');
 Route::post('car/cancel', 'CarController@cancel');
 
 Route::resource('user', 'UserController');
+Route::post('upload/image', ['as' => 'image.upload', 'uses' => 'ImageController@upload']); // upload image for users

@@ -9,6 +9,5 @@
       Closed padlock
     </button>
 </nav>
-
-@include("partials.car.edit")
+@include("partials.car.edit",["mode"=>"edit","car"=>$car])
 @endsection

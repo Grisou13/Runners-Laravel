@@ -43,4 +43,16 @@ class User extends Authenticatable
     {
       return "accesstoken";
     }
+    public function images()
+    {
+      return $this->hasMany(Image::class);
+    }
+    public function profileImage()
+    {
+      return $this->images()->where("type","profile")->orderBy("created_at","desc")->first();
+    }
+    public function licenseImage()
+    {
+      return $this->images()->where("type","license")->orderBy("created_at","desc")->first();
+    }
 }
