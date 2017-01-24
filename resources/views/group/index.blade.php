@@ -41,7 +41,7 @@
         </div>
 
         <!-- New group -->
-        <button type="button" class="btn btn-default disablesecondbutton" onclick="getNewGroup()">Default</button>
+        <button type="button" class="btn btn-default disablesecondbutton" onclick="getNewGroup()">Créer groupe</button>
 
     </div>
 
