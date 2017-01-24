@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth',["only"=>["destroy","update"]]);
+    }
   /**
    * Display a listing of the resource.
    *

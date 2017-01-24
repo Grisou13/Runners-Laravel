@@ -76,15 +76,20 @@
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <div class="col-md-6 col-md-offset-4">
-                      <button disabled type="submit" class="btn btn-primary">
-                          Edit the car
-                      </button>
-                  </div>
-                </div>
+
                 {{ csrf_field() }}
               </form>
+
+              @include("partials.comment.create",["route"=>route("car.comments.store",["car"=>$car])])
+              @each("partials.comment.show",$car->comments,"comment")
+
+              <div class="form-group">
+                <div class="col-md-6 col-md-offset-4">
+                  <button disabled type="submit" class="btn btn-primary">
+                    Edit the car
+                  </button>
+                </div>
+              </div>
               <form method="post" action="{{ route("car.destroy",$car) }}"  class="pull-right">
                 <input type="hidden" value="DELETE" name="_method">
                 <input type="hidden" value="{{ csrf_token() }}" name="_token">

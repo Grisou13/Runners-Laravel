@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
+use App\Http\Requests\CreateCommentRequest;
+use App\User;
 use Session;
 use App\Car;
 use App\CarType;
@@ -13,6 +16,10 @@ use App\Http\Requests\CreateCarRequest;
 
 class CarController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth',["only"=>["store","create","update","edit"]]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -126,5 +133,26 @@ class CarController extends Controller
 
     public function cancel(){
         return redirect('car');
+    }
+
+    public function addComment(Car $car, CreateCommentRequest $request)
+    {
+
+        $comment = new Comment;
+        $comment->fill($request->except("_token"));
+        $comment->commentable()->associate($car);
+        if($request->has("user"))
+            $user = User::findOrFail($request->get("user"));
+        else
+            $user = $request->user();
+
+        if($user == null)
+        {
+            redirect()->back()->withErrors(["user"=>"Must provide a username or log in the app"]);
+        }
+        $comment->user()->associate($user);
+        $comment->save();
+
+        return redirect()->back();
     }
 }

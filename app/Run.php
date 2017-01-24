@@ -23,4 +23,8 @@ class Run extends Model
     {
         return $this->belongsTo(Car::class);
     }
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

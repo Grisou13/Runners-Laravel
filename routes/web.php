@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index');
 
 Route::resource("groups", "GroupController");
 Route::resource('car', 'CarController');
+$router->post("car/{car}/comment",["as"=>"car.comments.store","uses"=>"CarController@addComment"]);
 Route::post('car/cancel', 'CarController@cancel');
 
 Route::resource('user', 'UserController');
