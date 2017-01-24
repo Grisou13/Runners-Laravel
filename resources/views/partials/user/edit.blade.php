@@ -75,6 +75,35 @@
                         </button>
                     </div>
                 </div>
+                <div class="row">
+                  <div class="col-xs-6 col-md-3">
+                      <div class="thumbnail">
+                        <a href="{{ url('images/enhanced-buzz-10063-1384442301-0.jpg')}}" class="thumbnail">
+                          <img src="{{ url('images/enhanced-buzz-10063-1384442301-0.jpg')}}" alt="facepicture">
+                        </a>
+                        <div class="caption">
+                          <form method="post" enctype="multipart/form-data" action="">
+                            <div class="form-group">
+                              <label for="inputFile">File input</label>
+                              <input type="file" id="inputFile">
+                            </div>
+                            <input type="hidden" value="{{ csrf_token() }}" name="_token">
+                            <input type="submit" class="btn btn-success" value="Changer">
+                          </form>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                      <div class="thumbnail">
+                        <a href="{{ url('images/exemple-permis-conduire.png')}}" class="thumbnail">
+                          <img src="{{ url('images/exemple-permis-conduire.png')}}" alt="facepicture">
+                        </a>
+                        <div class="caption">
+                          <button type="button" class="btn btn-success">Changer</button>
+                        </div>
+                      </div>
+                  </div>
+                </div>
                 {{ csrf_field() }}
               </form>
             </div>
