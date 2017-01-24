@@ -11,15 +11,17 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+
         \App\User::create([
             "email"=>"root@localhost",
-            "phone"=>"",
+            "phone_number"=>"",
             "sex"=>true,
-            "qr_code"=>"",
-            "first_name"=>"root",
-            "shortname"=>"rootsey",
-            "last_name"=>"toor",
-            "password"=>bcrypt("root")
+            "accesstoken"=>"root",
+            "firstname"=>"root",
+            "name"=>"rootsey",
+            "lastname"=>"toor",
+            "password"=>bcrypt("root"),
+            "stat"=>"active"
         ]);
         factory(\App\User::class,10)->create();
 //        factory(\App\User::class,5)->create()->each(function(\App\User $u){

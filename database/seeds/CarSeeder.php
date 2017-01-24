@@ -11,7 +11,8 @@ class CarSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Car::class,50)->create()->each(function(\App\Car $c){
+
+        factory(\App\Car::class,10)->create()->each(function(\App\Car $c){
             $c->type()->associate(factory(\App\CarType::class)->create());
         });
     }

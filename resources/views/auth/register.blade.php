@@ -10,43 +10,43 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                         {{ csrf_field() }}
                         <!-- FIRST NAME ..........................................................-->
-                        <div class="form-group{{ $errors->has('first_name') ? ' has-error' : '' }}">
-                            <label for="first_name" class="col-md-4 control-label">First name</label>
+                        <div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">
+                            <label for="firstname" class="col-md-4 control-label">First name</label>
 
                             <div class="col-md-6">
-                                <input id="first_name" type="text" class="form-control" name="first_name" value="{{ old('first_name') }}" required autofocus>
+                                <input id="firstname" type="text" class="form-control" name="firstname" value="{{ old('firstname') }}" required autofocus>
 
-                                @if ($errors->has('first_name'))
+                                @if ($errors->has('firstname'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('first_name') }}</strong>
+                                        <strong>{{ $errors->first('firstname') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
                         <!-- LAST NAME ..........................................................-->
-                        <div class="form-group{{ $errors->has('last_name') ? ' has-error' : '' }}">
-                            <label for="last_name" class="col-md-4 control-label">Last name</label>
+                        <div class="form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
+                            <label for="lastname" class="col-md-4 control-label">Last name</label>
 
                             <div class="col-md-6">
-                                <input id="last_name" type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" required autofocus>
+                                <input id="lastname" type="text" class="form-control" name="lastname" value="{{ old('lastname') }}" required autofocus>
 
-                                @if ($errors->has('last_name'))
+                                @if ($errors->has('lastname'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('last_name') }}</strong>
+                                        <strong>{{ $errors->first('lastname') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
                         <!-- SHORTNAME ..........................................................-->
-                        <div class="form-group{{ $errors->has('shortname') ? ' has-error' : '' }}">
-                            <label for="shortname" class="col-md-4 control-label">Shortname</label>
+                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">Shortname</label>
 
                             <div class="col-md-6">
-                                <input id="shortname" type="text" class="form-control" name="shortname" value="{{ old('shortname') }}" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
-                                @if ($errors->has('shortname'))
+                                @if ($errors->has('name'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('shortname') }}</strong>
+                                        <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -66,15 +66,15 @@
                             </div>
                         </div>
                         <!-- PHONE ..........................................................-->
-                        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
-                            <label for="phone" class="col-md-4 control-label">Telephon number</label>
+                        <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
+                            <label for="phone_number" class="col-md-4 control-label">Telephon number</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" value="{{ old('phone') }}" required autofocus>
+                                <input id="phone_number" type="text" class="form-control" name="phone_number" value="{{ old('phone_number') }}" required autofocus>
 
-                                @if ($errors->has('phone'))
+                                @if ($errors->has('phone_number'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('phone') }}</strong>
+                                        <strong>{{ $errors->first('phone_number') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -98,31 +98,30 @@
                             </div>
                         </div>
                         <!-- STATUS ..........................................................-->
-                        <div class="form-group{{ $errors->has('qr_code') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('stat') ? ' has-error' : '' }}">
                             <label for="stat" class="col-md-4 control-label">Status</label>
 
                             <div class="col-md-6">
                                 <input id="stat" type="text" class="form-control" name="stat" value="{{ old('stat') }}" required autofocus>
 
 
-                                @if ($errors->has('qr_code'))
+                                @if ($errors->has('stat'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('qr_code') }}</strong>
+                                        <strong>{{ $errors->first('stat') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
                         <!-- QR CODE ..........................................................-->
-                        <div class="form-group{{ $errors->has('qr_code') ? ' has-error' : '' }}">
-                            <label for="qr_code" class="col-md-4 control-label">QR Code</label>
+                        <div class="form-group{{ $errors->has('accesstoken') ? ' has-error' : '' }}">
+                            <label for="accesstoken" class="col-md-4 control-label">Access Code</label>
 
                             <div class="col-md-6">
-                                <input id="qr_code" type="text" class="form-control" name="qr_code" value="{{ old('qr_code') }}" required autofocus>
+                                <input id="accesstoken" type="text" class="form-control" name="accesstoken" value="{{ old('accesstoken') }}" required autofocus>
 
-
-                                @if ($errors->has('qr_code'))
+                                @if ($errors->has('accesstoken'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('qr_code') }}</strong>
+                                        <strong>{{ $errors->first('accesstoken') }}</strong>
                                     </span>
                                 @endif
                             </div>

@@ -24,6 +24,12 @@ function enable() {
          $(this).attr('enabled', 'enabled');
       });
 
+      /////// ERIC DISABLE AND ENABLE COMPONENTS
+      $(".disabledbutton").attr("class", "panel panel-default col-md-2 enabledbutton");
+      console.log($(".panel panel-default col-md-2 disabledbutton"));
+
+      $(".disablesecondbutton").attr("class", "btn btn-default enabledsecondbutton");
+      /////// END OF ERIC
     }else{
 
       $("#padlock").attr('class', 'btn btn-success pull-right');
@@ -50,5 +56,10 @@ function enable() {
          $(this).removeAttr('enabled');
          $(this).attr('disabled', 'disabled');
       });
+
+      /////// ERIC DISABLE AND ENABLE COMPONENTS
+      $(".enabledbutton").attr("class", "panel panel-default col-md-2 disabledbutton");
+      $(".disablesecondbutton")
+      /////// END OF ERIC
     }
 }

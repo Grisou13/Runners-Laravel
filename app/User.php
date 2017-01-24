@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',"first_name","last_name","shortname","phone","sex","stat","qr_code"
+        'name', 'email', 'password',"firstname","lastname","shortname","phone_number","sex","accesstoken"
     ];
 
     /**
@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', "accesstoken"
     ];
     public function role()
     {
@@ -38,5 +38,9 @@ class User extends Authenticatable
     public function runs()
     {
         return $this->hasMany(Run::class);
+    }
+    public static function getAccessTokenKey()
+    {
+      return "accesstoken";
     }
 }

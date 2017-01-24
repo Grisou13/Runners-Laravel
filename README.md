@@ -10,22 +10,18 @@
 
 ### Fast developpement setup
 
+**Make sure you have PHP in you PATH**
+
 First install [sqlite](https://sqlite.org/download.html).
 
 Then change the .env with
 ```
+....
 DB_CONNECTION=sqlite
+....
 ```
 
-To get a local developpement server, you can use the following command :
-```
-php arstisan migrate --seed
-php artisan serve
-```
-
-The server should now be accessible on `http://localhost:8000`.
-
-And install [composer](https://getcomposer.org/download/) if not already done.
+After that you will need to install [composer](https://getcomposer.org/download/) if not already done.
 ```
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
@@ -33,11 +29,56 @@ php composer-setup.php
 php -r "unlink('composer-setup.php');"
 ```
 
-### Laravel setup
+To get a local developpement server, you can use the following command :
 ```
-cp .env.example .env
 composer install
+cp .env.example .env
 php artisan key:generate
+php arstisan migrate --seed
+php artisan serve
+```
+
+The server should now be accessible on `http://localhost:8000`.
+
+This will create a small PHP webserver for fast developpment.
+
+### Normal setup
+
+The normal setup is if you want to work with a full stack development server. This is if you already posses either an Nginx, or Apache server, and some form of SQL server running.
+
+This installation and configuration of these tools is beyond the scope of this installation manual.
+
+To install Runners-Laravel , first get composer (please visit the section above for more information).
+
+Then install the dependencies, and scaffold the app
+```
+composer install
+cp .env.example .env
+php artisan key:generate
+```
+
+Make sure to edit the ```.env``` file, and add the correct database connection, and other variables necessary.
+
+After that you will need to create the migrations. For this you may execute the following commands
+```
 php artisan migrate --seed
 ```
-To get more specifications use the [laravel documentation](https://laravel.com/docs/5.3/installation).
+
+This will create the database tables **AND** populate the database with Dummy Data.
+The dummy data includes a default login for the system.
+
+If you are stuck during the installation, please visit the [laravel documentation](https://laravel.com/docs/5.3/installation), or create an [issue](https://github.com/CPNV-ES/Runners-Laravel/issues/new).
+
+### Default User
+
+The default user will allow you to access anything within the app. From basic login, to the api.
+
+| username | email          | password | access token |
+|----------|----------------|----------|--------------|
+| root     | root@localhost | root     | root         |
+
+To access the app, please visit the url ```/home```.This page will give you access to all components of the app (it will require you to log in).
+
+To access the api, please visit the url ```/api```. This page will display information necessary for you to use the api.
+
+

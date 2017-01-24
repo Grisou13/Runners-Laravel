@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Http\Helpers\Helper;
+use App\Group;
+use App\User;
 
 class GroupController extends Controller
 {
@@ -13,7 +17,27 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
+        // get the groups name (Group A, Group B, Group AA, etc...)
+        // can generate up to 702 different groups name
+        $alphabet = Helper::mkrange("A", "ZZ");
+
+        // Get all the groups that have at least one active user
+        $groups = Group::whereHas("users", function($query){
+            $query->where("stat", "active");
+        })->get();
+
+        
+        $i = 0;
+        foreach($groups as $g){
+            // add the label (groups name)
+            $g->label = $alphabet[$i];
+            $i ++;
+        }
+
+        // get the users wihout groups. Theses users are in the "no group" container
+        $usersWithoutGroup = User::whereNull("group_id")->where("stat", "active")->get();
+
+        return view('group.index', ["groups" => $groups, "no_group" => $usersWithoutGroup]);
     }
 
     /**

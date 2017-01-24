@@ -5,9 +5,9 @@
             <div class="panel-body">
               <form class="form-horizontal" role="form" method="POST" action="{{ url('/car') }}">
                 <div class="form-group">
-                  <label for="license_plates" class="col-md-4 control-label">Plates licence </label>
+                  <label for="plate_number" class="col-md-4 control-label">Plates licence </label>
                   <div class="col-md-6">
-                    <input type="text" id="licence" name="license_plates" class="form-control" required autofocus>
+                    <input type="text" id="licence" name="plate_number" class="form-control" required autofocus>
                   </div>
                 </div>
 
@@ -35,14 +35,14 @@
                 <div class="form-group">
                   <label for="seats" class="col-md-4 control-label">Seats </label>
                   <div class="col-md-6">
-                    <input type="text" id="seats" name="seats" class="form-control" required autofocus>
+                    <input type="text" id="seats" name="nb_place" class="form-control" required autofocus>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="shrtname" class="col-md-4 control-label">Short name </label>
                   <div class="col-md-6">
-                    <input type="text" id="shrtname" name="shortname" class="form-control" required autofocus>
+                    <input type="text" id="shrtname" name="name" class="form-control" required autofocus>
                   </div>
                 </div>
 

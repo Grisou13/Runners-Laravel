@@ -48,7 +48,7 @@ class CarController extends Controller
 
         $car = new Car($input);
         $type = CarType::findOrFail($request->input("car_types_id"));
-        $car->car_types_id=$type->id;
+        $car->car_type_id=$type->id;
         $car->save();
 
         // redirect
@@ -62,9 +62,9 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Car $car)
+    public function show($id)
     {
-        return view("car.show",compact("car"));
+        //
     }
 
     /**
@@ -73,9 +73,8 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Car $car)
     {
-        $car = Car::find($id);
         return view("car.edit")->with('car', $car)->with('car_types', CarType::all());
     }
 
@@ -100,7 +99,7 @@ class CarController extends Controller
 
 
       $type = CarType::findOrFail($request->input("car_types_id"));
-      $car->car_types_id=$type->id;
+      $car->car_type_id=$type->id;
       $input = $request->all();
 
       $car->fill($input)->save();
