@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             "name"=>"rootsey",
             "lastname"=>"toor",
             "password"=>bcrypt("root"),
-            "stat"=>"active"
+            "stat"=>"Actif"
         ]);
         factory(\App\User::class,10)->create();
         factory(\App\User::class,5)->create()->each(function(\App\User $u){
