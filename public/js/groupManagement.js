@@ -14,14 +14,15 @@ var drake = null;
 
 function getNewGroup(){
     var base_path = window.Laravel.basePath;
+
     var url = base_path + "/api/groups?token=root";
     var success = function(data) {
         // create a new container
         var newContainer = document.createElement("div");
         newContainer.classList.add("panel");
-        newContainer.classList.add("panel-default")
-        newContainer.classList.add("col-md-2")
-        newContainer.classList.add("enabledbutton")
+        newContainer.classList.add("panel-default");
+        newContainer.classList.add("col-md-2");
+        newContainer.classList.add("enabledbutton");
         newContainer.id = "container-" + data;
         var heading = document.createElement("div");
         heading.classList.add("panel-heading");
@@ -63,7 +64,7 @@ function removeUserFromGroup(userID, groupID) {
 }
 
 function ajaxRequest(url, data, callback, method) {
-    return jQuery.ajax({
+    return $.ajax({
         url: url,
         type: method,
         data: data,
@@ -80,7 +81,7 @@ drake = dragula(containers, {
 
     },
     accepts: function(el, target, source, sibling){
-        console.log(target)
+        //console.log(target)
         if(!sibling){
             return false;
         }

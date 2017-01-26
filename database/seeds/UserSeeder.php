@@ -24,8 +24,8 @@ class UserSeeder extends Seeder
             "stat"=>"active"
         ]);
         factory(\App\User::class,10)->create();
-//        factory(\App\User::class,5)->create()->each(function(\App\User $u){
-//            $u->group()->save(factory(\App\Group::class)->make());
-//        });
+        factory(\App\User::class,5)->create()->each(function(\App\User $u){
+            $u->group()->associate(factory(\App\Group::class)->make());
+        });
     }
 }

@@ -23,7 +23,7 @@ class GroupController extends Controller
 
         // Get all the groups that have at least one active user
         $groups = Group::whereHas("users", function($query){
-            $query->where("stat", "active");
+            $query->where("stat", "Actif");
         })->get();
 
         
@@ -35,7 +35,7 @@ class GroupController extends Controller
         }
 
         // get the users wihout groups. Theses users are in the "no group" container
-        $usersWithoutGroup = User::whereNull("group_id")->where("stat", "active")->get();
+        $usersWithoutGroup = User::whereNull("group_id")->where("stat", "Actif")->get();
 
         return view('group.index', ["groups" => $groups, "no_group" => $usersWithoutGroup]);
     }

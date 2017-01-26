@@ -6,6 +6,6 @@
     <!-- we will also add show, edit, and delete buttons -->
     <td>
         <!-- show the nerd (uses the show method found at GET /nerds/{id} -->
-        <a class="btn btn-small btn-success" href="{{ URL::to('user/' . $user->id) }}">Show this User</a>
+        <a class="btn btn-small btn-success" href="{{ route("users.show",$user) }}">Show this User</a>
     </td>
 </tr>

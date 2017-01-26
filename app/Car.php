@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Car extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         "plate_number","brand","model","color","nb_place","comment","stat","name"
     ];

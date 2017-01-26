@@ -11,18 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+$router->get("/",["as"=>"index","uses"=>"HomeController@welcome"]);
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', ["as"=>"home","uses"=>'HomeController@index']);
 
 Route::resource("groups", "GroupController");
-Route::resource('car', 'CarController');
-$router->post("car/{car}/comment",["as"=>"car.comments.store","uses"=>"CarController@addComment"]);
-Route::post('car/cancel', 'CarController@cancel');
+Route::resource('cars', 'CarController');
+$router->post("cars/{car}/comment",["as"=>"cars.comments.store","uses"=>"CarController@addComment"]);
 
-Route::resource('user', 'UserController');
+Route::resource('users', 'UserController');
 Route::post('upload/image', ['as' => 'image.upload', 'uses' => 'ImageController@upload']); // upload image for users

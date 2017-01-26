@@ -3,7 +3,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">Details {{$car->shortname}}</div>
             <div class="panel-body">
-              <form class="form-horizontal" role="form" method="POST" action="{{ url('/car/'.$car->id) }}">
+              <form class="form-horizontal" role="form" method="POST" action="{{ route("car.update",$car) }}">
                 <input type="hidden" name="_method" value="put">
                 <div class="form-group">
                   <label for="license_plates" class="col-md-4 control-label">Plates licence </label>

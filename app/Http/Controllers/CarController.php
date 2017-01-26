@@ -41,7 +41,7 @@ class CarController extends Controller
      */
     public function create()
     {
-        return view('car.create')->with('car_types', CarType::all());
+        return view('car.create')->with('car_types', CarType::all())->with("car",new Car());
     }
 
     /**
@@ -54,13 +54,12 @@ class CarController extends Controller
         $input = $request->except(["_token"]);
 
         $car = new Car($input);
-        $type = CarType::findOrFail($request->input("car_type_id"));
+        $type = CarType::findOrFail($request->input("type"));
         $car->car_type_id=$type->id;
         $car->save();
 
         // redirect
-        Session::flash("flash_message", "Successfully created car !");
-        return redirect()->route("car.index");
+        return redirect()->route("cars.index")->with("message","Car created successfully");
     }
 
     /**
@@ -69,9 +68,9 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Car $car)
     {
-        //
+      return view("car.edit")->with('car', $car)->with('car_types', CarType::all());
     }
 
     /**
@@ -116,8 +115,7 @@ class CarController extends Controller
       }
       $car->save();
       // redirect
-      Session::flash("flash_message", "Successfully created car !");
-      return redirect()->back();
+      return redirect()->back()->with("message","Car updated!");
     }
 
     /**
@@ -126,18 +124,14 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Car $car)
     {
         // delete
-        $car = Car::find($id);
         $car->delete();
 
-        return redirect('car');
+        return redirect()->route("cars.index")->with("message","Car deleted successfully");
     }
 
-    public function cancel(){
-        return redirect('car');
-    }
 
     public function addComment(Car $car, CreateCommentRequest $request)
     {
@@ -152,7 +146,7 @@ class CarController extends Controller
 
         if($user == null)
         {
-            redirect()->back()->withErrors(["user"=>"Must provide a username or log in the app"]);
+            redirect()->back()->withErrors(["user"=>"Must provide a username or log in"]);
         }
         $comment->user()->associate($user);
         $comment->save();

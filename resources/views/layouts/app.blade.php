@@ -12,11 +12,14 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    @stack("styles")
 
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
+            "token"=>auth()->check() ? auth()->user()->accesstoken : "anonymous",
+            "basePath"=>url("/")
         ]); ?>
     </script>
 </head>
@@ -77,11 +80,18 @@
                 </div>
             </div>
         </nav>
-
+        @if(isset($message))
+            <div class="alert alert-success">
+                <span class="glyphicon glyphicon-ok"></span>
+                <em> {{ $message }}</em>
+            </div>
+        @endif
         @yield('content')
     </div>
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="{{ asset("/js/app.js") }}"></script>
+    <script src="{{ asset("/js/padlock.js") }}"></script>
+    @stack("scripts")
 </body>
 </html>

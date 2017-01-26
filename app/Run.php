@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Run extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         "start_at","end_at","geo_from","geo_to","flight_num","note"
     ];

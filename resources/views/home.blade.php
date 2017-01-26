@@ -8,12 +8,11 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
-                    <li>
-                      <ul><a href="car">Véhicules</a></ul>
-                      <ul><a href="user">Personnes</a></ul>
-                      <ul><a href="groups">Groupes</a></ul>
-                    </li>
+                    <ul>
+                        <li><a href="{{ route("cars.index") }}">Véhicules</a></li>
+                        <li><a href="{{ route("users.index") }}">Personnes</a></li>
+                        <li><a href="{{ route("groups.index") }}">Groupes</a></li>
+                    </ul>
                 </div>
             </div>
         </div>

@@ -20,7 +20,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
 
 });
 
-$api->get("/test",function(){
-    $dispatcher = app('Dingo\Api\Dispatcher');
-    return $dispatcher->get("api/users");
-});
+//$api->get("/test",function(){
+//    $dispatcher = app('Dingo\Api\Dispatcher');
+//    return $dispatcher->get("api/users");
+//});

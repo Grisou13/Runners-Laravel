@@ -3,9 +3,9 @@
 @section("content")
 <nav class="navbar navbar-inverse">
   <ul class="nav navbar-nav">
-      <li><a href="{{ URL::to('user') }}">View All Users</a></li>
+      <li><a href="{{ route("users.index") }}">View All Users</a></li>
   </ul>
-  <form method="get" action="{{ url('user/'.$user->id.'/edit') }}">
+  <form method="get" action="{{ route("users.edit",$user) }}">
     <button type="submit" class="btn btn-success pull-right" id="padlock" onclick="enable()">
       Closed padlock
     </button>
@@ -32,23 +32,25 @@
 </table>
 
 <div class="row">
-  <div class="col-xs-6 col-md-3">
-      <div class="thumbnail">
-        @if($user->profileImage() != null)
-        <a href="{{ url('images/' . $user->profileImage()->filename)}}" class="thumbnail">
-          <img src="{{ url('images/' . $user->profileImage()->filename)}}" alt="facepicture">
-        </a>
-        @endif
+    @if($user->profileImage() != null)
+      <div class="col-xs-6 col-md-3">
+          <div class="thumbnail">
+            <a href="{{ url('images/' . $user->profileImage()->filename)}}" class="thumbnail">
+              <img src="{{ url('images/' . $user->profileImage()->filename)}}" alt="facepicture">
+            </a>
+          </div>
       </div>
-  </div>
-  <div class="col-xs-6 col-md-3">
-      <div class="thumbnail">
-        @if($user->licenseImage() != null)
-          <a href="{{ url('images/' . $user->licenseImage()->filename)}}" class="thumbnail">
-            <img src="{{ url('images/' . $user->licenseImage()->filename)}}" alt="facepicture">
-          </a>
-        @endif
+    @endif
+    @if($user->licenseImage() != null)
+      <div class="col-xs-6 col-md-3">
+          <div class="thumbnail">
+
+              <a href="{{ url('images/' . $user->licenseImage()->filename)}}" class="thumbnail">
+                <img src="{{ url('images/' . $user->licenseImage()->filename)}}" alt="facepicture">
+              </a>
+
+          </div>
       </div>
-  </div>
+    @endif
 </div>
 @endsection

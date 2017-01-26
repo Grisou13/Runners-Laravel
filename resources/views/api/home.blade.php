@@ -3,7 +3,8 @@
 @section("content")
     <div class="row">
         <div class="col-sm-12">
-            <h1>This is the api motherfucker</h1>
+            <h1>Some useful docs coming soon....</h1>
+            <h4>That's when i get the swagger docs...</h4>
         </div>
     </div>
 @stop
