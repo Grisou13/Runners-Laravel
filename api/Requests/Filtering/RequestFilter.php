@@ -1,12 +1,17 @@
 <?php
-
+/**
+* User: Thomas.RICCI
+*/
 namespace Api\Requests\Filtering;
 
 use Unlu\Laravel\Api\QueryBuilder;
 use Unlu\Laravel\Api\UriParser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-
+/**
+* Override of the normal QueryBuilder, because it does not allow to use it on only 1 model
+* This class can be constructed and used with a single model isntance, and still use query params to filter it
+*/
 class RequestFilter extends QueryBuilder
 {
 
