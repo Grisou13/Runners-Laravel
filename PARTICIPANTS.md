@@ -57,3 +57,25 @@ Groupe vue padlock :
 - public/js/padlock.js
 
 __Thomas__
+
+Api Controller :
+- api/Controllers/V1/CarController.php
+- api/Controllers/V1/UserController.php
+- api/Controllers/V1/GroupController.php
+- api/Controllers/V1/RunController.php
+
+Filtre de requetes: 
+- api/Requests/Filtering/RequestFilter.php
+
+Mise en forme JSON de l'api:
+- api/Responses/Json.php
+
+Config:
+- config/api.php
+
+Form request:
+- app/Http/Requests/CreateCommentRequest.php
+- app/Http/Requests/CreateImageRequest.php
+- app/Http/Requests/CreateUserRequest.php
+- app/Http/Requests/UpdateUserRequest.php
+
