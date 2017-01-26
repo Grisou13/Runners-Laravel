@@ -6,7 +6,7 @@ User: Joel.DE-SOUSA
         <div class="panel panel-default">
             <div class="panel-heading">Edit {{$user->firstname . " " . $user->lastname}}</div>
             <div class="panel-body">
-              <form class="form-horizontal" role="form" method="POST" action="{{ url('/user/'.$user->id) }}">
+              <form class="form-horizontal" role="form" method="POST" action="{{ route("users.update",$user) }}">
                 <input type="hidden" name="_method" value="put">
                 <div class="form-group">
                   <label for="first_name" class="col-md-4 control-label">First name </label>
