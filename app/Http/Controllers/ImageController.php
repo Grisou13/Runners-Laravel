@@ -1,5 +1,4 @@
 <?php
-// Joël De Sousa
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 use Validator;
