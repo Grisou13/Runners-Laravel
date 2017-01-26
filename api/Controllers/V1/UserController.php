@@ -43,14 +43,14 @@ class UserController extends BaseController
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->all());
-        return $this->response()->accepted(route("api.users.show",$user->id));
+        return $this->response()->accepted();
     }
     public function store(CreateUserRequest $request)
     {
         $user = new User;
         $user->fill($request->all());
         $user->save();
-        return $this->response()->created(route("api.users.show",$user->id));
+        return $this->response()->created();
     }
     public function delete(User $user)
     {
