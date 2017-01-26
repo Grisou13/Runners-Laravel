@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserRequest;
 use Session;
 use App\User;
 use App\Image;
@@ -52,10 +53,8 @@ class UserController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function edit($id)
+  public function edit(User $user)
   {
-    $user = User::find($id);
-
     return view("user.edit")->with('user', $user);
   }
 
@@ -65,7 +64,7 @@ class UserController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update(Request $request, $id)
+  public function update(UpdateUserRequest $request, User $user)
   {
     /*//TODO : Validation
     $this->validate($request, [
@@ -73,9 +72,8 @@ class UserController extends Controller
       'brand'            => 'required',
       'model'            => 'required'
     ]);*/
-    $user = User::findOrFail($id);
     $input = $request->all();
-    $user->fill($input)->save();
+    $user->update($input);
     return redirect('user');
   }
 
@@ -85,12 +83,10 @@ class UserController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy($id)
+  public function destroy(User $user)
   {
     // delete
-    $user = User::find($id);
     $user->delete();
-
     return redirect('user');
   }
 

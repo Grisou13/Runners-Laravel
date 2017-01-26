@@ -10,6 +10,8 @@ namespace Api\Controllers\V1;
 
 
 use Api\Controllers\BaseController;
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -23,7 +25,7 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $queryBuilder = new QueryBuilder(new User, $request);
-        if($request->has("paginated"))
+        if($request->has("page") || $request->has("limit"))
           return $queryBuilder->build()->paginate();
         return $queryBuilder->build()->get();
 
@@ -38,12 +40,12 @@ class UserController extends BaseController
         return $user->first();//we need to get the index 0, since RequestFilter can only use a global query ->returns a list of 1 item
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->all());
         return $this->response()->accepted(route("api.users.show",$user->id));
     }
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
         $user = new User;
         $user->fill($request->all());

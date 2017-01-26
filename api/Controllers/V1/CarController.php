@@ -11,6 +11,7 @@ namespace Api\Controllers\V1;
 
 use App\Car;
 use Api\Controllers\BaseController;
+use App\Http\Requests\CreateCarRequest;
 use Illuminate\Http\Request;
 
 class CarController extends BaseController
@@ -29,7 +30,7 @@ class CarController extends BaseController
         $car->update($request->all());
         return $this->response()->accepted(route("api.cars.show",$car->id));
     }
-    public function store(Request $request)
+    public function store(CreateCarRequest $request)
     {
         $car = new Car;
         $car->fill($request->all());
