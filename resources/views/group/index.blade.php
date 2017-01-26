@@ -1,3 +1,5 @@
+<!-- User : Eric.BOUSBAA -->
+
 @extends("layouts.app")
 @push("styles")
 <link rel="stylesheet" href="{{ asset("/css/group.css") }}">
