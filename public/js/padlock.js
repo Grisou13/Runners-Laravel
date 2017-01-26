@@ -1,3 +1,4 @@
+// author : Joël.DE-SOUSA
 // enable some CRUD components (not read only)
 function enable() {
 
