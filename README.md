@@ -85,3 +85,6 @@ To access the app, please visit the url ```/home```.This page will give you acce
 To access the api, please visit the url ```/api```. This page will display information necessary for you to use the api.
 
 
+### Participants
+
+Please refer to "PARTICIPANTS.md" to know which part each student devolopped.
