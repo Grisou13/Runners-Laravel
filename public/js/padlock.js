@@ -1,4 +1,5 @@
 // author : Joël.DE-SOUSA
+// modified : by Thomas.RICCI 
 // enable some CRUD components (not read only)
 function enable() {
 
