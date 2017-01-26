@@ -86,7 +86,7 @@ To access the api, please visit the url ```/api```. This page will display infor
 
 ### Api
 
-The brief documentaion of the api, for now is available in the file [api.md](/api.md)
+The brief documentation of the api, for now is available in the file [api.md](/api.md)
 
 ### Participants
 
