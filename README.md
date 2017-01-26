@@ -20,27 +20,30 @@ php composer-setup.php
 php -r "unlink('composer-setup.php');"
 ```
 
+
 To get a local developpement server, you can use the following command :
 ```
 composer install
 cp .env.example .env
 php artisan key:generate
-php arstisan migrate --seed
-php artisan serve
+
+```
+You'll need a mysql server. Modify your .env to adapt to your Mysql installation
+```
+DB_USERNAME=YOURUSERNAME
+DB_PASSWORD=YOURUSERNAMEPASSWORD
+```
+Then you will either need to create, and or provide an empty database name in the .env
+```
+DB_DATABASE=THEDATABASENAME
 ```
 
-Then install [sqlite](https://sqlite.org/download.html).
-
-Then change the .env with
+Then execute the following command to create and populate your databse with dummy data.
 ```
-....
-DB_CONNECTION=sqlite
-....
+php artisan migrate --seed
 ```
 
-The server should now be accessible on `http://localhost:8000`.
-
-This will create a small PHP webserver for fast developpment.
+Then execute ```php artisan serve ```. This command will launch a PHP developpment server accessible on `http://localhost:8000`.
 
 ### Normal setup
 
