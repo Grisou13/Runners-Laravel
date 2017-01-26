@@ -1,5 +1,7 @@
 <?php
-
+/**
+* User : Joël.DE-SOUSA
+*/
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
