@@ -84,6 +84,9 @@ To access the app, please visit the url ```/home```.This page will give you acce
 
 To access the api, please visit the url ```/api```. This page will display information necessary for you to use the api.
 
+### Api
+
+The brief documentaion of the api, for now is available in the file [api.md](/api.md)
 
 ### Participants
 

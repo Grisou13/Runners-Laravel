@@ -17,6 +17,10 @@ To authenticate with the api you may use 3 methods :
 The default access token, and used right now to debug is ```root```.
 This token will allow you to get anywhere in the api, as there is no permission system implemented yet!
 
+# Special URLS
+
+The update method on a group must contain a parameter ```ùser=ID```. It represents a user id.
+
 # Query string parameters
 
 There are a number of useful parameters that you can enter to filter your request.
@@ -103,6 +107,7 @@ https://laravel.com/docs/5.3/eloquent-serialization#appending-values-to-json
 # Request Examples
 Get the list of users
 ```curl -X GET http://localhost/api/users?token=root```
+
 Get the user that has the token
 ```curl -X GET http://localhost/api/users/me?token=root```
 
