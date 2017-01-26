@@ -9,20 +9,32 @@
 namespace Api\Controllers\V1;
 
 
+use Api\Requests\Filtering\RequestFilter;
 use App\Group;
 use App\User;
 use Api\Controllers\BaseController;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Unlu\Laravel\Api\QueryBuilder;
 
 class GroupController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Group::all();
+        $queryBuilder = new QueryBuilder(new Group, $request);
+        if($request->has("page") || $request->has("limit"))
+          return $queryBuilder->build()->paginate();
+        return $queryBuilder->build()->get();
     }
-    public function show(Group $group)
+    public function show(Request $request,Group $group)
     {
-        return $group;
+      $queryBuilder = new RequestFilter($group, $request);
+      //return $user;
+      $group = $queryBuilder->build()->get();
+      if($group->count() != 1)//just in case something happens during the querying of the model
+        throw new HttpException("sorry bru");
+      return $group->first();//we need to get the index 0, since RequestFilter can only use a global query ->returns a list of 1 item
+
     }
     public function update(Request $request, Group $group)
     {
