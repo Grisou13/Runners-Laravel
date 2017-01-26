@@ -1,6 +1,6 @@
-/**
+<!--
 *User: Joel.DE-SOUSA
-*/
+-->
 <tr>
     <td>{{ $car->plate_number }}</td>
     <td>{{ $car->brand }}</td>

@@ -8,7 +8,7 @@
 - Tokenizer PHP Extension
 - XML PHP Extension
 
-### Fast developpement setup
+## Setup
 
 **Make sure you have PHP in you PATH**
 
@@ -42,33 +42,10 @@ Then execute the following command to create and populate your databse with dumm
 ```
 php artisan migrate --seed
 ```
-
-Then execute ```php artisan serve ```. This command will launch a PHP developpment server accessible on `http://localhost:8000`.
-
-### Normal setup
-
-The normal setup is if you want to work with a full stack development server. This is if you already posses either an Nginx, or Apache server, and some form of SQL server running.
-
-This installation and configuration of these tools is beyond the scope of this installation manual.
-
-To install Runners-Laravel , first get composer (please visit the section above for more information).
-
-Then install the dependencies, and scaffold the app
-```
-composer install
-cp .env.example .env
-php artisan key:generate
-```
-
-Make sure to edit the ```.env``` file, and add the correct database connection, and other variables necessary.
-
-After that you will need to create the migrations. For this you may execute the following commands
-```
-php artisan migrate --seed
-```
-
 This will create the database tables **AND** populate the database with Dummy Data.
 The dummy data includes a default login for the system.
+
+Then execute ```php artisan serve ```. This command will launch a PHP developpment server accessible on `http://localhost:8000`.
 
 If you are stuck during the installation, please visit the [laravel documentation](https://laravel.com/docs/5.3/installation), or create an [issue](https://github.com/CPNV-ES/Runners-Laravel/issues/new).
 
@@ -86,7 +63,7 @@ To access the api, please visit the url ```/api```. This page will display infor
 
 ### Api
 
-The brief documentaion of the api, for now is available in the file [api.md](/api.md)
+The brief documentation of the api, for now is available in the file [api.md](/api.md)
 
 ### Participants
 
