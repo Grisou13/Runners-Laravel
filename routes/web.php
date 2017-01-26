@@ -19,9 +19,9 @@ Auth::routes();
 
 Route::get('/home', ["as"=>"home","uses"=>'HomeController@index']);
 
-Route::resource("groups", "GroupController");
+Route::resource("groups", "GroupController", ["only"=>["index"]]);
 Route::resource('cars', 'CarController'); // Joël.DE-SOUSA
 $router->post("cars/{car}/comment",["as"=>"cars.comments.store","uses"=>"CarController@addComment"]);
 
-Route::resource('users', 'UserController'); // Joël.DE-SOUSA
+Route::resource('users', 'UserController', ["except"=>["create"]]); // Joël.DE-SOUSA
 Route::post('upload/image', ['as' => 'image.upload', 'uses' => 'ImageController@upload']); // upload image for users // Joël.DE-SOUSA

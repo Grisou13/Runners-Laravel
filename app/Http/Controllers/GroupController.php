@@ -12,6 +12,10 @@ use App\User;
 
 class GroupController extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware("auth");
+  }
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +32,7 @@ class GroupController extends Controller
             $query->where("stat", "Actif");
         })->get();
 
-        
+
         $i = 0;
         foreach($groups as $g){
             // add the label (groups name)
