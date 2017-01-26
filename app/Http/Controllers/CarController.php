@@ -1,5 +1,7 @@
 <?php
-
+/**
+* User: Joel.DE-SOUSA
+*/
 namespace App\Http\Controllers;
 
 use App\Comment;
@@ -36,7 +38,7 @@ class CarController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * @author Thomas.RICCI
      * @return \Illuminate\Http\Response
      */
     public function create()
