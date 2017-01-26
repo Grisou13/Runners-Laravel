@@ -81,7 +81,7 @@ drake = dragula(containers, {
 
     },
     accepts: function(el, target, source, sibling){
-        //console.log(target)
+        //can't move to empty containe (no header)
         if(!sibling){
             return false;
         }
@@ -102,6 +102,7 @@ drake.on("drop", function(el, target, source, sibling){
     userID = el.id;
     destGroupdID = target.id.replace("container-", "");
     sourceGroupID = source.id.replace("container-", "");
+    // update the user in the model
     if(destGroupdID == "null"){
         removeUserFromGroup(userID, sourceGroupID);
     }else{
