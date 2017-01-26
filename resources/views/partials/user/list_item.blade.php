@@ -1,3 +1,6 @@
+<!--
+*User: Joel.DE-SOUSA
+-->
 <tr>
     <td>{{ $user->firstname }}</td>
     <td>{{ $user->lastname }}</td>

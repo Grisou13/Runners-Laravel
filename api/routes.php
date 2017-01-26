@@ -1,5 +1,8 @@
 <?php
 /**
+* User: Thomas.RICCI
+*/
+/**
  * Injected automatically view ApiServiceProvider
  * @var $api Dingo\Api\Routing\Router
  */

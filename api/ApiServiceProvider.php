@@ -1,5 +1,7 @@
 <?php
-
+/**
+* User: Thomas.RICCI
+*/
 namespace Api;
 
 use Api\ApiAuthProvider;
