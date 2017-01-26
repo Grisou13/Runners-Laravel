@@ -12,16 +12,7 @@
 
 **Make sure you have PHP in you PATH**
 
-First install [sqlite](https://sqlite.org/download.html).
-
-Then change the .env with
-```
-....
-DB_CONNECTION=sqlite
-....
-```
-
-After that you will need to install [composer](https://getcomposer.org/download/) if not already done.
+First, you will need to install [composer](https://getcomposer.org/download/) if not already done.
 ```
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
@@ -36,6 +27,15 @@ cp .env.example .env
 php artisan key:generate
 php arstisan migrate --seed
 php artisan serve
+```
+
+Then install [sqlite](https://sqlite.org/download.html).
+
+Then change the .env with
+```
+....
+DB_CONNECTION=sqlite
+....
 ```
 
 The server should now be accessible on `http://localhost:8000`.
