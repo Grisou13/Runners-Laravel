@@ -1,5 +1,7 @@
 <?php
-
+/**
+*User: Joel.DE-SOUSA
+*/
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
