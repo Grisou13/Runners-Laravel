@@ -9,7 +9,7 @@ class Run extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        "start_at","end_at","geo_from","geo_to","flight_num","note"
+        "start_at","end_at","geo_from","geo_to","note", "nb_passenger", "artist"
     ];
     protected $dates = [
         "created_at",
