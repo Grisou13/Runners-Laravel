@@ -13,4 +13,8 @@ class HomeController extends BaseController
     {
         return view("api.home");
     }
+    public function ping()
+    {
+      return "pong";
+    }
 }
