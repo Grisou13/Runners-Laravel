@@ -7,7 +7,7 @@
  * @var $api Dingo\Api\Routing\Router
  */
 $api->get("/","HomeController@home");
-
+$api->get("/ping","HomeController@ping");
 $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api){
     $api->get("users/me",["uses"=>"UserController@me","as"=>"users.me"]);
     $api->resource("users",'UserController');

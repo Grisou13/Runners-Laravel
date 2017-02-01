@@ -27,5 +27,11 @@ class RequestFilter extends QueryBuilder
           else
             $this->query = $this->model->newQuery();
       }
+      public function filterByStatus($query, $value, $operator)
+      {
+        return $query->whereHas('status', function($q) use ($value, $operator) {
+          return $q->where('name', $operator, $value);
+        });
+      }
 
   }

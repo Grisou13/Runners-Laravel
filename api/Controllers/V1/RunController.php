@@ -20,7 +20,7 @@ class RunController extends BaseController
 {
     public function index(Request $request)
     {
-      $queryBuilder = new QueryBuilder(new Run, $request);
+      $queryBuilder = new RequestFilter(new Run, $request);
       if($request->has("page") || $request->has("limit"))
         return $queryBuilder->build()->paginate();
       return $queryBuilder->build()->get();
