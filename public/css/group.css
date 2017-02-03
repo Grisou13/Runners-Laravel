@@ -37,3 +37,15 @@ Dragula CSS requirments
     pointer-events: none;
     opacity: 0.4;
 }
+
+#container-null{
+    background-color: rgba(244, 67, 54, 0.82) !important;
+    color: white;
+}
+#container-null .panel-heading{
+    background-color: rgba(244, 67, 54, 0.0);
+    color: white;
+}
+.btn-danger{
+    background-color: #EF5350 !important;
+}

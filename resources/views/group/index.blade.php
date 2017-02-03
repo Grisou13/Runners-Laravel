@@ -10,16 +10,15 @@
 <script src="{{ asset("/js/groupManagement.js") }}"></script>
 @endpush
 @section("content")
+
 <div class="container">
     <div class="row" >
         <div class="col-md-1">
             <a href="#" class="btn btn-danger pull-left closed" id="padlock" role="button" onclick="enable()">
                 &nbsp Vérouillé
                 <span class="glyphicon glyphicon-pushpin"></span>
-
             </a>
         </div>
-
     </div>
     <!-- Display each group -->
     <div class="row " id="group-container">
@@ -45,7 +44,7 @@
 
         <!--  Display the list for users wihtout group -->
         <div id="container-null" class="panel panel-default col-md-2 disabledbutton">
-            <div class="panel-heading">Utilisateurs sans groupe</div>
+            <div class="panel-heading">Sans groupe</div>
             @foreach($no_group as $user)
                 <div id="{{$user->id}}" class="panel-body">
                     {{$user->firstname}}  {{$user->lastname}}
