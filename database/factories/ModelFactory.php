@@ -196,16 +196,18 @@ $factory->define(App\Run::class, function (Faker\Generator $faker){
     return [
         "start_at"=>$faker->dateTimeBetween("now","+13 days"),
         "end_at"=>$faker->dateTimeBetween("+13 days","+15 days"),
-        "user_id"=>function(){return \App\User::find(1)->id;},
-        "car_id"=>function(){return factory(App\Car::class)->create()->id;},
+        //"user_id"=>function(){return \App\User::find(1)->id;},
+        //"car_id"=>function(){return factory(App\Car::class)->create()->id;},
         "geo_from"=>$geoFrom,
         "geo_to"=>$geoTo,
-        "flight_num"=>$faker->numberBetween(0,400),
+        "artist"=>$faker->name,
+        "nb_passenger"=>$faker->numberBetween(1,12),
         "note"=>$faker->text
     ];
 });
 $factory->define(App\Group::class, function (Faker\Generator $faker){
     return [
+        "name" => $faker->randomLetter(),
         "active"=>true
     ];
 });
