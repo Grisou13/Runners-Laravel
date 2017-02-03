@@ -14,10 +14,12 @@ use Api\Requests\Filtering\RequestFilter;
 use App\Run;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Unlu\Laravel\Api\QueryBuilder;
 
 class RunController extends BaseController
 {
+  
     public function index(Request $request)
     {
       $queryBuilder = new RequestFilter(new Run, $request);

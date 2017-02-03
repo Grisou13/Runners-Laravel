@@ -4,6 +4,7 @@
 */
 namespace Api\Requests\Filtering;
 
+use Illuminate\Database\Eloquent\Builder;
 use Unlu\Laravel\Api\QueryBuilder;
 use Unlu\Laravel\Api\UriParser;
 use Illuminate\Database\Eloquent\Model;
@@ -14,8 +15,13 @@ use Illuminate\Http\Request;
 */
 class RequestFilter extends QueryBuilder
 {
-
-      public function __construct(Model $model, Request $request)
+  
+  /**
+   * RequestFilter constructor.
+   * @param Model $model
+   * @param Request $request
+   */
+  public function __construct(Model $model, Request $request)
       {
           $this->orderBy = config('api-query-builder.orderBy');
           $this->limit = config('api-query-builder.limit');
@@ -26,12 +32,8 @@ class RequestFilter extends QueryBuilder
             $this->query = $this->model->newQuery()->where("id",$model->id);
           else
             $this->query = $this->model->newQuery();
+          parent::__construct($model,$request);
       }
-      public function filterByStatus($query, $value, $operator)
-      {
-        return $query->whereHas('status', function($q) use ($value, $operator) {
-          return $q->where('name', $operator, $value);
-        });
-      }
+
 
   }

@@ -11,7 +11,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-
+        \App\Status::create(["name"=>"actif"]);
+      \App\Status::create(["name"=>"inactif"]);
         \App\User::create([
             "email"=>"root@localhost",
             "phone_number"=>"",

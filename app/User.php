@@ -30,17 +30,16 @@ class User extends Authenticatable
     ];
     public function status()
     {
-      return $this->morphOne(Status::class,"statable");
+      return $this->morphToMany(Status::class,"statusable");
     }
     public function role()
     {
-        return $this->hasOne(Role::class);
+        return $this->belongsTo(Role::class);
     }
     public function group()
     {
         return $this->belongsTo(Group::class);
     }
-
     public function runs()
     {
         return $this->hasMany(Run::class);

@@ -9,14 +9,15 @@
 namespace Api\Responses\Transformers;
 
 
-class GroupTransformer
+use App\Group;
+use League\Fractal\TransformerAbstract;
+
+class GroupTransformer extends TransformerAbstract
 {
-  
-  /**
-   * GroupTransformer constructor.
-   * @param mixed $group
-   */
-  public function __construct($group)
+  public function transform(Group $group)
   {
+    return [
+      "name"=>$group->name
+    ];
   }
 }

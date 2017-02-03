@@ -9,7 +9,16 @@
 namespace Api\Requests\Filtering;
 
 
-class TypeFilterable
+use Illuminate\Database\Eloquent\Builder;
+
+class TypeFilterable extends StatusFilterable
 {
-  
+  public function filterByType(Builder $query, $type)
+  {
+    if(empty($type))
+      return $query;
+    return $query->whereHas("type",function($q) use ($type){
+      return $q->whereIn("type",explode(",",$type))->orWhereIn("id",explode(",",$type));
+    });
+  }
 }

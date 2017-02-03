@@ -10,6 +10,7 @@ namespace Api\Controllers\V1;
 
 
 use Api\Requests\Filtering\RequestFilter;
+use Api\Requests\Filtering\TypeFilterable;
 use App\Car;
 use Api\Controllers\BaseController;
 use App\Http\Requests\CreateCarRequest;
@@ -21,7 +22,7 @@ class CarController extends BaseController
 {
     public function index(Request $request)
     {
-      $queryBuilder = new QueryBuilder(new Car, $request);
+      $queryBuilder = new TypeFilterable(new Car, $request);
       if($request->has("page") || $request->has("limit"))
         return $queryBuilder->build()->paginate();
       return $queryBuilder->build()->get();

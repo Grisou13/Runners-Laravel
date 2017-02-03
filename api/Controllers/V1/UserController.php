@@ -10,6 +10,8 @@ namespace Api\Controllers\V1;
 
 
 use Api\Controllers\BaseController;
+use Api\Requests\Filtering\StatusFilterable;
+use Api\Responses\Transformers\UserTransformer;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\User;
@@ -24,20 +26,19 @@ class UserController extends BaseController
 {
     public function index(Request $request)
     {
-        $queryBuilder = new QueryBuilder(new User, $request);
-        if($request->has("page") || $request->has("limit"))
-          return $queryBuilder->build()->paginate();
-        return $queryBuilder->build()->get();
+//        $queryBuilder = new StatusFilterable(new User, $request);
+//        if($request->has("page") || $request->has("limit"))
+//          return $queryBuilder->build()->paginate();
+//
+//        return $this->response()->collection($queryBuilder->build()->get(), new UserTransformer);
+      if($request->has("limit"))
+          return $this->response()->paginator(User::paginate($request->get("limit")), new UserTransformer);
+      return $this->response()->collection(User::all(), new UserTransformer);
 
     }
     public function show(Request $request, User $user)
     {
-        $queryBuilder = new RequestFilter($user, $request);
-        //return $user;
-        $user = $queryBuilder->build()->get();
-        if($user->count() != 1)//just in case something happens during the querying of the model
-          throw new HttpException("sorry bru");
-        return $user->first();//we need to get the index 0, since RequestFilter can only use a global query ->returns a list of 1 item
+      return $this->response()->item($user,new UserTransformer);
     }
 
     public function update(UpdateUserRequest $request, User $user)

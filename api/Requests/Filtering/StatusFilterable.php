@@ -9,7 +9,18 @@
 namespace Api\Requests\Filtering;
 
 
-class StatusFilterable
+use Illuminate\Database\Eloquent\Builder;
+
+class StatusFilterable extends RequestFilter
 {
-  
+  public function filterByStatus(Builder $query, $status)
+  {
+    if(empty($status)){
+      return $query;
+    }
+    return $query->whereHas("status",function($q) use ($status){
+      return $q->whereIn("name",explode(",",$status));
+    });
+    
+  }
 }
