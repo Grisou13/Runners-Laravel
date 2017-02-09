@@ -11,18 +11,24 @@ class Run extends Model
     protected $fillable = [
         "name","start_at","end_at","geo_from","geo_to","note", "nb_passenger", "artist"
     ];
+    protected $appends =["start_location"];
     protected $dates = [
         "created_at",
         "updated_at",
         "start_at",
         "end_at"
     ];
-    public function getNameAttribute()
-    {
-      if(array_key_exists("name",$this->attributes)){
-        return $this->attributes["name"];
-      }
-      return "run to - ";
+    public function setNameAttribute($name){
+      $this->attributes['name'] = $name ? $name : $this->defaultRunName();
+    }
+    public function getStartLocationAttribute(){
+      return $this->waypoints->first();
+    }
+    protected function defaultRunName(){
+      return "run from ".self::resolveGeoLocation($this->waypoints->first());
+    }
+    public static function resolveGeoLocation($geo){
+      return $geo["address_components"][0]["long_name"];//force first element of result
     }
     public function user()
     {
