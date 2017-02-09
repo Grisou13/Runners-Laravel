@@ -9,7 +9,7 @@ class Run extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        "start_at","end_at","geo_from","geo_to","note", "nb_passenger", "artist"
+        "name","start_at","end_at","geo_from","geo_to","note", "nb_passenger", "artist"
     ];
     protected $dates = [
         "created_at",
@@ -17,6 +17,13 @@ class Run extends Model
         "start_at",
         "end_at"
     ];
+    public function getNameAttribute()
+    {
+      if(array_key_exists("name",$this->attributes)){
+        return $this->attributes["name"];
+      }
+      return "run to - ";
+    }
     public function user()
     {
         return $this->belongsTo(User::class);
