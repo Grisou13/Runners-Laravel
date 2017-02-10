@@ -11,15 +11,21 @@ class Run extends Model
     protected $fillable = [
         "name","start_at","end_at","geo_from","geo_to","note", "nb_passenger", "artist"
     ];
-    protected $appends =["start_location"];
+    protected $appends =["start_location","end_location"];
     protected $dates = [
         "created_at",
         "updated_at",
         "start_at",
         "end_at"
     ];
+    public function waypoints(){
+      return $this->hasMany(Waypoint::class);
+    }
     public function setNameAttribute($name){
       $this->attributes['name'] = $name ? $name : $this->defaultRunName();
+    }
+    public function getEndLocationAttribute(){
+      return $this->waypoints->last();
     }
     public function getStartLocationAttribute(){
       return $this->waypoints->first();
