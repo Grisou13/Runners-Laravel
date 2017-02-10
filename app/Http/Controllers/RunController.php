@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Run;
 use Illuminate\Http\Request;
 
 class RunController extends Controller
@@ -13,7 +14,8 @@ class RunController extends Controller
      */
     public function index()
     {
-        //
+        $runs = Run::all()->sortBy("start_at");
+        return view("run.index",compact("runs"));
     }
 
     /**

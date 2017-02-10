@@ -169,6 +169,7 @@ return [
 
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Unlu\Laravel\Api\ApiQueryBuilderServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -177,8 +178,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\FormBuilderProvider::class,
         Api\ApiServiceProvider::class,
-
+        
     ],
 
     /*
@@ -227,6 +229,11 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Helper' => App\Http\Helpers\Helper::class,
+        /*Vendor aliases*/
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        /*App alisaes*/
+        //
     ],
 
 ];
