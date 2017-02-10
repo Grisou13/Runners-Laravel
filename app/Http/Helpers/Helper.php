@@ -26,7 +26,12 @@ class Helper{
 
     public static function getRandomGroupColor(){
         $c = \Config::get("group.colors");
-        $r = $c[mt_rand(0, count($c) -1)];
-        return $r;
+        return $c[mt_rand(0, count($c) -1)];
+    }
+
+    public static function assignGroupColor($groupId){
+        $c = \Config::get("group.colors");
+
+        $r = $c[$groupId -1];
     }
 }

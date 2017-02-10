@@ -16,6 +16,7 @@ use Api\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Unlu\Laravel\Api\QueryBuilder;
+use App\Http\Helpers;
 
 class GroupController extends BaseController
 {
@@ -55,9 +56,9 @@ class GroupController extends BaseController
         $group = new Group;
         $group->fill($request->all());
         $group->active = true;
+        $group->color = Helpers\Helper::getRandomGroupColor();
         $group->save();
-
-        return $group->id;
+        return $group;
         return $this->response()->created(route("groups.show",$group->id));
 
     }
