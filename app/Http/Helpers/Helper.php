@@ -23,4 +23,10 @@ class Helper{
         }
         return $dec;
     }
+
+    public static function getRandomGroupColor(){
+        $c = \Config::get("group.colors");
+        $r = $c[mt_rand(0, count($c) -1)];
+        return $r;
+    }
 }

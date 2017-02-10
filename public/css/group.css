@@ -37,6 +37,9 @@ Dragula CSS requirments
     pointer-events: none;
     opacity: 0.4;
 }
+[id^="container"]{
+    color: white;
+}
 
 #container-null{
     background-color: rgba(244, 67, 54, 0.82) !important;

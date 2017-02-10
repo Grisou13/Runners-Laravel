@@ -14,7 +14,6 @@ var drake = null;
 
 function getNewGroup(){
     var base_path = window.Laravel.basePath;
-
     var url = base_path + "/api/groups?token=root";
     var success = function(data) {
         // create a new container

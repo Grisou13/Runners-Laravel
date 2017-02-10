@@ -38,10 +38,7 @@ class GroupController extends BaseController
     }
     public function update(Request $request, Group $group)
     {
-
         $group->update($request->all());
-
-
         //$userID = $request->input()["data"];
 
         $user = User::findOrFail($request->get("user"));
@@ -55,7 +52,6 @@ class GroupController extends BaseController
     }
     public function store(Request $request)
     {
-
         $group = new Group;
         $group->fill($request->all());
         $group->active = true;
@@ -74,7 +70,6 @@ class GroupController extends BaseController
             $user->save();
             return "true";
         }
-
         return $group->delete();
     }
 
