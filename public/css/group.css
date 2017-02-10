@@ -1,3 +1,4 @@
+
 .table-group{
     margin-left: 10px;
 
@@ -51,4 +52,22 @@ Dragula CSS requirments
 }
 .btn-danger{
     background-color: #EF5350 !important;
+}
+
+.panel-body{
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.panel-body:active{
+    cursor: grabbing!important;
+    cursor: -moz-grabbing!important;
+    cursor: -webkit-grabbing !important;
+}
+
+.panel-heading {
+  font-weight: lighter;
+  color:#fff !important;
 }
