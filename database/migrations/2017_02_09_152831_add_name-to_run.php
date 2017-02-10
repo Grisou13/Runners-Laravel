@@ -14,7 +14,7 @@ class AddNameToRun extends Migration
     public function up()
     {
         Schema::table('runs', function (Blueprint $table) {
-            $table->string("name");
+            $table->string("name")->nullable();
         });
     }
 

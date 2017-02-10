@@ -31,26 +31,21 @@ function enable() {
     }else{
 
       $("#padlock").attr('class', 'btn btn-success pull-right closed');
-        $("#padlock").html('Open padlock');
-
+      $("#padlock").html('Open padlock');
       $("#create-car").attr('style', 'display : none');
         var disable = function(){
             if($(this).attr("id") == "padlock")
                 return false;
             $(this).removeAttr('enabled');
-            //if($(this).attr('type') == 'text' || $(this).attr('id') == 'delete'){
-                $(this).attr('disabled', 'disabled');
-            //}
+            $(this).attr('disabled', 'disabled');
             $(this).addClass("disabled")
+            console.log($(this));
         };
-        $("#create-user").each(disable);
+      $("#create-user").each(disable);
       $('input:enabled, select:enabled, a:enabled').each(disable);
-
-      $('button:enabled, select:enabled').each(disable);
+      $('button:enabled, button.enabled, select:enabled').each(disable);
       // $("#padlock").removeAttr('disabled');
       // $("#padlock").attr('enabled', 'enabled');
-
-
       $('textarea:enabled, select:enabled').each(disable);
 
       /////// ERIC DISABLE AND ENABLE COMPONENTS

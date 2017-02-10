@@ -16,7 +16,10 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth',["only"=>["destroy","update"]]);
+        $this->middleware('auth',["only"=>["destroy","update","create"]]);
+    }
+    public function create(){
+      return view("user.create")->with("user",new User);
     }
   /**
    * Display a listing of the resource.

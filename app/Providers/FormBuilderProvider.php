@@ -19,6 +19,7 @@ class FormBuilderProvider extends ServiceProvider
     public function registerBootstrapForms()
     {
       FormBuilder::component("bsText","forms.bs.text",['name', 'value' => null, 'attributes' => []]);
+      FormBuilder::component("bsSelect","forms.bs.select",['name', 'values' => [], "value"=>null, 'attributes' => []]);
     }
     /**
      * Register the application services.

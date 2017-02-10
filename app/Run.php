@@ -18,22 +18,23 @@ class Run extends Model
         "start_at",
         "end_at"
     ];
-    public function waypoints(){
-      return $this->hasMany(Waypoint::class);
+    public function itiniarary(){
+      return $this->hasOne(Itinerary::class);
     }
+
     public function setNameAttribute($name){
       $this->attributes['name'] = $name ? $name : $this->defaultRunName();
     }
     public function getEndLocationAttribute(){
-      return $this->waypoints->last();
+      return $this->itinerary->waypoints->last();
     }
     public function getStartLocationAttribute(){
-      return $this->waypoints->first();
+      return $this->itinerary->waypoints->first();
     }
     protected function defaultRunName(){
-      return "run from ".self::resolveGeoLocation($this->waypoints->first());
+      return "run from ".self::resolveGeoLocationName($this->waypoints->first());
     }
-    public static function resolveGeoLocation($geo){
+    public static function resolveGeoLocationName($geo){
       return $geo["address_components"][0]["long_name"];//force first element of result
     }
     public function user()

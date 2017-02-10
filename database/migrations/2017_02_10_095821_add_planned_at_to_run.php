@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStatusesTable extends Migration
+class AddPlannedAtToRun extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('statuses', function (Blueprint $table) {
-            $table->increments('id');
-            $table->morphs("statable");
-            $table->string("name");
-            $table->timestamps();
+        Schema::table('runs', function (Blueprint $table) {
+            $table->datetime("planned_at");
         });
     }
 
@@ -28,6 +25,8 @@ class CreateStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('statuses');
+        Schema::table('runs', function (Blueprint $table) {
+            $table->dropColumn("planned_at");
+        });
     }
 }

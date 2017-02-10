@@ -13,7 +13,7 @@ class Car extends Model
     protected $fillable = [
         "plate_number","brand","model","color","nb_place","comment","stat","name"
     ];
-    public function type()
+    public function car_type()
     {
         return $this->belongsTo(CarType::class,$localKey="car_type_id");
     }

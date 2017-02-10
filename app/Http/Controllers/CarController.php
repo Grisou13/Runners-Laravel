@@ -53,11 +53,12 @@ class CarController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CreateCarRequest $request){
+        $request->flash();
         $input = $request->except(["_token"]);
 
         $car = new Car($input);
         $type = CarType::findOrFail($request->input("type"));
-        $car->car_type_id=$type->id;
+        $car->car_type()->associate($type);
         $car->save();
 
         // redirect
@@ -109,11 +110,11 @@ class CarController extends Controller
       $input = $request->all();
 
       $car->fill($input)->save();
-      if($request->has("type"))
+      if($request->has("car_type"))
       {
-        $type = CarType::findOrFail($request->input("type"));
+        $type = CarType::findOrFail($request->input("car_type"));
 
-        $car->type()->associate($type);
+        $car->car_type()->associate($type);
       }
       $car->save();
       // redirect
@@ -131,7 +132,7 @@ class CarController extends Controller
         // delete
         $car->delete();
 
-        return redirect()->route("cars.index")->with("message","Car deleted successfully");
+        return redirect()->route("car.index")->with("message","Car deleted successfully");
     }
 
 

@@ -6,11 +6,13 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Helpers\Status;
+use App\Concerns\StatusConcern;
+use App\Contracts\StatusableContract;
 
-class User extends Authenticatable
+class User extends Authenticatable implements StatusableContract
 {
-    use Notifiable;
-
+    use Notifiable, StatusConcern;
     /**
      * The attributes that are mass assignable.
      *
@@ -28,10 +30,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token', "accesstoken"
     ];
-    public function status()
-    {
-      return $this->morphOne(Status::class,"statable");
-    }
+
     public function role()
     {
         return $this->hasOne(Role::class);

@@ -30,7 +30,7 @@ class CreateCarRequest extends FormRequest
           'brand'            => 'required',
           'model'            => 'required',
           'type'     => 'required',
-            'nb_place'=>"required|numeric"
+          'nb_place'=>"required|numeric"
         ];
     }
 }
