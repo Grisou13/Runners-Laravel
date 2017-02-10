@@ -20,7 +20,9 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->resource("groups",'GroupController');
     $api->resource("cars",'CarController', ["except"=>"delete"]);
     $api->resource("runs",'RunController');
-
+//    $api->resource("itineraries","ItineraryController");
+//    $api->resource("itineraries.waypoints","ItineraryWaypointController");
+    $api->resource("waypoints","WaypointController");
 });
 
 //$api->get("/test",function(){

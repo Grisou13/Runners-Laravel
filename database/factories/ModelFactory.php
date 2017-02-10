@@ -53,7 +53,7 @@ $factory->define(App\CarType::class, function (Faker\Generator $faker){
     ];
 });
 $factory->define(App\Run::class, function (Faker\Generator $faker){
-    $geoFrom = trim("{
+    $geoFrom = str_replace(["\n","\r"], "", trim("{
          \"address_components\" : [
             {
                \"long_name\" : \"Sydney\",
@@ -101,8 +101,8 @@ $factory->define(App\Run::class, function (Faker\Generator $faker){
          },
          \"place_id\" : \"ChIJP3Sa8ziYEmsRUKgyFmh9AQM\",
          \"types\" : [ \"colloquial_area\", \"locality\", \"political\" ]
-      }");
-    $geoTo = trim("{
+      }"));
+    $geoTo = str_replace(["\n","\r"], "" , trim("{
                     \"address_components\": [
                     {
                     \"long_name\": \"Genève Aéroport\",
@@ -192,7 +192,7 @@ $factory->define(App\Run::class, function (Faker\Generator $faker){
                     \"point_of_interest\"
                     ]
 
-                    }");
+                    }"));
     return [
         "start_at"=>$faker->dateTimeBetween("now","+13 days"),
         "end_at"=>$faker->dateTimeBetween("+13 days","+15 days"),

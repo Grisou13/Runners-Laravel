@@ -15,12 +15,18 @@
     @stack("styles")
 
     <!-- Scripts -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
             "token"=>auth()->check() ? auth()->user()->accesstoken : "anonymous",
             "basePath"=>url("/")
         ]); ?>
+        var api = global.api = window.api = axios.create({
+            baseURL: window.basePath,
+            timeout: 1000,
+            headers: {'X-Access-Token': window.token}
+        });
     </script>
 </head>
 <body>
