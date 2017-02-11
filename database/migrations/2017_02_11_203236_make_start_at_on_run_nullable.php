@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWaypointsTable extends Migration
+class MakeStartAtOnRunNullable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateWaypointsTable extends Migration
      */
     public function up()
     {
-        Schema::create("waypoints",function(Blueprint $table){
-            $table->increments("id");
-            $table->longText("geo");
-            $table->longText("latlng");
-            $table->string("name")->nullable();
+        Schema::table('runs', function (Blueprint $table) {
+            $table->dateTime("start_at")->nullable()->change();
+            $table->dateTime("end_at")->nullable()->change();
         });
-
     }
 
     /**
@@ -29,6 +26,8 @@ class CreateWaypointsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('waypoints');
+        Schema::table('runs', function (Blueprint $table) {
+            //
+        });
     }
 }

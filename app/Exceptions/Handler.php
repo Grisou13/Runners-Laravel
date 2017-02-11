@@ -59,6 +59,10 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson()) {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
+        //recovered from https://github.com/dwightwatson/validating docs
+        if ($e instanceof \Watson\Validating\ValidationException) {
+            return back()->withErrors($e)->withInput();
+        }
 
         return redirect()->guest('login');
     }

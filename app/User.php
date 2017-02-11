@@ -10,16 +10,29 @@ use App\Helpers\Status;
 use App\Concerns\StatusConcern;
 use App\Contracts\StatusableContract;
 
+use Watson\Validating\ValidatingTrait;
+
 class User extends Authenticatable implements StatusableContract
 {
-    use Notifiable, StatusConcern;
+
+    use Notifiable,ValidatingTrait, StatusConcern;
+    protected $rules = [
+        'email'   => 'required|unique:users,email',
+        'name'    => 'required|min:1',
+        "password"=> "required|min:6",
+        "firstname"=>"required",
+        "lastname"=>"required",
+        "shortname"=>"sometimes|min:1",
+        "sex"=>"required",
+        "accesstoken"=>"required|unique:users,accesstoken",
+    ];
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',"firstname","lastname","shortname","phone_number","sex","accesstoken","stat"
+        'name', 'email', 'password',"firstname","lastname","shortname","phone_number","sex","accesstoken"
     ];
 
     /**

@@ -8,7 +8,7 @@ class Status{
   /**
    * @return array All the status available in the app
    */
-  public static function getAllStatuses(){
+  public static function getAll(){
     return config("status");
   }
   /**
@@ -17,15 +17,20 @@ class Status{
    * @return array
    */
   public static function getStatusForRessource($resName){
-    return array_keys(config("status.{$resName}"));
+    return config("status.{$resName}");
   }
   /**
    * [getUserStatus get the all the status for all users]
    * @return array
    */
-  public static function getUserStatus(){
-    return self::getStatusForRessource("user");
-  }
+  public static function __callStatic($name, $arguments)
+    {
+        // Note : la valeur de $name est sensible à la casse.
+        if(preg_match('/^get(\w+)Status/',$name,$matches)){
+          $name = strtolower($matches[1]);
+          return self::getStatusForRessource($name);
+        }
+    }
   /**
    * getStatusName get the status of specific ressource
    * @param  Object|string $ressource Car, User | "car", "user"
@@ -42,7 +47,7 @@ class Status{
    * getStatusKey get the status corresponding of the key
    * @param  Object|string $ressource Car, User | "car", "user"
    * @param  string $name      name of the status key
-   * @return string           
+   * @return string
    */
   public static function getStatusKey($ressource,$name){
     if(is_object($ressource) && method_exists($ressource,"getStatusRessourceType"))

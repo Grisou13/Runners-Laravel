@@ -96,7 +96,8 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-
+      
+      $this->api()->be(auth()->user())->with($request->except("_token"))->update();
       //$car = Car::findOrFail($id);
 
       /*//TODO : Validation
@@ -143,7 +144,7 @@ class CarController extends Controller
         $comment->fill($request->except("_token"));
         $comment->commentable()->associate($car);
         if($request->has("user"))
-            $user = User::findOrFail($request->get("user"));
+            $user = User::find($request->get("user"));
         else
             $user = $request->user();
 
