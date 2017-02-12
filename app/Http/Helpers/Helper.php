@@ -32,6 +32,16 @@ class Helper{
     public static function assignGroupColor($groupId){
         $c = \Config::get("group.colors");
 
-        $r = $c[$groupId -1];
+        $nbColor = count($c);
+        // each group get its color based on its ID's number
+        if($groupId <= $nbColor){
+            return $c[$groupId - 1];
+        }else{ // but what append if we have 20 groups for only 10 colors ?
+            $timesBigger = intval($groupId / $nbColor);
+            return $c[
+                $groupdId - ($nbColor * $timesBigger)
+            ];
+        }
+        return false;
     }
 }
