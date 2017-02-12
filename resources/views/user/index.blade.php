@@ -20,11 +20,9 @@ User: Joel.DE-SOUSA
   <form class="" action="{{ route("users.index") }}" method="get">
     <select class="" name="status" onmousedown="this.value='';" onchange="this.form.submit()">
       <option value=" " {{ Request::has("status") && Request::get("status") == " " ? "selected" : "" }}>All</option>
-      @foreach($status as $s)
-        @if($s == "")
-          @continue
-        @endif
-        <option value="{{ $s }}" {{ Request::has("status") && Request::get("status") == $s ? "selected" : "" }}>{{ $s }}</option>
+      @foreach($status as $name => $display)
+
+        <option value="{{ $name }}" {{ Request::has("status") && Request::get("status") == $name ? "selected" : "" }}>{{ $display }}</option>
       @endforeach
     </select>
   </form>

@@ -28,7 +28,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         "phone_number"=>$faker->phoneNumber,
         "accesstoken"=>str_random(255),
         "group_id"=>factory(\App\Group::class)->create()->id,
-        "stat"=>"Actif"
+        "status"=>\App\Helpers\Status::getUserStatus("actif")
     ];
 });
 
@@ -42,7 +42,7 @@ $factory->define(App\Car::class, function (Faker\Generator $faker){
         "car_type_id"=>function(){return factory(App\CarType::class)->create()->id;},
         "comment"=>"",
         "name"=>$faker->word,
-        "stat"=>"Actif"
+        "status"=>\App\Helpers\Status::getCarStatus("actif")
 
     ];
 });

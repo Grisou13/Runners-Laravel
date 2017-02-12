@@ -4,6 +4,8 @@
 */
 namespace App\Http\Controllers;
 
+use App\Helpers\Status;
+use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Session;
 use App\User;
@@ -24,21 +26,21 @@ class UserController extends Controller
   /**
    * Display a listing of the resource.
    *
-   * @return Response
+   * @return \Illuminate\View\View
    */
   public function index(Request $request)
   {
     if($request->has("status"))
-      $users = User::where("stat",$request->get("status"))->get();
+      $users = User::ofStatus($request->get("status"))->get();
     else
       $users = User::all();
     // load the view and pass the user list
     //
-    $status = \DB::table('users')->distinct('stat')->select('stat')->get()->map(function ($stat) {
-      return $stat->stat;
-    });
+//    $status = \DB::table('users')->distinct('stat')->select('stat')->get()->map(function ($stat) {
+//      return $stat->stat;
+//    });
     //dd($users);
-    return view('user.index')->with('users', $users)->with("status",$status); //TODO: récuprer tout les statut depuis la table user
+    return view('user.index')->with('users', $users)->with("status",Status::getUserStatus()); //TODO: récuprer tout les statut depuis la table user
   }
 
   /**
@@ -93,6 +95,13 @@ class UserController extends Controller
     // delete
     $user->delete();
     return redirect('user');
+  }
+  public function store(CreateUserRequest $request)
+  {
+      $user = new User;
+      $user->fill($request->except("_token"));
+      $user->save();
+      return redirect()->route("users.show",$user);
   }
 
 }

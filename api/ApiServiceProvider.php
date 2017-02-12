@@ -6,6 +6,8 @@ namespace Api;
 
 use Api\ApiAuthProvider;
 use App\Providers\RouteServiceProvider;
+use Dingo\Api\Exception\ValidationHttpException;
+use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -52,15 +54,15 @@ class ApiServiceProvider extends RouteServiceProvider
             return new ApiAuthProvider;
         });
         app('Dingo\Api\Transformer\Factory')->setAdapter(function ($app) {
-            return new \Dingo\Api\Transformer\Adapter\Fractal(new \League\Fractal\Manager, 'include', ',');
+            return new Fractal(new \League\Fractal\Manager, 'include', ',');
         });
         //change the not found model exception to a symfony exception (dingo handles only symfony... )
         app('Dingo\Api\Exception\Handler')->register(function (ModelNotFoundException $exception) {
             throw new NotFoundHttpException($exception->getMessage() ,$previous = $exception);
         });
-
+        //in case oif model validation failing, we must display the right Dingo exception
         app('Dingo\Api\Exception\Handler')->register(function (\Watson\Validating\ValidationException $exception) {
-            throw new Dingo\Api\Exception\ValidationHttpException($exception->getMessage() ,$previous = $exception);
+            throw new ValidationHttpException($exception->getMessage() ,$previous = $exception);
         });
 
     }

@@ -23,7 +23,7 @@ function getNewGroup(){
         newContainer.classList.add("panel-default");
         newContainer.classList.add("col-md-2");
         newContainer.classList.add("enabledbutton");
-        newContainer.id = "container-" + data;
+        newContainer.id = "container-" + data.id;
         var heading = document.createElement("div");
         heading.classList.add("panel-heading");
         heading.appendChild(document.createTextNode("Nouveau groupe"));
@@ -67,6 +67,7 @@ function ajaxRequest(url, data, callback, method) {
     return $.ajax({
         url: url,
         type: method,
+        contentType: "application/json",
         data: data,
         success: callback
     });

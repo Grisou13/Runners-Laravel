@@ -20,7 +20,9 @@ class Status{
     return config("status.{$resName}");
   }
   /**
-   * [getUserStatus get the all the status for all users]
+   * shorthand for getting a resource status
+   * This method accepts 1 argument, which must be either the status key of a resource, or a status name.
+   * The status key will be checked first. Be wise!
    * @return array
    */
   public static function __callStatic($name, $arguments)
@@ -28,6 +30,14 @@ class Status{
         // Note : la valeur de $name est sensible à la casse.
         if(preg_match('/^get(\w+)Status/',$name,$matches)){
           $name = strtolower($matches[1]);
+            \Log::debug("IN CLASS Status going to do ".$name." with args: ".print_r($arguments,true));
+            if(count($arguments) == 1){
+                $ret = self::getStatusKey($name,$arguments[0]);
+                if($ret === null)
+                    $ret = self::getStatusName($name,$arguments[0]);
+                return $ret;
+            }
+
           return self::getStatusForRessource($name);
         }
     }
@@ -54,10 +64,11 @@ class Status{
       $statuses = config("status.".$ressource->getStatusRessourceType());
     else
       $statuses = config("status.{$ressource}");
-
+    \Log::debug("CHECKING VALUE OF STATUS : ".$name." IN ".print_r($statuses,true));
     foreach($statuses as $statKey=>$statName){
-      if($statName == $name) return $statKey;
+        if($statKey == $name) return $statKey;
+        if($statName == $name) return $statKey;
     }
-    throw new StatusNotFoundException;
+    return null;
   }
 }

@@ -4,6 +4,7 @@
 */
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Helpers\Status;
@@ -20,11 +21,10 @@ class User extends Authenticatable implements StatusableContract
         'email'   => 'required|unique:users,email',
         'name'    => 'required|min:1',
         "password"=> "required|min:6",
-        "firstname"=>"required",
-        "lastname"=>"required",
+        "firstname"=>"sometimes|min:1",
+        "lastname"=>"sometimes|min:1",
         "shortname"=>"sometimes|min:1",
-        "sex"=>"required",
-        "accesstoken"=>"required|unique:users,accesstoken",
+        "sex"=>"sometimes",
     ];
     /**
      * The attributes that are mass assignable.
@@ -32,7 +32,7 @@ class User extends Authenticatable implements StatusableContract
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',"firstname","lastname","shortname","phone_number","sex","accesstoken"
+        'name', 'email', 'password',"firstname","lastname","phone_number","sex","accesstoken","status"
     ];
 
     /**
@@ -61,6 +61,14 @@ class User extends Authenticatable implements StatusableContract
     {
       return "accesstoken";
     }
+    public function setAccesstokenAttribute($value)
+    {
+        $this->attributes[$this->getAccessTokenKey()]= $value ? $value : $this->generateToken();
+    }
+    public function generateToken()
+    {
+        return bcrypt(Carbon::now()->toDateString() . $this->email . $this->name);
+    }
     public function images()
     {
       return $this->hasMany(Image::class);
@@ -72,5 +80,9 @@ class User extends Authenticatable implements StatusableContract
     public function licenseImage()
     {
       return $this->images()->where("type","license")->orderBy("created_at","desc")->first();
+    }
+    public function setNameAttribute($value)
+    {
+        $this->attributes["name"] = $value ? $value : $this->attributes["firstname"]. " ".$this->attributes["lastname"];
     }
 }
