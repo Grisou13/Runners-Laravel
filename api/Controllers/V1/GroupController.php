@@ -39,21 +39,21 @@ class GroupController extends BaseController
     }
     public function update(Request $request, Group $group)
     {
+      //dd($request->all());
         $group->update($request->all());
+        $group->save();
+      
         //$userID = $request->input()["data"];
         if($request->has("user")){
-
           $user = User::findOrFail($request->get("user"));
-          
+          //dd($group);
+          $user->group()->associate($group)->save();
         }
-        $user = User::findOrFail($request->get("user"));
-
-        $user->group_id = $group->id;
-
-        $user->save();
-
-        return $this->response()->accepted($content=$group);
-
+        
+      $queryBuilder = new RequestFilter($group, $request);
+      //return $user;
+      $g = $queryBuilder->build()->get();
+        return $g->first();
     }
     public function store(Request $request)
     {

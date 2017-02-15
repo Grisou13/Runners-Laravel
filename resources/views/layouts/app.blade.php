@@ -21,11 +21,13 @@
             'csrfToken' => csrf_token(),
             "token"=>auth()->check() ? auth()->user()->accesstoken : "anonymous",
             "basePath"=>url("/")
-        ]); ?>
-        var api = global.api = window.api = axios.create({
-            baseURL: window.basePath,
+        ]); ?> ;
+
+        var api  = window.api = axios.create({
+            baseURL: "{!! url("/api") !!}",
             timeout: 1000,
-            headers: {'X-Access-Token': window.token}
+            contentType:"application/json",
+            headers: {'X-Access-Token': window.Laravel.token}
         });
     </script>
 </head>

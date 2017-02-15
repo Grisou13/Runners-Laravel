@@ -15,7 +15,7 @@
                         <li><a href="{{ route("cars.index") }}">Véhicules</a></li>
                         <li><a href="{{ route("users.index") }}">Personnes</a></li>
                         <li><a href="{{ route("groups.index") }}">Groupes</a></li>
-                        <li><a href="{{ route("register") }}">Créer un nouvelle utilisateur</a></li>
+                        <li><a href="{{ route("register") }}">Créer un nouvel utilisateur</a></li>
                         <li><a href="{{ route("users.create") }}">Créer un nouveau chauffeur</a></li>
                     </ul>
                 </div>

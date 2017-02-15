@@ -18,7 +18,7 @@ User: Joel.DE-SOUSA
   <h1>All the Users</h1>
 
   <form class="" action="{{ route("users.index") }}" method="get">
-    <select class="" name="status" onmousedown="this.value='';" onchange="this.form.submit()">
+    <select class="" name="status" onchange="this.form.submit()">
       <option value=" " {{ Request::has("status") && Request::get("status") == " " ? "selected" : "" }}>All</option>
       @foreach($status as $name => $display)
 
