@@ -22,7 +22,6 @@ class CreateCarsTable extends Migration
             $table->string('color');
             $table->integer('seats');
             $table->string('comment');
-            $table->string('stat');
             $table->string('shortname');
         });
     }

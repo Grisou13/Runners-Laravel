@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNullableToStatusOnUser extends Migration
+class MakeStartAtOnRunNullable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddNullableToStatusOnUser extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("stat")->nullable()->change();
+        Schema::table('runs', function (Blueprint $table) {
+            $table->dateTime("start_at")->nullable()->change();
+            $table->dateTime("end_at")->nullable()->change();
         });
     }
 
@@ -25,8 +26,8 @@ class AddNullableToStatusOnUser extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("stat")->change();
+        Schema::table('runs', function (Blueprint $table) {
+            //
         });
     }
 }
