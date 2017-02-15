@@ -42,7 +42,7 @@
     function initMap() {
         // Create a map object and specify the DOM element for display.
         map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: 46.818188, lng: 8.227511999999999},
+            center: {lat: 46.818188, lng: 6.6322734},
             scrollwheel: false,
             zoom: 8
         });
