@@ -43,14 +43,18 @@ class GroupController extends BaseController
 
 
         //$userID = $request->input()["data"];
+        if($request->has("user")){
 
+          $user = User::findOrFail($request->get("user"));
+          
+        }
         $user = User::findOrFail($request->get("user"));
 
         $user->group_id = $group->id;
 
         $user->save();
 
-        return $this->response()->accepted(route("groups.update",$group->id));
+        return $this->response()->accepted($content=$group);
 
     }
     public function store(Request $request)
@@ -62,7 +66,7 @@ class GroupController extends BaseController
         $group->save();
 
         return $group->id;
-        return $this->response()->created(route("groups.show",$group->id));
+        return $this->response()->created(app('Dingo\Api\Routing\UrlGenerator')->version('v1')->route('groups.show',$group),$group);
 
     }
     public function destroy(Request $request, Group $group)
@@ -72,7 +76,7 @@ class GroupController extends BaseController
             $user = User::findOrFail($request->get("user"));
             $user->group_id = null;
             $user->save();
-            return "true";
+            return $this->response()->accepted();
         }
 
         return $group->delete();

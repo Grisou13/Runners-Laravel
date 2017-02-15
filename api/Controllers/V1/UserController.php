@@ -50,15 +50,25 @@ class UserController extends BaseController
         $user = new User;
         $user->fill($request->all());
         $user->save();
-        return $this->response()->created();
+        return $this->response()->created(route("users.show"),$user);
     }
     public function delete(User $user)
     {
         return $user->delete();
     }
-    public function me()
+
+    public function addGroup(Request $request, User $user)
     {
-        return $this->user();
+        $group = Group::findOrFail($request->get("group"));
+        $user->group()->associate($group);
+    }
+    public function changeGroup(Request $request, User $user, Group $group)
+    {
+        $user->group()->associate($group);
+    }
+    public function removeGroup(Request $request, User $user)
+    {
+        $user->group()->dissociate();
     }
 
 }

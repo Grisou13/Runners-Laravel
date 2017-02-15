@@ -28,7 +28,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         "phone_number"=>$faker->phoneNumber,
         "accesstoken"=>str_random(255),
         "group_id"=>factory(\App\Group::class)->create()->id,
-        "stat"=>"Actif"
+        "status"=>\App\Helpers\Status::getUserStatus("actif")
     ];
 });
 
@@ -42,7 +42,7 @@ $factory->define(App\Car::class, function (Faker\Generator $faker){
         "car_type_id"=>function(){return factory(App\CarType::class)->create()->id;},
         "comment"=>"",
         "name"=>$faker->word,
-        "stat"=>"Actif"
+        "status"=>\App\Helpers\Status::getCarStatus("actif")
 
     ];
 });
@@ -53,7 +53,7 @@ $factory->define(App\CarType::class, function (Faker\Generator $faker){
     ];
 });
 $factory->define(App\Run::class, function (Faker\Generator $faker){
-    $geoFrom = str_replace(["\n","\r"], "", trim("{
+    $geoFrom = str_replace(["\n","\r"],"",trim("{
          \"address_components\" : [
             {
                \"long_name\" : \"Sydney\",
@@ -102,7 +102,7 @@ $factory->define(App\Run::class, function (Faker\Generator $faker){
          \"place_id\" : \"ChIJP3Sa8ziYEmsRUKgyFmh9AQM\",
          \"types\" : [ \"colloquial_area\", \"locality\", \"political\" ]
       }"));
-    $geoTo = str_replace(["\n","\r"], "" , trim("{
+    $geoTo = str_replace(["\n","\r"],"",trim("{
                     \"address_components\": [
                     {
                     \"long_name\": \"Genève Aéroport\",
@@ -192,17 +192,16 @@ $factory->define(App\Run::class, function (Faker\Generator $faker){
                     \"point_of_interest\"
                     ]
 
-                    }"));
+                  }"));
     return [
-        "start_at"=>$faker->dateTimeBetween("now","+13 days"),
-        "end_at"=>$faker->dateTimeBetween("+13 days","+15 days"),
         //"user_id"=>function(){return \App\User::find(1)->id;},
         //"car_id"=>function(){return factory(App\Car::class)->create()->id;},
         "geo_from"=>$geoFrom,
         "geo_to"=>$geoTo,
         "artist"=>$faker->name,
         "nb_passenger"=>$faker->numberBetween(1,12),
-        "note"=>$faker->text
+        "note"=>$faker->text,
+        "planned_at"=>$faker->dateTimeBetween("+13 days","+15 days"),
     ];
 });
 $factory->define(App\Group::class, function (Faker\Generator $faker){

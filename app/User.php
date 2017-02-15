@@ -4,22 +4,35 @@
 */
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Helpers\Status;
 use App\Concerns\StatusConcern;
 use App\Contracts\StatusableContract;
 
+use Watson\Validating\ValidatingTrait;
+
 class User extends Authenticatable implements StatusableContract
 {
-    use Notifiable, StatusConcern;
+
+    use Notifiable,ValidatingTrait, StatusConcern;
+    protected $rules = [
+        'email'   => 'required|unique:users,email',
+        'name'    => 'required|min:1',
+        "password"=> "required|min:6",
+        "firstname"=>"sometimes|min:1",
+        "lastname"=>"sometimes|min:1",
+        "shortname"=>"sometimes|min:1",
+        "sex"=>"sometimes",
+    ];
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',"firstname","lastname","shortname","phone_number","sex","accesstoken","stat"
+        'name', 'email', 'password',"firstname","lastname","phone_number","sex","accesstoken","status"
     ];
 
     /**
@@ -48,6 +61,14 @@ class User extends Authenticatable implements StatusableContract
     {
       return "accesstoken";
     }
+    public function setAccesstokenAttribute($value)
+    {
+        $this->attributes[$this->getAccessTokenKey()]= $value ? $value : $this->generateToken();
+    }
+    public function generateToken()
+    {
+        return bcrypt(Carbon::now()->toDateString() . $this->email . $this->name);
+    }
     public function images()
     {
       return $this->hasMany(Image::class);
@@ -59,5 +80,9 @@ class User extends Authenticatable implements StatusableContract
     public function licenseImage()
     {
       return $this->images()->where("type","license")->orderBy("created_at","desc")->first();
+    }
+    public function setNameAttribute($value)
+    {
+        $this->attributes["name"] = $value ? $value : $this->attributes["firstname"]. " ".$this->attributes["lastname"];
     }
 }

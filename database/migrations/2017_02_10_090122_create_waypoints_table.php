@@ -16,21 +16,10 @@ class CreateWaypointsTable extends Migration
         Schema::create("waypoints",function(Blueprint $table){
             $table->increments("id");
             $table->longText("geo");
+            $table->longText("latlng");
+            $table->string("name")->nullable();
         });
-        Schema::create("waypoints_itineraries",function(Blueprint $table){
-            $table->integer("waypoint_id")->unsigned();
-            $table->foreign("waypoint_id")->references("id")->on("waypoints");
-            $table->integer("itinerary_id")->unsigned();
-            $table->foreign("itinerary_id")->references("id")->on("itineraries");
-        });
-        Schema::create('itineraries', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer("run_id")->unsigned();
-            $table->foreign("run_id")->references("id")->on("runs");
-            $table->string("name");
-            $table->timestamps();
-            $table->softDeletes();
-        });
+
     }
 
     /**
@@ -40,8 +29,6 @@ class CreateWaypointsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists("waypoints_itineraries");
         Schema::dropIfExists('waypoints');
-        Schema::create('itineraries');
     }
 }

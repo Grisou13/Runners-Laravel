@@ -11,8 +11,11 @@ namespace Api\Controllers\V1;
 
 use Api\Requests\Filtering\RequestFilter;
 use App\Car;
+use App\User;
+use App\Comment;
 use Api\Controllers\BaseController;
 use App\Http\Requests\CreateCarRequest;
+use App\Http\Requests\UpdateCarRequest;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Unlu\Laravel\Api\QueryBuilder;
@@ -36,7 +39,7 @@ class CarController extends BaseController
       return $car->first();//we need to get the index 0, since RequestFilter can only use a global query ->returns a list of 1 item
     }
 
-    public function update(Request $request, Car $car)
+    public function update(UpdateCarRequest $request, Car $car)
     {
         $car->update($request->all());
         return $this->response()->accepted();
@@ -51,5 +54,23 @@ class CarController extends BaseController
     public function delete(Car $car)
     {
         return $car->delete();
+    }
+    public function addComment(CreateCommentRequest $request, Car $car){
+        $comment = new Comment;
+        $comment->fill($request->except("user"));
+        $comment->commentable()->associate($car);
+        if($request->has("user"))
+            $user = User::find($request->get("user"));
+        else
+            $user = $request->user();
+        $comment->user()->associate($user);
+        $comment->save();
+        return $comment;
+    }
+    public function showComment(Request $request, Comment $comment){
+      return $comment;
+    }
+    public function removeComment(Request $request, Comment $comment){
+      $comment->delete();
     }
 }
