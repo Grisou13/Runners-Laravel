@@ -16,6 +16,7 @@ use Api\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Unlu\Laravel\Api\QueryBuilder;
+use App\Http\Helpers;
 
 class GroupController extends BaseController
 {
@@ -38,10 +39,7 @@ class GroupController extends BaseController
     }
     public function update(Request $request, Group $group)
     {
-
         $group->update($request->all());
-
-
         //$userID = $request->input()["data"];
 
         $user = User::findOrFail($request->get("user"));
@@ -55,13 +53,12 @@ class GroupController extends BaseController
     }
     public function store(Request $request)
     {
-
         $group = new Group;
         $group->fill($request->all());
         $group->active = true;
+        $group->color = Helpers\Helper::getRandomGroupColor();
         $group->save();
-
-        return $group->id;
+        return $group;
         return $this->response()->created(route("groups.show",$group->id));
 
     }
@@ -74,7 +71,6 @@ class GroupController extends BaseController
             $user->save();
             return "true";
         }
-
         return $group->delete();
     }
 
