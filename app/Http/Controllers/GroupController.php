@@ -28,7 +28,6 @@ class GroupController extends Controller
             $query->where("stat", "Actif");
         })->get();
 
-        
         $i = 0;
         foreach($groups as $g){
             // add the label (groups name)

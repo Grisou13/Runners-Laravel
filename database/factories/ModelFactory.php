@@ -46,6 +46,7 @@ $factory->define(App\Car::class, function (Faker\Generator $faker){
 
     ];
 });
+
 $factory->define(App\CarType::class, function (Faker\Generator $faker){
     return [
         "type"=>$faker->unique()->word,
@@ -206,7 +207,7 @@ $factory->define(App\Run::class, function (Faker\Generator $faker){
 });
 $factory->define(App\Group::class, function (Faker\Generator $faker){
     return [
-        "name" => $faker->randomLetter(),
+        "color" => App\Http\Helpers\Helper::getRandomGroupColor(),
         "active"=>true
     ];
 });

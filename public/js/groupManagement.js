@@ -14,22 +14,27 @@ var drake = null;
 
 function getNewGroup(){
     var base_path = window.Laravel.basePath;
-
     var url = base_path + "/api/groups?token=root";
     var success = function(data) {
+        console.log("background-color : " + data["color"] + " !important;");
+
         // create a new container
         var newContainer = document.createElement("div");
         newContainer.classList.add("panel");
         newContainer.classList.add("panel-default");
         newContainer.classList.add("col-md-2");
         newContainer.classList.add("enabledbutton");
-        newContainer.id = "container-" + data.id;
+        newContainer.id = "container-" + data["id"];
+        newContainer.style = "background-color : #" + data["color"] + ";";
         var heading = document.createElement("div");
         heading.classList.add("panel-heading");
         heading.appendChild(document.createTextNode("Nouveau groupe"));
+        heading.style = "background-color : #" + data["color"] + ";";
+        // heading.style += "color : white;";
         newContainer.appendChild(heading);
         document.querySelector("#group-container").appendChild(newContainer);
         // add the container to the "dropable" containers
+
         drake.containers.push(newContainer);
     };
 

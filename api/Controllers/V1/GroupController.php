@@ -16,6 +16,7 @@ use Api\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Unlu\Laravel\Api\QueryBuilder;
+use App\Http\Helpers;
 
 class GroupController extends BaseController
 {
@@ -38,10 +39,7 @@ class GroupController extends BaseController
     }
     public function update(Request $request, Group $group)
     {
-
         $group->update($request->all());
-
-
         //$userID = $request->input()["data"];
         if($request->has("user")){
 
@@ -59,14 +57,13 @@ class GroupController extends BaseController
     }
     public function store(Request $request)
     {
-
         $group = new Group;
         $group->fill($request->all());
         $group->active = true;
+        $group->color = Helpers\Helper::getRandomGroupColor();
         $group->save();
-
-        return $group->id;
-        return $this->response()->created(app('Dingo\Api\Routing\UrlGenerator')->version('v1')->route('groups.show',$group),$group);
+        return $group;
+        return $this->response()->created(route("groups.show",$group->id));
 
     }
     public function destroy(Request $request, Group $group)
@@ -78,7 +75,6 @@ class GroupController extends BaseController
             $user->save();
             return $this->response()->accepted();
         }
-
         return $group->delete();
     }
 
