@@ -6,20 +6,25 @@ User: Joel.DE-SOUSA
         <div class="panel panel-default">
           <div class="panel-heading">{{ $mode !== null && $mode === "edit" ? "Edit the car " : "Create a car" }}</div>
             <div class="panel-body">
-
-              @if($car->exists())
-                {{ Form::model($car, array('route' => array('cars.update', $car->id), 'method' => 'PUT', 'class' => 'form-horizontal')) }}
-              @else
-                {{ Form::open(array('route' => 'cars.store', 'method' => 'POST', 'class' => 'form-horizontal')) }}
-
-              @endif
+                <!-- si la voiture existe -->
+                @if($car->exists)
+                  {{ Form::model($car, array('route' => array('cars.update', $car), 'class' => 'form-horizontal', 'method' => 'put')) }}
+                @else
+                  {{ Form::open(array('route' => 'cars.store', 'class' => 'form-horizontal')) }}
+                @endif
                 {{ Form::bsText("plate_number", old("plate_number")) }}
                 {{ Form::bsText("brand", old("brand")) }}
                 {{ Form::bsText("model", old("model")) }}
                 {{ Form::bsText("color", old("color")) }}
                 {{ Form::bsText("nb_place", old("nb_place")) }}
                 {{ Form::bsText("name", old("name")) }}
-
+                <div class="form-group">
+                  @foreach($errors as $er)
+                    <div class="alert alert-danger">
+                      {{ $er }}
+                    </div>
+                  @endforeach
+                </div>
                 <div class="form-group{{ $errors->has('stat') ? ' has-error' : '' }}">
                   {{ Form::label('stat', 'Status ', array('class' => 'col-md-4 control-label')) }}
                   <div class="col-md-6">
@@ -32,7 +37,7 @@ User: Joel.DE-SOUSA
                   </div>
                 </div>
 
-                {{ Form::bsSelect("car_type",$car_types->mapWithKeys(function($t){return [" {$t->id}"=>$t->type];}),old("car_type",$car->car_type_id)) }}
+                {{ Form::bsSelect("type",$car_types->mapWithKeys(function($t){return [" {$t->id}"=>$t->type];}),old("car_type",$car->car_type_id)) }}
                 <!-- <div class="form-group{{ $errors->has('car_type_id') ? ' has-error' : '' }}">
                   {{ Form::label('car_type_id', 'Type de voiture ', array('class' => 'col-md-4 control-label')) }}
                   <div class="col-md-6">
@@ -71,7 +76,6 @@ User: Joel.DE-SOUSA
                       </div>
                     </div>
                 @endif
-                {{ csrf_field() }}
               {{ Form::close() }}
               <form method="post" action="{{ route("cars.destroy",$car) }}"  class="pull-right">
                   <input type="hidden" value="DELETE" name="_method">
@@ -90,17 +94,13 @@ User: Joel.DE-SOUSA
                   {{--</button>--}}
                 {{--</div>--}}
               {{--</div>--}}
-
-
-
-
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-@if(!$car->exists())
+@if(!$car->exists)
   @push("scripts")
   <script type="text/javascript">
     $(document).ready(function(){

@@ -53,7 +53,7 @@ class CarController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CreateCarRequest $request){
-        $request->flash();
+        //$request->flash();
         $input = $request->except(["_token"]);
 
         $car = new Car($input);
