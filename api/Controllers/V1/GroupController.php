@@ -27,6 +27,7 @@ class GroupController extends BaseController
           return $queryBuilder->build()->paginate();
         return $queryBuilder->build()->get();
     }
+
     public function show(Request $request,Group $group)
     {
       $queryBuilder = new RequestFilter($group, $request);
@@ -35,7 +36,6 @@ class GroupController extends BaseController
       if($group->count() != 1)//just in case something happens during the querying of the model
         throw new HttpException("sorry bru");
       return $group->first();//we need to get the index 0, since RequestFilter can only use a global query ->returns a list of 1 item
-
     }
     public function update(Request $request, Group $group)
     {
