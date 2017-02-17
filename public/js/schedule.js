@@ -1,6 +1,7 @@
 /**
  * Created by Eric.BOUSBAA on 17.02.2017.
  */
+
 function _getDates(startDate, stopDate) {
     // https://momentjs.com/
     // credits to http://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates
@@ -13,23 +14,32 @@ function _getDates(startDate, stopDate) {
     }
     return dateArray;
 }
-function ajaxRequest(url, data, callback, method) {
-    return $.ajax({
+
+function ajaxRequest(method, url, data, callback = false) {
+    // http://es6-features.org/#DefaultParameterValues
+    var returnedData = "false";
+    $.ajax({
         url: url,
         type: method,
         data: data,
-        success: callback
+        async: false, //yeah i know
+        success: callback ? callback : function(response){
+                returnedData = response;
+            }
     });
+
+    return returnedData;
 }
 
 function createGrid(days){
-
-
-}
-function getAllGroups(){
-    
     return false;
 }
+
+function getAllGroups(){
+    var url = window.Laravel.basePath + "/api/groups?token=root";
+    return ajaxRequest("get", url, "");
+}
+
 /*
  * Get all days where we can assign schedule
  */
@@ -47,12 +57,11 @@ function getSchedulePerDay(day){
     //TODO
     //ajax
 }
+
 function addSchedule(day, group){
     //TODO
     //ajax
 }
-
-
 
 /*
 * Contains all the day that have been changed in te grid.
@@ -62,3 +71,5 @@ var days = getAllDays();
 createGrid(days);
 var dayChanged = [];
 var groups = getAllGroups();
+console.log(groups);
+// console.log(groups);
