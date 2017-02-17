@@ -18,6 +18,7 @@ class CreateWaypointsTable extends Migration
             $table->longText("geo")->nullable();
             $table->longText("latlng")->nullable();
             $table->string("name");
+          $table->timestamps();
         });
       Schema::create("run_waypoint",function(Blueprint $table){
         $table->unsignedInteger("waypoint_id");

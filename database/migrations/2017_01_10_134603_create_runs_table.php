@@ -23,6 +23,7 @@ class CreateRunsTable extends Migration
             $table->string('name');
             $table->string("note")->nullable();
             $table->timestamps();
+          
            $table->softDeletes();
         });
     }

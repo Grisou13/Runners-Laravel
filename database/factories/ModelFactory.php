@@ -144,6 +144,7 @@ $factory->define(App\Waypoint::class, function(Faker\Generator $faker){
 
                   }"));
   return [
+    "name"=>collect(["Lausanne","Paleo","Morges gare"])->random(),
     "geo"=>$geo
   ];
 });

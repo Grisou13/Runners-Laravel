@@ -8,16 +8,25 @@ use Watson\Validating\ValidatingTrait;
 
 class Waypoint extends Model
 {
-  use SoftDeletes, ValidatingTrait;
+  use ValidatingTrait;
   public $rules = [
-    "name"=>"required_without:geo",
-    "geo"=>"required_without:name"
+    //"name"=>"required",
   ];
+  
+  protected $dates = [];
   protected $fillable = ["geo","latlng","name"];
-  protected $casts = ["geo"=>"json","latlng"=>"json"];
+  protected $casts = ["latlng"=>"json"];
   public function runs()
   {
     return $this->belongsToMany(Run::class);
+  }
+  public function getGeoAttribute()
+  {
+    return json_decode($this->attributes["geo"],true);
+  }
+  public function setGeoAttribute($value)
+  {
+    $this->attributes["geo"] = str_replace(["\n","\r","\t"],"",$value);//just remove uneccessary spaces in the geocode result... takes less space huh
   }
   /**
    * Use the booting method to access eloquent Events, without using them in a seperate provider, or observer
@@ -26,11 +35,13 @@ class Waypoint extends Model
     protected static function boot(){
       parent::boot();
       static::creating(function($self){
-        $self->latlng = $self->geo["geometry"];
+        \Log::debug($self->geo);
+        \Log::debug($self->geo["geometry"]["location"]);
+        $self->latlng = $self->geo["geometry"]["location"];
       });
     }
     public function setNameAttribute($value){
-      if(array_key_exists("geo",$this->attributes) && empty($value)){
+      if(array_key_exists("geo",$this->attributes) && !empty($this->attributes["geo"]) && empty($value)){
         $this->attributes["name"]=$this->geo["address_components"][0]["short_name"];
       }
       else{

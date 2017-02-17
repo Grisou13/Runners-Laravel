@@ -16,6 +16,6 @@ class UserTransformer extends TransformerAbstract
 {
   public function transform(User $user)
   {
-    return [];
+    return array_merge($user->toArray(),[]);//put data to be transformed in last array, this way we always have the right model data
   }
 }
