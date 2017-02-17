@@ -5,11 +5,7 @@ User: Joel.DE-SOUSA
 
 @section("content")
 <div class="row">
-  <div class="col-md-1 pull-right">
-    <button type="button" class="btn btn-success pull-right closed" id="padlock" onclick="enable()">
-      Open padlock
-    </button>
-  </div>
+  @include("partials.elements.padlock")
 </div>
 
 @include("partials.user.edit")
