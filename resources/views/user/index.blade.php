@@ -13,8 +13,8 @@ User: Joel.DE-SOUSA
 
   <h1>All the Users</h1>
 
-  <form class="" action="{{ route("users.index") }}" method="get">
-    <select class="" name="status" onmousedown="this.value='';" onchange="this.form.submit()">
+  <form class="" action="{{ route("users.index") }}" method="get" >
+    <select class="" name="status" onmousedown="this.value='';" onchange="this.form.submit()" disabled>
       <option value=" " {{ Request::has("status") && Request::get("status") == " " ? "selected" : "" }}>All</option>
       @foreach($status as $s)
         @if($s == "")

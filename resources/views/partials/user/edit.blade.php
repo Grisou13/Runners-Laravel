@@ -20,15 +20,30 @@ User: Joel.DE-SOUSA
               {{ Form::bsSelect("sex",[0 => "Male", 1 => 'Female'],old("sex")) }}
               {{ Form::bsText("stat", old("stat")) }}
               {{ Form::bsText("accesstoken", old("accesstoken")) }}
-
+              @if(auth()->check())
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
-                        <input type="submit" class="btn btn-primary" value="Edit the user" disabled>
+                        <div class="col-md-3">
+                          <input type="submit" class="btn btn-primary" value="Edit the user" disabled>
+                        </div>
+                        <div class="col-md-3 col-md-push-1">
+                            <a href="{{ route("users.index") }}" class="btn btn-danger">Cancel</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                     </div>
                 </div>
+              @endif
                 {{ csrf_field() }}
                 {{ Form::close() }}
               <!--</form>-->
+              @if(auth()->check())
+                <form method="post" action="{{ route("users.destroy",$user) }}"  class="pull-right">
+                    <input type="hidden" value="DELETE" name="_method">
+                    <input type="hidden" value="{{ csrf_token() }}" name="_token">
+                    <input disabled type="submit" id="delete" value="Delete this User" class="btn btn-warning">
+                </form>
+              @endif
               <div class="row">
                 <div class="col-xs-6 col-md-3">
                     <div class="thumbnail">
