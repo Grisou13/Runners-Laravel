@@ -77,11 +77,13 @@ User: Joel.DE-SOUSA
                     </div>
                 @endif
               {{ Form::close() }}
-              <form method="post" action="{{ route("cars.destroy",$car) }}"  class="pull-right">
-                  <input type="hidden" value="DELETE" name="_method">
-                  <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                  <input disabled type="submit" id="delete" value="Delete this car" class="btn btn-warning">
-              </form>
+              @if(auth()->check())
+                <form method="post" action="{{ route("cars.destroy",$car) }}"  class="pull-right">
+                    <input type="hidden" value="DELETE" name="_method">
+                    <input type="hidden" value="{{ csrf_token() }}" name="_token">
+                    <input disabled type="submit" id="delete" value="Delete this car" class="btn btn-warning">
+                </form>
+              @endif
                 @if($car->exists)
                   @include("partials.comment.create",["route"=>route("cars.comments.store",["car"=>$car])])
                   @each("partials.comment.show",$car->comments,"comment")
