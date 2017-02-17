@@ -9,7 +9,6 @@
 namespace Api\Controllers\V1;
 
 
-use Api\Requests\Filtering\RequestFilter;
 use App\Car;
 use App\User;
 use App\Comment;
@@ -18,30 +17,22 @@ use App\Http\Requests\CreateCarRequest;
 use App\Http\Requests\UpdateCarRequest;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Unlu\Laravel\Api\QueryBuilder;
 
 class CarController extends BaseController
 {
     public function index(Request $request)
     {
-      $queryBuilder = new QueryBuilder(new Car, $request);
-      if($request->has("page") || $request->has("limit"))
-        return $queryBuilder->build()->paginate();
-      return $queryBuilder->build()->get();
+      return Car::all();
     }
     public function show(Request $request, Car $car)
     {
-      $queryBuilder = new RequestFilter($car, $request);
-      //return $user;
-      $car = $queryBuilder->build()->get();
-      if($car->count() != 1)//just in case something happens during the querying of the model
-        throw new HttpException("sorry bru");
-      return $car->first();//we need to get the index 0, since RequestFilter can only use a global query ->returns a list of 1 item
+      return $car;
     }
 
     public function update(UpdateCarRequest $request, Car $car)
     {
         $car->update($request->all());
+        $car->save();
         return $this->response()->accepted();
     }
     public function store(CreateCarRequest $request)

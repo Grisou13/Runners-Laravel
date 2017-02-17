@@ -19,6 +19,11 @@ class CreateCarTypesTable extends Migration
             $table->string('type');
             $table->string('description');
         });
+        Schema::table('cars', function (Blueprint $table) {
+          $table->integer('car_type_id')->unsigned();
+          $table->foreign('car_type_id')->references('id')->on('car_types');
+      
+        });
     }
 
     /**

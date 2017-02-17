@@ -4,12 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Watson\Validating\ValidatingTrait;
 
 class Run extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,ValidatingTrait;
+    public $rules = [
+      "name"=>"required_unless:artist,''",
+      "artist"=>"required_unless:name,''",
+    ];
     protected $fillable = [
-        "name","start_at","end_at","geo_from","geo_to","note", "nb_passenger", "artist"
+        "name","started_at","planned_at","note","ended_at", "nb_passenger", "artist"
     ];
     protected $appends =["start_location","end_location"];
     protected $dates = [
@@ -19,7 +24,8 @@ class Run extends Model
         "end_at"
     ];
     public function waypoints(){
-      return $this->hasMany(Waypoint::class);
+      //all fields selected in pivot table are prefixed with pivot_*
+      return $this->belongsToMany(Waypoint::class)->withPivot("order")->orderBy("pivot_order","ASC");
     }
 
     public function setNameAttribute($name){
@@ -32,18 +38,24 @@ class Run extends Model
       return $this->waypoints->first();
     }
     protected function defaultRunName(){
-      return "run from ".self::resolveGeoLocationName($this->waypoints->first());
+      if(array_key_exists("artist",$this->attributes))
+        return $this->attributes["artist"];
+      return self::resolveGeoLocationName($this->waypoints->first());
     }
-    public static function resolveGeoLocationName($geo){
-      return $geo["address_components"][0]["long_name"];//force first element of result
+    public static function resolveGeoLocationName($waypoint){
+      return $waypoint->geo["address_components"][0]["short_name"];//force first element of result
     }
-    public function user()
+    public function runners()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class)->using(RunDriver::class);
     }
-    public function car()
+    public function cars()
     {
-        return $this->belongsTo(Car::class);
+        return $this->belongsToMany(Car::class)->using(RunDriver::class);
+    }
+    public function car_types()
+    {
+      return $this->belongsToMany(CarType::class)->using(RunDriver::class);
     }
     public function comments()
     {

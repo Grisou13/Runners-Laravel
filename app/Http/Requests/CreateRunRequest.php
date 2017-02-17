@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRuneRequest extends FormRequest
+class CreateRunRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class CreateRuneRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class CreateRuneRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "waypoints"=>"required|min:2",
+            "car_types"=>"required_unless:cars|min:1",
+            "car_types.*.id"=>"exists:car_types",
+            "cars"=>"required_unless:car_types|min:1",
+            "cars.*.id"=>"exists:cars",
+            "runners"=>"sometimes|min:1"
         ];
     }
 }

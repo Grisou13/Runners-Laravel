@@ -13,20 +13,15 @@ class AddRunsDriversTable extends Migration
      */
     public function up()
     {
-        Schema::create("run_driver", function (Blueprint $table) {
-            $table->unsignedInteger("car_id");
-            $table->unsignedInteger("user_id");
+        Schema::create("run_drivers", function (Blueprint $table) {
+            $table->unsignedInteger("car_id")->nullable();
+            $table->unsignedInteger("user_id")->nullable();
             $table->unsignedInteger("run_id");
+            $table->unsignedInteger("car_type_id")->nullable();
             $table->foreign("car_id")->references("id")->on("cars");
             $table->foreign("user_id")->references("id")->on("users");
             $table->foreign("run_id")->references("id")->on("runs");
-        });
-
-        Schema::table("runs", function(Blueprint $table){
-            $table->dropForeign(["car_id"]);
-            $table->dropForeign(["user_id"]);
-            $table->dropColumn("car_id");
-            $table->dropColumn("user_id");
+            $table->foreign("car_type_id")->references("id")->on("car_types");
         });
     }
 
@@ -38,12 +33,6 @@ class AddRunsDriversTable extends Migration
     public function down()
     {
         Schema::dropIfExists("run_driver");
-
-        Schema::table("runs", function(Blueprint $table){
-            $table->unsignedInteger("car_id");
-            $table->unsignedInteger("user_id");
-            $table->foreign("car_id")->references("id")->on("cars");
-            $table->foreign("user_id")->references("id")->on("cars");
-        });
+      
     }
 }

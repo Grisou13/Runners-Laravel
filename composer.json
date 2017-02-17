@@ -6,11 +6,11 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "dingo/api": "=v1.0.0-beta7",
+        "dingo/api": "^v1.0.0-beta7",
         "doctrine/dbal": "^2.5",
-        "laravel/framework": "5.3.*",
+        "laravel/framework": "5.4.*",
+        "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.3.0",
-        "unlu/laravel-api-query-builder": "^1.6",
         "watson/validating": "^3.0"
     },
     "require-dev": {

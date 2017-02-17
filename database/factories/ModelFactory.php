@@ -40,10 +40,8 @@ $factory->define(App\Car::class, function (Faker\Generator $faker){
         "color"=>$faker->colorName,
         "nb_place"=>$faker->numberBetween(3,7),
         "car_type_id"=>function(){return factory(App\CarType::class)->create()->id;},
-        "comment"=>"",
         "name"=>$faker->word,
         "status"=>\App\Helpers\Status::getCarStatus("actif")
-
     ];
 });
 
@@ -53,57 +51,8 @@ $factory->define(App\CarType::class, function (Faker\Generator $faker){
         "description"=>$faker->text
     ];
 });
-$factory->define(App\Run::class, function (Faker\Generator $faker){
-    $geoFrom = str_replace(["\n","\r"],"",trim("{
-         \"address_components\" : [
-            {
-               \"long_name\" : \"Sydney\",
-               \"short_name\" : \"Sydney\",
-               \"types\" : [ \"colloquial_area\", \"locality\", \"political\" ]
-            },
-            {
-               \"long_name\" : \"Nouvelle-Galles du Sud\",
-               \"short_name\" : \"NSW\",
-               \"types\" : [ \"administrative_area_level_1\", \"political\" ]
-            },
-            {
-               \"long_name\" : \"Australie\",
-               \"short_name\" : \"AU\",
-               \"types\" : [ \"country\", \"political\" ]
-            }
-         ],
-         \"formatted_address\" : \"Sydney Nouvelle-Galles du Sud, Australie\",
-         \"geometry\" : {
-            \"bounds\" : {
-               \"northeast\" : {
-                  \"lat\" : -33.5781409,
-                  \"lng\" : 151.3430209
-               },
-               \"southwest\" : {
-                  \"lat\" : -34.118347,
-                  \"lng\" : 150.5209286
-               }
-            },
-            \"location\" : {
-               \"lat\" : -33.8688197,
-               \"lng\" : 151.2092955
-            },
-            \"location_type\" : \"APPROXIMATE\",
-            \"viewport\" : {
-               \"northeast\" : {
-                  \"lat\" : -33.5782519,
-                  \"lng\" : 151.3429976
-               },
-               \"southwest\" : {
-                  \"lat\" : -34.118328,
-                  \"lng\" : 150.5209286
-               }
-            }
-         },
-         \"place_id\" : \"ChIJP3Sa8ziYEmsRUKgyFmh9AQM\",
-         \"types\" : [ \"colloquial_area\", \"locality\", \"political\" ]
-      }"));
-    $geoTo = str_replace(["\n","\r"],"",trim("{
+$factory->define(App\Waypoint::class, function(Faker\Generator $faker){
+  $geo = str_replace(["\n","\r"],"",trim("{
                     \"address_components\": [
                     {
                     \"long_name\": \"Genève Aéroport\",
@@ -194,11 +143,17 @@ $factory->define(App\Run::class, function (Faker\Generator $faker){
                     ]
 
                   }"));
+  return [
+    "geo"=>$geo
+  ];
+});
+$factory->define(App\Run::class, function (Faker\Generator $faker){
+   
     return [
         //"user_id"=>function(){return \App\User::find(1)->id;},
         //"car_id"=>function(){return factory(App\Car::class)->create()->id;},
-        "geo_from"=>$geoFrom,
-        "geo_to"=>$geoTo,
+//        "geo_from"=>$geoFrom,
+//        "geo_to"=>$geoTo,
         "artist"=>$faker->name,
         "nb_passenger"=>$faker->numberBetween(1,12),
         "note"=>$faker->text,

@@ -38,16 +38,17 @@ class RunController extends Controller
     {
         //
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+  
+  /**
+   * Display the specified resource.
+   *
+   * @param Run $run
+   * @return \Illuminate\Http\Response
+   * @internal param int $id
+   */
+    public function show(Run $run)
     {
-        //
+        return view("run.show",compact("run"));
     }
 
     /**
