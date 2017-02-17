@@ -9,6 +9,5 @@ User: Joel.DE-SOUSA
       <li><a href="{{ route("cars.index") }}">View All Cars</a></li>
   </ul>
 </nav>
-
 @include("partials.car.edit",["mode"=>"create","car"=>$car,"car_types"=>$car_types])
 @endsection
