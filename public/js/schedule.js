@@ -27,12 +27,30 @@ function ajaxRequest(method, url, data, callback = false) {
                 returnedData = response;
             }
     });
-
     return returnedData;
 }
 
-function createGrid(days){
-    return false;
+function createGrid(schedule, days){
+    var container = document.getElementsByClassName("grid");
+    var grid = document.createElement("table");
+    grid.style.width  = "80%";
+    grid.setAttribute("border", "1");
+    var inHead = true;
+
+    //http://stackoverflow.com/questions/14643617/create-table-using-javascript
+    schedule.forEach(function(hour){
+        var header = document.createElement("th");
+        if(inHead){
+            //in table header
+
+            // td.appendChild(document.createTextNode('\u0020'))
+            inHead = false;
+        }else{
+            //in table body
+        }
+    });
+
+    //container.append(grid);
 }
 
 function getAllGroups(){
@@ -48,7 +66,6 @@ function getAllDays(){
     //ajax
     //for the moment, we only return an array of dates from now in one week
     return _getDates(moment().format(), moment().add(1, "week").format());
-
 }
 /*
  * Return all the schedules in a given day
@@ -68,8 +85,13 @@ function addSchedule(day, group){
 * We only read and update the days in this array
 * */
 var days = getAllDays();
-createGrid(days);
+var schedule = ["08:00", "10:00",
+                "12:00", "14:00",
+                "16:00", "18:00",
+                "20:00", "22:00",
+                "00:00", "02:00",
+                "04:00", "06:00"];
+createGrid(schedule, days);
 var dayChanged = [];
 var groups = getAllGroups();
 console.log(groups);
-// console.log(groups);
