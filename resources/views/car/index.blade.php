@@ -8,11 +8,7 @@ User: Joel.DE-SOUSA
   <div class="col-md-11">
     <a href="{{ route("cars.create") }}" class="btn btn-default navbar-btn disabled" id="create-user">Create a car</a>
   </div>
-  <div class="col-md-1">
-    <button type="button" class="btn btn-success pull-right closed" id="padlock" onclick="enable()">
-      Open padlock
-    </button>
-  </div>
+  @include("partials.elements.padlock")
 </div>
 
 <h1>All the Cars</h1>

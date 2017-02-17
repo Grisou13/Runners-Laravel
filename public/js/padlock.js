@@ -5,8 +5,9 @@ function enable() {
     if($("#padlock").hasClass("closed")){
 
       $("#padlock").attr('class', 'btn btn-danger pull-right opened');
-        $("#padlock").html('Close padlock');
-
+      //$("#padlock").html('Close padlock');
+      $(".padlock").css("display", "none");
+      $(".unlock").css("display", "block");
       $("#create-car").attr('style', 'display : block');
         var enable = function () {
             if($(this).attr("id") == "padlock")
@@ -31,7 +32,8 @@ function enable() {
     }else{
 
       $("#padlock").attr('class', 'btn btn-success pull-right closed');
-      $("#padlock").html('Open padlock');
+      $(".padlock").css("display", "block");
+      $(".unlock").css("display", "none");
       $("#create-car").attr('style', 'display : none');
         var disable = function(){
             if($(this).attr("id") == "padlock")
