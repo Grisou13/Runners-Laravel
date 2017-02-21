@@ -27,6 +27,14 @@ class CreateWaypointsTable extends Migration
         $table->foreign("run_id")->references("id")->on("runs");
         $table->integer("order")->comment("Used to define the order of a waypoint in a run");
       });
+      Schema::table("run_waypoint",function(Blueprint $table){
+        //laravel cannot create field only increments without primary
+        // so just dorp the primary constraint, no need for it
+        // $table->index("order");
+        // $table->index("run_id");
+        // $table->index("waypoint_id");
+        // $table->dropPrimary("run_waypoint_order_primary");
+      });
 
     }
 

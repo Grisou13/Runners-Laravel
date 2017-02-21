@@ -25,11 +25,14 @@ class CreateRunRequest extends FormRequest
     {
         return [
             "waypoints"=>"required|min:2",
+            "waypoints.*.order"=>"required",
+            "waypoints.*.id"=>"exists:waypoints",
             "car_types"=>"required_unless:cars|min:1",
             "car_types.*.id"=>"exists:car_types",
             "cars"=>"required_unless:car_types|min:1",
             "cars.*.id"=>"exists:cars",
-            "runners"=>"sometimes|min:1"
+            "runners"=>"sometimes|min:1",
+            "runners.*.id"=>"exists,users"
         ];
     }
 }

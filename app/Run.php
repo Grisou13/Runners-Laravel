@@ -5,10 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
-
+use App\Concerns\SortablePivotTrait;
 class Run extends Model
 {
-    use SoftDeletes,ValidatingTrait;
+    use SoftDeletes,ValidatingTrait,SortablePivotTrait;
     public $rules = [
       "name"=>"required_if:artist,''",
     ];
@@ -24,7 +24,7 @@ class Run extends Model
     ];
     public function waypoints(){
       //all fields selected in pivot table are prefixed with pivot_*
-      return $this->belongsToMany(Waypoint::class)->withPivot("order")->orderBy("pivot_order","ASC");
+      return $this->sortableBelongsToMany(Waypoint::class,"order")->withPivot("order");
     }
     public static function boot()
     {
@@ -52,16 +52,16 @@ class Run extends Model
     }
     public function runners()
     {
-        return $this->belongsToMany(User::class,"run_drivers")->using(RunDriver::class);
+        return $this->belongsToMany(User::class,"run_drivers")->using(RunDriver::class)->withPivot(["car_type_id","car_id"]);
     }
     public function cars()
     {
-        return $this->belongsToMany(Car::class,"run_drivers")->using(RunDriver::class);
+        return $this->belongsToMany(Car::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_type_id"]);
     }
-    
+
     public function car_types()
     {
-      return $this->belongsToMany(CarType::class,"run_drivers")->using(RunDriver::class);
+      return $this->belongsToMany(CarType::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_id"]);
     }
     public function comments()
     {

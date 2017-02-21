@@ -40,14 +40,14 @@ $factory->define(App\Car::class, function (Faker\Generator $faker){
         "color"=>$faker->colorName,
         "nb_place"=>$faker->numberBetween(3,7),
         "car_type_id"=>function(){return factory(App\CarType::class)->create()->id;},
-        "name"=>$faker->word,
+        "name"=>$faker->numberBetween(1,18),
         "status"=>\App\Helpers\Status::getCarStatus("actif")
     ];
 });
 
 $factory->define(App\CarType::class, function (Faker\Generator $faker){
     return [
-        "type"=>$faker->unique()->word,
+        "name"=>$faker->unique()->word,
         "description"=>$faker->text
     ];
 });
@@ -149,7 +149,7 @@ $factory->define(App\Waypoint::class, function(Faker\Generator $faker){
   ];
 });
 $factory->define(App\Run::class, function (Faker\Generator $faker){
-   
+
     return [
         //"user_id"=>function(){return \App\User::find(1)->id;},
         //"car_id"=>function(){return factory(App\Car::class)->create()->id;},

@@ -16,13 +16,13 @@ class CreateCarTypesTable extends Migration
         Schema::create('car_types', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('type');
+            $table->string('name');
             $table->string('description');
         });
         Schema::table('cars', function (Blueprint $table) {
           $table->integer('car_type_id')->unsigned();
           $table->foreign('car_type_id')->references('id')->on('car_types');
-      
+
         });
     }
 

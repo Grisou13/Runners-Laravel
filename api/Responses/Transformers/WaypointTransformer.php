@@ -10,11 +10,11 @@ namespace Api\Responses\Transformers;
 
 
 use League\Fractal\TransformerAbstract;
-
+use App\Waypoint;
 class WaypointTransformer extends TransformerAbstract
 {
-  public function transform()
+  public function transform(Waypoint $point)
   {
-    return [];
+    return array_merge($point->toArray(),[]);
   }
 }

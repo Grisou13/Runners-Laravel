@@ -14,10 +14,13 @@ class AddRunsDriversTable extends Migration
     public function up()
     {
         Schema::create("run_drivers", function (Blueprint $table) {
+            $table->increments("id");
             $table->unsignedInteger("car_id")->nullable();
             $table->unsignedInteger("user_id")->nullable();
             $table->unsignedInteger("run_id");
             $table->unsignedInteger("car_type_id")->nullable();
+            $table->timestamps();
+            $table->softDeletes();
             $table->foreign("car_id")->references("id")->on("cars");
             $table->foreign("user_id")->references("id")->on("users");
             $table->foreign("run_id")->references("id")->on("runs");
@@ -33,6 +36,6 @@ class AddRunsDriversTable extends Migration
     public function down()
     {
         Schema::dropIfExists("run_driver");
-      
+
     }
 }

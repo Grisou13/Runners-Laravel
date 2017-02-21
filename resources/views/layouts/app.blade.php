@@ -12,10 +12,12 @@
 
     <!-- Styles -->
     <link href="{{ asset("/css/app.css") }}" rel="stylesheet">
+    <link href="{{ asset("/css/theme.css") }}" rel="stylesheet">
+
     @stack("styles")
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/axios.min.js') }}"></script>
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),

@@ -12,11 +12,19 @@ class RunSeeder extends Seeder
      */
     public function run()
     {
-        
+
         if(!User::all()->count())
             $this->call(UserSeeder::class);
-        factory(\App\Run::class,10)->create();
-        factory(\App\Waypoint::class,5)->create();
-        
+        factory(\App\Run::class,10)->create()->each(function(\App\Run $run){
+          $run->waypoints()->attach(factory(\App\Waypoint::class)->create(),["order"=>1]);
+          $run->waypoints()->attach(factory(\App\Waypoint::class)->create(),["order"=>2]);
+          if(rand() % 2){ //just add some more data
+            for($i=0;$i<=5;$i++)
+              $run->waypoints()->attach(factory(\App\Waypoint::class)->create(),["order"=>$i + 2]);
+
+          }
+        });
+
+
     }
 }

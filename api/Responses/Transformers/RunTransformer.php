@@ -10,11 +10,20 @@ namespace Api\Responses\Transformers;
 
 
 use League\Fractal\TransformerAbstract;
+use App\Run;
+
 
 class RunTransformer extends TransformerAbstract
 {
-  public function transform()
+  protected $availableIncludes = [
+    "waypoints"
+  ];
+  public function transform(Run $run)
   {
-    return [];
+    return array_merge($run->toArray(),[]);
+  }
+  public function includeWaypoints(Run $run)
+  {
+    return $this->collection($run->waypoints, new WaypointTransformer);
   }
 }
