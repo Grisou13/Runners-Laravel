@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#echo-serv
+
+laravel-echo-server start
