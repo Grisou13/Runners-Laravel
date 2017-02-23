@@ -102,6 +102,15 @@
     <!-- Scripts -->
     <script src="{{ asset("/js/app.js") }}"></script>
     <script src="{{ asset("/js/padlock.js") }}"></script>
+    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
+    <script>
+    import Echo from "laravel-echo"
+
+    window.Echo = new Echo({
+        broadcaster: 'socket.io',
+        host: window.location.hostname + ':6001'
+    });
+    </script>
     @stack("scripts")
 </body>
 </html>
