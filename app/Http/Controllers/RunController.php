@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Run;
+use Dingo\Api\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 
 class RunController extends Controller
@@ -25,7 +26,7 @@ class RunController extends Controller
      */
     public function create()
     {
-        //
+        return view("run.create")->with("run",new Run);
     }
 
     /**
@@ -36,7 +37,8 @@ class RunController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->api->post(app(UrlGenerator::class)->version("v1")->route("runs.store"))->with($request->except(["_token"]));
+        return redirect()->back();
     }
   
   /**
@@ -57,9 +59,9 @@ class RunController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,Run $run)
     {
-        //
+        return view("run.edit")->with($run);
     }
 
     /**
@@ -69,9 +71,11 @@ class RunController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Run $run)
     {
-        //
+        $this->toApiRoute("patch","runs.update",$run,$request);
+        //$this->api->patch(app(UrlGenerator::class)->version("v1")->route("runs.update",$run))->with($request->except(["_token"]));
+        return redirect()->back();
     }
 
     /**
@@ -80,8 +84,9 @@ class RunController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Run $run)
     {
-        //
+        $this->api->delete(app(UrlGenerator::class)->version("v1")->route("runs.destroy",$run));
+        return redirect()->back();
     }
 }
