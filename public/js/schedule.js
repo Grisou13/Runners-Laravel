@@ -15,8 +15,9 @@ function _getDates(startDate, stopDate) {
     return dateArray;
 }
 
-function ajaxRequest(method, url, data, callback = false) {
+function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
+    // refer to https://kangax.github.io/compat-table/es6/#webkit for compatibility
     var returnedData = "false";
     $.ajax({
         url: url,
@@ -30,32 +31,63 @@ function ajaxRequest(method, url, data, callback = false) {
     return returnedData;
 }
 
-function createGrid(schedule, days){
-    var container = document.getElementsByClassName("grid");
+function createTable(schedule, groups, day){
     var grid = document.createElement("table");
     grid.style.width  = "80%";
     grid.setAttribute("border", "1");
-    var inHead = true;
 
-    //http://stackoverflow.com/questions/14643617/create-table-using-javascript
+    // a little help here
+    // http://stackoverflow.com/questions/14643617/create-table-using-javascript
+    var theader = document.createElement("thead");
+    var tbody = document.createElement("tbody");
+
+    // table header
+    var headerTR = document.createElement("tr");
+    var th = document.createElement("th");
+    th.innerHTML = "Groupes";
+    headerTR.appendChild(th);
+
     schedule.forEach(function(hour){
-        var header = document.createElement("th");
-        if(inHead){
-            //in table header
+        var th = document.createElement("th");
+        th.innerHTML = hour;
+        headerTR.appendChild(th);
+    });
+    theader.appendChild(headerTR);
 
-            // td.appendChild(document.createTextNode('\u0020'))
-            inHead = false;
-        }else{
-            //in table body
-        }
+    // table body
+    groups.forEach(function(group){
+        var bodyTR = document.createElement("tr");
+        var td = document.createElement("td");
+        td.innerHTML = "Group n° " + group.id;
+        bodyTR.appendChild(td);
+        schedule.forEach(function(hour){
+            var td = document.createElement("td");
+            td.setAttribute("id", group.id + "-" + schedule.indexOf(hour) + " - " + day);
+            bodyTR.appendChild(td);
+        });
+        tbody.appendChild(bodyTR);
     });
 
-    //container.append(grid);
+    grid.appendChild(theader);
+    grid.appendChild(tbody);
+
+    return grid
+}
+
+function createGrid(schedule, days, groups){
+    var container = document.getElementsByClassName('schedule-container')[0];
+
+    days.forEach(function(day){
+        var dayTable = createTable(schedule, groups, day);
+        container.appendChild(dayTable);
+        
+    });
+
 }
 
 function getAllGroups(){
     var url = window.Laravel.basePath + "/api/groups?token=root";
-    return ajaxRequest("get", url, "");
+    return ajaxRequest("get", url, "", false);
 }
 
 /*
@@ -91,7 +123,6 @@ var schedule = ["08:00", "10:00",
                 "20:00", "22:00",
                 "00:00", "02:00",
                 "04:00", "06:00"];
-createGrid(schedule, days);
-var dayChanged = [];
 var groups = getAllGroups();
-console.log(groups);
+createGrid(schedule, days, groups);
+var dayChanged = [];

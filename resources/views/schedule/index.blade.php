@@ -8,6 +8,7 @@
 @endpush
 
 @section("content")
-    <div class="grid"></div>
+    <div class="schedule-container"></div>
     <div class="groups"></div>
+
 @endsection
