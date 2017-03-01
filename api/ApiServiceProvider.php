@@ -8,6 +8,7 @@ use Api\ApiAuthProvider;
 use App\Providers\RouteServiceProvider;
 use Dingo\Api\Exception\ValidationHttpException;
 use Dingo\Api\Transformer\Adapter\Fractal;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -79,9 +80,22 @@ class ApiServiceProvider extends RouteServiceProvider
     public function map()
     {
         $api = app('Dingo\Api\Routing\Router');
-        $api->group(['version'=>$this->version,'namespace' => $this->namespace . "\\" . ucfirst($this->version),"middleware"=>"bindings"], function ($api) {
+        if(is_array($this->version) || $this->version instanceof Collection)
+        {
+          foreach($this->version as $version)
+          {
+            $api->group(['version'=>$version,'namespace' => $this->namespace . "\\" . ucfirst($version)], function ($api) use($version) {
+              require base_path("api/routes_".$version.".php");
+            });
+          }
+        }
+        else
+        {
+          $api->group(['version'=>$this->version,'namespace' => $this->namespace . "\\" . ucfirst($this->version)], function ($api) {
             require base_path('api/routes.php');
-        });
+          });
+        }
+        
     }
 
 
