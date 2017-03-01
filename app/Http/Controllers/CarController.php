@@ -53,7 +53,7 @@ class CarController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CreateCarRequest $request){
-        $request->flash();
+        //$request->flash();
         $input = $request->except(["_token"]);
 
         $car = new Car($input);
@@ -132,8 +132,7 @@ class CarController extends Controller
     {
         // delete
         $car->delete();
-
-        return redirect()->route("car.index")->with("message","Car deleted successfully");
+        return redirect()->route("cars.index")->with("message","Car deleted successfully");
     }
 
 
