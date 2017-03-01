@@ -17,9 +17,12 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->get("users/{user}/group","UserController@group");
     $api->get("users/me/group","UserController@group");
 
+    $api->resource("groups.schedules", "ScheduleController");
+
     $api->resource("groups",'GroupController');
     $api->resource("cars",'CarController', ["except"=>"delete"]);
     $api->resource("runs",'RunController');
+
 
 });
 

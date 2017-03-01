@@ -19,4 +19,7 @@ class Group extends Model
     {
         return $this->hasOne(User::class);
     }
+    public $schedules = [
+        
+    ];
 }

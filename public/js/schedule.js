@@ -150,5 +150,8 @@ var schedule = ["08:00", "10:00",
                 "00:00", "02:00",
                 "04:00", "06:00"];
 var groups = getAllGroups();
-createGrid(schedule, days, groups);
+groups.forEach(function(g){
+    console.log(g);
+});
+// createGrid(schedule, days, groups);
 
