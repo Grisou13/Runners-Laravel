@@ -2,6 +2,21 @@
  * Created by Eric.BOUSBAA on 17.02.2017.
  */
 
+function _hexToRgb(hex){
+    // credits to http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+    });
+
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+}
 function _getDates(startDate, stopDate) {
     // https://momentjs.com/
     // credits to http://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates
@@ -14,6 +29,13 @@ function _getDates(startDate, stopDate) {
     }
     return dateArray;
 }
+var cellListener = function(){
+    var cell = this.id.split("-");
+    var groupID = cell[0];
+    var hour = cell[1];
+    var date = cell.splice(2,3).join("-");
+    console.log(date);
+};
 
 function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
@@ -30,7 +52,6 @@ function ajaxRequest(method, url, data, callback) {
     });
     return returnedData;
 }
-
 function createTable(schedule, groups, day){
     var grid = document.createElement("table");
     grid.style.width  = "80%";
@@ -40,7 +61,6 @@ function createTable(schedule, groups, day){
     // http://stackoverflow.com/questions/14643617/create-table-using-javascript
     var theader = document.createElement("thead");
     var tbody = document.createElement("tbody");
-
     // table header
     var headerTR = document.createElement("tr");
     var th = document.createElement("th");
@@ -59,10 +79,16 @@ function createTable(schedule, groups, day){
         var bodyTR = document.createElement("tr");
         var td = document.createElement("td");
         td.innerHTML = "Group n° " + group.id;
+        var rgb = _hexToRgb(group.color);
+        td.style.backgroundColor = "rgba("+ [rgb["r"], rgb["g"], rgb["b"], 0.7].join(",") + ")";
+        td.style.color = "white";
+
         bodyTR.appendChild(td);
         schedule.forEach(function(hour){
             var td = document.createElement("td");
-            td.setAttribute("id", group.id + "-" + schedule.indexOf(hour) + " - " + day);
+            td.setAttribute("id", group.id + "-" + schedule.indexOf(hour) + "-" + day);
+            td.onclick = cellListener;
+            // td.addEventListener("click", cellListener, false);
             bodyTR.appendChild(td);
         });
         tbody.appendChild(bodyTR);
@@ -80,14 +106,13 @@ function createGrid(schedule, days, groups){
     days.forEach(function(day){
         var dayTable = createTable(schedule, groups, day);
         container.appendChild(dayTable);
-        
     });
-
 }
 
 function getAllGroups(){
     var url = window.Laravel.basePath + "/api/groups?token=root";
     return ajaxRequest("get", url, "", false);
+    // console.log(res);
 }
 
 /*
@@ -116,6 +141,7 @@ function addSchedule(day, group){
 * Contains all the day that have been changed in te grid.
 * We only read and update the days in this array
 * */
+var dayChanged = [];
 var days = getAllDays();
 var schedule = ["08:00", "10:00",
                 "12:00", "14:00",
@@ -125,4 +151,4 @@ var schedule = ["08:00", "10:00",
                 "04:00", "06:00"];
 var groups = getAllGroups();
 createGrid(schedule, days, groups);
-var dayChanged = [];
+

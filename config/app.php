@@ -168,7 +168,7 @@ return [
          */
 
         Dingo\Api\Provider\LaravelServiceProvider::class,
-        // Unlu\Laravel\Api\ApiQueryBuilderServiceProvider::class,
+        Unlu\Laravel\Api\ApiQueryBuilderServiceProvider::class,
         /*
          * Application Service Providers...
          */
