@@ -12,8 +12,9 @@ class Schedule extends Model
     public $rules = [
         "start_time"=>"required|date",
         "end_time"=>"required|date|after:_start_time",
-        "group"=>"required|exists:groups",
+
     ];
+    public $timestamps = false;
     protected $fillable = ["start_time","end_time"];
     public function group()
     {
