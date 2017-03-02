@@ -14,6 +14,7 @@ class Schedule extends Model
         "end_time"=>"required|date|after:_start_time",
         "group"=>"required|exists:groups",
     ];
+    protected $fillable = ["start_time","end_time"];
     public function group()
     {
         return $this->belongsTo(Group::class);
