@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateScheduleRequest extends FormRequest
+class CreateGroupScheduleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,6 @@ class UpdateScheduleRequest extends FormRequest
         return [
             "start_time"=>"required|date",
             "end_time"=>"required|date|after:_start_time",
-            "group"=>"exists:groups,id" //only if we want to reassign it
         ];
     }
 }

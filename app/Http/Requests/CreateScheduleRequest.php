@@ -26,7 +26,7 @@ class CreateScheduleRequest extends FormRequest
         return [
             "start_time"=>"required|date",
             "end_time"=>"required|date|after:_start_time",
-            "group"=>"required|exists:groups",
+            "group"=>"required|exists:groups,id",
         ];
     }
 }
