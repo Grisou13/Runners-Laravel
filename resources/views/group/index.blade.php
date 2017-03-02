@@ -30,7 +30,7 @@
         <div id="container-{{$group->id}}" class="panel panel-default col-md-2 disabledbutton" style="background-color:#{{$group->color}};">
             <div class="panel-heading" style="background-color:#{{$group->color}}; opacity:0.3px !important;">{{$group->label}}</div>
             <!-- display the users in the group -->
-            @foreach($group->users()->get()->where("stat","Actif") as $user)
+            @foreach($group->users as $user)
                 <div id="{{$user->id}}" class="panel-body">
                     {{$user->firstname}}  {{$user->lastname}}
                 </div>

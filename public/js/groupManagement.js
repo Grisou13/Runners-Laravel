@@ -46,10 +46,16 @@ function addUserToGroup(userID, groupID) {
     //TODO get users token
     var url = base_path + "/api/groups/" + groupID + "?token=root";
     var success = function(data) {
+        debugger;
         console.log(data);
     };
-
-    ajaxRequest(url,{user:userID}, success, "patch");
+    window.api.patch("/groups/"+groupID,{user:userID})
+        .then(function(res){
+            console.log(res);
+        })  .catch(function (error) {
+        console.log(error);
+    });;
+    //ajaxRequest(url,{user:userID}, success, "patch");
 }
 
 function removeUserFromGroup(userID, groupID) {
@@ -69,9 +75,15 @@ function removeUserFromGroup(userID, groupID) {
 }
 
 function ajaxRequest(url, data, callback, method) {
+
     return $.ajax({
         url: url,
         type: method,
+        contentType: "application/json",
+        dataType:'application/x-www-form-urlencoded; charset=UTF-8',
+        headers:{
+            "x-access-token":window.Laravel.token
+        },
         data: data,
         success: callback
     });

@@ -8,48 +8,40 @@
 
 namespace Api\Controllers\V1;
 
-use Api\Requests\Filtering\RequestFilter;
+
+use Api\Responses\Transformers\GroupTransformer;
 use App\Group;
 use App\User;
 use Api\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Unlu\Laravel\Api\QueryBuilder;
 use App\Http\Helpers;
 
 class GroupController extends BaseController
 {
     public function index(Request $request)
     {
-        $queryBuilder = new QueryBuilder(new Group, $request);
-        if($request->has("page") || $request->has("limit"))
-          return $queryBuilder->build()->paginate();
-//        var_dump($queryBuilder->build()->get());
-        return $queryBuilder->build()->get();
+        return $this->response()->collection(Group::all(), new GroupTransformer);
     }
 
     public function show(Request $request,Group $group)
     {
-      $queryBuilder = new RequestFilter($group, $request);
-      //return $user;
-      $group = $queryBuilder->build()->get();
-      if($group->count() != 1)//just in case something happens during the querying of the model
-        throw new HttpException("sorry bru");
-      return $group->first();//we need to get the index 0, since RequestFilter can only use a global query ->returns a list of 1 item
+      return $group;
     }
     public function update(Request $request, Group $group)
     {
+      //dd($request->all());
         $group->update($request->all());
+        $group->save();
+      
         //$userID = $request->input()["data"];
-
-        $user = User::findOrFail($request->get("user"));
-
-        $user->group_id = $group->id;
-
-        $user->save();
-
-        return $this->response()->accepted(route("groups.update",$group->id));
-
+        if($request->has("user")){
+          $user = User::findOrFail($request->get("user"));
+          //dd($group);
+          $user->group()->associate($group)->save();
+        }
+        
+      return $group;
     }
     public function store(Request $request)
     {
@@ -69,7 +61,7 @@ class GroupController extends BaseController
             $user = User::findOrFail($request->get("user"));
             $user->group_id = null;
             $user->save();
-            return "true";
+            return $this->response()->accepted();
         }
         return $group->delete();
     }

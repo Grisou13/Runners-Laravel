@@ -13,11 +13,12 @@ class CreateStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('status', function (Blueprint $table) {
+        Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->morphs("statable");
+            //$table->morphs("statable");
+            $table->string("type");
             $table->string("name");
-            $table->timestamps();
+            $table->string("displayname");
         });
     }
 

@@ -68,3 +68,23 @@ The brief documentation of the api, for now is available in the file [api.md](/a
 ### Participants
 
 Please refer to "PARTICIPANTS.md" to know which part each student devolopped.
+
+# Notifications
+
+Use redis as a worker thread and then echo it with an event and to Laravel Echo
+
+https://github.com/tlaverdure/laravel-echo-server
+
+## Install
+```
+npm install -g laravel-echo-server
+composer require predis/predis
+```
+
+### For production
+
+Install Redis
+
+```
+TODO
+```

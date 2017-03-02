@@ -15,8 +15,15 @@ class CreateGroupsTable extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->string("color");
+            $table->string("name")->nullable();
             $table->boolean('active');
+            $table->timestamps();
+            
+        });
+        Schema::table("users",function(Blueprint $table){
+          $table->integer('group_id')->unsigned()->nullable();
+          $table->foreign('group_id')->references('id')->on('groups');
         });
     }
 
