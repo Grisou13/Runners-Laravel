@@ -9,7 +9,7 @@ namespace Api\Controllers\V1;
 
 use Api\Responses\Transformers\ScheduleTransformer;
 use App\Group;
-use App\Http\Requests\CreateScheduleRequest;
+use App\Http\Requests\CreateGroupScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
 use App\Schedule;
 use Api\Controllers\BaseController;
@@ -35,7 +35,7 @@ class GroupScheduleController extends BaseController{
         $schedule->update($request->except(["token","_token"]));
         return $this->response()->item($schedule, new ScheduleTransformer);
     }
-    public function store(CreateScheduleRequest $request, Group $group)
+    public function store(CreateGroupScheduleRequest $request, Group $group)
     {
         $data = $request->except(["_token","token"]);
         $schedule = $group->schedules()->create($data);
