@@ -14,8 +14,8 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $schedules = Schedule::all();
-        return view("schedule.index")->with("schedules", $schedules);
+        //$schedules = Schedule::all();
+        return view("schedule.index");//->with("schedules", $schedules);
     }
 
     /**
