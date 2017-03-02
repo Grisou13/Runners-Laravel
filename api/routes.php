@@ -15,15 +15,13 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->get("users/{user}/group","UserController@group");
     $api->match(["put","patch"],"/users/{user}/group/{group}","UserController@updateGroup");
 
+    $api->resource("groups.schedules", "ScheduleController");
     $api->get("users/me",["uses"=>"AuthenticatedUserController@me","as"=>"users.me"]);
     $api->get("users/me/runs","AuthenticatedUserController@runs");
     $api->get("users/me/schedule","AuthenticatedUserController@schedule");
-
     $api->resource("groups",'GroupController');
     $api->resource("cars",'CarController', ["except"=>["delete"]]);
     $api->resource("runs",'RunController');
-//    $api->resource("itineraries","ItineraryController");
-//    $api->resource("itineraries.waypoints","ItineraryWaypointController");
     $api->resource("waypoints","WaypointController");
 });
 

@@ -22,6 +22,7 @@ class GroupController extends BaseController
     {
         return Group::all();
     }
+
     public function show(Request $request,Group $group)
     {
       return $group;

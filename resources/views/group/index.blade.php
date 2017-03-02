@@ -51,7 +51,6 @@
                 </div>
             @endforeach
         </div>
-
         <!-- New group -->
         <button type="button" class="btn btn-default disablesecondbutton" onclick="getNewGroup()" disabled>Créer groupe</button>
 
