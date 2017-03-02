@@ -28,5 +28,8 @@ class UserSeeder extends Seeder
         factory(\App\User::class,5)->create()->each(function(\App\User $u){
             $u->group()->associate(factory(\App\Group::class)->make());
         });
+        factory(\App\Schedule::class, 5)->create()->each(function($schedule){
+            $schedule->group()->associate(Group::find(rand(0,5)));
+        });
     }
 }

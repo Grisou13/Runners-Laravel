@@ -15,16 +15,16 @@ use App\Schedule;
 use Api\Controllers\BaseController;
 use Illuminate\Http\Request;
 
-class ScheduleController extends BaseController{
+class GroupScheduleController extends BaseController{
     public function index(Request $request, Group $group)
     {
         return $this->response()->collection($group->schedules, new ScheduleTransformer);
     }
-    public function show(Request $request, Schedule $schedule)
+    public function show(Request $request, Group $group, Schedule $schedule)
     {
         return $this->response()->item($schedule, new ScheduleTransformer);
     }
-    public function update(UpdateScheduleRequest $request, Schedule $schedule)
+    public function update(UpdateScheduleRequest $request, Group $group, Schedule $schedule)
     {
         if($request-has("group"))
         {
@@ -35,10 +35,9 @@ class ScheduleController extends BaseController{
         $schedule->update($request->except(["token","_token"]));
         return $this->response()->item($schedule, new ScheduleTransformer);
     }
-    public function store(CreateScheduleRequest $request)
+    public function store(CreateScheduleRequest $request, Group $group)
     {
         $data = $request->except(["_token","token"]);
-        $group = Group::find($request->get("group"));
         $schedule = $group->schedules()->create($data);
         return $this->response()->item($schedule, new ScheduleTransformer);
     }

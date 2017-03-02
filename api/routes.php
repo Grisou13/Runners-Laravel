@@ -15,7 +15,8 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->get("users/{user}/group","UserController@group");
     $api->match(["put","patch"],"/users/{user}/group/{group}","UserController@updateGroup");
 
-    $api->resource("groups.schedules", "ScheduleController");
+    $api->resource("groups.schedules", "GroupScheduleController");
+    $api->resource("schedules","ScheduleController");
     $api->get("users/me",["uses"=>"AuthenticatedUserController@me","as"=>"users.me"]);
     $api->get("users/me/runs","AuthenticatedUserController@runs");
     $api->get("users/me/schedule","AuthenticatedUserController@schedule");
@@ -25,7 +26,3 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->resource("waypoints","WaypointController");
 });
 
-//$api->get("/test",function(){
-//    $dispatcher = app('Dingo\Api\Dispatcher');
-//    return $dispatcher->get("api/users");
-//});
