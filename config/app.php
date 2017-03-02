@@ -170,6 +170,7 @@ return [
         Dingo\Api\Provider\LaravelServiceProvider::class,
         //Unlu\Laravel\Api\ApiQueryBuilderServiceProvider::class, //removed
         Collective\Html\HtmlServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         /*
          * Application Service Providers...
          */

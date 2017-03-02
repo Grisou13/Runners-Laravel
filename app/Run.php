@@ -15,7 +15,7 @@ class Run extends Model
     protected $fillable = [
         "name","started_at","planned_at","note","ended_at", "nb_passenger", "artist"
     ];
-    protected $appends =["start_location","end_location"];
+    //protected $appends =["start_location","end_location"];
     protected $dates = [
         "created_at",
         "updated_at",

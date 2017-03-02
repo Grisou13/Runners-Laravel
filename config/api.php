@@ -155,7 +155,7 @@ return [
     */
 
     'middleware' => [
-      \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
       \Api\Middleware\AddCorsHeaders::class,
     ],
 
