@@ -8,7 +8,6 @@
 
 namespace Api\Controllers\V1;
 
-
 use Api\Requests\Filtering\RequestFilter;
 use App\Group;
 use App\User;
@@ -25,6 +24,7 @@ class GroupController extends BaseController
         $queryBuilder = new QueryBuilder(new Group, $request);
         if($request->has("page") || $request->has("limit"))
           return $queryBuilder->build()->paginate();
+//        var_dump($queryBuilder->build()->get());
         return $queryBuilder->build()->get();
     }
 

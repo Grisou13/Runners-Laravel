@@ -110,7 +110,7 @@ function createGrid(schedule, days, groups){
 }
 
 function getAllGroups(){
-    var url = window.Laravel.basePath + "/api/groups?token=root";
+    var url = window.Laravel.basePath + "/api/groups?token=root&includes=schedules";
     return ajaxRequest("get", url, "", false);
     // console.log(res);
 }

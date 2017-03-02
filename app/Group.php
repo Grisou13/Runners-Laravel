@@ -19,7 +19,13 @@ class Group extends Model
     {
         return $this->hasOne(User::class);
     }
-    public $schedules = [
-        
-    ];
+
+    public function schedules(){
+        return $this->hasMany(Schedule::class);
+    }
+
+
+//    public function schedules(){
+//        return $this->belongsToMany(Schedule::class);
+//    }
 }
