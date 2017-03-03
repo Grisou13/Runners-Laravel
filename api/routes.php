@@ -30,7 +30,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       /**
        * @var $api Dingo\Api\Routing\Router
        */
-      $api->resource("runs","BaseController");
+      $api->resource("runs","BaseResourceController");
       $api->resource("runs.waypoints","WaypointController");
       $api->resource("runs.car_types","CarTypeController");
       $api->resource("runs.cars","CarController");
