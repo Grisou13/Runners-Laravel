@@ -52,16 +52,17 @@ class Run extends Model
     }
     public function runners()
     {
-        return $this->belongsToMany(User::class,"run_drivers")->using(RunDriver::class)->withPivot(["car_type_id","car_id"]);
+        return $this->hasManyThrough(User::class,RunDriver::class);
     }
     public function cars()
     {
-        return $this->belongsToMany(Car::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_type_id"]);
+        return $this->hasManyThrough(Car::class,RunDriver::class,
+                                      "run_id","id","car_id");
     }
 
     public function car_types()
     {
-      return $this->belongsToMany(CarType::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_id"]);
+      return $this->hasManyThrough(CarType::class,RunDriver::class);
     }
     public function comments()
     {

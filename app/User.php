@@ -54,7 +54,7 @@ class User extends Authenticatable implements StatusableContract
     }
     public function runs()
     {
-        return $this->hasMany(Run::class);
+        return $this->hasManyThrough(Run::class,RunDriver::class);
     }
     public static function getAccessTokenKey()
     {

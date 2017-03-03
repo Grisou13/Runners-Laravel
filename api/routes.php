@@ -34,8 +34,12 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       $api->resource("runs.waypoints","WaypointController");
       $api->resource("runs.car_types","CarTypeController");
       $api->resource("runs.cars","CarController");
-      $api->resource("runs.runners","RunnerController");
+      $api->post("/runs/{run}/cars/{car}/join","CarController@join");
+      $api->delete("/runs/{run}/cars/{car}/join","CarController@unjoin");
+      
       $api->resource("runs.users","UserController");
+      $api->post("/runs/{run}/users/{user}/join","UserController@join");
+      $api->delete("/runs/{run}/users/{user}/join","UserController@unjoin");
     });
     $api->get("/statuses","StatusController@index");
     $api->resource("waypoints","WaypointController");
