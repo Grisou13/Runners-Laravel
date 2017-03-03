@@ -55,7 +55,7 @@ var cellListener = function(){
 
     //var endHour = schedule[parseInt(cell[1]) + 1];
     var date = cell.splice(2,3).join("-");
-    console.log(this)
+    console.log(this);
     /*if(cellAssignes){
         // Ajax
     }else{
@@ -68,30 +68,21 @@ var cellListener = function(){
     })[0];
 
     if(this.dataset.assigned === "true"){
-
-        console.log(this)
-        // DELETE    | /api/groups/{group}/schedules/{schedule}
-        // ajaxRequest(method, url, data, callback);
-        let url = window.Laravel.basePath + "/api/groups"+groupId+"/schedules/";
-
+        let url = window.Laravel.basePath + "/api/schedules/" + this.dataset.scheduleId + "?token=root";
+        // console.log(this.dataset.scheduleId);
         this.dataset.assigned = "false";
         this.style.backgroundColor = "white";
-
+        ajaxRequest("delete", url, "", console.log);
     }else{
         this.dataset.assigned = "true";
         this.style.backgroundColor = "#" + selGrp.color;
-
-        let url = window.Laravel.basePath + "/api/groups/"+groupId+"/schedules?token=root"
-
+        let url = window.Laravel.basePath + "/api/groups/"+groupId+"/schedules?token=root";
         let data = {
             "start_time": date + " " + startHour,
             "end_time": date + " " + endHour,
             "group": groupId
         }
-
         ajaxRequest("post", url, data, console.log);
-        console.log("prout")
-
     }
 
 };
@@ -139,10 +130,8 @@ function createTable(schedule, groups, day){
                 group.schedules.forEach(function(p){
                     let datetime = p.start_time.split(" ");
                     if((datetime[0] === day) && (datetime[1] === hour+":00")){
-                        console.log("fuck it i leave");
-                        console.log(datetime[0]);
-                        console.log(datetime[1]);
                         td.style.backgroundColor = "#" + group.color;
+                        td.dataset.scheduleId = p.id;
                         td.dataset.assigned = "true";
                     }
                 })
@@ -211,5 +200,5 @@ var schedule = ["08:00", "10:00",
                 "04:00", "06:00"];
 
 var groups = getAllGroups();
-
+// console.log(groups);
 createGrid(schedule, days, groups);

@@ -43,7 +43,7 @@ class GroupScheduleController extends BaseController{
         return $this->response()->item($schedule, new ScheduleTransformer);
         
     }
-    public function destory(Request $request, Schedule $schedule)
+    public function destroy(Request $request, Schedule $schedule)
     {
         $schedule->delete();
         return $this->response->accepted();
