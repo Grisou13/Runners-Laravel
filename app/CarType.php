@@ -13,4 +13,8 @@ class CarType extends Model
     {
         return $this->belongsToMany(Car::class);
     }
+    public function getRouteKeyName()
+    {
+      return 'name';
+    }
 }

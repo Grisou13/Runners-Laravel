@@ -2,9 +2,14 @@
 
 return [
   "user"=>[
-    "active_user"=>"actif",
+    "active_user"=>"Actif",
     "not_present"=>"Pas présent",
-    "available"=>"dispo"
+    "available"=>"Disponible"
+  ],
+  "car_types"=>[
+    "active_car_type"=>"Actif",
+    "car_type_used"=>"Utilisé",
+    "car_type_free"=>"Disponible"
   ],
   "run"=>[
     "active_group"=>"actif",
@@ -15,7 +20,7 @@ return [
   ],
     "car"=>[
         "active_car"=>"Actif",
-        "car_used"=>"Used",
-        "available"=>"dispo"
+        "car_used"=>"Utilisé",
+        "car_free"=>"Disponible"
     ]
 ];

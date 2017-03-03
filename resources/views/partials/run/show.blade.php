@@ -18,7 +18,7 @@
                 <div class="row">
                     @foreach($run->waypoints as $point)
                         <div class="col-sm-{{ abs($run->waypoints_count / 2) }}">
-                            <p>{{ $point->name }}</p>
+                            <p> <span class="label label-default">{{ $point->pivot->order }}</span> {{ $point->name }}</p>
                         </div>
                     @endforeach
                 </div>
@@ -31,11 +31,11 @@
             @if($run->runners->isEmpty() && $run->car_types->isEmpty() && $run->cars->isEmpty())
                 <div class="row">
                     <div class="col-xs-6">
-                        <button type="button" name="button" class="btn btn-primary">Add car type</button>
-                        <button type="button" name="button" class="btn btn-primary">Add car</button>
+                        <button type="button" name="button" class="btn btn-primary searchable" data-searchable="car_types">Add car type</button>
+                        <button type="button" name="button" class="btn btn-primary searchable" data-searchable="cars">Add car</button>
                     </div>
                     <div class="col-xs-6">
-                        <button type="button" class="btn btn-primary" name="button">Add User</button>
+                        <button type="button" class="btn btn-primary searchable" name="button" data-searchable="users">Add User</button>
                     </div>
                 </div>
 
@@ -47,8 +47,8 @@
 
                     <div class="col-xs-6">
                         @if(auth()->check())
-                            <button type="button" name="button" class="btn btn-primary">Add car type</button>
-                            <button type="button" name="button" class="btn btn-primary">Add car</button>
+                            <button type="button" name="button" class="btn btn-primary searchable" data-searchable="car_types">Add car type</button>
+                            <button type="button" name="button" class="btn btn-primary searchable" data-searchable="cars">Add car</button>
                         @endif
                     </div>
                     <div class="col-xs-6">
@@ -68,7 +68,7 @@
                       Going with user : {{ $car->pivot->user->name }}
                     @else
                         @if(auth()->check())
-                            <button type="button" class="btn btn-primary" name="button">Add User</button>
+                            <button type="button" class="btn btn-primary searchable" name="button" data-searchable="users">Add User</button>
                         @endif
                     @endif
                     </div>
@@ -84,8 +84,8 @@
                         {{ $type->pivot->user->name }}
                       @else
                         @if(auth()->check())
-                            <button type="button" class="btn btn-primary" name="button">Add User</button>
-                            <button type="button" class="btn btn-primary" name="button">Add Car</button>
+                            <button type="button" class="btn btn-primary searchable" name="button" data-searchable="users">Add User</button>
+                            <button type="button" class="btn btn-primary searchable" name="button" data-searchable="cars">Add Car</button>
                           @endif
                       @endif
                       </div>
