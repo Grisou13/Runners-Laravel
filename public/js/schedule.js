@@ -29,7 +29,6 @@ function _getDates(startDate, stopDate) {
     }
     return dateArray;
 }
-
 function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
     // refer to https://kangax.github.io/compat-table/es6/#webkit for compatibility
@@ -56,20 +55,13 @@ var cellListener = function(){
     //var endHour = schedule[parseInt(cell[1]) + 1];
     var date = cell.splice(2,3).join("-");
     console.log(this);
-    /*if(cellAssignes){
-        // Ajax
-    }else{
-        // Ajax
-    }*/
-    //groups.map()
-    //selectedGroup = groups.id
+
     let selGrp = groups.filter(function(x){
         return x.id == groupId;
     })[0];
 
     if(this.dataset.assigned === "true"){
         let url = window.Laravel.basePath + "/api/schedules/" + this.dataset.scheduleId + "?token=root";
-        // console.log(this.dataset.scheduleId);
         this.dataset.assigned = "false";
         this.style.backgroundColor = "white";
         ajaxRequest("delete", url, "", console.log);
@@ -81,8 +73,15 @@ var cellListener = function(){
             "start_time": date + " " + startHour,
             "end_time": date + " " + endHour,
             "group": groupId
-        }
-        ajaxRequest("post", url, data, console.log);
+        };
+        var cell = this
+        let assignDataId = function(scheduleCreated){
+
+            cell.dataset.scheduleId = scheduleCreated.id;
+        };
+        ajaxRequest("post", url, data, assignDataId);
+
+
     }
 
 };
@@ -121,10 +120,8 @@ function createTable(schedule, groups, day){
         schedule.forEach(function(hour){
             var td = document.createElement("td");
             td.setAttribute("id", group.id + "-" + schedule.indexOf(hour) + "-" + day);
-            //TODO assign color if schedule
-            //TODO assign to databaset schedule.id
-            // is our row assigned ?
 
+            // is our row assigned ?
             td.dataset.assigned = "false";
             if(typeof group.schedules !== 'undefined' && group.schedules.length > 0){
                 group.schedules.forEach(function(p){
@@ -154,6 +151,12 @@ function createGrid(schedule, days, groups){
 
     days.forEach(function(day){
         var dayTable = createTable(schedule, groups, day);
+        moment.lang("fr");
+        let div = document.createElement("div");
+        div.innerHTML = moment(day).format("LL");
+        div.className = "dayDiv";
+        div.style.fontSize = "25px";
+        container.appendChild(div);
         container.appendChild(dayTable);
     });
 }
@@ -172,18 +175,6 @@ function getAllDays(){
     //ajax
     //for the moment, we only return an array of dates from now in one week
     return _getDates(moment().format(), moment().add(1, "week").format());
-}
-/*
- * Return all the schedules in a given day
- */
-function getSchedulePerDay(day){
-    //TODO
-    //ajax
-}
-
-function addSchedule(day, group){
-    //TODO
-    //ajax
 }
 
 /*
