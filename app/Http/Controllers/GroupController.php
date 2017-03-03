@@ -24,11 +24,8 @@ class GroupController extends Controller
         $alphabet = Helper::mkrange("A", "ZZ");
 
         // Get all the groups that have at least one active user
-        $groups = Group::whereHas("users", function($query){
-            $query->where("stat", "Actif");
-        })->get();
+        $groups = Group::with("users")->actifUser()->get();
 
-        
         $i = 0;
         foreach($groups as $g){
             // add the label (groups name)
@@ -37,7 +34,7 @@ class GroupController extends Controller
         }
 
         // get the users wihout groups. Theses users are in the "no group" container
-        $usersWithoutGroup = User::whereNull("group_id")->where("stat", "Actif")->get();
+        $usersWithoutGroup = User::whereNull("group_id")->get();
 
         return view('group.index', ["groups" => $groups, "no_group" => $usersWithoutGroup]);
     }

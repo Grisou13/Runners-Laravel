@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Thomas.RICCI
- * Date: 03.02.2017
- * Time: 14:54
+ * Date: 17.02.2017
+ * Time: 14:25
  */
 
 namespace Api\Responses\Transformers;
@@ -16,8 +16,10 @@ class GroupTransformer extends TransformerAbstract
 {
   public function transform(Group $group)
   {
-    return [
-      "name"=>$group->name
-    ];
+    return array_merge($group->toArray(),[]);
+  }
+  public function includeSchedules(Group $group)
+  {
+    return $this->collection($group->schedules, new ScheduleTransformer);
   }
 }

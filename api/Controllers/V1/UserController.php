@@ -17,28 +17,18 @@ use App\Http\Requests\UpdateUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 
-use Unlu\Laravel\Api\QueryBuilder;
-use Api\Requests\Filtering\RequestFilter;
-
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UserController extends BaseController
 {
     public function index(Request $request)
     {
-//        $queryBuilder = new StatusFilterable(new User, $request);
-//        if($request->has("page") || $request->has("limit"))
-//          return $queryBuilder->build()->paginate();
-//
-//        return $this->response()->collection($queryBuilder->build()->get(), new UserTransformer);
-      if($request->has("limit"))
-          return $this->response()->paginator(User::paginate($request->get("limit")), new UserTransformer);
-      return $this->response()->collection(User::all(), new UserTransformer);
+        return User::all();
 
     }
     public function show(Request $request, User $user)
     {
-      return $this->response()->item($user,new UserTransformer);
+        return $user;
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -51,15 +41,25 @@ class UserController extends BaseController
         $user = new User;
         $user->fill($request->all());
         $user->save();
-        return $this->response()->created();
+        return $this->response()->created(route("users.show"),$user);
     }
     public function delete(User $user)
     {
         return $user->delete();
     }
-    public function me()
+
+    public function addGroup(Request $request, User $user)
     {
-        return $this->user();
+        $group = Group::findOrFail($request->get("group"));
+        $user->group()->associate($group);
+    }
+    public function changeGroup(Request $request, User $user, Group $group)
+    {
+        $user->group()->associate($group);
+    }
+    public function removeGroup(Request $request, User $user)
+    {
+        $user->group()->dissociate();
     }
 
 }

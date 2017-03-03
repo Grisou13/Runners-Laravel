@@ -10,31 +10,21 @@ namespace Api\Controllers\V1;
 
 
 use Api\Controllers\BaseController;
-use Api\Requests\Filtering\RequestFilter;
 use App\Run;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Unlu\Laravel\Api\QueryBuilder;
+use Api\Responses\Transformers\RunTransformer;
 
 class RunController extends BaseController
 {
   
     public function index(Request $request)
     {
-      $queryBuilder = new RequestFilter(new Run, $request);
-      if($request->has("page") || $request->has("limit"))
-        return $queryBuilder->build()->paginate();
-      return $queryBuilder->build()->get();
+      return $this->response()->collection(Run::all(), new RunTransformer);
     }
     public function show(Request $request, Run $run)
     {
-      $queryBuilder = new RequestFilter($run, $request);
-      //return $user;
-      $user = $queryBuilder->build()->get();
-      if($user->count() != 1)//just in case something happens during the querying of the model
-        throw new HttpException("sorry bru");
-      return $user->first();//we need to get the index 0, since RequestFilter can only use a global query ->returns a list of 1 item
+      return $run;
     }
 
     public function update(Request $request, Run $run)
@@ -45,6 +35,63 @@ class RunController extends BaseController
     public function store(Request $request)
     {
         $run = new Run;
+        // TODO: create run if runners are provided for car_type, and/or cars
+        // For now this is not taken car of
+
+        /**
+        * Waypoint is an array containing a waypoint id, and the order
+        * [
+        *   ["id"=>WaypointId,"order"=>integer]
+        * ]
+        * @var $waypoints Array
+        */
+        $waypoints = $request->get("waypoints");
+        foreach($waypoints as $point)
+        {
+          $run->waypoints()->attach(Waypoint::find($point["id"]),["order"=>$point["order"]]);
+        }
+        if($request->has("runners"))
+        {
+          /**
+          * Same as waypoints except doesn't have order
+          * [
+          *  ["id"=>integer]
+          * ]
+          * @var $runners Array
+          */
+          $runners = $request->get("runners");
+          foreach($runners as $runner){
+            $run->runners()->attach(User::find($runner["id"]));
+          }
+        }
+        if($request->has("car_types"))
+        {
+          /**
+          * Same as waypoints except doesn't have order
+          * [
+          *  ["id"=>integer]
+          * ]
+          * @var $types Array
+          */
+          $types = $request->get("car_types");
+          foreach($types as $type){
+            $run->car_types()->attach(User::find($type["id"]));
+          }
+        }
+        if($request->has("cars"))
+        {
+          /**
+          * Same as waypoints except doesn't have order
+          * [
+          *  ["id"=>integer]
+          * ]
+          * @var $cars Array
+          */
+          $cars = $request->get("cars");
+          foreach($cars as $car){
+            $run->cars()->attach(User::find($car["id"]));
+          }
+        }
         $run->fill($request->all());
         $run->save();
         return $this->response()->created();

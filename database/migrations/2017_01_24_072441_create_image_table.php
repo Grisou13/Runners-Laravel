@@ -19,6 +19,9 @@ class CreateImageTable extends Migration
         $table->string('filename');
         $table->string('original');
         $table->string('type'); // type is a varchar because it allows to filter more easily in the api
+        $table->integer('user_id')->unsigned();
+        $table->foreign("user_id")->references("id")->on("users");
+        $table->softDeletes();
       });
     }
 

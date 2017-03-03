@@ -21,7 +21,7 @@
                             <strong>{{ $errors->first('user') }}</strong>
                         </span>
                 @endif
-                <button type="submit" disabled class="btn btn-default col-md-7"><span>Add comment</span></button>
+                <input type="submit" disabled class="btn btn-default col-md-7" value="Add Comment" />
             </div>
             {{ csrf_field() }}
         </div>
