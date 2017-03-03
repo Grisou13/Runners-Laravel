@@ -29,7 +29,6 @@ function _getDates(startDate, stopDate) {
     }
     return dateArray;
 }
-
 function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
     // refer to https://kangax.github.io/compat-table/es6/#webkit for compatibility
@@ -55,42 +54,33 @@ var cellListener = function(){
 
     //var endHour = schedule[parseInt(cell[1]) + 1];
     var date = cell.splice(2,3).join("-");
-    console.log(this)
-    /*if(cellAssignes){
-        // Ajax
-    }else{
-        // Ajax
-    }*/
-    //groups.map()
-    //selectedGroup = groups.id
+    console.log(this);
+
     let selGrp = groups.filter(function(x){
         return x.id == groupId;
     })[0];
 
     if(this.dataset.assigned === "true"){
-
-        console.log(this)
-        // DELETE    | /api/groups/{group}/schedules/{schedule}
-        // ajaxRequest(method, url, data, callback);
-        let url = window.Laravel.basePath + "/api/groups"+groupId+"/schedules/";
-
+        let url = window.Laravel.basePath + "/api/schedules/" + this.dataset.scheduleId + "?token=root";
         this.dataset.assigned = "false";
         this.style.backgroundColor = "white";
-
+        ajaxRequest("delete", url, "", console.log);
     }else{
         this.dataset.assigned = "true";
         this.style.backgroundColor = "#" + selGrp.color;
-
-        let url = window.Laravel.basePath + "/api/groups/"+groupId+"/schedules?token=root"
-
+        let url = window.Laravel.basePath + "/api/groups/"+groupId+"/schedules?token=root";
         let data = {
             "start_time": date + " " + startHour,
             "end_time": date + " " + endHour,
             "group": groupId
-        }
+        };
+        var cell = this
+        let assignDataId = function(scheduleCreated){
 
-        ajaxRequest("post", url, data, console.log);
-        console.log("prout")
+            cell.dataset.scheduleId = scheduleCreated.id;
+        };
+        ajaxRequest("post", url, data, assignDataId);
+
 
     }
 
@@ -130,19 +120,15 @@ function createTable(schedule, groups, day){
         schedule.forEach(function(hour){
             var td = document.createElement("td");
             td.setAttribute("id", group.id + "-" + schedule.indexOf(hour) + "-" + day);
-            //TODO assign color if schedule
-            //TODO assign to databaset schedule.id
-            // is our row assigned ?
 
+            // is our row assigned ?
             td.dataset.assigned = "false";
             if(typeof group.schedules !== 'undefined' && group.schedules.length > 0){
                 group.schedules.forEach(function(p){
                     let datetime = p.start_time.split(" ");
                     if((datetime[0] === day) && (datetime[1] === hour+":00")){
-                        console.log("fuck it i leave");
-                        console.log(datetime[0]);
-                        console.log(datetime[1]);
                         td.style.backgroundColor = "#" + group.color;
+                        td.dataset.scheduleId = p.id;
                         td.dataset.assigned = "true";
                     }
                 })
@@ -165,6 +151,12 @@ function createGrid(schedule, days, groups){
 
     days.forEach(function(day){
         var dayTable = createTable(schedule, groups, day);
+        moment.lang("fr");
+        let div = document.createElement("div");
+        div.innerHTML = moment(day).format("LL");
+        div.className = "dayDiv";
+        div.style.fontSize = "25px";
+        container.appendChild(div);
         container.appendChild(dayTable);
     });
 }
@@ -184,18 +176,6 @@ function getAllDays(){
     //for the moment, we only return an array of dates from now in one week
     return _getDates(moment().format(), moment().add(1, "week").format());
 }
-/*
- * Return all the schedules in a given day
- */
-function getSchedulePerDay(day){
-    //TODO
-    //ajax
-}
-
-function addSchedule(day, group){
-    //TODO
-    //ajax
-}
 
 /*
 * Contains all the day that have been changed in te grid.
@@ -211,5 +191,5 @@ var schedule = ["08:00", "10:00",
                 "04:00", "06:00"];
 
 var groups = getAllGroups();
-
+// console.log(groups);
 createGrid(schedule, days, groups);
