@@ -25,7 +25,7 @@ class GroupController extends Controller
 
         // Get all the groups that have at least one active user
         $groups = Group::with("users")->actifUser()->get();
-
+//        $groups = Group::with("users")->get();
         $i = 0;
         foreach($groups as $g){
             // add the label (groups name)

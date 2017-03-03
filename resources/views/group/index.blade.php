@@ -23,6 +23,7 @@
     <!-- Display each group -->
     <div class="row " id="group-container">
         @foreach($groups as $group)
+
             @if($loop->iteration % 6 == 1)
     </div>
     <div class="row">
