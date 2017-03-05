@@ -18,9 +18,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * This model is used to link a run to a car and/or a car type, with a runner
  * @package App
  */
-class RunDriver extends Model
+class RunDriver extends Pivot
 {
-  use StatusConcern;
+
   public $table = "run_drivers";
   public $fillable = ["status","car_id","run_id","car_type_id","user_id"];
   public $hidden = ["id"];
