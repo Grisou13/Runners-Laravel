@@ -6,7 +6,7 @@
  * Time: 08:33
  */
 namespace Api;
-use App\User;
+use Lib\Models\User;
 use Dingo\Api\Auth\Provider\Authorization;
 use Dingo\Api\Http\InternalRequest;
 use Dingo\Api\Routing\Route;
