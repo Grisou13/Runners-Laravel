@@ -29,6 +29,9 @@ function _getDates(startDate, stopDate) {
     }
     return dateArray;
 }
+function _updateSchedule(newSchedule){
+    // do stuff hre
+}
 function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
     // refer to https://kangax.github.io/compat-table/es6/#webkit for compatibility
@@ -201,15 +204,15 @@ function editSchedule(currentSchedule){
     };
     var changeSchedule = function(){
         let newDiff = document.getElementById("sch").value;
-        if(newDiff != diff.toString()){
-            console.log("we chaaange");
-        }
+        //TODO check if val is different that the one actually used.
+        
+        _updateSchedule(newDiff);
+
         console.log(newDiff);
         let alertElement = document.createElement("div");
         if(!newDiff){
             alertElement.innerHTML = "No Value.."
         }
-
         container[0].appendChild(alertElement);
     };
     diffElement.innerHTML = "Tranche actuelle : " + diff.toString() + " H.";
