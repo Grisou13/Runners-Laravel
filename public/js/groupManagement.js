@@ -15,8 +15,11 @@ var drake = null;
 function getNewGroup(){
     var base_path = window.Laravel.basePath;
     var url = base_path + "/api/groups?token=root";
-    var success = function(data) {
-        console.log("background-color : " + data["color"] + " !important;");
+
+    var success = function(created) {
+        data = created.data;
+        console.log(data);
+        // console.log("background-color : " + data["color"] + " !important;");
 
         // create a new container
         var newContainer = document.createElement("div");
@@ -37,8 +40,15 @@ function getNewGroup(){
 
         drake.containers.push(newContainer);
     };
+    window.api.post("/groups",{})
+        .then(function(res){
+            console.log("worked");
+            success(res);
+        })  .catch(function (error) {
+        console.log(error);
+    });
 
-    ajaxRequest(url, {}, success, "post")
+    // ajaxRequest(url, {}, success, "post")
 }
 
 function addUserToGroup(userID, groupID) {
@@ -54,7 +64,7 @@ function addUserToGroup(userID, groupID) {
             console.log(res);
         })  .catch(function (error) {
         console.log(error);
-    });;
+    });
     //ajaxRequest(url,{user:userID}, success, "patch");
 }
 
@@ -75,7 +85,6 @@ function removeUserFromGroup(userID, groupID) {
 }
 
 function ajaxRequest(url, data, callback, method) {
-
     return $.ajax({
         url: url,
         type: method,
@@ -119,7 +128,7 @@ drake.on("drop", function(el, target, source, sibling){
     userID = el.id;
     destGroupdID = target.id.replace("container-", "");
     sourceGroupID = source.id.replace("container-", "");
-    // update the user in the model
+    // update e user in the model
     if(destGroupdID == "null"){
         removeUserFromGroup(userID, sourceGroupID);
     }else{
