@@ -15,8 +15,9 @@ use Api\Responses\Transformers\UserTransformer;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
-
+use Image as Intervention;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends BaseController
 {
@@ -24,6 +25,14 @@ class UserController extends BaseController
     {
         return User::all();
 
+    }
+    public function image(Request $request, User $user)
+    {
+      if($user->profileImage() == null)
+        throw new NotFoundHttpException("unable to find image of user {$user->id}");
+      $imagePath = public_path("images/".$user->profileImage()->filename);
+      $img = Intervention::make($imagePath);
+      return $img->response();
     }
     public function show(Request $request, User $user)
     {

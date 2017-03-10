@@ -36,7 +36,7 @@ class BaseResourceController extends BaseController
         $run = new Run;
         $sub = new RunSubscription;
         // TODO: create run if runners are provided for car_type, and/or cars
-        // For now this is not taken car of
+        // For now this is not taken care of
 
         /**
         * Waypoint is an array containing a waypoint id, and the order

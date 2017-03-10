@@ -9,11 +9,12 @@
 namespace Api\Responses\Transformers;
 
 use League\Fractal\TransformerAbstract;
+use Lib\Models\Car;
 
 class CarTransformer extends TransformerAbstract
 {
   public function transform(Car $car)
   {
-    return [];
+    return array_merge($car->toArray(),[]);
   }
 }

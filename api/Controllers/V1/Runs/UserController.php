@@ -9,13 +9,34 @@
 namespace Api\Controllers\V1\Runs;
 
 use Api\Controllers\BaseController;
+use App\Http\Requests\CarJoinRequest;
+use App\Http\Requests\UserJoinRequest;
 use Lib\Models\Run;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Http\Request;
 use Api\Responses\Transformers\RunTransformer;
+use Lib\Models\RunSubscription;
+use Lib\Models\User;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends BaseController
 {
+  /**
+   * Adds a car to a user for a run
+   * @param CarJoinRequest $request
+   */
+    public function join(CarJoinRequest $request, Run $run, User $user)
+    {
+      $sub = RunSubscription::where("user_id",$user->id)->andWhere("run_id",$run->id)->firstOrFail();
+      $sub->car()->associate($request->get("id"))->save();
+      return $sub;
+    }
+    public function unjoin(Request $request, Run $run, User $user)
+    {
+      $sub = RunSubscription::where("user_id",$user->id)->andWhere("run_id",$run->id)->firstOrFail();
+      $sub->user()->dissociate();
+
+    }
     public function index(Request $request)
     {
       return $this->response()->collection(Run::all(), new RunTransformer);

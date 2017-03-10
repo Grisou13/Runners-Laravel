@@ -5,6 +5,7 @@
 namespace Api;
 
 use Api\ApiAuthProvider;
+use Api\Responses\Transformers\UserTransformer;
 use App\Providers\RouteServiceProvider;
 use Dingo\Api\Exception\ValidationHttpException;
 use Dingo\Api\Transformer\Adapter\Fractal;
@@ -14,6 +15,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException as LaravelValidationException;
 use League\Fractal\Manager;
 use League\Fractal\Serializer\ArraySerializer;
+use Lib\Models\RunSubscription;
+use Lib\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApiServiceProvider extends RouteServiceProvider
@@ -89,7 +92,13 @@ class ApiServiceProvider extends RouteServiceProvider
         app('Dingo\Api\Exception\Handler')->register(function (\Watson\Validating\ValidationException $exception) {
             throw new ValidationHttpException($exception->validator->errors() ,$previous = $exception);
         });
-
+        $this->registerModelBindings();
+    }
+    protected function registerModelBindings()
+    {
+      app('Dingo\Api\Transformer\Factory')->register(User::class, UserTransformer::class);
+      app('Dingo\Api\Transformer\Factory')->register(RunSubscription::class, RunSu::class);
+  
     }
 
     /**

@@ -1,0 +1,71 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Thomas.RICCI
+ * Date: 10.03.2017
+ * Time: 10:58
+ */
+
+namespace Api\Controllers\V1\Runs;
+
+
+use Dingo\Api\Http\Request;
+use Lib\Models\Car;
+use Lib\Models\CarType;
+use Lib\Models\Run;
+use Lib\Models\RunSubscription;
+use Lib\Models\User;
+
+class SubscriptionController
+{
+  public function index(Run $run)
+  {
+    return $run->subscriptions;
+  }
+  public function store(Request $request, Run $run)
+  {
+    $sub = new RunSubscription;
+    
+    if($request->has("user"))
+      $sub->user()->associate($request->get("user"));
+    if($request->has("car"))
+      $sub->car()->associate($request->get("car"));
+    if($request->has("car_type"))
+      $sub->car_type()->associate($request->get("car_type"));
+    
+    $sub->fill($request->except(["_token","token"]));
+    $sub->run()->associate($run);
+    $sub->save();
+    return $sub;
+  }
+  public function update(Request $request, RunSubscription $sub)
+  {
+    //runners / users
+    if($request->has("user"))
+      if($request->get("user") == null)
+        $sub->user()->dissociate();
+      else
+        $sub->user()->associate($request->get("user"));
+    //cars
+    if($request->has("car"))
+      if($request->get("car") == null)
+        $sub->car()->dissociate();
+      else
+        $sub->car()->associate($request->get("car"));
+    //car types
+    if($request->has("car_type"))
+      if($request->get("car_type") == null)
+        $sub->car_type()->dissociate();
+      else
+        $sub->car_type()->associate($request->get("car_type"));
+    
+    $data = $request->except(["token","_token","user","car_type","car"]);
+    
+    $sub->update($data);
+    return $sub;
+  }
+  public function delete(RunSubscription $sub)
+  {
+    $sub->delete();
+  }
+}

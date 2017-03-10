@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Observers\RunObserver;
 use Illuminate\Support\ServiceProvider;
+use Lib\Models\Run;
+use Lib\Models\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Run::observe(RunObserver::class);
     }
 
     /**
