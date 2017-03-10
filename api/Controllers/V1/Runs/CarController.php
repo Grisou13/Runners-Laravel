@@ -6,7 +6,7 @@
  * Time: 13:44
  */
 
-namespace Api\Controllers\V1;
+namespace Api\Controllers\V1\Runs;
 
 
 use Api\Controllers\BaseController;
@@ -15,7 +15,7 @@ use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Http\Request;
 use Api\Responses\Transformers\RunTransformer;
 
-class RunController extends BaseController
+class CarController extends BaseController
 {
     public function index(Request $request)
     {
@@ -60,7 +60,7 @@ class RunController extends BaseController
           */
           $runners = $request->get("runners");
           foreach($runners as $runner){
-            $run->runners()->attach(User::find($runner["id"]));
+            $run->users()->attach(User::find($runner["id"]));
           }
         }
         if($request->has("car_types"))

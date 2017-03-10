@@ -14,6 +14,14 @@
 
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(\App\Schedule::class,function(Faker\Generator $faker){
+    $start = \Carbon\Carbon::now("-1h");
+    return [
+        "start_time"=>$start,
+        "end_time"=>$faker->dateTimeBetween("now","+5h"),
+        "group_id"=>factory(\App\Group::class)->create()->id,
+    ];
+});
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 

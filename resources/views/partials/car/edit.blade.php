@@ -72,7 +72,6 @@ User: Joel.DE-SOUSA
                           <div class="col-md-3 col-md-push-1">
                               <a href="{{ route("cars.index") }}" class="btn btn-danger">Cancel</a>
                           </div>
-
                       </div>
                     </div>
                 @endif

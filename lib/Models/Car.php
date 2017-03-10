@@ -2,7 +2,7 @@
 /**
 * User : Joël.DE-SOUSA
 */
-namespace App;
+namespace Lib\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,6 +21,11 @@ class Car extends Model
     public function car_type()
     {
         return $this->belongsTo(CarType::class,$localKey="car_type_id");
+    }
+    public function runs()
+    {
+      return $this->hasManyThrough(Run::class, RunDriver::class,
+                                  "id","id","id");
     }
     public function comments()
     {

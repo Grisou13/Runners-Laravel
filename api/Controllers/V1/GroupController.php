@@ -9,6 +9,7 @@
 namespace Api\Controllers\V1;
 
 
+use Api\Responses\Transformers\GroupTransformer;
 use App\Group;
 use App\User;
 use Api\Controllers\BaseController;
@@ -20,8 +21,9 @@ class GroupController extends BaseController
 {
     public function index(Request $request)
     {
-        return Group::all();
+        return $this->response()->collection(Group::all(), new GroupTransformer);
     }
+
     public function show(Request $request,Group $group)
     {
       return $group;

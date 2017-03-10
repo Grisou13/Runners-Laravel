@@ -23,6 +23,7 @@
     <!-- Display each group -->
     <div class="row " id="group-container">
         @foreach($groups as $group)
+
             @if($loop->iteration % 6 == 1)
     </div>
     <div class="row">
@@ -51,7 +52,6 @@
                 </div>
             @endforeach
         </div>
-
         <!-- New group -->
         <button type="button" class="btn btn-default disablesecondbutton" onclick="getNewGroup()" disabled>Créer groupe</button>
 

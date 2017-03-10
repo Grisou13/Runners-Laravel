@@ -48,6 +48,7 @@ class Status{
    * @return string
    */
   public static function getStatusName($ressource,$name){
+    \Log::debug("CHECKING VALUE OF STATUS : ".$name." IN ".print_r($statuses,true));
     if(is_object($ressource) && method_exists($ressource,"getStatusRessourceType"))
       return config("status.".$ressource->getStatusRessourceType().".".$name);
     else

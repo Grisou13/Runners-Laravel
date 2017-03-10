@@ -2,7 +2,7 @@
 /**
  * User: Eric.BOUSBAA
  */
-namespace App;
+namespace Lib\Models;
 
 use App\Helpers\Status;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +22,16 @@ class Group extends Model
     }
     public function scopeActifUser($query){
       return $query->whereHas("users",function($q){
-        $q->where("status",Status::getUserStatus("actif"));
+        $q->where("status",Status::getUserStatus("active_user"));
       });
     }
+
+    public function schedules(){
+        return $this->hasMany(Schedule::class);
+    }
+
+
+//    public function schedules(){
+//        return $this->belongsToMany(Schedule::class);
+//    }
 }

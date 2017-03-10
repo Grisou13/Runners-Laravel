@@ -10,6 +10,8 @@ namespace Api\Controllers\V1;
 
 
 use Api\Controllers\BaseController;
+use Api\Requests\Filtering\StatusFilterable;
+use Api\Responses\Transformers\UserTransformer;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\User;
