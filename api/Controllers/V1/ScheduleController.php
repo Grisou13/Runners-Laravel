@@ -8,10 +8,10 @@
 namespace Api\Controllers\V1;
 
 use Api\Responses\Transformers\ScheduleTransformer;
-use App\Group;
+use Lib\Models\Group;
+use Lib\Models\Schedule;
 use App\Http\Requests\CreateScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
-use App\Schedule;
 use Api\Controllers\BaseController;
 use Illuminate\Http\Request;
 

@@ -8,7 +8,6 @@
 
 namespace Api\Responses;
 
-
 use Dingo\Api\Http\Response\Format\Format as DefaultFormat;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;

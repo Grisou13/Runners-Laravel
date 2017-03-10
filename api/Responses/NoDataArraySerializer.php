@@ -8,7 +8,6 @@
 
 namespace Api\Responses;
 
-
 use League\Fractal\Serializer\ArraySerializer;
 
 class NoDataArraySerializer extends ArraySerializer

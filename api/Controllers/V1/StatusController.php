@@ -8,7 +8,6 @@
 
 namespace Api\Controllers\V1;
 
-
 use Api\Controllers\BaseController;
 
 class StatusController extends BaseController

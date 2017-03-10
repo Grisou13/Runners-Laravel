@@ -8,10 +8,9 @@
 
 namespace Api\Controllers\V1;
 
-
 use Api\Responses\Transformers\GroupTransformer;
-use App\Group;
-use App\User;
+use Lib\Models\Group;
+use Lib\Models\User;
 use Api\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
