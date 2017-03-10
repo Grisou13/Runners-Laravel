@@ -50,7 +50,6 @@ var cellListener = function(){
     var startHour = schedule[cell[1]];
 
     var endHour = cell[1] == schedule.length - 1 ? schedule[0] : schedule[parseInt(cell[1]) + 1];
-    console.log(endHour);
 
     //var endHour = schedule[parseInt(cell[1]) + 1];
     var date = cell.splice(2,3).join("-");
@@ -151,7 +150,7 @@ function createGrid(schedule, days, groups){
 
     days.forEach(function(day){
         var dayTable = createTable(schedule, groups, day);
-        moment.lang("fr");
+        moment.locale("fr");
         let div = document.createElement("div");
         div.innerHTML = moment(day).format("LL");
         div.className = "dayDiv";
@@ -177,6 +176,66 @@ function getAllDays(){
     return _getDates(moment().format(), moment().add(1, "week").format());
 }
 
+function editSchedule(currentSchedule){
+    var _diff = function(hor1, hor2){
+        let r = parseInt(hor1) - parseInt(hor2);
+        if(r < 0){
+            r = Math.abs(r);
+        }
+        return r;
+    };
+
+    var container = document.getElementsByClassName("schedule-edit");
+    var diffElement = document.createElement("div");
+    let sel = currentSchedule[0];
+    var diff = _diff(sel, currentSchedule[currentSchedule.indexOf(sel)+1]);
+    var typingValidation = function(){
+        // Button is clickable only if we have a value
+        if(document.getElementById("sch").value){
+            document.getElementById("sch-validate").disabled = false;
+            document.getElementById("sch-validate").style.opacity = "1";
+        }else{
+            document.getElementById("sch-validate").disabled = true;
+            document.getElementById("sch-validate").style.opacity = "0.8";
+        }
+    };
+    var changeSchedule = function(){
+        let newDiff = document.getElementById("sch").value;
+        if(newDiff != diff.toString()){
+            console.log("we chaaange");
+        }
+        console.log(newDiff);
+        let alertElement = document.createElement("div");
+        if(!newDiff){
+            alertElement.innerHTML = "No Value.."
+        }
+
+        container[0].appendChild(alertElement);
+    };
+    diffElement.innerHTML = "Tranche actuelle : " + diff.toString() + " H.";
+    diffElement.style.fontSize = "20px";
+    container[0].appendChild(diffElement);
+
+    var changeElement = document.createElement("input");
+    changeElement.type = "time";
+    changeElement.setAttribute("id", "sch");
+    changeElement.onchange = typingValidation;
+    container[0].appendChild(changeElement);
+
+    var validateElement = document.createElement("input");
+    validateElement.type = "submit";
+    validateElement.setAttribute("id", "sch-validate");
+    validateElement.disabled = true;
+    validateElement.style.opacity = "0.7";
+    validateElement.onclick = changeSchedule;
+    container[0].appendChild(validateElement);
+    // currentSchedule.forEach(function(schedule){
+    //     // console.log(currentSchedule.indexOf(schedule));
+    //     // let i = document.createElement("input");
+    //     // i.setAttribute()
+    // });
+}
+
 /*
 * Contains all the day that have been changed in te grid.
 * We only read and update the days in this array
@@ -193,3 +252,5 @@ var schedule = ["08:00", "10:00",
 var groups = getAllGroups();
 // console.log(groups);
 createGrid(schedule, days, groups);
+editSchedule(schedule);
+

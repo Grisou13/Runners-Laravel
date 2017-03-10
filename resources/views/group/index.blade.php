@@ -11,7 +11,7 @@
 @endpush
 @section("content")
 
-<div class="container">
+<div class="l">
     <div class="row" >
         <div class="col-md-1">
             <a href="#" class="btn btn-danger pull-left closed" id="padlock" role="button" onclick="enable()">
