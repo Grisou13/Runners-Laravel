@@ -8,8 +8,7 @@
 
 namespace Api\Responses\Transformers;
 
-
-use App\User;
+use Lib\Models\User;
 use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract

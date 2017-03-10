@@ -8,8 +8,7 @@
 
 namespace Api\Responses\Transformers;
 
-
-use App\Schedule;
+use Lib\Models\Schedule;
 use League\Fractal\TransformerAbstract;
 
 class ScheduleTransformer extends TransformerAbstract

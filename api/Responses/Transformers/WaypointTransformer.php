@@ -8,9 +8,9 @@
 
 namespace Api\Responses\Transformers;
 
-
 use League\Fractal\TransformerAbstract;
-use App\Waypoint;
+use Lib\Models\Waypoint;
+
 class WaypointTransformer extends TransformerAbstract
 {
   public function transform(Waypoint $point)

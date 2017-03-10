@@ -8,8 +8,7 @@
 
 namespace Api\Responses\Transformers;
 
-
-use App\Group;
+use Lib\Models\Group;
 use League\Fractal\TransformerAbstract;
 
 class GroupTransformer extends TransformerAbstract

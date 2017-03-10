@@ -8,7 +8,6 @@
 
 namespace Api\Requests\Filtering;
 
-
 use Illuminate\Database\Eloquent\Builder;
 
 class StatusFilterable extends RequestFilter

@@ -8,8 +8,7 @@
 
 namespace Api\Controllers\V1;
 
-
-use App\Itinerary;
+use Lib\Models\Itinerary;
 
 class ItineraryController
 {

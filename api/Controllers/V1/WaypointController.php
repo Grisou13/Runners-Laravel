@@ -8,9 +8,8 @@
 
 namespace Api\Controllers\V1;
 
-
-use App\Waypoint;
-use App\User;
+use Lib\Models\Waypoint;
+use Lib\Models\User;
 use Api\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
