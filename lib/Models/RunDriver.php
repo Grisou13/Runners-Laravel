@@ -6,8 +6,7 @@
  * Time: 14:28
  */
 
-namespace App;
-
+namespace Lib\Models;
 
 use App\Concerns\StatusConcern;
 use Illuminate\Database\Eloquent\Model;

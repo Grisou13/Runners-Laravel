@@ -2,8 +2,7 @@
 /**
 *User: Joel.DE-SOUSA
 */
-namespace App;
-
+namespace Lib\Models;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;

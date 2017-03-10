@@ -2,8 +2,7 @@
 /**
  * User: Eric.BOUSBAA
  */
-namespace App;
-
+namespace Lib\Models;
 use App\Helpers\Status;
 use Illuminate\Database\Eloquent\Model;
 
