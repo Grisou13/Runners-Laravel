@@ -1,7 +1,9 @@
 <?php
 
 namespace Api\Controllers\V1;
+
 use Api\Controllers\BaseController as Base;
+
 class AuthenticatedUserController extends Base
 {
   public function __construct()

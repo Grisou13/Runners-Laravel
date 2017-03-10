@@ -8,9 +8,8 @@
 
 namespace Api\Controllers\V1\Runs;
 
-
 use Api\Controllers\BaseController;
-use App\Run;
+use Lib\Models\Run;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Http\Request;
 use Api\Responses\Transformers\RunTransformer;
@@ -60,7 +59,7 @@ class CarTypeController extends BaseController
           */
           $runners = $request->get("runners");
           foreach($runners as $runner){
-            $run->runners()->attach(User::find($runner["id"]));
+            $run->users()->attach(User::find($runner["id"]));
           }
         }
         if($request->has("car_types"))

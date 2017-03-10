@@ -14,15 +14,15 @@
 
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(\App\Schedule::class,function(Faker\Generator $faker){
+$factory->define(Lib\Models\Schedule::class,function(Faker\Generator $faker){
     $start = \Carbon\Carbon::now("-1h");
     return [
         "start_time"=>$start,
         "end_time"=>$faker->dateTimeBetween("now","+5h"),
-        "group_id"=>factory(\App\Group::class)->create()->id,
+        "group_id"=>factory(Lib\Models\Group::class)->create()->id,
     ];
 });
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(Lib\Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
@@ -35,31 +35,31 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         "sex"=>$faker->boolean,
         "phone_number"=>$faker->phoneNumber,
         "accesstoken"=>str_random(255),
-        "group_id"=>factory(\App\Group::class)->create()->id,
-        "status"=>\App\Helpers\Status::getUserStatus("actif")
+        "group_id"=>factory(Lib\Models\Group::class)->create()->id,
+        "status"=>Lib\Models\Helpers\Status::getUserStatus("actif")
     ];
 });
 
-$factory->define(App\Car::class, function (Faker\Generator $faker){
+$factory->define(Lib\Models\Car::class, function (Faker\Generator $faker){
     return [
         "plate_number"=>"VD ".$faker->numberBetween(1000000,200000),
         "brand"=>$faker->company,
         "model"=>$faker->word,
         "color"=>$faker->colorName,
         "nb_place"=>$faker->numberBetween(3,7),
-        "car_type_id"=>function(){return factory(App\CarType::class)->create()->id;},
+        "car_type_id"=>function(){return factory(Lib\Models\CarType::class)->create()->id;},
         "name"=>$faker->numberBetween(1,18),
-        "status"=>\App\Helpers\Status::getCarStatus("actif")
+        "status"=>Lib\Models\Helpers\Status::getCarStatus("actif")
     ];
 });
 
-$factory->define(App\CarType::class, function (Faker\Generator $faker){
+$factory->define(Lib\Models\CarType::class, function (Faker\Generator $faker){
     return [
         "name"=>$faker->unique()->word,
         "description"=>$faker->text
     ];
 });
-$factory->define(App\Waypoint::class, function(Faker\Generator $faker){
+$factory->define(Lib\Models\Waypoint::class, function(Faker\Generator $faker){
   $geo = str_replace(["\n","\r"],"",trim("{
                     \"address_components\": [
                     {
@@ -156,11 +156,11 @@ $factory->define(App\Waypoint::class, function(Faker\Generator $faker){
     "geo"=>$geo
   ];
 });
-$factory->define(App\Run::class, function (Faker\Generator $faker){
+$factory->define(Lib\Models\Run::class, function (Faker\Generator $faker){
 
     return [
-        //"user_id"=>function(){return \App\User::find(1)->id;},
-        //"car_id"=>function(){return factory(App\Car::class)->create()->id;},
+        //"user_id"=>function(){return Lib\Models\User::find(1)->id;},
+        //"car_id"=>function(){return factory(Lib\Models\Car::class)->create()->id;},
 //        "geo_from"=>$geoFrom,
 //        "geo_to"=>$geoTo,
         "artist"=>$faker->name,
@@ -169,9 +169,9 @@ $factory->define(App\Run::class, function (Faker\Generator $faker){
         "planned_at"=>$faker->dateTimeBetween("+13 days","+15 days"),
     ];
 });
-$factory->define(App\Group::class, function (Faker\Generator $faker){
+$factory->define(Lib\Models\Group::class, function (Faker\Generator $faker){
     return [
-        "color" => App\Http\Helpers\Helper::getRandomGroupColor(),
+        "color" => Lib\Models\Http\Helpers\Helper::getRandomGroupColor(),
         "active"=>true
     ];
 });

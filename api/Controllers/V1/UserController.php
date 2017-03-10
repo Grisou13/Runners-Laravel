@@ -8,11 +8,12 @@
 
 namespace Api\Controllers\V1;
 
-
 use Api\Controllers\BaseController;
+use Lib\Models\User;
+use Api\Requests\Filtering\StatusFilterable;
+use Api\Responses\Transformers\UserTransformer;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\User;
 use Illuminate\Http\Request;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;

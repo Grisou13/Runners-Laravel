@@ -1,7 +1,6 @@
 <?php
 
-namespace App;
-
+namespace Lib\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class CarType extends Model
@@ -11,7 +10,7 @@ class CarType extends Model
     ];
     public function cars()
     {
-        return $this->belongsToMany(Car::class);
+        return $this->hasMany(Car::class);
     }
     public function getRouteKeyName()
     {

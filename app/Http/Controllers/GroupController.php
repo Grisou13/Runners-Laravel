@@ -7,8 +7,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Helpers\Helper;
-use App\Group;
-use App\User;
+use Lib\Models\Group;
+use Lib\Models\User;
 
 class GroupController extends Controller
 {

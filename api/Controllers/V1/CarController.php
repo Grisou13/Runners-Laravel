@@ -8,10 +8,9 @@
 
 namespace Api\Controllers\V1;
 
-
-use App\Car;
-use App\User;
-use App\Comment;
+use Lib\Models\Car;
+use Lib\Models\User;
+use Lib\Models\Comment;
 use Api\Controllers\BaseController;
 use App\Http\Requests\CreateCarRequest;
 use App\Http\Requests\UpdateCarRequest;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Schedule;
+use Lib\Models\Schedule;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller

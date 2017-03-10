@@ -8,10 +8,10 @@
 
 namespace Api\Controllers\V1;
 
-use App\CarType;
-use App\Car;
-use App\User;
-use App\Run;
+use Lib\Models\CarType;
+use Lib\Models\Car;
+use Lib\Models\User;
+use Lib\Models\Run;
 use Api\Controllers\BaseController;
 use Illuminate\Http\Request;
 

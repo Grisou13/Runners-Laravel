@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
     {
         $sta = \App\Helpers\Status::getUserStatus("actif");
 
-        \App\User::create([
+        Lib\Models\User::create([
             "email"=>"root@localhost",
             "phone_number"=>"",
             "sex"=>true,
@@ -24,9 +24,9 @@ class UserSeeder extends Seeder
             "password"=>bcrypt("root"),
             "status"=>$sta
         ]);
-        factory(\App\User::class,3)->create();
-        factory(\App\User::class,5)->create()->each(function(\App\User $u){
-            $u->group()->associate(factory(\App\Group::class)->make());
+        factory(Lib\Models\User::class,3)->create();
+        factory(Lib\Models\User::class,5)->create()->each(function(Lib\Models\User $u){
+            $u->group()->associate(factory(Lib\Models\User::class)->make());
         });
 //        factory(\App\Schedule::class, 5)->create()->each(function($schedule){
 //            $schedule->group()->associate(Group::find(rand(0,5)));

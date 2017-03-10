@@ -1,7 +1,6 @@
 <?php
 
-namespace App;
-
+namespace Lib\Models;
 use Illuminate\Database\Eloquent\Model;
 use Watson\Validating\ValidatingTrait;
 

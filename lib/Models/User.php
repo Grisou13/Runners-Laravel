@@ -2,8 +2,7 @@
 /**
 *User: Joel.DE-SOUSA
 */
-namespace App;
-
+namespace Lib\Models;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -46,16 +45,15 @@ class User extends Authenticatable implements StatusableContract
 
     public function role()
     {
-        return $this->hasOne(Role::class);
+        return $this->belongsTo(Role::class);
     }
     public function group()
     {
         return $this->belongsTo(Group::class);
     }
-
     public function runs()
     {
-        return $this->hasMany(Run::class);
+        return $this->hasManyThrough(Run::class,RunDriver::class);
     }
     public static function getAccessTokenKey()
     {

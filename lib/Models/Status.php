@@ -1,14 +1,13 @@
 <?php
 
-namespace App;
-
+namespace Lib\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Status extends Model
 {
     protected $fillable = ["name"];
-    public function statable()
+    public function users()
     {
-      return $this->morphTo();
+      return $this->morphedByMany(User::class,"statusable");
     }
 }

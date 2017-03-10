@@ -6,8 +6,7 @@
  * Time: 14:28
  */
 
-namespace App;
-
+namespace Lib\Models;
 
 use App\Concerns\StatusConcern;
 use Illuminate\Database\Eloquent\Model;
@@ -20,9 +19,10 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class RunDriver extends Pivot
 {
-  use StatusConcern;
-  public $table = "run_drivers";
 
+  public $table = "run_drivers";
+  public $fillable = ["status","car_id","run_id","car_type_id","user_id"];
+  public $hidden = ["id"];
 //
 //  protected $fillable = ["status","car_id","user_id","run_id","car_type_id"];
 //

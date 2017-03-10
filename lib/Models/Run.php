@@ -1,7 +1,6 @@
 <?php
 
-namespace App;
-
+namespace Lib\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
@@ -50,7 +49,7 @@ class Run extends Model
     public static function resolveGeoLocationName($geo){
       return $geo["address_components"][0]["short_name"];//force first element of result
     }
-    public function runners()
+    public function users()
     {
         return $this->belongsToMany(User::class,"run_drivers")->using(RunDriver::class)->withPivot(["car_type_id","car_id"]);
     }
@@ -58,10 +57,13 @@ class Run extends Model
     {
         return $this->belongsToMany(Car::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_type_id"]);
     }
-
     public function car_types()
     {
-      return $this->belongsToMany(CarType::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_id"]);
+        return $this->belongsToMany(CarType::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_id"]);
+    }
+    public function subscriptions()
+    {
+        return $this->hasMany(RunSubscription::class);
     }
     public function comments()
     {
