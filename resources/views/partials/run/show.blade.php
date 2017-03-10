@@ -27,7 +27,7 @@
               <!-- This is used only if users are assigned to runs
               but don't have any car type or car assigned,
               otherwise it will show up in the next loops -->
-              @foreach($run->runners as $runner)
+              @foreach($run->users as $runner)
                 @if( $runner->pivot->car == null && $runner->pivot->car_type == null )
                   <div class="row">
 

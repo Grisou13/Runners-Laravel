@@ -56,7 +56,7 @@ function addUserToGroup(userID, groupID) {
     //TODO get users token
     var url = base_path + "/api/groups/" + groupID + "?token=root";
     var success = function(data) {
-        debugger;
+        // debugger;
         console.log(data);
     };
     window.api.patch("/groups/"+groupID,{user:userID})

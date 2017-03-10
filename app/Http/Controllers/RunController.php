@@ -15,7 +15,7 @@ class RunController extends Controller
      */
     public function index()
     {
-        $runs = Run::withCount("waypoints")->with(["waypoints","runners"])->orderBy("planned_at")->get();
+        $runs = Run::withCount("waypoints")->with(["waypoints","users"])->orderBy("planned_at")->get();
         return view("run.index",compact("runs"));
     }
 
