@@ -22,6 +22,11 @@ class Car extends Model
     {
         return $this->belongsTo(CarType::class,$localKey="car_type_id");
     }
+    public function runs()
+    {
+      return $this->hasManyThrough(Run::class, RunDriver::class,
+                                  "id","id","id");
+    }
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');

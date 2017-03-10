@@ -46,16 +46,15 @@ class User extends Authenticatable implements StatusableContract
 
     public function role()
     {
-        return $this->hasOne(Role::class);
+        return $this->belongsTo(Role::class);
     }
     public function group()
     {
         return $this->belongsTo(Group::class);
     }
-
     public function runs()
     {
-        return $this->hasMany(Run::class);
+        return $this->hasManyThrough(Run::class,RunDriver::class);
     }
     public static function getAccessTokenKey()
     {

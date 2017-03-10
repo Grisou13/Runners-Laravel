@@ -20,9 +20,10 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class RunDriver extends Pivot
 {
-  use StatusConcern;
-  public $table = "run_drivers";
 
+  public $table = "run_drivers";
+  public $fillable = ["status","car_id","run_id","car_type_id","user_id"];
+  public $hidden = ["id"];
 //
 //  protected $fillable = ["status","car_id","user_id","run_id","car_type_id"];
 //

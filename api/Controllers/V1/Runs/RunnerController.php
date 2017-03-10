@@ -60,7 +60,7 @@ class RunnerController extends BaseController
           */
           $runners = $request->get("runners");
           foreach($runners as $runner){
-            $run->runners()->attach(User::find($runner["id"]));
+            $run->users()->attach(User::find($runner["id"]));
           }
         }
         if($request->has("car_types"))

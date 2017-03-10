@@ -11,6 +11,7 @@ namespace Api\Controllers\V1\Runs;
 
 use Api\Controllers\BaseController;
 use App\Run;
+use App\RunSubscription;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Http\Request;
 use Api\Responses\Transformers\RunTransformer;
@@ -34,6 +35,7 @@ class BaseResourceController extends BaseController
     public function store(Request $request)
     {
         $run = new Run;
+        $sub = new RunSubscription;
         // TODO: create run if runners are provided for car_type, and/or cars
         // For now this is not taken car of
 
@@ -60,7 +62,7 @@ class BaseResourceController extends BaseController
           */
           $runners = $request->get("runners");
           foreach($runners as $runner){
-            $run->runners()->attach(User::find($runner["id"]));
+            $sub->users()->attach(User::find($runner["id"]));
           }
         }
         if($request->has("car_types"))
@@ -74,7 +76,7 @@ class BaseResourceController extends BaseController
           */
           $types = $request->get("car_types");
           foreach($types as $type){
-            $run->car_types()->attach(User::find($type["id"]));
+            $sub->car_types()->attach(User::find($type["id"]));
           }
         }
         if($request->has("cars"))
@@ -88,10 +90,11 @@ class BaseResourceController extends BaseController
           */
           $cars = $request->get("cars");
           foreach($cars as $car){
-            $run->cars()->attach(User::find($car["id"]));
+            $sub->cars()->attach(User::find($car["id"]));
           }
         }
-        $run->fill($request->all());
+        $run->fill($request->except(["_token","token"]));
+        $run->subscriptions()->save($sub);
         $run->save();
         return $this->response()->created();
     }

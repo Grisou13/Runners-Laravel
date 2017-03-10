@@ -20,6 +20,13 @@ class CreateStatusesTable extends Migration
             $table->string("name");
             $table->string("displayname");
         });
+        
+        Schema::create("statusables",function(Blueprint $table){
+            $table->morphs("statusable");
+          $table->integer("status_id")->references("id")->on("statuses");
+        });
+      Schema::dropIfExists('statuses');
+      Schema::dropIfExists('statusables');
     }
 
     /**

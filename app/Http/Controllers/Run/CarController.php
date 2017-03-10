@@ -1,7 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Run;
+use App\Car;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserJoinRequest;
+use App\Run;
+use App\RunDriver;
+use App\User;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -15,7 +20,17 @@ class CarController extends Controller
     {
         //
     }
-
+    public function join(UserJoinRequest $request, Run $run, Car $car)
+    {
+      $sub = RunDriver::find(["car"=>$car,"run"=>$run]);
+      $sub->user()->associate($request->get("id"))->save();
+      //$run->whereHas("cars",$car)->pivot->user()->associate($request->get("id"))->save();
+    }
+    public function unjoin(UserJoinRequest $request, Run $run, Car $car)
+    {
+      $sub = RunDriver::find(["car"=>$car,"run"=>$run]);
+      $run->whereHas("cars",$car)->first()->pivot->user()->detach($request->get("id"))->save();
+    }
     /**
      * Show the form for creating a new resource.
      *
