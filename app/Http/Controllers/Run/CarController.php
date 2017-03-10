@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Run;
-use App\Car;
+
+use Lib\Models\Car;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserJoinRequest;
-use App\Run;
-use App\RunDriver;
-use App\User;
+use Lib\Models\Run;
+use Lib\Models\RunDriver;
+use Lib\Models\User;
 use Illuminate\Http\Request;
 
 class CarController extends Controller

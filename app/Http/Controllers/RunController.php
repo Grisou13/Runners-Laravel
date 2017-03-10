@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Run;
+use Lib\Models\Run;
 use Dingo\Api\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 

@@ -4,12 +4,12 @@
 */
 namespace App\Http\Controllers;
 
-use App\Comment;
+use Lib\Models\Comment;
 use App\Http\Requests\CreateCommentRequest;
-use App\User;
+use Lib\Models\User;
 use Session;
-use App\Car;
-use App\CarType;
+use Lib\Models\Car;
+use Lib\Models\CarType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
