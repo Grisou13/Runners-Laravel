@@ -3,6 +3,7 @@
  * User: Eric.BOUSBAA
  */
 namespace Lib\Models;
+
 use App\Helpers\Status;
 use Illuminate\Database\Eloquent\Model;
 
