@@ -8,7 +8,6 @@
 
 namespace Api\Responses\Transformers;
 
-
 use League\Fractal\TransformerAbstract;
 
 class CarTransformer extends TransformerAbstract

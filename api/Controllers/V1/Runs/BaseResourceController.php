@@ -8,10 +8,9 @@
 
 namespace Api\Controllers\V1\Runs;
 
-
 use Api\Controllers\BaseController;
-use App\Run;
-use App\RunSubscription;
+use Lib\Models\Run;
+use Lib\Models\RunSubscription;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Http\Request;
 use Api\Responses\Transformers\RunTransformer;

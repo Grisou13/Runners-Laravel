@@ -8,10 +8,8 @@
 
 namespace Api\Responses\Transformers;
 
-
 use League\Fractal\TransformerAbstract;
-use App\Run;
-
+use Lib\Models\Run;
 
 class RunTransformer extends TransformerAbstract
 {
