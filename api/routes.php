@@ -12,6 +12,7 @@ $api->any("/test",function(Illuminate\Http\Request $request){
 });
 $api->get("/","HomeController@home");
 $api->get("/ping","HomeController@ping");
+
 $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api){
     $api->resource("users",'UserController');
     $api->get("users/{user}/image","UserController@image");

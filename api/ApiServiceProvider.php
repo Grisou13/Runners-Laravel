@@ -5,6 +5,8 @@
 namespace Api;
 
 use Api\ApiAuthProvider;
+use Api\Responses\Transformers\CarTransformer;
+use Api\Responses\Transformers\RunSubscriptionTransformer;
 use Api\Responses\Transformers\UserTransformer;
 use App\Providers\RouteServiceProvider;
 use Dingo\Api\Exception\ValidationHttpException;
@@ -15,6 +17,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException as LaravelValidationException;
 use League\Fractal\Manager;
 use League\Fractal\Serializer\ArraySerializer;
+use Lib\Models\Car;
+use Lib\Models\CarType;
 use Lib\Models\RunSubscription;
 use Lib\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -97,7 +101,9 @@ class ApiServiceProvider extends RouteServiceProvider
     protected function registerModelBindings()
     {
       app('Dingo\Api\Transformer\Factory')->register(User::class, UserTransformer::class);
-      app('Dingo\Api\Transformer\Factory')->register(RunSubscription::class, RunSu::class);
+      app('Dingo\Api\Transformer\Factory')->register(RunSubscription::class, RunSubscriptionTransformer::class);
+      app('Dingo\Api\Transformer\Factory')->register(Car::class, CarTransformer::class);
+      app('Dingo\Api\Transformer\Factory')->register(CarType::class, CarTypeTransformer::class);
   
     }
 

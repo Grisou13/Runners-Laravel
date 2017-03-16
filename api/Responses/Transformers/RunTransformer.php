@@ -13,12 +13,23 @@ use Lib\Models\Run;
 
 class RunTransformer extends TransformerAbstract
 {
-  protected $availableIncludes = [
-    "waypoints"
+  protected $defaultIncludes = [
+    "waypoints",
+    "runners"
   ];
   public function transform(Run $run)
   {
-    return array_merge($run->toArray(),[]);
+    return [
+      "id"=>$run->id,
+      "title"=>$run->name,
+      "begin_date"=>$run->planned_at,
+      "start_at"=>$run->started_at,
+      "end_at"=>$run->ended_at
+    ];
+  }
+  public function includeRunners(Run $run)
+  {
+    return $this->collection($run->subscriptions, new RunSubscriptionTransformer);
   }
   public function includeWaypoints(Run $run)
   {

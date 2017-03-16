@@ -18,8 +18,9 @@ class Run extends Model
     protected $dates = [
         "created_at",
         "updated_at",
-        "start_at",
-        "end_at"
+        "started_at",
+        "ended_at",
+        "planned_at"
     ];
     public function waypoints(){
       //all fields selected in pivot table are prefixed with pivot_*

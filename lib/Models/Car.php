@@ -13,10 +13,18 @@ class Car extends Model
     protected $fillable = [
         "plate_number","brand","model","color","nb_place","comment","name"
     ];
-
-    public function runners()
+    public function user()
     {
-      return $this->hasManyThrough(User::class, RunDriver::class);
+      $car = $this;
+      $subs = RunSubscription::whereHas("car", function($q) use ($car){
+        return $q->where("id",$car->id);
+      })->where("user_id","!=","null")->get();
+      if(!empty($subs))
+        return $subs->first()->user();
+    }
+    public function type()
+    {
+      return $this->car_type();
     }
     public function car_type()
     {
@@ -24,8 +32,7 @@ class Car extends Model
     }
     public function runs()
     {
-      return $this->hasManyThrough(Run::class, RunDriver::class,
-                                  "id","id","id");
+      return $this->belongsToMany(Run::class, "run_drivers")->using(RunDriver::class);
     }
     public function comments()
     {

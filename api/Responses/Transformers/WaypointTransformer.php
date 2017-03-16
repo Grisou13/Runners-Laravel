@@ -15,6 +15,9 @@ class WaypointTransformer extends TransformerAbstract
 {
   public function transform(Waypoint $point)
   {
-    return array_merge($point->toArray(),[]);
+    return [
+      "nickname"=>$point->name,
+      "geocoder"=>$point->geo
+    ];
   }
 }
