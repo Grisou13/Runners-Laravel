@@ -9,13 +9,15 @@
 namespace Api\Controllers\V1\Runs;
 
 use Api\Controllers\BaseController;
+use App\Http\Requests\CreateRunRequest;
+use Carbon\Carbon;
 use Lib\Models\Run;
 use Lib\Models\RunSubscription;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Http\Request;
 use Api\Responses\Transformers\RunTransformer;
 
-class BaseResourceController extends BaseController
+class RunController extends BaseController
 {
     public function index(Request $request)
     {
@@ -31,65 +33,35 @@ class BaseResourceController extends BaseController
         $run->update($request->all());
         return $this->response()->accepted();
     }
-    public function store(Request $request)
+    public function store(CreateRunRequest $request)
     {
         $run = new Run;
         $sub = new RunSubscription;
-        // TODO: create run if runners are provided for car_type, and/or cars
-        // For now this is not taken care of
-
-        /**
-        * Waypoint is an array containing a waypoint id, and the order
-        * [
-        *   ["id"=>WaypointId,"order"=>integer]
-        * ]
-        * @var $waypoints Array
-        */
         $waypoints = $request->get("waypoints");
         foreach($waypoints as $point)
         {
-          $run->waypoints()->attach(Waypoint::find($point["id"]),["order"=>$point["order"]]);
+          $run->waypoints()->attach($point);
         }
         if($request->has("runners"))
         {
-          /**
-          * Same as waypoints except doesn't have order
-          * [
-          *  ["id"=>integer]
-          * ]
-          * @var $runners Array
-          */
+
           $runners = $request->get("runners");
           foreach($runners as $runner){
-            $sub->users()->attach(User::find($runner["id"]));
+            $sub->users()->attach($runner);
           }
         }
         if($request->has("car_types"))
         {
-          /**
-          * Same as waypoints except doesn't have order
-          * [
-          *  ["id"=>integer]
-          * ]
-          * @var $types Array
-          */
           $types = $request->get("car_types");
           foreach($types as $type){
-            $sub->car_types()->attach(User::find($type["id"]));
+            $sub->car_types()->attach($type);
           }
         }
         if($request->has("cars"))
         {
-          /**
-          * Same as waypoints except doesn't have order
-          * [
-          *  ["id"=>integer]
-          * ]
-          * @var $cars Array
-          */
           $cars = $request->get("cars");
           foreach($cars as $car){
-            $sub->cars()->attach(User::find($car["id"]));
+            $sub->cars()->attach($car);
           }
         }
         $run->fill($request->except(["_token","token"]));
@@ -100,5 +72,16 @@ class BaseResourceController extends BaseController
     public function delete(Run $run)
     {
         return $run->delete();
+    }
+    public function start(Request $request,Run $run)
+    {
+        foreach($run->subscriptions as $sub)
+        {
+            if(!$sub->has("car") && $sub->has("user"))
+                return $this->response->errorForbidden("All runners have not been filled, please fill runner $sub->id");
+        }
+        $run->started_at = Carbon::now();
+        return $this->response->accepted();
+
     }
 }

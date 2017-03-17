@@ -41,11 +41,12 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       /**
        * @var $api Dingo\Api\Routing\Router
        */
-      $api->resource("runs","BaseResourceController");
+      $api->resource("runs","RunController");
       $api->resource("runs.waypoints","WaypointController");
       $api->resource("runs.car_types","CarTypeController");
       $api->resource("runs.cars","CarController");
       $api->resource("runs.users","UserController");
+        $api->post("/runs/{run}/start",["as"=>"run.start","uses"=>"RunController"]);
       //adding cars to run
       $api->post("/runs/{run}/cars/{car}/join","CarController@join");
       $api->delete("/runs/{run}/cars/{car}/unjoin","CarController@unjoin");//deletes a user from a car

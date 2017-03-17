@@ -24,15 +24,20 @@ class CreateRunRequest extends FormRequest
     public function rules()
     {
         return [
+            "title"=>"required_unless:artist|min:1",
+            "artist"=>"required_unless:title|min:1",
+            "planned_at"=>"sometimes|date",
             "waypoints"=>"required|min:2",
-            "waypoints.*.order"=>"required",
-            "waypoints.*.id"=>"exists:waypoints",
-            "car_types"=>"required_unless:cars|min:1",
-            "car_types.*.id"=>"exists:car_types",
-            "cars"=>"required_unless:car_types|min:1",
-            "cars.*.id"=>"exists:cars",
-            "runners"=>"sometimes|min:1",
-            "runners.*.id"=>"exists,users"
+            "waypoints.*"=>"exists:waypoints",
+            "car_types.*"=>"sometimes|exists:car_types,id",
+            "cars.*"=>"sometimes|exists:cars,id",
+            "runners.*"=>"sometimes|exists.id"
+//            "car_types"=>"required_unless:cars|min:1",
+//            "car_types.*.id"=>"exists:car_types",
+//            "cars"=>"required_unless:car_types|min:1",
+//            "cars.*.id"=>"exists:cars",
+//            "runners"=>"sometimes|min:1",
+//            "runners.*.id"=>"exists,users"
         ];
     }
 }
