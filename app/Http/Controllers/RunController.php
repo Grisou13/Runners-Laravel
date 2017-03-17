@@ -40,7 +40,7 @@ class RunController extends Controller
         $this->api->post(app(UrlGenerator::class)->version("v1")->route("runs.store"))->with($request->except(["_token"]));
         return redirect()->back();
     }
-  
+
   /**
    * Display the specified resource.
    *

@@ -3,6 +3,7 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-6">The fun starts at : {{ $run->start_at }}</div>
+
         </div>
     </div>
 </div>
