@@ -25,7 +25,7 @@ class CarController extends BaseController
     {
       if($request->has("type"))
         return Car::whereHas("car_type",function($q) use ($request){
-          $q->where("name",$request->get("type"));
+          $q->whereIn("name",explode(",",$request->get("type")));
         })->get();
       return Car::all();
     }

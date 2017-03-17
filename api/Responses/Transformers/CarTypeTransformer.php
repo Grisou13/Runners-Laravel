@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Thomas.RICCI
- * Date: 17.02.2017
- * Time: 14:11
+ * Date: 17.03.2017
+ * Time: 12:05
  */
 
 namespace Api\Responses\Transformers;
@@ -13,7 +13,7 @@ use League\Fractal\TransformerAbstract;
 use Lib\Models\Car;
 use Lib\Models\CarType;
 
-class CarTypeTransformer extends TransformerAbstract
+class CarTypeTransformer extends  TransformerAbstract
 {
   public $availableIncludes = [
     "cars"
@@ -29,5 +29,4 @@ class CarTypeTransformer extends TransformerAbstract
   {
     return $this->collection($type->cars, new CarTransformer);
   }
-
 }

@@ -1,2 +1,0 @@
-# /etc/bind/named.conf.options
-OPTIONS="-4 -u bind"

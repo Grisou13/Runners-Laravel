@@ -1,2 +1,0 @@
-# /etc/default/isc-dhcp-server
-INTERFACES="eth0"

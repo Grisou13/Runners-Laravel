@@ -15,6 +15,7 @@ class UserTransformer extends TransformerAbstract
 {
   public function transform(User $user)
   {
-    return array_merge($user->toArray(),["profile_image"=>app('Dingo\Api\Routing\UrlGenerator')->version('v1')->to("/users/".$user->id."/image")]);//put data to be transformed in last array, this way we always have the right model data
+    $sex = $user->sex ? "male" : "female";
+    return array_merge($user->toArray(),["sex"=>$sex],["profile_image"=>app('Dingo\Api\Routing\UrlGenerator')->version('v1')->route("user.image",$user)]);//put data to be transformed in last array, this way we always have the right model data
   }
 }

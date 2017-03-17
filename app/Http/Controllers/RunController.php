@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Lib\Models\Run;
 use Dingo\Api\Routing\UrlGenerator;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class RunController extends Controller
      */
     public function store(Request $request)
     {
-        $this->api->post(app(UrlGenerator::class)->version("v1")->route("runs.store"))->with($request->except(["_token"]));
+        $run = $this->api->post(app(UrlGenerator::class)->version("v1")->route("runs.store"))->be(Auth::user())->with($request->except(["_token"]));
         return redirect()->back();
     }
   

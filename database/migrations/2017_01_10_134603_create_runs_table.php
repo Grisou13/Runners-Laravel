@@ -15,8 +15,8 @@ class CreateRunsTable extends Migration
     {
         Schema::create('runs', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('started_date')->nullable();
-            $table->dateTime('ended_date')->nullable();
+            $table->dateTime('started_at')->nullable();
+            $table->dateTime('ended_at')->nullable();
             $table->dateTime("planned_at");
             $table->integer("nb_passenger");
             $table->string("artist")->nullable();

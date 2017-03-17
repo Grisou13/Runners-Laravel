@@ -175,7 +175,7 @@ block="server {
 
     location ~ \.php$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
         fastcgi_index index.php;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
@@ -213,7 +213,8 @@ sudo apt-get install -y php7.0 php7.0-cli php7.0-dev php7.0-mysql php7.0-mcrypt 
 #composer
 echo "Installing composer"
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+SIG=$(wget -q -O - https://composer.github.io/installer.sig)
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '$SIG') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
 mv composer.phar /usr/local/bin/composer
@@ -224,6 +225,28 @@ chmod 755 /etc/profile.d/composer.sh
 cd $REPO_PATH
 composer install &>> $LOG
 cd $OLDPWD
+
+sed -i \
+         -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" \
+         -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" \
+         -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g" \
+         /etc/php/7.0/fpm/php.ini
+sed -i \
+         -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" \
+         -e "s/pm.max_children = 5/pm.max_children = 4/g" \
+         -e "s/pm.start_servers = 2/pm.start_servers = 3/g" \
+         -e "s/pm.min_spare_servers = 1/pm.min_spare_servers = 2/g" \
+         -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 4/g" \
+         -e "s/;pm.max_requests = 500/pm.max_requests = 200/g" \
+         /etc/php/7.0/fpm/php-fpm.conf
+sed -i \
+         -e "s/user = www-data/user = nginx/g" \
+         -e "s/group = www-data/group = nginx/g" \
+         -e "s/;listen.mode = 0660/listen.mode = 0666/g" \
+         -e "s/;listen.owner = www-data/listen.owner = nginx/g" \
+         -e "s/;listen.group = www-data/listen.group = nginx/g" \
+         /etc/php/7.0/fpm/pool.d/www.conf
+
 fi
 #########################
 # Memchache
@@ -242,6 +265,9 @@ phpize &>> $LOG
 make &>> $LOG
 make install &>> $LOG
 cd $OLDPWD
+
+rm -rf php-memcached &> /dev/null
+
 block="
 ; configuration for php memcached module
 ; priority=20
@@ -260,7 +286,8 @@ fi
 # Mysql / MariaDB
 ##########################
 echo "Installing mysql"
-if [ ! -f /home/vagrant/.maria ]
+mkdir /var/www &> /dev/null
+if [ ! -f /var/www/.maria ]
 then
 
 touch /var/www/.maria
@@ -297,13 +324,16 @@ echo "default_password_lifetime = 0" >> /etc/mysql/my.cnf
 sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/my.cnf
 
 mysql --user="root" --password="$MYSQL_ROOT_PWD" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'root' WITH GRANT OPTION;"
-service mysql restart
+service mysql restart &> /dev/null
+mysql --user="root" --password="$MYSQL_ROOT_PWD" -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DB;"
 
 mysql --user="root" --password="$MYSQL_ROOT_PWD" -e "CREATE USER '$MYSQL_USER'@'0.0.0.0' IDENTIFIED BY '$MYSQL_USR_PWD';"
 mysql --user="root" --password="$MYSQL_ROOT_PWD" -e "GRANT ALL ON *.* TO '$MYSQL_USER'@'0.0.0.0' IDENTIFIED BY '$MYSQL_USR_PWD' WITH GRANT OPTION;"
 mysql --user="root" --password="$MYSQL_ROOT_PWD" -e "GRANT ALL ON *.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_USR_PWD' WITH GRANT OPTION;"
 mysql --user="root" --password="$MYSQL_ROOT_PWD" -e "FLUSH PRIVILEGES;"
-service mysql restart
+service mysql restart &> /dev/null
+
+
 
 cat > ~/.my.cnf << EOF
 [client]
@@ -312,6 +342,10 @@ password = $MYSQL_USR_PWD
 host = localhost
 EOF
 fi
+
+cd $SITE_PATH
+php artisan migrate --seed &>> $LOG
+cd $OLDPWD
 #(./mysql.sh $MYSQL_ROOT_PWD $MYSQL_USER $MYSQL_USR_PWD)
 
 ######################
@@ -356,12 +390,12 @@ fi
 ###########################
 # DHCP
 ###########################
-if [ ! -f /etc/dhcp3/dhcpd.conf ]; then
+if [ ! -f /etc/dhcp/dhcpd.conf ]; then
   echo "Installing DHCP server"
   echo "manual" >/etc/init/isc-dhcp-server.override
   chmod 666 /etc/init/isc-dhcp-server.override
   apt-get install -y isc-dhcp-server &>> $LOG
-  mkdir -p /etc/dhcp3/ &> /dev/null
+  mkdir -p /etc/dhcp/ &> /dev/null
   echo '
 ddns-update-style none;
 log-facility local7;
@@ -379,7 +413,7 @@ subnet 192.168.1.0 netmask 255.255.255.0 {
         max-lease-time 86400;
 
 }
-' > /etc/dhcp3/dhcpd.conf
+' > /etc/dhcp/dhcpd.conf
   echo '
 INTERFACES="eth0"
 ' > /etc/default/isc-dhcp-server

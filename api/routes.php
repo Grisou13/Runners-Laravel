@@ -12,10 +12,12 @@ $api->any("/test",function(Illuminate\Http\Request $request){
 });
 $api->get("/","HomeController@home");
 $api->get("/ping","HomeController@ping");
-
+$api->get("test",function(\Dingo\Api\Http\Request $request){
+  dd($request->all());
+});
 $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api){
     $api->resource("users",'UserController');
-    $api->get("users/{user}/image","UserController@image");
+    $api->get("users/{user}/image",["as"=>"user.image","uses"=>"UserController@image"]);
     //convinience routes, these will mainly do internal requests
     $api->get("users/{user}/runs","UserController@run");
   

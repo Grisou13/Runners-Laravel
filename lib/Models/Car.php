@@ -18,9 +18,12 @@ class Car extends Model
       $car = $this;
       $subs = RunSubscription::whereHas("car", function($q) use ($car){
         return $q->where("id",$car->id);
-      })->where("user_id","!=","null")->get();
-      if(!empty($subs))
-        return $subs->first()->user();
+      })->whereHas("run", function($q){
+        return $q->where("ended_at","!=","null")->where("started_at","!=","null");// the run has started
+      })->where("user_id","!=","null")->first();
+      if(!$subs)
+        return $subs->user;
+      return null;
     }
     public function type()
     {
