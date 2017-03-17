@@ -29,8 +29,10 @@ function _getDates(startDate, stopDate) {
     }
     return dateArray;
 }
-function _updateSchedule(newSchedule){
-    // do stuff hre
+function _updateSchedule(newScheduleInterval){
+    let floatVal = parseFloat(newScheduleInterval.replace(":", "."));
+    // change settings
+
 }
 function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
@@ -56,8 +58,6 @@ var cellListener = function(){
 
     //var endHour = schedule[parseInt(cell[1]) + 1];
     var date = cell.splice(2,3).join("-");
-    console.log(this);
-
     let selGrp = groups.filter(function(x){
         return x.id == groupId;
     })[0];
@@ -208,7 +208,6 @@ function editSchedule(currentSchedule){
         
         _updateSchedule(newDiff);
 
-        console.log(newDiff);
         let alertElement = document.createElement("div");
         if(!newDiff){
             alertElement.innerHTML = "No Value.."
@@ -245,15 +244,45 @@ function editSchedule(currentSchedule){
 * */
 var dayChanged = [];
 var days = getAllDays();
-var schedule = ["08:00", "10:00",
-                "12:00", "14:00",
-                "16:00", "18:00",
-                "20:00", "22:00",
-                "00:00", "02:00",
-                "04:00", "06:00"];
+function generateScheduleFromInterval(jump){
+    if(typeof(jump) == "string"){
+        throw new Error("Schedule jump: format non-valid !");
+    }
+
+    if(isNaN(parseFloat(jump)) || !isFinite(jump)){
+        throw new Error("Schedule second j: format non-valid !");
+    }
+    console.log("initial jump is : "+jump);
+    let startTime = 8;
+    var times = [];
+    var i = startTime;
+    times.push(startTime);
+
+    do{
+        if(i >= 24){
+            i = 0;
+        }
+        i = +(i + jump).toFixed(1);
+    }while(i != startTime);
+    console.log(times);
+
+
+
+}
+var schedule = generateScheduleFromInterval(0.20);
+// var schedule2 = generateScheduleFromInterval(1);
+// var schedule3 = generateScheduleFromInterval(2.5);
+
+// var schedule = ["08:00", "10:00",
+//                 "12:00", "14:00",
+//                 "16:00", "18:00",
+//                 "20:00", "22:00",
+//                 "00:00", "02:00",
+//                 "04:00", "06:00"];
+// console.log(interval);
 
 var groups = getAllGroups();
 // console.log(groups);
-createGrid(schedule, days, groups);
-editSchedule(schedule);
+// createGrid(schedule, days, groups);
+// editSchedule(schedule);
 
