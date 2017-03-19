@@ -31,7 +31,8 @@
         "psr-4": {
             "App\\": "app/",
             "Api\\":"api/",
-            "Lib\\":"lib/"
+            "Lib\\":"lib/",
+            "Tests\\":"tests/"
         }
     },
     "autoload-dev": {
