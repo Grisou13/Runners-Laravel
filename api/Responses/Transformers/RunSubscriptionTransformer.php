@@ -20,12 +20,13 @@ class RunSubscriptionTransformer extends TransformerAbstract
     "vehicule_category",
   ];
   protected $availableIncludes = [
-
     "run"
   ];
   public function transform(RunSubscription $sub)
   {
-    return [];
+    return [
+      "status"=>"SOMETHING"
+    ];
   }
   public function includeUser(RunSubscription $sub)
   {

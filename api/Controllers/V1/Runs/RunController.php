@@ -16,6 +16,7 @@ use Lib\Models\RunSubscription;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Http\Request;
 use Api\Responses\Transformers\RunTransformer;
+use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 
 class RunController extends BaseController
 {
@@ -37,11 +38,8 @@ class RunController extends BaseController
     {
         $run = new Run;
         $sub = new RunSubscription;
-        $waypoints = $request->get("waypoints");
-        foreach($waypoints as $point)
-        {
-          $run->waypoints()->attach($point);
-        }
+        $run->waypoints()->attach($request->get("waypoints"));
+
         if($request->has("runners"))
         {
 
@@ -71,17 +69,24 @@ class RunController extends BaseController
     }
     public function delete(Run $run)
     {
-        return $run->delete();
+      $run->delete();
+        return $this->response->accepted();
     }
     public function start(Request $request,Run $run)
     {
+      //check all subscriptions if they are good
         foreach($run->subscriptions as $sub)
         {
             if(!$sub->has("car") && $sub->has("user"))
-                return $this->response->errorForbidden("All runners have not been filled, please fill runner $sub->id");
+               throw new NotAcceptableHttpException("All runners have not been filled, please fill run subscription $sub->id");
         }
         $run->started_at = Carbon::now();
         return $this->response->accepted();
 
+    }
+    public function stop(Request $request, Run $run)
+    {
+      $run->delete();//deleting the model will populate ended_at field, and archive it
+      return $this->response->accepted();
     }
 }

@@ -9,6 +9,8 @@
 namespace Api\Controllers\V1\Runs;
 
 
+use Api\Controllers\BaseController;
+use App\Http\Requests\UpdateRunSubscriptionRequest;
 use Dingo\Api\Http\Request;
 use Lib\Models\Car;
 use Lib\Models\CarType;
@@ -16,7 +18,7 @@ use Lib\Models\Run;
 use Lib\Models\RunSubscription;
 use Lib\Models\User;
 
-class SubscriptionController
+class SubscriptionController extends BaseController
 {
   public function index(Run $run)
   {
@@ -36,9 +38,9 @@ class SubscriptionController
     $sub->fill($request->except(["_token","token"]));
     $sub->run()->associate($run);
     $sub->save();
-    return $sub;
+    return $this->response->created($content=$sub);
   }
-  public function update(Request $request, RunSubscription $sub)
+  public function update(UpdateRunSubscriptionRequest $request, RunSubscription $sub)
   {
     //runners / users
     if($request->has("user"))
@@ -62,7 +64,7 @@ class SubscriptionController
     $data = $request->except(["token","_token","user","car_type","car"]);
     
     $sub->update($data);
-    return $sub;
+    return $this->response->accepted($content=$sub);
   }
   public function delete(RunSubscription $sub)
   {

@@ -46,7 +46,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       $api->resource("runs.car_types","CarTypeController");
       $api->resource("runs.cars","CarController");
       $api->resource("runs.users","UserController");
-        $api->post("/runs/{run}/start",["as"=>"run.start","uses"=>"RunController"]);
+        $api->post("/runs/{run}/start",["as"=>"run.start","uses"=>"RunController@start"]);
       //adding cars to run
       $api->post("/runs/{run}/cars/{car}/join","CarController@join");
       $api->delete("/runs/{run}/cars/{car}/unjoin","CarController@unjoin");//deletes a user from a car
@@ -58,6 +58,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
 //      $api->delete("/runs/{run}/car_types/{car_type}/join","CarTypeController@unjoin");
   
       $api->resource("runs.subscriptions","SubscriptionController");
+      $api->resource("runs.runners","SubscriptionController");
     });
     
 });

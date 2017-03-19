@@ -27,10 +27,10 @@ class CreateRunSubscription extends FormRequest
   public function rules()
   {
     return [
-      "user"=>"nullable|exists:users",
-      "car"=>"nullable|exists:cars",
-      "car_type"=>"nullable|exists:car_type",
-      "status"=>Rule::in([Status::getStatusForRessource("runs")])
+      "user"=>"exists:users,id",
+      "car"=>"required_without:car_type|exists:cars,id",
+      "car_type"=>"required_without:car|exists:car_types,id",
+      //"status"=>Rule::in([Status::getStatusForRessource("runs")])
     ];
   }
 }

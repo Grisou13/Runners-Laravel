@@ -26,6 +26,7 @@ class CreateRunRequest extends FormRequest
         return [
             "title"=>"required_unless:artist|min:1",
             "artist"=>"required_unless:title|min:1",
+            "nb_passenger"=>"required|numeric|max:50",
             "planned_at"=>"sometimes|date",
             "waypoints"=>"required|min:2",
             "waypoints.*"=>"exists:waypoints",
