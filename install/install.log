@@ -2,122 +2,38 @@ Reading package lists...
 Building dependency tree...
 Reading state information...
 The following additional packages will be installed:
-  autoconf automake autotools-dev debhelper dh-php dh-strip-nondeterminism
-  gettext ghostscript gsfonts imagemagick-common intltool-debian
-  libarchive-zip-perl libasprintf-dev libavahi-client3 libavahi-common-data
-  libavahi-common3 libcroco3 libcups2 libcupsfilters1 libcupsimage2 libcurl3
-  libexporter-tiny-perl libfftw3-double3 libfile-stripnondeterminism-perl
-  libgettextpo-dev libgettextpo0 libgs9 libgs9-common libijs-0.35 libjbig2dec0
-  liblcms2-2 liblist-moreutils-perl liblqr-1-0 libltdl-dev libltdl7
-  libmagickcore-6.q16-2 libmagickwand-6.q16-2 libmail-sendmail-perl libmcrypt4
-  libpaper-utils libpaper1 libpcre16-3 libpcre3-dev libpcre32-3 libpcrecpp0v5
-  libsys-hostname-long-perl libtimedate-perl libtool libunistring0 m4
-  php-common php-pear php7.0-common php7.0-opcache php7.0-readline
-  pkg-php-tools po-debconf poppler-data shtool ttf-dejavu-core xml2
+  dh-php ghostscript gsfonts imagemagick-common libavahi-client3
+  libavahi-common-data libavahi-common3 libcups2 libcupsfilters1 libcupsimage2
+  libcurl3 libexporter-tiny-perl libfftw3-double3 libgs9 libgs9-common
+  libijs-0.35 libjbig2dec0 liblcms2-2 liblist-moreutils-perl liblqr-1-0
+  libmagickcore-6.q16-2 libmagickwand-6.q16-2 libmcrypt4 libpaper-utils
+  libpaper1 libpcre16-3 libpcre3-dev libpcre32-3 libpcrecpp0v5 php-common
+  php-pear php7.0-common php7.0-opcache php7.0-readline pkg-php-tools
+  poppler-data shtool ttf-dejavu-core xml2
 Suggested packages:
-  autoconf-archive gnu-standards autoconf-doc dh-make gettext-doc autopoint
   ghostscript-x hpijs cups-common libfftw3-bin libfftw3-dev fonts-droid
-  texlive-lang-cjk liblcms2-utils libtool-doc libmagickcore-6.q16-2-extra
-  libmcrypt-dev mcrypt gfortran | fortran95-compiler gcj-jdk libmail-box-perl
-  poppler-utils fonts-japanese-mincho | fonts-ipafont-mincho
+  texlive-lang-cjk liblcms2-utils libmagickcore-6.q16-2-extra libmcrypt-dev
+  mcrypt dh-make poppler-utils fonts-japanese-mincho | fonts-ipafont-mincho
   fonts-japanese-gothic | fonts-ipafont-gothic fonts-arphic-ukai
   fonts-arphic-uming fonts-nanum
 The following NEW packages will be installed:
-  autoconf automake autotools-dev debhelper dh-php dh-strip-nondeterminism
-  gettext ghostscript gsfonts imagemagick-common intltool-debian
-  libarchive-zip-perl libasprintf-dev libavahi-client3 libavahi-common-data
-  libavahi-common3 libcroco3 libcups2 libcupsfilters1 libcupsimage2 libcurl3
-  libexporter-tiny-perl libfftw3-double3 libfile-stripnondeterminism-perl
-  libgettextpo-dev libgettextpo0 libgs9 libgs9-common libijs-0.35 libjbig2dec0
-  liblcms2-2 liblist-moreutils-perl liblqr-1-0 libltdl-dev libltdl7
-  libmagickcore-6.q16-2 libmagickwand-6.q16-2 libmail-sendmail-perl libmcrypt4
-  libpaper-utils libpaper1 libpcre16-3 libpcre3-dev libpcre32-3 libpcrecpp0v5
-  libsys-hostname-long-perl libtimedate-perl libtool libunistring0 m4
-  php-common php-imagick php-pear php7.0 php7.0-cli php7.0-common php7.0-curl
-  php7.0-dev php7.0-fpm php7.0-gd php7.0-intl php7.0-json php7.0-mcrypt
-  php7.0-mysql php7.0-opcache php7.0-readline php7.0-xml php7.0-xsl
-  pkg-php-tools po-debconf poppler-data shtool ttf-dejavu-core xml2
-0 upgraded, 74 newly installed, 0 to remove and 0 not upgraded.
-Need to get 24.5 MB of archives.
-After this operation, 97.0 MB of additional disk space will be used.
-Get:1 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 imagemagick-common all 8:6.8.9.9-7ubuntu5.6 [41.4 kB]
-Get:2 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 libpcrecpp0v5 amd64 2:8.39-1+deb.sury.org~xenial+1 [151 kB]
-Get:3 http://archive.ubuntu.com/ubuntu xenial/main amd64 libfftw3-double3 amd64 3.3.4-2ubuntu1 [718 kB]
-Get:4 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 libpcre16-3 amd64 2:8.39-1+deb.sury.org~xenial+1 [257 kB]
-Get:5 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 libpcre32-3 amd64 2:8.39-1+deb.sury.org~xenial+1 [249 kB]
-Get:6 http://archive.ubuntu.com/ubuntu xenial/main amd64 liblcms2-2 amd64 2.6-3ubuntu2 [137 kB]
-Get:7 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 libpcre3-dev amd64 2:8.39-1+deb.sury.org~xenial+1 [648 kB]
-Get:8 http://archive.ubuntu.com/ubuntu xenial/main amd64 liblqr-1-0 amd64 0.4.2-2 [23.6 kB]
-Get:9 http://archive.ubuntu.com/ubuntu xenial/main amd64 libltdl7 amd64 2.4.6-0.1 [38.3 kB]
-Get:10 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php-common all 1:50+deb.sury.org~xenial+1 [14.2 kB]
-Get:11 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libmagickcore-6.q16-2 amd64 8:6.8.9.9-7ubuntu5.6 [1,575 kB]
-Get:12 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-common amd64 7.0.17-2+deb.sury.org~xenial+1 [868 kB]
-Get:13 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-json amd64 7.0.17-2+deb.sury.org~xenial+1 [16.9 kB]
-Get:14 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-opcache amd64 7.0.17-2+deb.sury.org~xenial+1 [76.8 kB]
-Get:15 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-readline amd64 7.0.17-2+deb.sury.org~xenial+1 [12.8 kB]
-Get:16 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-cli amd64 7.0.17-2+deb.sury.org~xenial+1 [1,289 kB]
-Get:17 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libmagickwand-6.q16-2 amd64 8:6.8.9.9-7ubuntu5.6 [287 kB]
-Get:18 http://archive.ubuntu.com/ubuntu xenial/main amd64 libunistring0 amd64 0.9.3-5.2ubuntu1 [279 kB]
-Get:19 http://archive.ubuntu.com/ubuntu xenial/main amd64 poppler-data all 0.4.7-7 [1,495 kB]
-Get:20 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-fpm amd64 7.0.17-2+deb.sury.org~xenial+1 [1,297 kB]
-Get:21 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php-imagick amd64 3.4.3~rc2-2+deb.sury.org~xenial+1 [188 kB]
-Get:22 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-xml amd64 7.0.17-2+deb.sury.org~xenial+1 [114 kB]
-Get:23 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php-pear all 1:1.10.1+submodules+notgz-8+donate.sury.org~xenial+2 [283 kB]
-Get:24 http://archive.ubuntu.com/ubuntu xenial/main amd64 m4 amd64 1.4.17-5 [195 kB]
-Get:25 http://archive.ubuntu.com/ubuntu xenial/main amd64 autoconf all 2.69-9 [321 kB]
-Get:26 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0 all 7.0.17-2+deb.sury.org~xenial+1 [47.4 kB]
-Get:27 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-curl amd64 7.0.17-2+deb.sury.org~xenial+1 [27.4 kB]
-Get:28 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-dev amd64 7.0.17-2+deb.sury.org~xenial+1 [517 kB]
-Get:29 http://archive.ubuntu.com/ubuntu xenial/main amd64 autotools-dev all 20150820.1 [39.8 kB]
-Get:30 http://archive.ubuntu.com/ubuntu xenial/main amd64 automake all 1:1.15-4ubuntu1 [510 kB]
-Get:31 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-gd amd64 7.0.17-2+deb.sury.org~xenial+1 [27.2 kB]
-Get:32 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-intl amd64 7.0.17-2+deb.sury.org~xenial+1 [126 kB]
-Get:33 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-mcrypt amd64 7.0.17-2+deb.sury.org~xenial+1 [14.5 kB]
-Get:34 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-mysql amd64 7.0.17-2+deb.sury.org~xenial+1 [123 kB]
-Get:35 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 php7.0-xsl all 7.0.17-2+deb.sury.org~xenial+1 [47.0 kB]
-Get:36 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 dh-php all 0.26+deb.sury.org~xenial+1 [13.3 kB]
-Get:37 http://archive.ubuntu.com/ubuntu xenial/main amd64 libcroco3 amd64 0.6.11-1 [81.6 kB]
-Get:38 http://ppa.launchpad.net/ondrej/php/ubuntu xenial/main amd64 pkg-php-tools all 1.33+deb.sury.org~xenial+1 [38.2 kB]
-Get:39 http://archive.ubuntu.com/ubuntu xenial/main amd64 gettext amd64 0.19.7-2ubuntu3 [1,076 kB]
-Get:40 http://archive.ubuntu.com/ubuntu xenial/main amd64 intltool-debian all 0.35.0+20060710.4 [24.9 kB]
-Get:41 http://archive.ubuntu.com/ubuntu xenial/main amd64 po-debconf all 1.0.19 [234 kB]
-Get:42 http://archive.ubuntu.com/ubuntu xenial/main amd64 libarchive-zip-perl all 1.56-2 [84.1 kB]
-Get:43 http://archive.ubuntu.com/ubuntu xenial/main amd64 libfile-stripnondeterminism-perl all 0.015-1 [10.3 kB]
-Get:44 http://archive.ubuntu.com/ubuntu xenial/main amd64 libtimedate-perl all 2.3000-2 [37.5 kB]
-Get:45 http://archive.ubuntu.com/ubuntu xenial/main amd64 dh-strip-nondeterminism all 0.015-1 [4,864 B]
-Get:46 http://archive.ubuntu.com/ubuntu xenial/main amd64 debhelper all 9.20160115ubuntu3 [739 kB]
-Get:47 http://archive.ubuntu.com/ubuntu xenial/main amd64 libavahi-common-data amd64 0.6.32~rc+dfsg-1ubuntu2 [21.7 kB]
-Get:48 http://archive.ubuntu.com/ubuntu xenial/main amd64 libavahi-common3 amd64 0.6.32~rc+dfsg-1ubuntu2 [21.6 kB]
-Get:49 http://archive.ubuntu.com/ubuntu xenial/main amd64 libavahi-client3 amd64 0.6.32~rc+dfsg-1ubuntu2 [25.1 kB]
-Get:50 http://archive.ubuntu.com/ubuntu xenial/main amd64 libcups2 amd64 2.1.3-4 [197 kB]
-Get:51 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libcupsfilters1 amd64 1.8.3-2ubuntu3.1 [80.4 kB]
-Get:52 http://archive.ubuntu.com/ubuntu xenial/main amd64 libcupsimage2 amd64 2.1.3-4 [16.1 kB]
-Get:53 http://archive.ubuntu.com/ubuntu xenial/main amd64 libijs-0.35 amd64 0.35-12 [15.5 kB]
-Get:54 http://archive.ubuntu.com/ubuntu xenial/main amd64 libjbig2dec0 amd64 0.12+20150918-1 [55.1 kB]
-Get:55 http://archive.ubuntu.com/ubuntu xenial/main amd64 libpaper1 amd64 1.1.24+nmu4ubuntu1 [13.7 kB]
-Get:56 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libgs9-common all 9.18~dfsg~0-0ubuntu2.3 [2,981 kB]
-Get:57 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libgs9 amd64 9.18~dfsg~0-0ubuntu2.3 [2,059 kB]
-Get:58 http://archive.ubuntu.com/ubuntu xenial/main amd64 gsfonts all 1:8.11+urwcyr1.0.7~pre44-4.2ubuntu1 [3,374 kB]
-Get:59 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 ghostscript amd64 9.18~dfsg~0-0ubuntu2.3 [40.9 kB]
-Get:60 http://archive.ubuntu.com/ubuntu xenial/main amd64 libasprintf-dev amd64 0.19.7-2ubuntu3 [4,734 B]
-Get:61 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libcurl3 amd64 7.47.0-1ubuntu2.2 [186 kB]
-Get:62 http://archive.ubuntu.com/ubuntu xenial/main amd64 libexporter-tiny-perl all 0.042-1 [28.8 kB]
-Get:63 http://archive.ubuntu.com/ubuntu xenial/main amd64 libgettextpo0 amd64 0.19.7-2ubuntu3 [125 kB]
-Get:64 http://archive.ubuntu.com/ubuntu xenial/main amd64 libgettextpo-dev amd64 0.19.7-2ubuntu3 [141 kB]
-Get:65 http://archive.ubuntu.com/ubuntu xenial/main amd64 liblist-moreutils-perl amd64 0.413-1build1 [67.0 kB]
-Get:66 http://archive.ubuntu.com/ubuntu xenial/main amd64 libltdl-dev amd64 2.4.6-0.1 [162 kB]
-Get:67 http://archive.ubuntu.com/ubuntu xenial/main amd64 libsys-hostname-long-perl all 1.5-1 [11.7 kB]
-Get:68 http://archive.ubuntu.com/ubuntu xenial/main amd64 libmail-sendmail-perl all 0.79.16-1 [26.5 kB]
-Get:69 http://archive.ubuntu.com/ubuntu xenial/universe amd64 libmcrypt4 amd64 2.5.8-3.3 [63.0 kB]
-Get:70 http://archive.ubuntu.com/ubuntu xenial/main amd64 libpaper-utils amd64 1.1.24+nmu4ubuntu1 [8,276 B]
-Get:71 http://archive.ubuntu.com/ubuntu xenial/main amd64 libtool all 2.4.6-0.1 [193 kB]
-Get:72 http://archive.ubuntu.com/ubuntu xenial/main amd64 shtool all 2.0.8-8 [122 kB]
-Get:73 http://archive.ubuntu.com/ubuntu xenial/universe amd64 ttf-dejavu-core all 2.35-1 [3,038 B]
-Get:74 http://archive.ubuntu.com/ubuntu xenial/universe amd64 xml2 amd64 0.4-3.1 [15.8 kB]
-dpkg-preconfigure: unable to re-open stdin: No such file or directory
-Fetched 24.5 MB in 27s (884 kB/s)
+  dh-php ghostscript gsfonts imagemagick-common libavahi-client3
+  libavahi-common-data libavahi-common3 libcups2 libcupsfilters1 libcupsimage2
+  libcurl3 libexporter-tiny-perl libfftw3-double3 libgs9 libgs9-common
+  libijs-0.35 libjbig2dec0 liblcms2-2 liblist-moreutils-perl liblqr-1-0
+  libmagickcore-6.q16-2 libmagickwand-6.q16-2 libmcrypt4 libpaper-utils
+  libpaper1 libpcre16-3 libpcre3-dev libpcre32-3 libpcrecpp0v5 php-common
+  php-imagick php-pear php7.0 php7.0-cli php7.0-common php7.0-curl php7.0-dev
+  php7.0-fpm php7.0-gd php7.0-intl php7.0-json php7.0-mcrypt php7.0-mysql
+  php7.0-opcache php7.0-readline php7.0-xml php7.0-xsl pkg-php-tools
+  poppler-data shtool ttf-dejavu-core xml2
+Extracting templates from packages: 57%Extracting templates from packages: 100%
+Preconfiguring packages ...
+0 upgraded, 52 newly installed, 0 to remove and 3 not upgraded.
+Need to get 0 B/20.1 MB of archives.
+After this operation, 81.5 MB of additional disk space will be used.
 Selecting previously unselected package imagemagick-common.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 90513 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 64215 files and directories currently installed.)
 Preparing to unpack .../imagemagick-common_8%3a6.8.9.9-7ubuntu5.6_all.deb ...
 Unpacking imagemagick-common (8:6.8.9.9-7ubuntu5.6) ...
 Selecting previously unselected package libfftw3-double3:amd64.
@@ -129,9 +45,6 @@ Unpacking liblcms2-2:amd64 (2.6-3ubuntu2) ...
 Selecting previously unselected package liblqr-1-0:amd64.
 Preparing to unpack .../liblqr-1-0_0.4.2-2_amd64.deb ...
 Unpacking liblqr-1-0:amd64 (0.4.2-2) ...
-Selecting previously unselected package libltdl7:amd64.
-Preparing to unpack .../libltdl7_2.4.6-0.1_amd64.deb ...
-Unpacking libltdl7:amd64 (2.4.6-0.1) ...
 Selecting previously unselected package libmagickcore-6.q16-2:amd64.
 Preparing to unpack .../libmagickcore-6.q16-2_8%3a6.8.9.9-7ubuntu5.6_amd64.deb ...
 Unpacking libmagickcore-6.q16-2:amd64 (8:6.8.9.9-7ubuntu5.6) ...
@@ -141,51 +54,9 @@ Unpacking libmagickwand-6.q16-2:amd64 (8:6.8.9.9-7ubuntu5.6) ...
 Selecting previously unselected package libpcrecpp0v5:amd64.
 Preparing to unpack .../libpcrecpp0v5_2%3a8.39-1+deb.sury.org~xenial+1_amd64.deb ...
 Unpacking libpcrecpp0v5:amd64 (2:8.39-1+deb.sury.org~xenial+1) ...
-Selecting previously unselected package libunistring0:amd64.
-Preparing to unpack .../libunistring0_0.9.3-5.2ubuntu1_amd64.deb ...
-Unpacking libunistring0:amd64 (0.9.3-5.2ubuntu1) ...
 Selecting previously unselected package poppler-data.
 Preparing to unpack .../poppler-data_0.4.7-7_all.deb ...
 Unpacking poppler-data (0.4.7-7) ...
-Selecting previously unselected package m4.
-Preparing to unpack .../archives/m4_1.4.17-5_amd64.deb ...
-Unpacking m4 (1.4.17-5) ...
-Selecting previously unselected package autoconf.
-Preparing to unpack .../autoconf_2.69-9_all.deb ...
-Unpacking autoconf (2.69-9) ...
-Selecting previously unselected package autotools-dev.
-Preparing to unpack .../autotools-dev_20150820.1_all.deb ...
-Unpacking autotools-dev (20150820.1) ...
-Selecting previously unselected package automake.
-Preparing to unpack .../automake_1%3a1.15-4ubuntu1_all.deb ...
-Unpacking automake (1:1.15-4ubuntu1) ...
-Selecting previously unselected package libcroco3:amd64.
-Preparing to unpack .../libcroco3_0.6.11-1_amd64.deb ...
-Unpacking libcroco3:amd64 (0.6.11-1) ...
-Selecting previously unselected package gettext.
-Preparing to unpack .../gettext_0.19.7-2ubuntu3_amd64.deb ...
-Unpacking gettext (0.19.7-2ubuntu3) ...
-Selecting previously unselected package intltool-debian.
-Preparing to unpack .../intltool-debian_0.35.0+20060710.4_all.deb ...
-Unpacking intltool-debian (0.35.0+20060710.4) ...
-Selecting previously unselected package po-debconf.
-Preparing to unpack .../po-debconf_1.0.19_all.deb ...
-Unpacking po-debconf (1.0.19) ...
-Selecting previously unselected package libarchive-zip-perl.
-Preparing to unpack .../libarchive-zip-perl_1.56-2_all.deb ...
-Unpacking libarchive-zip-perl (1.56-2) ...
-Selecting previously unselected package libfile-stripnondeterminism-perl.
-Preparing to unpack .../libfile-stripnondeterminism-perl_0.015-1_all.deb ...
-Unpacking libfile-stripnondeterminism-perl (0.015-1) ...
-Selecting previously unselected package libtimedate-perl.
-Preparing to unpack .../libtimedate-perl_2.3000-2_all.deb ...
-Unpacking libtimedate-perl (2.3000-2) ...
-Selecting previously unselected package dh-strip-nondeterminism.
-Preparing to unpack .../dh-strip-nondeterminism_0.015-1_all.deb ...
-Unpacking dh-strip-nondeterminism (0.015-1) ...
-Selecting previously unselected package debhelper.
-Preparing to unpack .../debhelper_9.20160115ubuntu3_all.deb ...
-Unpacking debhelper (9.20160115ubuntu3) ...
 Selecting previously unselected package libavahi-common-data:amd64.
 Preparing to unpack .../libavahi-common-data_0.6.32~rc+dfsg-1ubuntu2_amd64.deb ...
 Unpacking libavahi-common-data:amd64 (0.6.32~rc+dfsg-1ubuntu2) ...
@@ -225,33 +96,15 @@ Unpacking gsfonts (1:8.11+urwcyr1.0.7~pre44-4.2ubuntu1) ...
 Selecting previously unselected package ghostscript.
 Preparing to unpack .../ghostscript_9.18~dfsg~0-0ubuntu2.3_amd64.deb ...
 Unpacking ghostscript (9.18~dfsg~0-0ubuntu2.3) ...
-Selecting previously unselected package libasprintf-dev:amd64.
-Preparing to unpack .../libasprintf-dev_0.19.7-2ubuntu3_amd64.deb ...
-Unpacking libasprintf-dev:amd64 (0.19.7-2ubuntu3) ...
 Selecting previously unselected package libcurl3:amd64.
 Preparing to unpack .../libcurl3_7.47.0-1ubuntu2.2_amd64.deb ...
 Unpacking libcurl3:amd64 (7.47.0-1ubuntu2.2) ...
 Selecting previously unselected package libexporter-tiny-perl.
 Preparing to unpack .../libexporter-tiny-perl_0.042-1_all.deb ...
 Unpacking libexporter-tiny-perl (0.042-1) ...
-Selecting previously unselected package libgettextpo0:amd64.
-Preparing to unpack .../libgettextpo0_0.19.7-2ubuntu3_amd64.deb ...
-Unpacking libgettextpo0:amd64 (0.19.7-2ubuntu3) ...
-Selecting previously unselected package libgettextpo-dev:amd64.
-Preparing to unpack .../libgettextpo-dev_0.19.7-2ubuntu3_amd64.deb ...
-Unpacking libgettextpo-dev:amd64 (0.19.7-2ubuntu3) ...
 Selecting previously unselected package liblist-moreutils-perl.
 Preparing to unpack .../liblist-moreutils-perl_0.413-1build1_amd64.deb ...
 Unpacking liblist-moreutils-perl (0.413-1build1) ...
-Selecting previously unselected package libltdl-dev:amd64.
-Preparing to unpack .../libltdl-dev_2.4.6-0.1_amd64.deb ...
-Unpacking libltdl-dev:amd64 (2.4.6-0.1) ...
-Selecting previously unselected package libsys-hostname-long-perl.
-Preparing to unpack .../libsys-hostname-long-perl_1.5-1_all.deb ...
-Unpacking libsys-hostname-long-perl (1.5-1) ...
-Selecting previously unselected package libmail-sendmail-perl.
-Preparing to unpack .../libmail-sendmail-perl_0.79.16-1_all.deb ...
-Unpacking libmail-sendmail-perl (0.79.16-1) ...
 Selecting previously unselected package libmcrypt4.
 Preparing to unpack .../libmcrypt4_2.5.8-3.3_amd64.deb ...
 Unpacking libmcrypt4 (2.5.8-3.3) ...
@@ -267,9 +120,6 @@ Unpacking libpcre32-3:amd64 (2:8.39-1+deb.sury.org~xenial+1) ...
 Selecting previously unselected package libpcre3-dev:amd64.
 Preparing to unpack .../libpcre3-dev_2%3a8.39-1+deb.sury.org~xenial+1_amd64.deb ...
 Unpacking libpcre3-dev:amd64 (2:8.39-1+deb.sury.org~xenial+1) ...
-Selecting previously unselected package libtool.
-Preparing to unpack .../libtool_2.4.6-0.1_all.deb ...
-Unpacking libtool (2.4.6-0.1) ...
 Selecting previously unselected package php-common.
 Preparing to unpack .../php-common_1%3a50+deb.sury.org~xenial+1_all.deb ...
 Unpacking php-common (1:50+deb.sury.org~xenial+1) ...
@@ -340,7 +190,6 @@ Selecting previously unselected package pkg-php-tools.
 Preparing to unpack .../pkg-php-tools_1.33+deb.sury.org~xenial+1_all.deb ...
 Unpacking pkg-php-tools (1.33+deb.sury.org~xenial+1) ...
 Processing triggers for libc-bin (2.23-0ubuntu5) ...
-Processing triggers for install-info (6.1.0.dfsg.1-5) ...
 Processing triggers for man-db (2.7.5-1) ...
 Processing triggers for systemd (229-4ubuntu16) ...
 Processing triggers for ureadahead (0.100.0-19) ...
@@ -348,24 +197,10 @@ Setting up imagemagick-common (8:6.8.9.9-7ubuntu5.6) ...
 Setting up libfftw3-double3:amd64 (3.3.4-2ubuntu1) ...
 Setting up liblcms2-2:amd64 (2.6-3ubuntu2) ...
 Setting up liblqr-1-0:amd64 (0.4.2-2) ...
-Setting up libltdl7:amd64 (2.4.6-0.1) ...
 Setting up libmagickcore-6.q16-2:amd64 (8:6.8.9.9-7ubuntu5.6) ...
 Setting up libmagickwand-6.q16-2:amd64 (8:6.8.9.9-7ubuntu5.6) ...
 Setting up libpcrecpp0v5:amd64 (2:8.39-1+deb.sury.org~xenial+1) ...
-Setting up libunistring0:amd64 (0.9.3-5.2ubuntu1) ...
 Setting up poppler-data (0.4.7-7) ...
-Setting up m4 (1.4.17-5) ...
-Setting up autoconf (2.69-9) ...
-Setting up autotools-dev (20150820.1) ...
-Setting up automake (1:1.15-4ubuntu1) ...
-update-alternatives: using /usr/bin/automake-1.15 to provide /usr/bin/automake (automake) in auto mode
-Setting up libcroco3:amd64 (0.6.11-1) ...
-Setting up gettext (0.19.7-2ubuntu3) ...
-Setting up intltool-debian (0.35.0+20060710.4) ...
-Setting up po-debconf (1.0.19) ...
-Setting up libarchive-zip-perl (1.56-2) ...
-Setting up libfile-stripnondeterminism-perl (0.015-1) ...
-Setting up libtimedate-perl (2.3000-2) ...
 Setting up libavahi-common-data:amd64 (0.6.32~rc+dfsg-1ubuntu2) ...
 Setting up libavahi-common3:amd64 (0.6.32~rc+dfsg-1ubuntu2) ...
 Setting up libavahi-client3:amd64 (0.6.32~rc+dfsg-1ubuntu2) ...
@@ -382,21 +217,14 @@ update-alternatives: using /usr/share/ghostscript/9.18 to provide /usr/share/gho
 Setting up libgs9:amd64 (9.18~dfsg~0-0ubuntu2.3) ...
 Setting up gsfonts (1:8.11+urwcyr1.0.7~pre44-4.2ubuntu1) ...
 Setting up ghostscript (9.18~dfsg~0-0ubuntu2.3) ...
-Setting up libasprintf-dev:amd64 (0.19.7-2ubuntu3) ...
 Setting up libcurl3:amd64 (7.47.0-1ubuntu2.2) ...
 Setting up libexporter-tiny-perl (0.042-1) ...
-Setting up libgettextpo0:amd64 (0.19.7-2ubuntu3) ...
-Setting up libgettextpo-dev:amd64 (0.19.7-2ubuntu3) ...
 Setting up liblist-moreutils-perl (0.413-1build1) ...
-Setting up libltdl-dev:amd64 (2.4.6-0.1) ...
-Setting up libsys-hostname-long-perl (1.5-1) ...
-Setting up libmail-sendmail-perl (0.79.16-1) ...
 Setting up libmcrypt4 (2.5.8-3.3) ...
 Setting up libpaper-utils (1.1.24+nmu4ubuntu1) ...
 Setting up libpcre16-3:amd64 (2:8.39-1+deb.sury.org~xenial+1) ...
 Setting up libpcre32-3:amd64 (2:8.39-1+deb.sury.org~xenial+1) ...
 Setting up libpcre3-dev:amd64 (2:8.39-1+deb.sury.org~xenial+1) ...
-Setting up libtool (2.4.6-0.1) ...
 Setting up php-common (1:50+deb.sury.org~xenial+1) ...
 Setting up php7.0-common (7.0.17-2+deb.sury.org~xenial+1) ...
 
@@ -493,14 +321,122 @@ Creating config file /etc/php/7.0/mods-available/pdo_mysql.ini with new version
 Setting up php7.0-xsl (7.0.17-2+deb.sury.org~xenial+1) ...
 Setting up ttf-dejavu-core (2.35-1) ...
 Setting up xml2 (0.4-3.1) ...
-Setting up dh-strip-nondeterminism (0.015-1) ...
-Setting up debhelper (9.20160115ubuntu3) ...
 Setting up dh-php (0.26+deb.sury.org~xenial+1) ...
 Setting up pkg-php-tools (1.33+deb.sury.org~xenial+1) ...
 Processing triggers for libc-bin (2.23-0ubuntu5) ...
 Processing triggers for systemd (229-4ubuntu16) ...
 Processing triggers for ureadahead (0.100.0-19) ...
 Processing triggers for php7.0-fpm (7.0.17-2+deb.sury.org~xenial+1) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  jsonlint php-cli-prompt php-composer-semver php-composer-spdx-licenses
+  php-json-schema php-symfony-console php-symfony-filesystem
+  php-symfony-finder php-symfony-process
+Suggested packages:
+  php-zip php-symfony-event-dispatcher php-psr-log
+The following NEW packages will be installed:
+  composer jsonlint php-cli-prompt php-composer-semver
+  php-composer-spdx-licenses php-json-schema php-symfony-console
+  php-symfony-filesystem php-symfony-finder php-symfony-process
+0 upgraded, 10 newly installed, 0 to remove and 3 not upgraded.
+Need to get 0 B/489 kB of archives.
+After this operation, 2,941 kB of additional disk space will be used.
+Selecting previously unselected package php-symfony-console.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 66702 files and directories currently installed.)
+Preparing to unpack .../php-symfony-console_2.7.10-0ubuntu2_all.deb ...
+Unpacking php-symfony-console (2.7.10-0ubuntu2) ...
+Selecting previously unselected package php-symfony-filesystem.
+Preparing to unpack .../php-symfony-filesystem_2.7.10-0ubuntu2_all.deb ...
+Unpacking php-symfony-filesystem (2.7.10-0ubuntu2) ...
+Selecting previously unselected package php-symfony-finder.
+Preparing to unpack .../php-symfony-finder_2.7.10-0ubuntu2_all.deb ...
+Unpacking php-symfony-finder (2.7.10-0ubuntu2) ...
+Selecting previously unselected package php-symfony-process.
+Preparing to unpack .../php-symfony-process_2.7.10-0ubuntu2_all.deb ...
+Unpacking php-symfony-process (2.7.10-0ubuntu2) ...
+Selecting previously unselected package php-json-schema.
+Preparing to unpack .../php-json-schema_1.6.1-1build1_all.deb ...
+Unpacking php-json-schema (1.6.1-1build1) ...
+Selecting previously unselected package php-composer-spdx-licenses.
+Preparing to unpack .../php-composer-spdx-licenses_1.1.2-1build1_all.deb ...
+Unpacking php-composer-spdx-licenses (1.1.2-1build1) ...
+Selecting previously unselected package php-composer-semver.
+Preparing to unpack .../php-composer-semver_1.2.0-1build1_all.deb ...
+Unpacking php-composer-semver (1.2.0-1build1) ...
+Selecting previously unselected package jsonlint.
+Preparing to unpack .../jsonlint_1.4.0-1build1_all.deb ...
+Unpacking jsonlint (1.4.0-1build1) ...
+Selecting previously unselected package php-cli-prompt.
+Preparing to unpack .../php-cli-prompt_1.0.1+dfsg-1build1_all.deb ...
+Unpacking php-cli-prompt (1.0.1+dfsg-1build1) ...
+Selecting previously unselected package composer.
+Preparing to unpack .../composer_1.0.0~beta2-1_all.deb ...
+Unpacking composer (1.0.0~beta2-1) ...
+Processing triggers for man-db (2.7.5-1) ...
+Setting up php-symfony-console (2.7.10-0ubuntu2) ...
+Setting up php-symfony-filesystem (2.7.10-0ubuntu2) ...
+Setting up php-symfony-finder (2.7.10-0ubuntu2) ...
+Setting up php-symfony-process (2.7.10-0ubuntu2) ...
+Setting up php-json-schema (1.6.1-1build1) ...
+Setting up php-composer-spdx-licenses (1.1.2-1build1) ...
+Setting up php-composer-semver (1.2.0-1build1) ...
+Setting up jsonlint (1.4.0-1build1) ...
+Setting up php-cli-prompt (1.0.1+dfsg-1build1) ...
+Setting up composer (1.0.0~beta2-1) ...
+Loading composer repositories with package information
+Installing dependencies (including require-dev) from lock file
+Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - Installation request for laravel/framework v5.3.29 -> satisfiable by laravel/framework[v5.3.29].
+    - laravel/framework v5.3.29 requires ext-mbstring * -> the requested PHP extension mbstring is missing from your system.
+  Problem 2
+    - Installation request for phpunit/phpunit 5.7.5 -> satisfiable by phpunit/phpunit[5.7.5].
+    - phpunit/phpunit 5.7.5 requires ext-mbstring * -> the requested PHP extension mbstring is missing from your system.
+  Problem 3
+    - laravel/framework v5.3.29 requires ext-mbstring * -> the requested PHP extension mbstring is missing from your system.
+    - unlu/laravel-api-query-builder v1.6.0 requires illuminate/database >=5.0.0 -> satisfiable by laravel/framework[v5.3.29].
+    - Installation request for unlu/laravel-api-query-builder v1.6.0 -> satisfiable by unlu/laravel-api-query-builder[v1.6.0].
+
+  To enable extensions, verify that they are enabled in those .ini files:
+    - /etc/php/7.0/cli/php.ini
+    - /etc/php/7.0/cli/conf.d/10-mysqlnd.ini
+    - /etc/php/7.0/cli/conf.d/10-opcache.ini
+    - /etc/php/7.0/cli/conf.d/10-pdo.ini
+    - /etc/php/7.0/cli/conf.d/15-xml.ini
+    - /etc/php/7.0/cli/conf.d/20-calendar.ini
+    - /etc/php/7.0/cli/conf.d/20-ctype.ini
+    - /etc/php/7.0/cli/conf.d/20-curl.ini
+    - /etc/php/7.0/cli/conf.d/20-dom.ini
+    - /etc/php/7.0/cli/conf.d/20-exif.ini
+    - /etc/php/7.0/cli/conf.d/20-fileinfo.ini
+    - /etc/php/7.0/cli/conf.d/20-ftp.ini
+    - /etc/php/7.0/cli/conf.d/20-gd.ini
+    - /etc/php/7.0/cli/conf.d/20-gettext.ini
+    - /etc/php/7.0/cli/conf.d/20-iconv.ini
+    - /etc/php/7.0/cli/conf.d/20-imagick.ini
+    - /etc/php/7.0/cli/conf.d/20-intl.ini
+    - /etc/php/7.0/cli/conf.d/20-json.ini
+    - /etc/php/7.0/cli/conf.d/20-mcrypt.ini
+    - /etc/php/7.0/cli/conf.d/20-mysqli.ini
+    - /etc/php/7.0/cli/conf.d/20-pdo_mysql.ini
+    - /etc/php/7.0/cli/conf.d/20-phar.ini
+    - /etc/php/7.0/cli/conf.d/20-posix.ini
+    - /etc/php/7.0/cli/conf.d/20-readline.ini
+    - /etc/php/7.0/cli/conf.d/20-shmop.ini
+    - /etc/php/7.0/cli/conf.d/20-simplexml.ini
+    - /etc/php/7.0/cli/conf.d/20-sockets.ini
+    - /etc/php/7.0/cli/conf.d/20-sysvmsg.ini
+    - /etc/php/7.0/cli/conf.d/20-sysvsem.ini
+    - /etc/php/7.0/cli/conf.d/20-sysvshm.ini
+    - /etc/php/7.0/cli/conf.d/20-tokenizer.ini
+    - /etc/php/7.0/cli/conf.d/20-wddx.ini
+    - /etc/php/7.0/cli/conf.d/20-xmlreader.ini
+    - /etc/php/7.0/cli/conf.d/20-xmlwriter.ini
+    - /etc/php/7.0/cli/conf.d/20-xsl.ini
+  You can also run `php --ini` inside terminal to see which files are used by PHP in CLI mode.
 Cloning into 'php-memcached'...
 Switched to a new branch 'php7'
 Branch php7 set up to track remote branch php7 from origin.
@@ -605,26 +541,26 @@ checking whether to build static libraries... no
 configure: creating ./config.status
 config.status: creating config.h
 config.status: executing libtool commands
-/bin/bash /home/ubuntu/php-memcached/libtool --mode=compile cc -I/usr/include/php/20151012    -I. -I/home/ubuntu/php-memcached -DPHP_ATOM_INC -I/home/ubuntu/php-memcached/include -I/home/ubuntu/php-memcached/main -I/home/ubuntu/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -c /home/ubuntu/php-memcached/php_memcached.c -o php_memcached.lo 
-libtool: compile:  cc -I/usr/include/php/20151012 -I. -I/home/ubuntu/php-memcached -DPHP_ATOM_INC -I/home/ubuntu/php-memcached/include -I/home/ubuntu/php-memcached/main -I/home/ubuntu/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -c /home/ubuntu/php-memcached/php_memcached.c  -fPIC -DPIC -o .libs/php_memcached.o
-/bin/bash /home/ubuntu/php-memcached/libtool --mode=compile cc -I/usr/include/php/20151012    -I. -I/home/ubuntu/php-memcached -DPHP_ATOM_INC -I/home/ubuntu/php-memcached/include -I/home/ubuntu/php-memcached/main -I/home/ubuntu/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -c /home/ubuntu/php-memcached/php_libmemcached_compat.c -o php_libmemcached_compat.lo 
-libtool: compile:  cc -I/usr/include/php/20151012 -I. -I/home/ubuntu/php-memcached -DPHP_ATOM_INC -I/home/ubuntu/php-memcached/include -I/home/ubuntu/php-memcached/main -I/home/ubuntu/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -c /home/ubuntu/php-memcached/php_libmemcached_compat.c  -fPIC -DPIC -o .libs/php_libmemcached_compat.o
-/bin/bash /home/ubuntu/php-memcached/libtool --mode=compile cc -I/usr/include/php/20151012    -I. -I/home/ubuntu/php-memcached -DPHP_ATOM_INC -I/home/ubuntu/php-memcached/include -I/home/ubuntu/php-memcached/main -I/home/ubuntu/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -c /home/ubuntu/php-memcached/g_fmt.c -o g_fmt.lo 
-libtool: compile:  cc -I/usr/include/php/20151012 -I. -I/home/ubuntu/php-memcached -DPHP_ATOM_INC -I/home/ubuntu/php-memcached/include -I/home/ubuntu/php-memcached/main -I/home/ubuntu/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -c /home/ubuntu/php-memcached/g_fmt.c  -fPIC -DPIC -o .libs/g_fmt.o
-/bin/bash /home/ubuntu/php-memcached/libtool --mode=compile cc -I/usr/include/php/20151012    -I. -I/home/ubuntu/php-memcached -DPHP_ATOM_INC -I/home/ubuntu/php-memcached/include -I/home/ubuntu/php-memcached/main -I/home/ubuntu/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -c /home/ubuntu/php-memcached/fastlz/fastlz.c -o fastlz/fastlz.lo 
-libtool: compile:  cc -I/usr/include/php/20151012 -I. -I/home/ubuntu/php-memcached -DPHP_ATOM_INC -I/home/ubuntu/php-memcached/include -I/home/ubuntu/php-memcached/main -I/home/ubuntu/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -c /home/ubuntu/php-memcached/fastlz/fastlz.c  -fPIC -DPIC -o fastlz/.libs/fastlz.o
-/bin/bash /home/ubuntu/php-memcached/libtool --mode=compile cc -I/usr/include/php/20151012    -I. -I/home/ubuntu/php-memcached -DPHP_ATOM_INC -I/home/ubuntu/php-memcached/include -I/home/ubuntu/php-memcached/main -I/home/ubuntu/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -c /home/ubuntu/php-memcached/php_memcached_session.c -o php_memcached_session.lo 
-libtool: compile:  cc -I/usr/include/php/20151012 -I. -I/home/ubuntu/php-memcached -DPHP_ATOM_INC -I/home/ubuntu/php-memcached/include -I/home/ubuntu/php-memcached/main -I/home/ubuntu/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -c /home/ubuntu/php-memcached/php_memcached_session.c  -fPIC -DPIC -o .libs/php_memcached_session.o
-/bin/bash /home/ubuntu/php-memcached/libtool --mode=link cc -DPHP_ATOM_INC -I/home/ubuntu/php-memcached/include -I/home/ubuntu/php-memcached/main -I/home/ubuntu/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -o memcached.la -export-dynamic -avoid-version -prefer-pic -module -rpath /home/ubuntu/php-memcached/modules  php_memcached.lo php_libmemcached_compat.lo g_fmt.lo fastlz/fastlz.lo php_memcached_session.lo -lz -lmemcached -lmemcachedutil
+/bin/bash /vagrant/php-memcached/libtool --mode=compile cc -I/usr/include/php/20151012    -I. -I/vagrant/php-memcached -DPHP_ATOM_INC -I/vagrant/php-memcached/include -I/vagrant/php-memcached/main -I/vagrant/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -c /vagrant/php-memcached/php_memcached.c -o php_memcached.lo 
+libtool: compile:  cc -I/usr/include/php/20151012 -I. -I/vagrant/php-memcached -DPHP_ATOM_INC -I/vagrant/php-memcached/include -I/vagrant/php-memcached/main -I/vagrant/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -c /vagrant/php-memcached/php_memcached.c  -fPIC -DPIC -o .libs/php_memcached.o
+/bin/bash /vagrant/php-memcached/libtool --mode=compile cc -I/usr/include/php/20151012    -I. -I/vagrant/php-memcached -DPHP_ATOM_INC -I/vagrant/php-memcached/include -I/vagrant/php-memcached/main -I/vagrant/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -c /vagrant/php-memcached/php_libmemcached_compat.c -o php_libmemcached_compat.lo 
+libtool: compile:  cc -I/usr/include/php/20151012 -I. -I/vagrant/php-memcached -DPHP_ATOM_INC -I/vagrant/php-memcached/include -I/vagrant/php-memcached/main -I/vagrant/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -c /vagrant/php-memcached/php_libmemcached_compat.c  -fPIC -DPIC -o .libs/php_libmemcached_compat.o
+/bin/bash /vagrant/php-memcached/libtool --mode=compile cc -I/usr/include/php/20151012    -I. -I/vagrant/php-memcached -DPHP_ATOM_INC -I/vagrant/php-memcached/include -I/vagrant/php-memcached/main -I/vagrant/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -c /vagrant/php-memcached/g_fmt.c -o g_fmt.lo 
+libtool: compile:  cc -I/usr/include/php/20151012 -I. -I/vagrant/php-memcached -DPHP_ATOM_INC -I/vagrant/php-memcached/include -I/vagrant/php-memcached/main -I/vagrant/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -c /vagrant/php-memcached/g_fmt.c  -fPIC -DPIC -o .libs/g_fmt.o
+/bin/bash /vagrant/php-memcached/libtool --mode=compile cc -I/usr/include/php/20151012    -I. -I/vagrant/php-memcached -DPHP_ATOM_INC -I/vagrant/php-memcached/include -I/vagrant/php-memcached/main -I/vagrant/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -c /vagrant/php-memcached/fastlz/fastlz.c -o fastlz/fastlz.lo 
+libtool: compile:  cc -I/usr/include/php/20151012 -I. -I/vagrant/php-memcached -DPHP_ATOM_INC -I/vagrant/php-memcached/include -I/vagrant/php-memcached/main -I/vagrant/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -c /vagrant/php-memcached/fastlz/fastlz.c  -fPIC -DPIC -o fastlz/.libs/fastlz.o
+/bin/bash /vagrant/php-memcached/libtool --mode=compile cc -I/usr/include/php/20151012    -I. -I/vagrant/php-memcached -DPHP_ATOM_INC -I/vagrant/php-memcached/include -I/vagrant/php-memcached/main -I/vagrant/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -c /vagrant/php-memcached/php_memcached_session.c -o php_memcached_session.lo 
+libtool: compile:  cc -I/usr/include/php/20151012 -I. -I/vagrant/php-memcached -DPHP_ATOM_INC -I/vagrant/php-memcached/include -I/vagrant/php-memcached/main -I/vagrant/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -c /vagrant/php-memcached/php_memcached_session.c  -fPIC -DPIC -o .libs/php_memcached_session.o
+/bin/bash /vagrant/php-memcached/libtool --mode=link cc -DPHP_ATOM_INC -I/vagrant/php-memcached/include -I/vagrant/php-memcached/main -I/vagrant/php-memcached -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib   -o memcached.la -export-dynamic -avoid-version -prefer-pic -module -rpath /vagrant/php-memcached/modules  php_memcached.lo php_libmemcached_compat.lo g_fmt.lo fastlz/fastlz.lo php_memcached_session.lo -lz -lmemcached -lmemcachedutil
 libtool: link: cc -shared  -fPIC -DPIC  .libs/php_memcached.o .libs/php_libmemcached_compat.o .libs/g_fmt.o fastlz/.libs/fastlz.o .libs/php_memcached_session.o   -lz -lmemcached -lmemcachedutil  -g -O2   -Wl,-soname -Wl,memcached.so -o .libs/memcached.so
 libtool: link: ( cd ".libs" && rm -f "memcached.la" && ln -s "../memcached.la" "memcached.la" )
-/bin/bash /home/ubuntu/php-memcached/libtool --mode=install cp ./memcached.la /home/ubuntu/php-memcached/modules
-libtool: install: cp ./.libs/memcached.so /home/ubuntu/php-memcached/modules/memcached.so
-libtool: install: cp ./.libs/memcached.lai /home/ubuntu/php-memcached/modules/memcached.la
-libtool: finish: PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/root/.composer/vendor/bin:/sbin" ldconfig -n /home/ubuntu/php-memcached/modules
+/bin/bash /vagrant/php-memcached/libtool --mode=install cp ./memcached.la /vagrant/php-memcached/modules
+libtool: install: cp ./.libs/memcached.so /vagrant/php-memcached/modules/memcached.so
+libtool: install: cp ./.libs/memcached.lai /vagrant/php-memcached/modules/memcached.la
+libtool: finish: PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/sbin" ldconfig -n /vagrant/php-memcached/modules
 ----------------------------------------------------------------------
 Libraries have been installed in:
-   /home/ubuntu/php-memcached/modules
+   /vagrant/php-memcached/modules
 
 If you ever happen to want to link against installed libraries
 in a given directory, LIBDIR, you must either use libtool, and
@@ -668,42 +604,12 @@ The following NEW packages will be installed:
   libmariadbclient18 libmysqlclient18 libmysqlclient20 liburi-perl
   mariadb-client-10.1 mariadb-client-core-10.1 mariadb-common mariadb-server
   mariadb-server-10.1 mariadb-server-core-10.1 mysql-common socat
-0 upgraded, 29 newly installed, 0 to remove and 0 not upgraded.
-Need to get 23.9 MB of archives.
-After this operation, 194 MB of additional disk space will be used.
-Get:1 http://archive.ubuntu.com/ubuntu xenial/main amd64 iproute all 1:4.3.0-1ubuntu3 [2,428 B]
-Get:2 http://archive.ubuntu.com/ubuntu xenial/main amd64 libdbi-perl amd64 1.634-1build1 [743 kB]
-Get:3 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libmysqlclient20 amd64 5.7.17-0ubuntu0.16.04.1 [809 kB]
-Get:4 http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu xenial/main amd64 mysql-common all 10.1.22+maria-1~xenial [8,506 B]
-Get:5 http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu xenial/main amd64 mariadb-common all 10.1.22+maria-1~xenial [3,188 B]
-Get:6 http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu xenial/main amd64 galera-3 amd64 25.3.19-xenial [8,000 kB]
-Get:7 http://archive.ubuntu.com/ubuntu xenial-updates/universe amd64 libdbd-mysql-perl amd64 4.033-1ubuntu0.1 [84.3 kB]
-Get:8 http://archive.ubuntu.com/ubuntu xenial/main amd64 libaio1 amd64 0.3.110-2 [6,356 B]
-Get:9 http://archive.ubuntu.com/ubuntu xenial/universe amd64 libjemalloc1 amd64 3.6.0-9ubuntu1 [78.9 kB]
-Get:10 http://archive.ubuntu.com/ubuntu xenial/universe amd64 socat amd64 1.7.3.1-1 [321 kB]
-Get:11 http://archive.ubuntu.com/ubuntu xenial/main amd64 libhtml-tagset-perl all 3.20-2 [13.5 kB]
-Get:12 http://archive.ubuntu.com/ubuntu xenial/main amd64 liburi-perl all 1.71-1 [76.9 kB]
-Get:13 http://archive.ubuntu.com/ubuntu xenial/main amd64 libhtml-parser-perl amd64 3.72-1 [86.1 kB]
-Get:14 http://archive.ubuntu.com/ubuntu xenial/main amd64 libcgi-pm-perl all 4.26-1 [185 kB]
-Get:15 http://archive.ubuntu.com/ubuntu xenial/main amd64 libfcgi-perl amd64 0.77-1build1 [32.3 kB]
-Get:16 http://archive.ubuntu.com/ubuntu xenial/main amd64 libcgi-fast-perl all 1:2.10-1 [10.2 kB]
-Get:17 http://archive.ubuntu.com/ubuntu xenial/main amd64 libencode-locale-perl all 1.05-1 [12.3 kB]
-Get:18 http://archive.ubuntu.com/ubuntu xenial/main amd64 libhtml-template-perl all 2.95-2 [60.4 kB]
-Get:19 http://archive.ubuntu.com/ubuntu xenial/main amd64 libhttp-date-perl all 6.02-1 [10.4 kB]
-Get:20 http://archive.ubuntu.com/ubuntu xenial/main amd64 libio-html-perl all 1.001-1 [14.9 kB]
-Get:21 http://archive.ubuntu.com/ubuntu xenial/main amd64 liblwp-mediatypes-perl all 6.02-1 [21.7 kB]
-Get:22 http://archive.ubuntu.com/ubuntu xenial/main amd64 libhttp-message-perl all 6.11-1 [74.3 kB]
-Get:23 http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu xenial/main amd64 libmysqlclient18 amd64 10.1.22+maria-1~xenial [2,884 B]
-Get:24 http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu xenial/main amd64 libmariadbclient18 amd64 10.1.22+maria-1~xenial [587 kB]
-Get:25 http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu xenial/main amd64 mariadb-client-core-10.1 amd64 10.1.22+maria-1~xenial [690 kB]
-Get:26 http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu xenial/main amd64 mariadb-client-10.1 amd64 10.1.22+maria-1~xenial [1,122 kB]
-Get:27 http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu xenial/main amd64 mariadb-server-core-10.1 amd64 10.1.22+maria-1~xenial [4,409 kB]
-Get:28 http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu xenial/main amd64 mariadb-server-10.1 amd64 10.1.22+maria-1~xenial [6,473 kB]
-Get:29 http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu xenial/main amd64 mariadb-server all 10.1.22+maria-1~xenial [2,918 B]
 Preconfiguring packages ...
-Fetched 23.9 MB in 28s (842 kB/s)
+0 upgraded, 29 newly installed, 0 to remove and 3 not upgraded.
+Need to get 0 B/23.9 MB of archives.
+After this operation, 194 MB of additional disk space will be used.
 Selecting previously unselected package mysql-common.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 94540 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 67265 files and directories currently installed.)
 Preparing to unpack .../mysql-common_10.1.22+maria-1~xenial_all.deb ...
 Unpacking mysql-common (10.1.22+maria-1~xenial) ...
 Selecting previously unselected package mariadb-common.
@@ -753,7 +659,7 @@ Processing triggers for libc-bin (2.23-0ubuntu5) ...
 Setting up mysql-common (10.1.22+maria-1~xenial) ...
 Setting up mariadb-common (10.1.22+maria-1~xenial) ...
 Selecting previously unselected package mariadb-server-10.1.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 94945 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 67670 files and directories currently installed.)
 Preparing to unpack .../mariadb-server-10.1_10.1.22+maria-1~xenial_amd64.deb ...
 Unpacking mariadb-server-10.1 (10.1.22+maria-1~xenial) ...
 Selecting previously unselected package libhtml-tagset-perl.
@@ -824,27 +730,27 @@ Setting up mariadb-client-core-10.1 (10.1.22+maria-1~xenial) ...
 Setting up mariadb-client-10.1 (10.1.22+maria-1~xenial) ...
 Setting up mariadb-server-core-10.1 (10.1.22+maria-1~xenial) ...
 Setting up mariadb-server-10.1 (10.1.22+maria-1~xenial) ...
-2017-03-16  9:51:28 140606656198912 [Note] /usr/sbin/mysqld (mysqld 10.1.22-MariaDB-1~xenial) starting as process 10605 ...
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: Using mutexes to ref count buffer pool pages
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: The InnoDB memory heap is disabled
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: Mutexes and rw_locks use GCC atomic builtins
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: GCC builtin __atomic_thread_fence() is used for memory barrier
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: Compressed tables use zlib 1.2.8
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: Using Linux native AIO
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: Using SSE crc32 instructions
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: Initializing buffer pool, size = 256.0M
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: Completed initialization of buffer pool
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: Highest supported file format is Barracuda.
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: 128 rollback segment(s) are active.
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB: Waiting for purge to start
-2017-03-16  9:51:29 140606656198912 [Note] InnoDB:  Percona XtraDB (http://www.percona.com) 5.6.35-80.0 started; log sequence number 1616819
-2017-03-16  9:51:29 140605728458496 [Note] InnoDB: Dumping buffer pool(s) not yet started
-2017-03-16  9:51:29 140606656198912 [Note] Plugin 'FEEDBACK' is disabled.
+2017-03-20 21:08:54 140593699379456 [Note] /usr/sbin/mysqld (mysqld 10.1.22-MariaDB-1~xenial) starting as process 13592 ...
+2017-03-20 21:08:54 140593699379456 [Note] InnoDB: Using mutexes to ref count buffer pool pages
+2017-03-20 21:08:54 140593699379456 [Note] InnoDB: The InnoDB memory heap is disabled
+2017-03-20 21:08:54 140593699379456 [Note] InnoDB: Mutexes and rw_locks use GCC atomic builtins
+2017-03-20 21:08:54 140593699379456 [Note] InnoDB: GCC builtin __atomic_thread_fence() is used for memory barrier
+2017-03-20 21:08:54 140593699379456 [Note] InnoDB: Compressed tables use zlib 1.2.8
+2017-03-20 21:08:54 140593699379456 [Note] InnoDB: Using Linux native AIO
+2017-03-20 21:08:54 140593699379456 [Note] InnoDB: Using generic crc32 instructions
+2017-03-20 21:08:54 140593699379456 [Note] InnoDB: Initializing buffer pool, size = 256.0M
+2017-03-20 21:08:55 140593699379456 [Note] InnoDB: Completed initialization of buffer pool
+2017-03-20 21:08:55 140593699379456 [Note] InnoDB: Highest supported file format is Barracuda.
+2017-03-20 21:08:55 140593699379456 [Note] InnoDB: 128 rollback segment(s) are active.
+2017-03-20 21:08:55 140593699379456 [Note] InnoDB: Waiting for purge to start
+2017-03-20 21:08:55 140593699379456 [Note] InnoDB:  Percona XtraDB (http://www.percona.com) 5.6.35-80.0 started; log sequence number 1616819
+2017-03-20 21:08:55 140592772253440 [Note] InnoDB: Dumping buffer pool(s) not yet started
+2017-03-20 21:08:55 140593699379456 [Note] Plugin 'FEEDBACK' is disabled.
 Setting up mariadb-server (10.1.22+maria-1~xenial) ...
 Processing triggers for libc-bin (2.23-0ubuntu5) ...
 Processing triggers for systemd (229-4ubuntu16) ...
 Processing triggers for ureadahead (0.100.0-19) ...
-/var/test/install.sh: line 264: rver: command not found
+Could not open input file: artisan
 tar=/bin/tar
 version:
 tar (GNU tar) 1.28
@@ -1452,4 +1358,71 @@ It worked
 yarn install v0.21.3
 [1/4] Resolving packages...
 [2/4] Fetching packages...
-error https://registry.yarnpkg.com/fsevents/-/fsevents-1.0.17.tgz: EROFS: read-only file system, write
+warning fsevents@1.0.17: The platform "linux" is incompatible with this module.
+info "fsevents@1.0.17" is an optional dependency and failed compatibility check. Excluding it from installation.
+[3/4] Linking dependencies...
+warning "sass-loader@4.1.1" has unmet peer dependency "node-sass@^3.4.2 || ^4.0.0".
+warning "sass-loader@4.1.1" has unmet peer dependency "webpack@^2 || ^2.2.0-rc.0 || ^2.1.0-beta || ^1.12.6".
+[4/4] Building fresh packages...
+success Saved lockfile.
+Done in 66.31s.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  redis-tools
+Suggested packages:
+  ruby-redis
+The following NEW packages will be installed:
+  redis-server redis-tools
+0 upgraded, 2 newly installed, 0 to remove and 3 not upgraded.
+Need to get 0 B/750 kB of archives.
+After this operation, 2,342 kB of additional disk space will be used.
+Selecting previously unselected package redis-tools.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 71675 files and directories currently installed.)
+Preparing to unpack .../redis-tools_3%3a3.2.8-1chl1~xenial1_amd64.deb ...
+Unpacking redis-tools (3:3.2.8-1chl1~xenial1) ...
+Selecting previously unselected package redis-server.
+Preparing to unpack .../redis-server_3%3a3.2.8-1chl1~xenial1_amd64.deb ...
+Unpacking redis-server (3:3.2.8-1chl1~xenial1) ...
+Processing triggers for man-db (2.7.5-1) ...
+Processing triggers for systemd (229-4ubuntu16) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Setting up redis-tools (3:3.2.8-1chl1~xenial1) ...
+Setting up redis-server (3:3.2.8-1chl1~xenial1) ...
+Processing triggers for systemd (229-4ubuntu16) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libirs-export141 libisccfg-export140
+Suggested packages:
+  isc-dhcp-server-ldap policycoreutils
+The following NEW packages will be installed:
+  isc-dhcp-server libirs-export141 libisccfg-export140
+Preconfiguring packages ...
+0 upgraded, 3 newly installed, 0 to remove and 3 not upgraded.
+Need to get 0 B/469 kB of archives.
+After this operation, 1,583 kB of additional disk space will be used.
+Selecting previously unselected package libisccfg-export140.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 71713 files and directories currently installed.)
+Preparing to unpack .../libisccfg-export140_1%3a9.10.3.dfsg.P4-8ubuntu1.5_amd64.deb ...
+Unpacking libisccfg-export140 (1:9.10.3.dfsg.P4-8ubuntu1.5) ...
+Selecting previously unselected package libirs-export141.
+Preparing to unpack .../libirs-export141_1%3a9.10.3.dfsg.P4-8ubuntu1.5_amd64.deb ...
+Unpacking libirs-export141 (1:9.10.3.dfsg.P4-8ubuntu1.5) ...
+Selecting previously unselected package isc-dhcp-server.
+Preparing to unpack .../isc-dhcp-server_4.3.3-5ubuntu12.6_amd64.deb ...
+Unpacking isc-dhcp-server (4.3.3-5ubuntu12.6) ...
+Processing triggers for libc-bin (2.23-0ubuntu5) ...
+Processing triggers for systemd (229-4ubuntu16) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Processing triggers for man-db (2.7.5-1) ...
+Setting up libisccfg-export140 (1:9.10.3.dfsg.P4-8ubuntu1.5) ...
+Setting up libirs-export141 (1:9.10.3.dfsg.P4-8ubuntu1.5) ...
+Setting up isc-dhcp-server (4.3.3-5ubuntu12.6) ...
+Generating /etc/default/isc-dhcp-server...
+Processing triggers for libc-bin (2.23-0ubuntu5) ...
+Processing triggers for systemd (229-4ubuntu16) ...
+Processing triggers for ureadahead (0.100.0-19) ...
