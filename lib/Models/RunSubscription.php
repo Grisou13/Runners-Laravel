@@ -3,10 +3,11 @@
 namespace Lib\Models;
 use App\Concerns\StatusConcern;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RunSubscription extends Model
 {
-    use StatusConcern;
+    use StatusConcern, SoftDeletes;
     public $table = "run_drivers";
     public $fillable = ["status","car_id","run_id","car_type_id","user_id"];
     public $hidden = ["id"];

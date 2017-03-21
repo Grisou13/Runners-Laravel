@@ -21,15 +21,16 @@ class RunTransformer extends TransformerAbstract
   {
     return [
       "id"=>$run->id,
+      "nb_passenger"=>$run->nb_passenger,
       "title"=>$run->name,
       "begin_date"=>$run->planned_at,
       "start_at"=>$run->started_at,
-      "end_at"=>$run->ended_at
+      "end_at"=>$run->ended_at,
     ];
   }
   public function includeRunners(Run $run)
   {
-    return $this->collection($run->subscriptions, new RunSubscriptionTransformer);
+    return $this->collection($run->runners, new RunSubscriptionTransformer);
   }
   public function includeWaypoints(Run $run)
   {

@@ -20,7 +20,7 @@ class SearchController extends BaseController
   public function fullText(Request $request, $model)
   {
     $klass = str_singular(studly_case($model)); //get the true model name
-    $instance = new \ReflectionClass("App\\".$klass); //create reflection to instanciate it
+    $instance = new \ReflectionClass("Lib\\Models\\".$klass); //create reflection to instanciate it
     $instance = $instance->newInstance();
     $query = $instance->newQuery();
     $data = $request->except(["token","_token"]);

@@ -169,7 +169,11 @@ $factory->define(Lib\Models\Run::class, function (Faker\Generator $faker){
         "planned_at"=>$faker->dateTimeBetween("+13 days","+15 days"),
     ];
 });
-
+$factory->define(Lib\Models\RunSubscription::class, function(Faker\Generator $faker){
+  return [
+    "status"=>"not ok"
+  ];
+});
 $factory->define(Lib\Models\Group::class, function (Faker\Generator $faker){
     return [
         "color" => App\Http\Helpers\Helper::getRandomGroupColor(),

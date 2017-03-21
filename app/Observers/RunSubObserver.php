@@ -25,7 +25,7 @@ class RunSubObserver
           $sub->car_type()->associate($sub->car->car_type)->save();
       if($sub->has("car") && $sub->has("user"))
       {
-          $sub->status = "good";
+          $sub->status = "ready_to_go";
       }
   }
 

@@ -65,6 +65,8 @@ class Status{
     else
       $statuses = config("status.{$ressource}");
     \Log::debug("CHECKING VALUE OF STATUS : ".$name." IN ".print_r($statuses,true));
+    if(!$statuses)
+      return null;
     foreach($statuses as $statKey=>$statName){
         if($statKey == $name) return $statKey;
         if($statName == $name) return $statKey;

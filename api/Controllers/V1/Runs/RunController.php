@@ -37,40 +37,38 @@ class RunController extends BaseController
     public function store(CreateRunRequest $request)
     {
         $run = new Run;
-        $sub = new RunSubscription;
-        $run->waypoints()->attach($request->get("waypoints"));
-
-        if($request->has("runners"))
+        $subs = [];
+        
+        foreach($request->get("convoys",[]) as $convoy)
         {
-
-          $runners = $request->get("runners");
-          foreach($runners as $runner){
-            $sub->users()->attach($runner);
-          }
+          $userId = array_key_exists("user",$convoy) ? $convoy["user"] : null;
+          $carId = array_key_exists("car",$convoy) ? $convoy["car"] : null;
+          $carTypeId = array_key_exists("car_type",$convoy) ? $convoy["car_type"] : null;
+          $sub = new RunSubscription;
+          $sub->user()->associate($userId);
+          $sub->car()->associate($carId);
+          $sub->car_type()->associate($carTypeId);
+          $subs[] = $sub;
         }
-        if($request->has("car_types"))
-        {
-          $types = $request->get("car_types");
-          foreach($types as $type){
-            $sub->car_types()->attach($type);
-          }
-        }
-        if($request->has("cars"))
-        {
-          $cars = $request->get("cars");
-          foreach($cars as $car){
-            $sub->cars()->attach($car);
-          }
-        }
+        
         $run->fill($request->except(["_token","token"]));
-        $run->subscriptions()->save($sub);
+        $run->name =  $request->get("title",$request->get("artist"));
+
         $run->save();
-        return $this->response()->created();
+        //save relationships
+        if(count($subs))
+          $run->subscriptions()->saveMany($subs);
+        foreach($request->get("waypoints") as $point)
+          $run->waypoints()->attach($point);
+        
+      return $run;
+      //return $this->response->item($run, new RunTransformer);
+        //return $this->response()->created($content=$run);
     }
-    public function delete(Run $run)
+    public function destroy(Run $run)
     {
-      $run->delete();
-        return $this->response->accepted();
+        $run->delete();
+        return $run;
     }
     public function start(Request $request,Run $run)
     {
@@ -81,12 +79,12 @@ class RunController extends BaseController
                throw new NotAcceptableHttpException("All runners have not been filled, please fill run subscription $sub->id");
         }
         $run->started_at = Carbon::now();
-        return $this->response->accepted();
+        return $run;
 
     }
     public function stop(Request $request, Run $run)
     {
       $run->delete();//deleting the model will populate ended_at field, and archive it
-      return $this->response->accepted();
+      return $run;
     }
 }

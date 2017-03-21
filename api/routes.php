@@ -7,14 +7,10 @@
  * @var $api Dingo\Api\Routing\Router
  */
 
-$api->any("/test",function(Illuminate\Http\Request $request){
-  dd($request->all());
-});
+
 $api->get("/","HomeController@home");
 $api->get("/ping","HomeController@ping");
-$api->get("test",function(\Dingo\Api\Http\Request $request){
-  dd($request->all());
-});
+
 $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api){
     $api->resource("users",'UserController');
     $api->get("users/{user}/image",["as"=>"user.image","uses"=>"UserController@image"]);
@@ -34,6 +30,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->resource("cars",'CarController', ["except"=>["delete"]]);
   
     $api->get("/statuses","StatusController@index");
+    $api->get("/statuses/model","StatusController@model");
     $api->resource("waypoints","WaypointController");
     $api->get("/search/{model}","SearchController@fullText");
   
@@ -46,7 +43,8 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       $api->resource("runs.car_types","CarTypeController");
       $api->resource("runs.cars","CarController");
       $api->resource("runs.users","UserController");
-        $api->post("/runs/{run}/start",["as"=>"run.start","uses"=>"RunController@start"]);
+      $api->post("/runs/{run}/start",["as"=>"run.start","uses"=>"RunController@start"]);
+      $api->post("/runs/{run}/stop",["as"=>"run.stop","uses"=>"RunController@stop"]);
       //adding cars to run
       $api->post("/runs/{run}/cars/{car}/join","CarController@join");
       $api->delete("/runs/{run}/cars/{car}/unjoin","CarController@unjoin");//deletes a user from a car

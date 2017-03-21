@@ -12,7 +12,10 @@ class Run extends Model
       "name"=>"required_if:artist,''",
     ];
     protected $fillable = [
-        "name","started_at","planned_at","note","ended_at", "nb_passenger", "artist"
+        "name","planned_at","note","ended_at", "nb_passenger", "artist"
+    ];
+    protected $guarded = [
+      "started_at"
     ];
     //protected $appends =["start_location","end_location"];
     protected $dates = [
@@ -26,12 +29,17 @@ class Run extends Model
       //all fields selected in pivot table are prefixed with pivot_*
       return $this->sortableBelongsToMany(Waypoint::class,"order")->withPivot("order");
     }
-    public static function boot()
+//    public static function boot()
+//    {
+//      parent::boot();
+//      self::creating(function($self){
+//        $self->name = $self->name ? $self->name : $self->defaultRunName();
+//      });
+//    }
+    public function setArtistAttribute($value)
     {
-      parent::boot();
-      self::creating(function($self){
-        $self->name = $self->name ? $self->name : $self->defaultRunName();
-      });
+      $this->attributes["name"]=$value;
+      $this->attributes["artist"]=$value;
     }
 
     public function getEndLocationAttribute(){
@@ -65,6 +73,11 @@ class Run extends Model
     public function subscriptions()
     {
         return $this->hasMany(RunSubscription::class);
+    }
+    //shorthand
+    public function runners()
+    {
+      return $this->subscriptions();
     }
     public function comments()
     {

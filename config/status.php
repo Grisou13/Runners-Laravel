@@ -18,6 +18,9 @@ return [
     "missing_runner"=>"Missing driver",
     "missing_cars"=>"Missing designated car",
   ],
+  "run_observer"=>[
+    "ready_to_go"=>"Pret"
+  ],
     "car"=>[
         "active"=>"Actif",
         "used"=>"Utilisé",

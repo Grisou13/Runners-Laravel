@@ -13,9 +13,17 @@ class AddAccessTokenToUser extends Migration
      */
     public function up()
     {
+      if(strtolower(env("DB_CONNECTION")) == "sqlite"){
         Schema::table('users', function (Blueprint $table) {
-            $table->string('accesstoken')->unique();
+          $table->string('accesstoken')->unique()->nullable();
         });
+      }
+      else{
+        Schema::table('users', function (Blueprint $table) {
+          $table->string('accesstoken')->unique();
+        });
+      }
+      
     }
 
     /**

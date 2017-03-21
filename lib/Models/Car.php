@@ -16,14 +16,20 @@ class Car extends Model
     public function user()
     {
       $car = $this;
-      $subs = RunSubscription::whereHas("car", function($q) use ($car){
-        return $q->where("id",$car->id);
+      $sub = RunSubscription::whereHas("car", function($q) use ($car){
+        return $q->where("cars.id",$car->id);
       })->whereHas("run", function($q){
-        return $q->where("ended_at","!=","null")->where("started_at","!=","null");// the run has started
-      })->where("user_id","!=","null")->first();
-      if(!$subs)
-        return $subs->user;
+        return $q->whereNull("ended_at")->whereNotNull("started_at");/* the run has started */
+      })->whereNotNull("run_drivers.user_id");
+      dump($sub->toSql());
+      if($sub->get()->count())
+        return $sub->first()->user;
       return null;
+    }
+    //shorthand
+    public function getUserAttribute()
+    {
+      return $this->user();
     }
     public function type()
     {

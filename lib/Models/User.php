@@ -59,6 +59,10 @@ class User extends Authenticatable implements StatusableContract
     {
       return "accesstoken";
     }
+    public function getAccessToken()
+    {
+      return $this->attributes[$this->getAccessTokenKey()];
+    }
     public function setAccesstokenAttribute($value)
     {
         $this->attributes[$this->getAccessTokenKey()]= $value ? $value : $this->generateToken();

@@ -19,10 +19,18 @@ class CreateCarTypesTable extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
         });
-        Schema::table('cars', function (Blueprint $table) {
-          $table->integer('car_type_id')->unsigned();
-          $table->foreign('car_type_id')->references('id')->on('car_types');
-        });
+        if(strtolower(env("DB_CONNECTION")) == "sqlite") {
+          Schema::table('cars', function (Blueprint $table) {
+            $table->integer('car_type_id')->unsigned()->nullable()->default("");
+            $table->foreign('car_type_id')->references('id')->on('car_types');
+          });
+        }
+        else {
+          Schema::table('cars', function (Blueprint $table) {
+            $table->integer('car_type_id')->unsigned();
+            $table->foreign('car_type_id')->references('id')->on('car_types');
+          });
+        }
     }
 
     /**

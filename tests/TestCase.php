@@ -1,5 +1,7 @@
 <?php
 namespace Tests;
+use Lib\Models\User;
+
 abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -23,6 +25,20 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
+    }
+    protected function createDefaultUser()
+    {
+      return User::create([
+        "email"=>"root@localhost",
+        "phone_number"=>"",
+        "sex"=>true,
+        "accesstoken"=>"root",
+        "firstname"=>"root",
+        "name"=>"rootsey",
+        "lastname"=>"toor",
+        "password"=>bcrypt("root"),
+        "status"=>\App\Helpers\Status::getUserStatus("actif")
+      ]);
     }
 //    public function tearDown()
 //    {

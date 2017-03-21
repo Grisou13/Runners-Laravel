@@ -27,18 +27,16 @@ class SubscriptionController extends BaseController
   public function store(Request $request, Run $run)
   {
     $sub = new RunSubscription;
-    
+    $sub->run()->associate($run);
+    $sub->fill($request->except(["_token","token"]));
     if($request->has("user"))
       $sub->user()->associate($request->get("user"));
     if($request->has("car"))
       $sub->car()->associate($request->get("car"));
     if($request->has("car_type"))
       $sub->car_type()->associate($request->get("car_type"));
-    
-    $sub->fill($request->except(["_token","token"]));
-    $sub->run()->associate($run);
     $sub->save();
-    return $this->response->created($content=$sub);
+    return $sub;
   }
   public function update(UpdateRunSubscriptionRequest $request, RunSubscription $sub)
   {

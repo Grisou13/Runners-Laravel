@@ -19,6 +19,12 @@ class AddStatusToModels extends Migration
         Schema::table("cars",function(Blueprint $table){
             $table->string("status")->nullable();
         });
+        Schema::table("run_drivers",function(Blueprint $table){
+          $table->string("status")->nullable();
+        });
+        Schema::table("runs",function(Blueprint $table){
+          $table->string("status")->nullable();
+        });
     }
 
     /**
@@ -28,11 +34,20 @@ class AddStatusToModels extends Migration
      */
     public function down()
     {
+      //just change stuuff for mysql, so that we can test
+      if(strtolower(env("DB_CONNECTION")) != "sqlite"){
         Schema::table("users",function(Blueprint $table){
-            $table->dropColumn("status");
+          $table->dropColumn("status");
         });
         Schema::table("cars",function(Blueprint $table){
-            $table->dropColumn("status");
+          $table->dropColumn("status");
         });
+        Schema::table("run_drivers",function(Blueprint $table){
+          $table->dropColumn("status");
+        });
+        Schema::table("runs",function(Blueprint $table){
+          $table->dropColumn("status");
+        });
+      }
     }
 }
