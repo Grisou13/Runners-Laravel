@@ -8,6 +8,7 @@
 
 namespace Api\Controllers\V1;
 
+use App\Helpers\Status;
 use App\Http\Requests\CreateCommentRequest;
 use Lib\Http\Requests\CarListRequest;
 use Lib\Models\Car;
@@ -23,11 +24,20 @@ class CarController extends BaseController
 {
     public function index(CarListRequest $request)
     {
+      $cars = Car::with("car_type");
       if($request->has("type"))
-        return Car::whereHas("car_type",function($q) use ($request){
+      {
+        $cars->whereHas("car_type",function($q) use ($request){
           $q->whereIn("name",explode(",",$request->get("type")));
-        })->get();
-      return Car::all();
+        });
+      }
+      if($request->has("status"))
+      {
+        $stat = Status::getCarStatus($request->get("status"));
+        $cars->where("status",$stat);
+      }
+      return $cars->get();
+      
     }
     public function show(Request $request, Car $car)
     {

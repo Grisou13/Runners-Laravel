@@ -16,11 +16,11 @@ class AddStatusToModels extends Migration
         Schema::table("users",function(Blueprint $table){
             $table->string("status")->nullable();
         });
-        Schema::table("cars",function(Blueprint $table){
-            $table->string("status")->nullable();
-        });
         Schema::table("run_drivers",function(Blueprint $table){
           $table->string("status")->nullable();
+        });
+        Schema::table("cars",function(Blueprint $table){
+            $table->string("status")->nullable();
         });
         Schema::table("runs",function(Blueprint $table){
           $table->string("status")->nullable();

@@ -25,25 +25,25 @@ class RunSubscriptionTransformer extends TransformerAbstract
   public function transform(RunSubscription $sub)
   {
     return [
-      "status"=>"SOMETHING"
+      "status"=>$sub->status
     ];
   }
   public function includeUser(RunSubscription $sub)
   {
-    if($sub->user)
-      return $this->item($sub->user, new UserTransformer);
-    return null;
+    if($u = $sub->user)
+      return $this->item($u, new UserTransformer);
+    return $this->null();
   }
   public function includeCar(RunSubscription $sub)
   {
-    if($sub->car)
-      return $this->item($sub->car, new CarTransformer);
-    return null;
+    if($c = $sub->car)
+      return $this->item($c, new CarTransformer);
+    return $this->null();
   }
   public function includeVehiculeCategory(RunSubscription $sub)
   {
-    if($sub->car_type)
-      return $this->item($sub->car_type, new CarTypeTransformer);
-    return null;
+    if($c = $sub->car_type)
+      return $this->item($c, new CarTypeTransformer);
+    return $this->null();
   }
 }

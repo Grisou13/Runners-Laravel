@@ -1,13 +1,17 @@
 <?php
 
 namespace Lib\Models;
+use App\Concerns\StatusConcern;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
 use Lib\Concerns\SortablePivotTrait;
+use App\Helpers\Status as StatusHelper;
+
 class Run extends Model
 {
-    use SoftDeletes,ValidatingTrait,SortablePivotTrait;
+    use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern;
     public $rules = [
       "name"=>"required_if:artist,''",
     ];
@@ -25,6 +29,18 @@ class Run extends Model
         "ended_at",
         "planned_at"
     ];
+  
+  public static function boot()
+  {
+    parent::boot();
+    self::saving(function($self){
+      //update all subscriptions notifying them they are gone
+      if($self->started_at != null && $self->ended_at != null)
+        $self->subscriptions->map(function($sub){
+          $sub->status = "gone";
+        });
+    });
+  }
     public function waypoints(){
       //all fields selected in pivot table are prefixed with pivot_*
       return $this->sortableBelongsToMany(Waypoint::class,"order")->withPivot("order");
@@ -83,4 +99,73 @@ class Run extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+  
+  public function delete()
+  {
+    if($this->ended_at == null)
+      $this->ended_at=Carbon::now();
+    //automatically destroy all subs when a run is deleted
+    $this->subscriptions->map(function(RunSubscription $sub){
+      $sub->delete();
+    });
+    return parent::delete();
+  }
+  
+//  public function associateUser(User $user)
+//  {
+//    $user->status = "taken";
+//    return $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"user_id"=>$user->id])->user()->associate($user)->save();
+//  }
+//  public function associateCar(Car $car)
+//  {
+//    $car->status = "taken";
+//    return $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_id"=>$car->id])->car()->associate($car)->save();
+//  }
+//  public function associateCarType(CarType $car_type)
+//  {
+//    $this->status ="missing_car";
+//    $this->save();
+//    //$car->status = StatusHelper::getStatusKey($car_type,"taken");
+//    return $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_type_id"=>$car_type->id])->car_type()->associate($car_type)->save();
+//  }
+//  public function dissociateUser(User $user)
+//  {
+//
+//  }
+//  public function associateUserAndCar(User $user, Car $car)
+//  {
+//    if(!$this->exists)
+//      return false;
+//    //the number of subscriptions matches the number of full subscriptions for this run
+//    if($this->subscriptions()->where("run_id",$this->id)->whereNotNull("user_id")->whereNotNull("car_id")->count() == $this->subscriptions()->count()) {
+//      $this->status = "ready_to_go";
+//      $this->save();
+//    }
+//    //$car->status = StatusHelper::getStatusKey($car_type,"taken");
+//    $sub = $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_id"=>$car->id, "user_id"=>$user->id]);
+//    $sub->car()->associate($car);
+//    $sub->user()->associate($user);
+//    $sub->save();
+//    return $sub;
+//  }
+//  public function associateUserAndCarType(User $user, CarType $car_type)
+//  {
+//    $this->status ="missing_car";
+//    $this->save();
+//    //$car->status = StatusHelper::getStatusKey($car_type,"taken");
+//    $sub = $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_type_id"=>$car_type->id, "user_id"=>$user->id]);
+//    $sub->car_type()->associate($car_type);
+//    $sub->user()->associate($user);
+//    $sub->save();
+//    return $sub;
+//
+//  }
+//
+//  public function dissociateCarType(CarType $car_type)
+//  {
+//  }
+//
+//  public function dissociateCar(Car $car)
+//  {
+//  }
 }

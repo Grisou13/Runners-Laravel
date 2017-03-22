@@ -62,7 +62,7 @@ class SubscriptionController extends BaseController
     $data = $request->except(["token","_token","user","car_type","car"]);
     
     $sub->update($data);
-    return $this->response->accepted($content=$sub);
+    return $sub;
   }
   public function delete(RunSubscription $sub)
   {

@@ -27,4 +27,8 @@ class NoDataArraySerializer extends ArraySerializer
   {
     return ($resourceKey) ? [ $resourceKey => $data ] : $data;
   }
+  public function null()
+  {
+    return null;
+  }
 }

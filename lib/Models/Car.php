@@ -4,26 +4,30 @@
 */
 namespace Lib\Models;
 
+use App\Helpers\Status;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 class Car extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, BelongsToThrough;
     protected $fillable = [
-        "plate_number","brand","model","color","nb_place","comment","name"
+        "plate_number","brand","model","color","nb_place","comment","name","status"
     ];
+    public $appends = [
+      "status"
+    ];
+
+    public function subscriptions()
+    {
+      return $this->hasMany(RunSubscription::class);
+    }
     public function user()
     {
-      $car = $this;
-      $sub = RunSubscription::whereHas("car", function($q) use ($car){
-        return $q->where("cars.id",$car->id);
-      })->whereHas("run", function($q){
-        return $q->whereNull("ended_at")->whereNotNull("started_at");/* the run has started */
-      })->whereNotNull("run_drivers.user_id");
-      dump($sub->toSql());
-      if($sub->get()->count())
-        return $sub->first()->user;
+      $res = $this->subscriptions()->whereHas("user")->first();
+      if($res)
+        return $res->user;
       return null;
     }
     //shorthand

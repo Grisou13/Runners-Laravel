@@ -42,7 +42,6 @@ class CarWithUser extends TestCase
       $sub->save();
       $this->assertEquals($run->users()->get()->count(),1);
       $this->assertEquals($run->cars()->get()->count(),1);//still only should have 1 car
-      dump($car->user());
       $this->assertEquals($car->user()->id,$user->id);
     }
 }

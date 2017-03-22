@@ -63,30 +63,14 @@ class ApiServiceProvider extends RouteServiceProvider
     {
         parent::boot();
         $this->publishConfigs();
-      
-        
-//        $this->app->bind('League\Fractal\Manager', function($app) {
-//          $fractal = new Manager();
-//          $serializer = new ArraySerializer();
-//          $fractal->setSerializer($serializer);
-//
-//          return $fractal;
-//        });
-//        $this->app->bind('Dingo\Api\Transformer\Adapter\Fractal', function($app) {
-//          $fractal = $app->make('\League\Fractal\Manager');
-//          $serializer = new \League\Fractal\Serializer\ArraySerializer();
-//
-//          $fractal->setSerializer($serializer);
-//          return new \Dingo\Api\Transformer\Adapter\Fractal($fractal);
-//        });
 
         app('Dingo\Api\Auth\Auth')->extend('access-token', function ($app) {
             return new ApiAuthProvider;
         });
         app('Dingo\Api\Transformer\Factory')->setAdapter(function ($app) {
-          $fractal = new \League\Fractal\Manager;
-          $fractal->setSerializer(new \Api\Responses\NoDataArraySerializer);
-          return new \Dingo\Api\Transformer\Adapter\Fractal($fractal);
+          $fractal = new Manager;
+          $fractal->setSerializer(new Responses\NoDataArraySerializer);
+          return new Fractal($fractal,"include",",",false);
         });
         //change the not found model exception to a symfony exception (dingo handles only symfony... )
         app('Dingo\Api\Exception\Handler')->register(function (ModelNotFoundException $exception) {

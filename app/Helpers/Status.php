@@ -30,16 +30,16 @@ class Status{
         // Note : la valeur de $name est sensible à la casse.
         if(preg_match('/^get(\w+)Status/',$name,$matches)){
           $name = strtolower($matches[1]);
-            \Log::debug("IN CLASS Status going to do ".$name." with args: ".print_r($arguments,true));
             if(count($arguments) == 1){
-                $ret = self::getStatusKey($name,$arguments[0]);
-                if($ret === null)
-                    $ret = self::getStatusName($name,$arguments[0]);
-                return $ret;
+                return self::getStatus($name,$arguments[0]);
             }
 
           return self::getStatusForRessource($name);
         }
+    }
+    public static function  getStatus($resource, $name)
+    {
+      return self::getStatusKey($resource,$name);
     }
   /**
    * getStatusName get the status of specific ressource
@@ -47,11 +47,23 @@ class Status{
    * @param  string $name      name of the status key
    * @return string
    */
-  public static function getStatusName($ressource,$name){
-    if(is_object($ressource) && method_exists($ressource,"getStatusRessourceType"))
-      return config("status.".$ressource->getStatusRessourceType().".".$name);
-    else
-      return config("status.". $ressource .".". $name);
+  public static function getStatusName($ressource,$key){
+
+      return config("status.". self::resolveResourceName($ressource) .".". $key);
+  }
+  
+  /**
+   * Resolves a class_name, a class object or string to a valid status type
+   * @param $r
+   * @return string
+   */
+  protected static function resolveResourceName($r)
+  {
+    if(is_object($r) && method_exists($r,"getStatusRessourceType"))
+        return str_singular(snake_case($r->getStatusRessourceType()));
+    elseif(is_string($r))
+      return str_singular(snake_case(snake_case(basename(str_replace('\\', '/',$r)))));
+    return str_singular(snake_case(basename(str_replace('\\', '/', get_class($r)))));
   }
   /**
    * getStatusKey get the status corresponding of the key
@@ -60,17 +72,17 @@ class Status{
    * @return string
    */
   public static function getStatusKey($ressource,$name){
-    if(is_object($ressource) && method_exists($ressource,"getStatusRessourceType"))
-      $statuses = config("status.".$ressource->getStatusRessourceType());
-    else
-      $statuses = config("status.{$ressource}");
-    \Log::debug("CHECKING VALUE OF STATUS : ".$name." IN ".print_r($statuses,true));
-    if(!$statuses)
-      return null;
-    foreach($statuses as $statKey=>$statName){
-        if($statKey == $name) return $statKey;
-        if($statName == $name) return $statKey;
+    
+    $statuses = collect(config("status.".self::resolveResourceName($ressource),[]));
+    $index = $statuses->keys()->search($name);
+    if($index !== false)
+      return $statuses->keys()[$index];
+    else{
+      $index = $statuses->values()->search($name);
+      if($index !== false)
+        return $statuses->keys()[$index];
     }
     return null;
+    
   }
 }

@@ -3,10 +3,11 @@
 return [
   "user"=>[
     "active"=>"Actif",
+    "taken"=>"En cours de run",
     "not_present"=>"Pas présent",
     "available"=>"Disponible"
   ],
-  "car_types"=>[
+  "car_type"=>[
     "active"=>"Actif",
     "used"=>"Utilisé",
     "free"=>"Disponible"
@@ -15,15 +16,19 @@ return [
     "active"=>"actif",
     "started"=>"Démarré",
     "ready_to_go"=>"Pret",
-    "missing_runner"=>"Missing driver",
-    "missing_cars"=>"Missing designated car",
+    "error"=>"Il manque des information pour démarrer le run"
   ],
-  "run_observer"=>[
-    "ready_to_go"=>"Pret"
+  "run_subscription"=>[
+    "ready_to_go"=>"Pret",
+    "missing_user"=>"Il manque un chauffeur",
+    "missing_car"=>"Il manque une voiture",
+    "needs_filling"=>"Il faut encore remplir les imformations pour l'utilisateur, la voiture, ou le type de voiture",
+    "gone"=>"Le run est parti"
   ],
     "car"=>[
         "active"=>"Actif",
-        "used"=>"Utilisé",
-        "free"=>"Disponible"
+        "taken"=>"Utilisé",
+        "free"=>"Disponible",
+        "problem"=>"La voiture n'est pas en &eacute;tat de fonctionnement"
     ]
 ];

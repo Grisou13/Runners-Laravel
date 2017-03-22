@@ -15,17 +15,17 @@ trait StatusConcern{
     return $this->attributes["status"] = $this->lookupStatus($value);
   }
   public function getStatusAttribute(){
-    return $this->getPublishedStatusName($this->attributes["status"]);
+    return array_key_exists("status",$this->attributes) ? $this->attributes["status"] : null;
   }
   protected function lookupStatus($val){
 
-    return Status::getStatusKey($this,$val);
+    return Status::getStatus(self::class,$val);
   }
   protected function getPublishedStatusName($statusName){
     return Status::getStatusName($this,$statusName);
   }
     public function scopeOfStatus($query, $type)
     {
-        return $query->where('status', $type);
+        return $query->where('status', Status::getStatusKey($this,$type));
     }
 }

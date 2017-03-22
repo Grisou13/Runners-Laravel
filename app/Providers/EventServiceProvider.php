@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Observers\CarStatusObserver;
+use App\Observers\RunObserver;
+use App\Observers\RunSubObserver;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Lib\Models\Car;
+use Lib\Models\Run;
+use Lib\Models\RunSubscription;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -26,7 +32,9 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
+        //Run::observe(RunObserver::class);
+        //RunSubscription::observe(RunSubObserver::class);
+        //Car::observe(CarStatusObserver::class);
         //
     }
 }
