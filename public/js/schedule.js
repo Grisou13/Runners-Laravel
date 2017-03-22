@@ -30,8 +30,10 @@ function _getDates(startDate, stopDate) {
     return dateArray;
 }
 function _updateSchedule(newScheduleInterval){
-    let floatVal = parseFloat(newScheduleInterval.replace(":", "."));
+    //let floatVal = parseFloat(newScheduleInterval.replace(":", "."));
+    console.log(newScheduleInterval)
     // change settings
+
 
 }
 function ajaxRequest(method, url, data, callback) {
@@ -179,7 +181,7 @@ function getAllDays(){
     return _getDates(moment().format(), moment().add(1, "week").format());
 }
 
-function editSchedule(currentSchedule){
+function editSchedule(currentSchedule, hourInterval, minutesInterval){
     var _diff = function(hor1, hor2){
         let r = parseInt(hor1) - parseInt(hor2);
         if(r < 0){
@@ -188,101 +190,134 @@ function editSchedule(currentSchedule){
         return r;
     };
 
-    var container = document.getElementsByClassName("schedule-edit");
+    var container = document.getElementsByClassName("schedule-edit")[0];
     var diffElement = document.createElement("div");
     let sel = currentSchedule[0];
     var diff = _diff(sel, currentSchedule[currentSchedule.indexOf(sel)+1]);
     var typingValidation = function(){
-        // Button is clickable only if we have a value
-        if(document.getElementById("sch").value){
+        // Get our two dropdown list values
+        let hoursInput = document.getElementById("sch-hours").value;
+        let minutesInput = document.getElementById("sch-minutes").value;
+
+        // Submit button is clickable only if we have a jump bigger than 0
+        if(hoursInput != "00" || minutesInput != "00"){
             document.getElementById("sch-validate").disabled = false;
             document.getElementById("sch-validate").style.opacity = "1";
         }else{
             document.getElementById("sch-validate").disabled = true;
             document.getElementById("sch-validate").style.opacity = "0.8";
         }
+
     };
     var changeSchedule = function(){
-        let newDiff = document.getElementById("sch").value;
+        let hoursDiff = document.getElementById("sch-hours").value;
+        let minutesDiff = document.getElementById("sch-minutes").value;
         //TODO check if val is different that the one actually used.
-        
-        _updateSchedule(newDiff);
+
+        _updateSchedule(hoursDiff + "." + minutesDiff));
 
         let alertElement = document.createElement("div");
-        if(!newDiff){
-            alertElement.innerHTML = "No Value.."
-        }
-        container[0].appendChild(alertElement);
+        // if(!newDiff){
+        //     alertElement.innerHTML = "No given value"
+        // }
+        // container.appendChild(alertElement);
     };
+
     diffElement.innerHTML = "Tranche actuelle : " + diff.toString() + " H.";
     diffElement.style.fontSize = "20px";
-    container[0].appendChild(diffElement);
+    container.appendChild(diffElement);
+    //container[0].appendChild(changeElement);
 
-    var changeElement = document.createElement("input");
-    changeElement.type = "time";
-    changeElement.setAttribute("id", "sch");
-    changeElement.onchange = typingValidation;
-    container[0].appendChild(changeElement);
+    // hour dropdown
+    // hour jump given in parameter array
+    var selectHour = document.createElement("select");
+    hourInterval.forEach(function(val){
+        selectHour.options.add(new Option(val,val))
+    });
+    selectHour.setAttribute("id", "sch-hours")
+    selectHour.onchange = typingValidation;
+    // minutes dropdown
+    // minutes jump given in parameter array
+    var selMinutes = document.createElement("select");
+    minutesInterval.forEach(function(val){
+        selMinutes.options.add(new Option(val,val))
+    });
+    selMinutes.setAttribute("id", "sch-minutes");
+    selMinutes.onchange = typingValidation;
 
+    // append the options to container
+    container.appendChild(selectHour);
+    container.appendChild(selMinutes);
+
+    // submit button
     var validateElement = document.createElement("input");
     validateElement.type = "submit";
     validateElement.setAttribute("id", "sch-validate");
     validateElement.disabled = true;
     validateElement.style.opacity = "0.7";
     validateElement.onclick = changeSchedule;
-    container[0].appendChild(validateElement);
-    // currentSchedule.forEach(function(schedule){
-    //     // console.log(currentSchedule.indexOf(schedule));
-    //     // let i = document.createElement("input");
-    //     // i.setAttribute()
-    // });
+    // append the submit button to container
+    container.appendChild(validateElement);
 }
 
-/*
-* Contains all the day that have been changed in te grid.
-* We only read and update the days in this array
-* */
-var dayChanged = [];
+
+/**
+ * Get all days. Yup.
+ * @type {[type]}
+ */
 var days = getAllDays();
+
+/**
+ * Generates an array of hours on a day (24 hours) ie ([08:00, 10:00, 12:00, ...]).
+ * Always starts at 08:00.
+ * @param  {Array} jump  The time beteewn each schedule column. The smaller the number is,
+ *                       the bigger the return array will be.
+ * @return [Array]       return the schedule (on 24 hours) generated with the jump.
+ */
 function generateScheduleFromInterval(jump){
     if(typeof(jump) == "string"){
         throw new Error("Schedule jump: format non-valid !");
     }
-
     if(isNaN(parseFloat(jump)) || !isFinite(jump)){
         throw new Error("Schedule second j: format non-valid !");
     }
-    console.log("initial jump is : "+jump);
-    let startTime = 8;
+    let startTime = parseFloat(8).toFixed(1);
     var times = [];
-    var i = startTime;
-    times.push(startTime);
+    var inc = startTime;
+    times.push(inc);
 
     do{
-        if(i >= 24){
-            i = 0;
+        inc = parseFloat(inc) + parseFloat(jump);
+        inc = inc.toFixed(1);
+        if(inc >= 24){
+            inc = 0;
         }
-        i = +(i + jump).toFixed(1);
-    }while(i != startTime);
-    console.log(times);
-
-
-
+        times.push(inc);
+    }while(inc != startTime);
+    return times.slice(0, -1);
 }
-var schedule = generateScheduleFromInterval(0.20);
-// var schedule2 = generateScheduleFromInterval(1);
-// var schedule3 = generateScheduleFromInterval(2.5);
 
-// var schedule = ["08:00", "10:00",
-//                 "12:00", "14:00",
-//                 "16:00", "18:00",
-//                 "20:00", "22:00",
-//                 "00:00", "02:00",
-//                 "04:00", "06:00"];
-// console.log(interval);
+function genSchedule(jj){
+    return false;
+}
+
+
+// var schedule1 = generateScheduleFromInterval(2);
+// var schedule2 = generateScheduleFromInterval(1);
+var schedule3 = genSchedule();
+
+console.log(schedule3);
+var schedule = ["08:00", "10:00",
+                "12:00", "14:00",
+                "16:00", "18:00",
+                "20:00", "22:00",
+                "00:00", "02:00",
+                "04:00", "06:00"];
 
 var groups = getAllGroups();
 // console.log(groups);
-// createGrid(schedule, days, groups);
-// editSchedule(schedule);
+createGrid(schedule, days, groups);
 
+var hourInterval = ["00", "01", "02", "03"];
+var minutesInterval = ["00","15","30","45"];
+editSchedule(schedule, hourInterval, minutesInterval);
