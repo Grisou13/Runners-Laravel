@@ -33,25 +33,36 @@ class Run extends Model
   public static function boot()
   {
     parent::boot();
-    self::saving(function($self){
+    self::saving(function(Run $self){
       //update all subscriptions notifying them they are gone
+
       if($self->started_at != null && $self->ended_at != null)
+      {
+        dump("saving run");
+        $self->status="gone";
         $self->subscriptions->map(function($sub){
           $sub->status = "gone";
         });
+      }
+      elseif($self->started_at==null && $self->ended_at == null)
+      {
+        dump("-----------");
+        if($self->subscriptions()->ofStatus("ready_to_go")->count() == $self->subscriptions()->count())
+          $self->status = "ready";
+        else
+          $self->status="error";
+
+        dump("saving run");
+        dump($self->status);
+      }
+
     });
   }
     public function waypoints(){
       //all fields selected in pivot table are prefixed with pivot_*
       return $this->sortableBelongsToMany(Waypoint::class,"order")->withPivot("order");
     }
-//    public static function boot()
-//    {
-//      parent::boot();
-//      self::creating(function($self){
-//        $self->name = $self->name ? $self->name : $self->defaultRunName();
-//      });
-//    }
+
     public function setArtistAttribute($value)
     {
       $this->attributes["name"]=$value;

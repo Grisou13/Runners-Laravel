@@ -14,8 +14,8 @@ return [
   ],
   "run"=>[
     "active"=>"actif",
-    "started"=>"Démarré",
-    "ready_to_go"=>"Pret",
+    "gone"=>"Démarré",
+    "ready"=>"Pret",
     "error"=>"Il manque des information pour démarrer le run"
   ],
   "run_subscription"=>[
@@ -25,10 +25,10 @@ return [
     "needs_filling"=>"Il faut encore remplir les imformations pour l'utilisateur, la voiture, ou le type de voiture",
     "gone"=>"Le run est parti"
   ],
-    "car"=>[
-        "active"=>"Actif",
-        "taken"=>"Utilisé",
-        "free"=>"Disponible",
-        "problem"=>"La voiture n'est pas en &eacute;tat de fonctionnement"
-    ]
+  "car"=>[
+    "active"=>"Actif",
+    "taken"=>"Utilisé",
+    "free"=>"Disponible",
+    "problem"=>"La voiture n'est pas en &eacute;tat de fonctionnement"
+  ]
 ];

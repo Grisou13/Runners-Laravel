@@ -15,13 +15,7 @@ use Lib\Models\RunSubscription;
 
 class RunObserver
 {
-  public function updating(Run $run)
-  {
-    if($run->ended_at != null)//if the run ended, we need do delete all subscriptions
-      $run->subscriptions->map(function(RunSubscription $sub){
-        $sub->delete();
-      });
-  }
+
   public function deleting(Run $run)
   {
     if($run->ended_at == null)
@@ -31,9 +25,17 @@ class RunObserver
       $sub->delete();
     });
   }
-  public function created(Run $run)
+
+  public function subscribe($events)
   {
-    
+    $events->listen(
+      'Illuminate\Auth\Events\Login',
+      'App\Listeners\UserEventSubscriber@onUserLogin'
+    );
+
+    $events->listen(
+      'Illuminate\Auth\Events\Logout',
+      'App\Listeners\UserEventSubscriber@onUserLogout'
+    );
   }
-  
 }
