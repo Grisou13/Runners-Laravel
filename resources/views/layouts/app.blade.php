@@ -18,7 +18,7 @@
     @stack("styles")
 
     <!-- Scripts -->
-    <script src="{{ asset('js/axios.min.js') }}"></script>
+    <script src="{{ asset('/js/axios.min.js') }}"></script>
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),

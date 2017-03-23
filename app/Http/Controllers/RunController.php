@@ -16,7 +16,7 @@ class RunController extends Controller
      */
     public function index()
     {
-        $runs = Run::withCount("waypoints")->with(["waypoints","runners"])->orderBy("planned_at")->get();
+        $runs = Run::withCount("waypoints")->with(["waypoints","users"])->orderBy("planned_at")->get();
         return view("run.index",compact("runs"));
     }
 
@@ -41,7 +41,7 @@ class RunController extends Controller
         $run = $this->api->post(app(UrlGenerator::class)->version("v1")->route("runs.store"))->be(Auth::user())->with($request->except(["_token"]));
         return redirect()->back();
     }
-  
+
   /**
    * Display the specified resource.
    *
