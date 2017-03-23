@@ -16,8 +16,8 @@ Installed :
 # Usage
 
 ```bash
-curl -sL https://raw.githubusercontent.com/CPNV-ES/Runners-Laravel/feature/api-run-sub/install/install.sh
-curl -sL https://raw.githubusercontent.com/CPNV-ES/Runners-Laravel/feature/api-run-sub/install/IWANTINTERNET.sh
+curl -sL https://raw.githubusercontent.com/CPNV-ES/Runners-Laravel/master/install/install.sh
+curl -sL https://raw.githubusercontent.com/CPNV-ES/Runners-Laravel/master/install/IWANTINTERNET.sh
 sudo chmod 777 IWANTINTERNET.sh
 sudo ./IWANTINTERNET.sh
 chmod 777 install.sh
