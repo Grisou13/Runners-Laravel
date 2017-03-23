@@ -22,7 +22,11 @@ class RunController extends BaseController
 {
     public function index(Request $request)
     {
-      return $this->response()->collection(Run::all(), new RunTransformer);
+      $query = new Run;
+      $query = $query->newQuery();
+      if($request->has("status"))
+        $query->ofStatus($request->get("status"));
+      return $this->response()->collection($query->get(), new RunTransformer);
     }
     public function show(Request $request, Run $run)
     {

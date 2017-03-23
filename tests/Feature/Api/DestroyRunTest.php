@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DestroyRun extends TestCase
+class DestroyRunTest extends TestCase
 {
   use DatabaseMigrations;
   

@@ -11,6 +11,9 @@ class RunSubscription extends Model
     public $table = "run_drivers";
     public $fillable = ["status","car_id","run_id","car_type_id","user_id"];
     public $hidden = ["id"];
+    protected $touches = [
+      "run"
+    ];
     public static function boot()
     {
       parent::boot();
