@@ -9,19 +9,23 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Lib\Models\Run;
 
-class RunStatusWasUpdatedEvent
+class RunDeletingEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+  /**
+   * @var Run
+   */
+    public $run;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Run $run)
     {
-        //
+        $this->run = $run;
     }
 
     /**
@@ -31,6 +35,6 @@ class RunStatusWasUpdatedEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('run.status.updated');
+        return new PrivateChannel('channel-name');
     }
 }

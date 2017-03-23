@@ -16,7 +16,8 @@ return [
     "active"=>"actif",
     "gone"=>"Démarré",
     "ready"=>"Pret",
-    "error"=>"Il manque des information pour démarrer le run"
+    "error"=>"Il manque des information pour démarrer le run",
+    "needs_filling"=>"Il n'y a actuellement aucun conoie prévu pour le run"
   ],
   "run_subscription"=>[
     "ready_to_go"=>"Pret",

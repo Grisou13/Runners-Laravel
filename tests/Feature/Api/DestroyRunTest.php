@@ -22,6 +22,8 @@ class DestroyRunTest extends TestCase
     $run = factory(Run::class)->create();
     $res = $this->deleteJson("/api/runs/{$run->id}",[],["x-access-token"=>$user->getAccessToken()]);
     $res->assertStatus(200);
+    $this->assertNotNull(Run::withTrashed()->find($run->id)->deleted_at);
+    $this->assertNotNull(Run::withTrashed()->find($run->id)->ended_at);
   }
   
   /**
@@ -39,6 +41,8 @@ class DestroyRunTest extends TestCase
     $res = $this->deleteJson("/api/runs/{$run->id}",[],["x-access-token"=>$user->getAccessToken()]);
     $res->assertStatus(200);
     $this->assertEquals($run->subscriptions()->getResults()->count(),0);// now that the run is deleted, we should never get subscriptions.
+    $this->assertNotNull(Run::withTrashed()->find($run->id)->deleted_at);
+    $this->assertNotNull(Run::withTrashed()->find($run->id)->ended_at);
   }
   
   /**
@@ -56,7 +60,9 @@ class DestroyRunTest extends TestCase
     $res = $this->postJson("/api/runs/{$run->id}/stop",[],["x-access-token"=>$user->getAccessToken()]);
     $res->assertStatus(200);
     $this->assertEquals($run->subscriptions()->getResults()->count(),0);// now that the run is deleted, we should never get subscriptions.
-    
+    $this->assertNotNull(Run::withTrashed()->find($run->id)->deleted_at);
+    $this->assertNotNull(Run::withTrashed()->find($run->id)->ended_at);
   
   }
+  
 }

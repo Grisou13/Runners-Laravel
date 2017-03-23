@@ -71,6 +71,8 @@ class RunController extends BaseController
     }
     public function destroy(Run $run)
     {
+        $run->ended_at = Carbon::now();
+        $run->save();
         $run->delete();
         return $run;
     }
@@ -88,6 +90,8 @@ class RunController extends BaseController
     }
     public function stop(Request $request, Run $run)
     {
+      $run->ended_at = Carbon::now();
+      $run->save();
       $run->delete();//deleting the model will populate ended_at field, and archive it
       return $run;
     }

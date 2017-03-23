@@ -33,8 +33,7 @@ class CarController extends BaseController
       }
       if($request->has("status"))
       {
-        $stat = Status::getCarStatus($request->get("status"));
-        $cars->where("status",$stat);
+        $cars->ofStatus("status",$request->get("status"));
       }
       return $cars->get();
       

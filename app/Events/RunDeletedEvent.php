@@ -10,30 +10,23 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Lib\Models\Run;
-use Lib\Models\RunSubscription;
 
-class RunSubscriptionSavingEvent
+class RunDeletedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
   
-  /**
-   * @var Run
-   */
-    public $run;
     /**
-     * @var RunSubscription
+     * @var Run
      */
-    public $run_subscription;
-    
+    public $run;
     /**
      * Create a new event instance.
      *
-     * @param RunSubscription $run_subscription
+     * @return void
      */
-    public function __construct(RunSubscription $run_subscription)
+    public function __construct(Run $run)
     {
-      $this->run_subscription = $run_subscription;
-      $this->run = $run_subscription->run;
+      $this->run = $run;
     }
 
     /**

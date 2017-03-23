@@ -2,6 +2,11 @@
 
 namespace Lib\Models;
 use App\Concerns\StatusConcern;
+use App\Events\RunDeletedEvent;
+use App\Events\RunDeletingEvent;
+use App\Events\RunFinishedEvent;
+use App\Events\RunSavedEvent;
+use App\Events\RunSavingEvent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,35 +34,18 @@ class Run extends Model
         "ended_at",
         "planned_at"
     ];
-  
-  public static function boot()
-  {
-    parent::boot();
-    self::saving(function(Run $self){
-      //update all subscriptions notifying them they are gone
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $events = [
+      'saving' => RunSavingEvent::class,
+      "saved" => RunSavedEvent::class,
+      'deleting' => RunDeletingEvent::class,
+      'deleted' => RunDeletedEvent::class
+    ];
 
-      if($self->started_at != null && $self->ended_at != null)
-      {
-        dump("saving run");
-        $self->status="gone";
-        $self->subscriptions->map(function($sub){
-          $sub->status = "gone";
-        });
-      }
-      elseif($self->started_at==null && $self->ended_at == null)
-      {
-        dump("-----------");
-        if($self->subscriptions()->ofStatus("ready_to_go")->count() == $self->subscriptions()->count())
-          $self->status = "ready";
-        else
-          $self->status="error";
-
-        dump("saving run");
-        dump($self->status);
-      }
-
-    });
-  }
     public function waypoints(){
       //all fields selected in pivot table are prefixed with pivot_*
       return $this->sortableBelongsToMany(Waypoint::class,"order")->withPivot("order");
@@ -111,16 +99,6 @@ class Run extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
   
-  public function delete()
-  {
-    if($this->ended_at == null)
-      $this->ended_at=Carbon::now();
-    //automatically destroy all subs when a run is deleted
-    $this->subscriptions->map(function(RunSubscription $sub){
-      $sub->delete();
-    });
-    return parent::delete();
-  }
   
 //  public function associateUser(User $user)
 //  {

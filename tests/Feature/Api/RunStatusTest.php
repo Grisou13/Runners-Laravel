@@ -2,6 +2,9 @@
 
 namespace Tests\Feature\Api;
 
+use App\Events\RunSavedEvent;
+use App\Events\RunSubscriptionSavedEvent;
+use Illuminate\Support\Facades\Event;
 use Lib\Models\Car;
 use Lib\Models\Run;
 use Lib\Models\RunSubscription;
@@ -31,16 +34,62 @@ class RunStatusTest extends TestCase
 
       $res = $this->getJson("/api/runs/".$run->id,["x-access-token"=>$user->getAccessToken()]);
       $res->assertStatus(200)->assertJson([
-        "status"=>"ready",
-        "runners"=>[
-          "status"=>"ready_to_go"
-        ]
+          "status"=>"ready",
+          "runners"=>[[
+            "status"=>"ready_to_go"
+            ]
+          ]
       ]);
 
 
     }
     public function testRunFilterOnIndex()
     {
-      $this->assertTrue(true);
+      
+      $user = $this->createDefaultUser();
+      $run = factory(Run::class)->create();
+      $car = factory(Car::class)->create();
+      $sub = new RunSubscription();
+      $sub->run()->associate($run);
+      $sub->user()->associate($user);
+      $sub->car()->associate($car);
+      $sub->save();
+
+  
+      $run2 = factory(Run::class)->create();
+      $sub2 = new RunSubscription();
+      $sub2->run()->associate($run2);
+      $sub2->user()->associate($user);
+      $sub2->save();
+      
+      $run3 = factory(Run::class)->create();
+      $car3 = factory(Car::class)->create();
+      $sub3 = new RunSubscription();
+      $sub3->run()->associate($run3);
+      $sub3->car()->associate($car3);
+      $sub3->save();
+      $res = $this->getJson("/api/runs/?status=ready",["x-access-token"=>$user->getAccessToken()]);
+      
+      //we should only get 1 item with this id
+      $res->assertStatus(200)->assertJson([
+        ["status"=>"ready",
+          "runners"=>[[
+            "status"=>"ready_to_go"
+        ]]],
+      ]);
+      //only one of the 3 runs created should be listed
+      
+      $this->assertCount(1,$res->json());
+  
+      $res = $this->getJson("/api/runs/?status=error",["x-access-token"=>$user->getAccessToken()]);
+      //we should only get 1 item with this id
+      $res->assertStatus(200)->assertJson([
+        [
+          "status"=>"error"
+           
+        ]
+      ]);
+      //only one of the 3 runs created should be listed
+      $this->assertCount(2,$res->json());
     }
 }

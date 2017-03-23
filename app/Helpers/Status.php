@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Helpers;
+use Illuminate\Support\Facades\Log;
+
 class StatusNotFoundException extends \Exception{}
 
 // Class of statics methods for manage status
@@ -59,11 +61,12 @@ class Status{
    */
   protected static function resolveResourceName($r)
   {
-    if(is_object($r) && method_exists($r,"getStatusRessourceType"))
-        return str_singular(snake_case($r->getStatusRessourceType()));
+    if(is_object($r))
+        return str_singular(snake_case(basename(str_replace('\\', '/', get_class($r)))));
     elseif(is_string($r))
       return str_singular(snake_case(snake_case(basename(str_replace('\\', '/',$r)))));
-    return str_singular(snake_case(basename(str_replace('\\', '/', get_class($r)))));
+    else
+      return (string)$r;//just do something stupid but Eh, might work
   }
   /**
    * getStatusKey get the status corresponding of the key
@@ -72,8 +75,8 @@ class Status{
    * @return string
    */
   public static function getStatusKey($ressource,$name){
-    
-    $statuses = collect(config("status.".self::resolveResourceName($ressource),[]));
+    $resource_name = self::resolveResourceName($ressource);
+    $statuses = collect(config("status.".$resource_name,[]));
     $index = $statuses->keys()->search($name);
     if($index !== false)
       return $statuses->keys()[$index];

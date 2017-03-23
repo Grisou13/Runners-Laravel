@@ -9,19 +9,21 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Lib\Models\Run;
 
 class RunStartedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+  
+    public $run;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Run $run)
     {
-        //
+      $this->run = $run;
     }
 
     /**

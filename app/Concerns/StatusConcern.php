@@ -26,6 +26,7 @@ trait StatusConcern{
   }
     public function scopeOfStatus($query, $type)
     {
-        return $query->where('status', Status::getStatusKey($this,$type));
+      $status = Status::getStatus($this,$type);
+      return $query->where('status', $status);
     }
 }
