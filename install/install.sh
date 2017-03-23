@@ -21,6 +21,7 @@ echo "LOG PATH $LOG"
 echo "" > $LOG #clears the log
 chmod 666 $LOG &> /dev/null
 
+mkdir /var/www &> /dev/null
 
 apt-get update &>> $LOG
 apt-get install -y python-software-properties software-properties-common curl wget &>> $LOG
@@ -168,7 +169,7 @@ mkdir /var/www &> /dev/null
 
 if [ ! -d "/etc/php" ]; then
   echo "Installing php"
-  sudo apt-get install -y php7.0 php7.0-cli php7.0-dev php7.0-mysql php7.0-mcrypt php7.0-json php7.0-fpm php7.0-xml php7.0-xsl php-imagick php7.0-curl php7.0-gd php7.0-intl &> $LOG
+  sudo apt-get install -y php7.0 php7.0-cli php7.0-dev php7.0-fpm &> $LOG
 
   sed -i \
            -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" \
@@ -194,6 +195,9 @@ if [ ! -d "/etc/php" ]; then
           #  /etc/php/7.0/fpm/pool.d/www.conf
 fi
 
+echo "installing php dependencies"
+
+sudo apt-get install -y php7.0-mysql php7.0-mcrypt php7.0-json  php7.0-xml php7.0-xsl php-imagick php7.0-curl php7.0-gd php7.0-intl php7.0-mbstring phpunit &>>$LOG
 #composer
 if [ ! -f /usr/bin/composer ]; then
   apt-cache show composer &> /dev/null
@@ -488,7 +492,10 @@ api     IN  A       192.168.1.1
 fi
 
 #overide writes
-chown -R :www-data $REPO_PATH &>> $LOG
+chown -R www-data:www-data $REPO_PATH &>> $LOG
+chmod 755 -R $REPO_PATH &>>$LOG
+chmod 777 -R $REPO_PATH/storage &> /dev/null
+chmod 77 -R $REPO_PATH/bootstrap/cache &> /dev/null
 # create .env
 echo "Generating .env file"
 env="
@@ -509,8 +516,8 @@ DB_USERNAME=${MYSQL_USER}
 DB_PASSWORD=${MYSQL_USR_PWD}
 
 BROADCAST_DRIVER=redis
-CACHE_DRIVER=file
-SESSION_DRIVER=file
+CACHE_DRIVER=memcached
+SESSION_DRIVER=redis
 QUEUE_DRIVER=redis
 
 REDIS_HOST=127.0.0.1
@@ -529,6 +536,9 @@ PUSHER_KEY=
 PUSHER_SECRET=
 "
 echo $env > $REPO_PATH/.env
+dos2unix $REPO_PATH/.env &> /dev/null
+#fix line endings in .env file
+sed -e 's/\s\s*/\n/g' $REPO_PATH/.env | tee $REPO_PATH/.env
 ######
 # restart stuff
 ######
@@ -542,6 +552,13 @@ echo "Restarting DHCP"
 service isc-dhcp-server restart
 echo "Restarting DNS"
 systemctl restart bind9
+
+echo "Migrating...."
+cd $REPO_PATH
+php artisan key:generate
+php artisan db:migrate
+php artisan db:seed
+
 echo
 echo "Everything went ok normaly. You can check the log file $LOG"
 echo "Your project $PROJECT_NAME was installed in $REPO_PATH"

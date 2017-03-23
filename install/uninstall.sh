@@ -12,11 +12,14 @@ PROJECT_NAME="runners"
 rm -rf /etc/cron.d/$PROJECT_NAME
 
 apt-get remove --auto-remove --purge -y "mysql*" isc-dhcp-server "bind9*" mariadb-server redis-server nginx "php*" nodejs npm composer
+apt-get purge --auto-remove -y "mysql*" isc-dhcp-server "bind9*" mariadb-server redis-server nginx "php*" nodejs npm composer
 apt-get autoremove -y &> /dev/null
 apt-get autoclean &> /dev/null
 # php
 rm -rf /var/www/$PROJECT_NAME &> /dev/null
 rm -rf /etc/php
+rm -rf /usr/lib/php
+rm -rf /var/lib/php/modules
 #composer
 rm -rf /etc/profile.d/composer.sh &> /dev/null
 rm -rf /usr/local/bin/composer
@@ -25,6 +28,7 @@ rm -rf /etc/nginx/ssl/$PROJECT_NAME.* &> /dev/null
 # mysql
 rm -rf /var/www/.maria &> /dev/null
 rm -rf /etc/skel/.my.cnf &> /dev/null
+rm -rf /etc/mysql
 # dns
 rm -rf /etc/bind/zones &> /dev/null
 rm -rf /etc/default/bind9 &> /dev/null
