@@ -11,20 +11,25 @@ set -H
 REPO_URL="https://github.com/CPNV-ES/Runners-Laravel.git"
 PROJECT_NAME="runners"
 ##############################################################################
-echo "PWD: $(pwd -P)"
 PATH_TO_SCRIPT=$(cd ${0%/*} && echo $PWD/${0##*/})
 SCRIPT_DIR=`dirname "$PATH_TO_SCRIPT"`
-echo "Directory: $SCRIPT_DIR"
 # create log file
 LOG="$SCRIPT_DIR/install.log"
-echo "LOG PATH $LOG"
+echo "You can follow install with 'tail -f $LOG'"
 echo "" > $LOG #clears the log
-chmod 666 $LOG &> /dev/null
+chmod 776 $LOG &> /dev/null
 
 mkdir /var/www &> /dev/null
 
 apt-get update &>> $LOG
 apt-get install -y python-software-properties software-properties-common curl wget &>> $LOG
+if [ "$?" -ne 0 ]
+then
+    echo "Something went wrong when installing some tools. I think you don't have internet!!!!"
+    echo "you may execute the scirpt ./IWANTINTERNET to fix this"
+    exit 2;
+fi
+
 if [ ! -f /var/www/.ppa_updated ]
 then
   echo "Updating PPA"
