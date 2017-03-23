@@ -11,7 +11,7 @@ namespace App\Observers;
 
 use App\Events\RunDeletingEvent;
 
-class CarObserver
+class UserObserver
 {
   public function subscribe($events)
   {
@@ -19,6 +19,10 @@ class CarObserver
     $events->listen(
       'App\Events\RunDeletingEvent',
       [$this,'runIsDeleting']
+    );
+    $events->listen(
+      "App\\Events\\RunStartedEvent",
+      [$this,"makeUsersUnavailable"]
     );
     
   }

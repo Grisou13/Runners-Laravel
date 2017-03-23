@@ -20,8 +20,12 @@ class CarObserver
       'App\Events\RunDeletingEvent',
       [$this,'runIsDeleting']
     );
-    
+    $events->listen(
+      "App\\Events\\RunStartedEvent",
+      [$this,"makeCarsUnavailable"]
+    );
   }
+  
   public function runIsDeleting(RunDeletingEvent $event)
   {
     $run = $event->run;
