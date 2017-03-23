@@ -19,7 +19,7 @@ class Status{
    * @return array
    */
   public static function getStatusForRessource($resName){
-    return config("status.{$resName}");
+    return collect(config("status.".self::resolveResourceName($resName)))->keys();
   }
   /**
    * shorthand for getting a resource status

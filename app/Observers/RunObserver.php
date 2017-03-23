@@ -20,7 +20,26 @@ use Lib\Models\RunSubscription;
 
 class RunObserver
 {
-  
+  public function subscribe($events)
+  {
+    $events->listen(
+      'App\Events\RunSubscriptionSavedEvent',
+      [$this,'updateRunStatus']
+    );
+    
+    $events->listen(
+      'App\Events\RunSavingEvent',
+      [$this,'savingRun']
+    );
+    $events->listen(
+      'App\Events\RunDeletingEvent',
+      [$this,'runIsDeleting']
+    );
+    $events->listen(
+      'App\Events\RunDeletedEvent',
+      [$this,'runWasDeleted']
+    );
+  }
   public function runIsDeleting(RunDeletingEvent $event)
   {
     //when a run is deleted, we consider it to be finished
@@ -50,26 +69,7 @@ class RunObserver
   {
     event(new RunFinishedEvent($event->run));
   }
-  public function subscribe($events)
-  {
-    $events->listen(
-      'App\Events\RunSubscriptionSavedEvent',
-      [$this,'updateRunStatus']
-    );
-
-    $events->listen(
-      'App\Events\RunSavingEvent',
-      [$this,'savingRun']
-    );
-    $events->listen(
-      'App\Events\RunDeletingEvent',
-      [$this,'runIsDeleting']
-    );
-    $events->listen(
-      'App\Events\RunDeletedEvent',
-      [$this,'runWasDeleted']
-    );
-  }
+  
   
   protected function adaptRunStatus(Run $run)
   {

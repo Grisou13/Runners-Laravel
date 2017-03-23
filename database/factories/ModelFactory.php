@@ -36,7 +36,6 @@ $factory->define(Lib\Models\User::class, function (Faker\Generator $faker) {
         "phone_number"=>$faker->phoneNumber,
         "accesstoken"=>str_random(255),
         "group_id"=>factory(Lib\Models\Group::class)->create()->id,
-        "status"=>App\Helpers\Status::getUserStatus("actif")
     ];
 });
 
@@ -49,7 +48,6 @@ $factory->define(Lib\Models\Car::class, function (Faker\Generator $faker){
         "nb_place"=>$faker->numberBetween(3,7),
         "car_type_id"=>function(){return factory(Lib\Models\CarType::class)->create()->id;},
         "name"=>$faker->numberBetween(1,18),
-        "status"=>App\Helpers\Status::getCarStatus("actif")
     ];
 });
 
@@ -159,10 +157,6 @@ $factory->define(Lib\Models\Waypoint::class, function(Faker\Generator $faker){
 $factory->define(Lib\Models\Run::class, function (Faker\Generator $faker){
 
     return [
-        //"user_id"=>function(){return Lib\Models\User::find(1)->id;},
-        //"car_id"=>function(){return factory(Lib\Models\Car::class)->create()->id;},
-//        "geo_from"=>$geoFrom,
-//        "geo_to"=>$geoTo,
         "artist"=>$faker->name,
         "nb_passenger"=>$faker->numberBetween(1,12),
         "note"=>$faker->text,

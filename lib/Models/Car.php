@@ -13,10 +13,10 @@ class Car extends Model
 {
     use SoftDeletes, BelongsToThrough;
     protected $fillable = [
-        "plate_number","brand","model","color","nb_place","comment","name","status"
+        "plate_number","brand","model","color","nb_place","comment","name"
     ];
-    public $appends = [
-      "status"
+    protected $attributes = [
+      "status"=>"free"
     ];
 
     public function subscriptions()

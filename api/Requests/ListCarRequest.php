@@ -6,12 +6,14 @@
  * Time: 15:29
  */
 
-namespace Lib\Http\Requests;
+namespace App\Http\Requests;
 
 
+use App\Helpers\Status;
 use Dingo\Api\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CarListRequest extends FormRequest
+class ListCarRequest extends FormRequest
 {
   public function authorize()
   {
@@ -20,7 +22,8 @@ class CarListRequest extends FormRequest
   public function rules()
   {
     return [
-      "type"=>"exists:car_types,name"
+      "type"=>"exists:car_types,name",
+      "status"=>["sometimes",Rule::in(Status::getStatusForRessource("car"))]
     ];
   }
 }

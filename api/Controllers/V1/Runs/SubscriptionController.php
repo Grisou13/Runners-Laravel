@@ -11,12 +11,15 @@ namespace Api\Controllers\V1\Runs;
 
 use Api\Controllers\BaseController;
 use App\Http\Requests\UpdateRunSubscriptionRequest;
+use Dingo\Api\Exception\ValidationHttpException;
 use Dingo\Api\Http\Request;
 use Lib\Models\Car;
 use Lib\Models\CarType;
 use Lib\Models\Run;
 use Lib\Models\RunSubscription;
 use Lib\Models\User;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class SubscriptionController extends BaseController
 {
@@ -30,11 +33,24 @@ class SubscriptionController extends BaseController
     $sub->run()->associate($run);
     $sub->fill($request->except(["_token","token"]));
     if($request->has("user"))
-      $sub->user()->associate($request->get("user"));
+    {
+      $user = User::find($request->get("user"));
+      if($user->status == "free")
+        $sub->user()->associate($request->get("user"));
+      else
+        throw new BadRequestHttpException("The user is ".$user->status. ", therefor you are not allowed to assign him");
+    }
     if($request->has("car"))
-      $sub->car()->associate($request->get("car"));
-    if($request->has("car_type"))
+    {
+      $car = Car::find($request->get("car"));
+      if($car->status == "free")
+        $sub->car()->associate($request->get("car"));
+      else
+        throw new BadRequestHttpException("The car is ".$car->status. ", therefor, you are not allowed to use it");
+    }
+    elseif($request->has("car_type"))
       $sub->car_type()->associate($request->get("car_type"));
+    
     $sub->save();
     return $sub;
   }

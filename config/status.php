@@ -5,7 +5,7 @@ return [
     "active"=>"Actif",
     "taken"=>"En cours de run",
     "not_present"=>"Pas présent",
-    "available"=>"Disponible"
+    "free"=>"Disponible"
   ],
   "car_type"=>[
     "active"=>"Actif",

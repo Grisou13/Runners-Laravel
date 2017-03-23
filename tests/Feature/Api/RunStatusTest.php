@@ -4,6 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\Events\RunSavedEvent;
 use App\Events\RunSubscriptionSavedEvent;
+use App\Helpers\Status;
 use Illuminate\Support\Facades\Event;
 use Lib\Models\Car;
 use Lib\Models\Run;
@@ -77,6 +78,7 @@ class RunStatusTest extends TestCase
             "status"=>"ready_to_go"
         ]]],
       ]);
+      $this->assertEquals($car->status,Status::getStatus("car","taken")); //the status for the first car should be taken
       //only one of the 3 runs created should be listed
       
       $this->assertCount(1,$res->json());
@@ -86,7 +88,6 @@ class RunStatusTest extends TestCase
       $res->assertStatus(200)->assertJson([
         [
           "status"=>"error"
-           
         ]
       ]);
       //only one of the 3 runs created should be listed

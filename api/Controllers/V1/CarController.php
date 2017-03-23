@@ -10,7 +10,7 @@ namespace Api\Controllers\V1;
 
 use App\Helpers\Status;
 use App\Http\Requests\CreateCommentRequest;
-use Lib\Http\Requests\CarListRequest;
+use App\Http\Requests\ListCarRequest;
 use Lib\Models\Car;
 use Lib\Models\User;
 use Lib\Models\Comment;
@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CarController extends BaseController
 {
-    public function index(CarListRequest $request)
+    public function index(ListCarRequest $request)
     {
       $cars = Car::with("car_type");
       if($request->has("type"))

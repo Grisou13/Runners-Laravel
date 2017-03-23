@@ -42,8 +42,12 @@ class User extends Authenticatable implements StatusableContract
     protected $hidden = [
         'password', 'remember_token', "accesstoken"
     ];
+    protected $attributes = [
+      "status"=>"free"
+    ];
 
-    public function role()
+  
+  public function role()
     {
         return $this->belongsTo(Role::class);
     }

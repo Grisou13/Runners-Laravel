@@ -41,6 +41,9 @@ class RunSubObserver
       $sub->status="missing_user";
     else
       $sub->status="needs_filling";
+    
+    if($sub->car_id != null)
+      $sub->car->status="taken";
   }
   public function deleteSubsForRun(RunDeletingEvent $event)
   {

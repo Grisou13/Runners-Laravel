@@ -26,6 +26,9 @@ class Run extends Model
     protected $guarded = [
       "started_at"
     ];
+    protected $attributes = [
+      "status"=>"free"
+    ];
     //protected $appends =["start_location","end_location"];
     protected $dates = [
         "created_at",

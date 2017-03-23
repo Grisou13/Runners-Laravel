@@ -9,6 +9,7 @@
 namespace Api\Controllers\V1\Runs;
 
 use Api\Controllers\BaseController;
+use Api\Requests\ListRunRequest;
 use App\Http\Requests\CreateRunRequest;
 use Carbon\Carbon;
 use Lib\Models\Run;
@@ -20,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 
 class RunController extends BaseController
 {
-    public function index(Request $request)
+    public function index(ListRunRequest $request)
     {
       $query = new Run;
       $query = $query->newQuery();

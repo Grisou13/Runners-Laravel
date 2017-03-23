@@ -20,9 +20,9 @@ class CreateSubscriptionRequest extends FormRequest
   public function rules()
   {
     return [
-      "car"=>"nullable|exists:cars",
-      "car_type" => "required_unless:car|nullable|exists:car_types",
-      "user"=>"required|"
+      "car"=>"nullable|exists:cars,id",
+      "car_type" => "required_unless:car|exists:car_types,id",
+      "user"=>["nullable","exists:users,id"]
     ];
   }
 }
