@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+
 use Illuminate\Support\ServiceProvider;
+use Lib\Models\Setting;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+//        parent::boot();
+
+
+
     }
 
     /**

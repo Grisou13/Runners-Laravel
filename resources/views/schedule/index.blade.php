@@ -10,11 +10,13 @@
 @section("content")
     <div class="container">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-lg-12">
+            <div class="col-md-3">
+                <div class="schedule-edit"></div>
+            </div>
+            <div class="col-md-9">
                 <div class="schedule-container"></div>
             </div>
-            <div class="col-md-2"></div>
+            {{--<div class="col-md-1"></div>--}}
         </div>
     </div>
     {{--<div class="groups"></div>--}}

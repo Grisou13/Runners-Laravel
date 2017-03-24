@@ -43,6 +43,9 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     });
     $api->get("/statuses","StatusController@index");
     $api->resource("waypoints","WaypointController");
+
+    $api->resource("settings","SettingController");
+
     $api->get("/search/{model}","SearchController@fullText");
 });
 
