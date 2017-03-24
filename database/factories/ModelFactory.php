@@ -34,31 +34,35 @@ $factory->define(Lib\Models\User::class, function (Faker\Generator $faker) {
         "name"=>$faker->unique()->name,
         "sex"=>$faker->boolean,
         "phone_number"=>$faker->phoneNumber,
+        "group_id"=>DB::table('groups')->inRandomOrder()->first()->id,
         "accesstoken"=>str_random(255),
-        "group_id"=>factory(Lib\Models\Group::class)->create()->id,
-        "status"=>Lib\Models\Helpers\Status::getUserStatus("actif")
+        "status"=>App\Helpers\Status::getUserStatus("actif")
     ];
 });
 
 $factory->define(Lib\Models\Car::class, function (Faker\Generator $faker){
     return [
         "plate_number"=>"VD ".$faker->numberBetween(1000000,200000),
-        "brand"=>$faker->company,
-        "model"=>$faker->word,
+        "brand"=>collect(["BMW","Suzuki","Renault","Hyundai"])->random(),
+        "model"=>collect(["Serie 4", "Monospace", "Truc"])->random(),
         "color"=>$faker->colorName,
         "nb_place"=>$faker->numberBetween(3,7),
-        "car_type_id"=>function(){return factory(Lib\Models\CarType::class)->create()->id;},
+        //"car_type_id"=>function(){return factory(Lib\Models\CarType::class)->create()->id;},
+        "car_type_id"=>DB::table('car_types')->inRandomOrder()->first()->id,
         "name"=>$faker->numberBetween(1,18),
-        "status"=>Lib\Models\Helpers\Status::getCarStatus("actif")
+        "status"=>App\Helpers\Status::getCarStatus("actif")
+        //TODO: status
     ];
 });
 
-$factory->define(Lib\Models\CarType::class, function (Faker\Generator $faker){
+/*$factory->define(Lib\Models\CarType::class, function (Faker\Generator $faker){
+    $car_types_name = ["VITO", "LIMO"];
     return [
-        "name"=>$faker->unique()->word,
+        "name"=>collect($car_types_name)->random(),
         "description"=>$faker->text
     ];
-});
+});*/
+
 $factory->define(Lib\Models\Waypoint::class, function(Faker\Generator $faker){
   $geo = str_replace(["\n","\r"],"",trim("{
                     \"address_components\": [
@@ -171,7 +175,28 @@ $factory->define(Lib\Models\Run::class, function (Faker\Generator $faker){
 });
 $factory->define(Lib\Models\Group::class, function (Faker\Generator $faker){
     return [
-        "color" => Lib\Models\Http\Helpers\Helper::getRandomGroupColor(),
+        "color" => App\Http\Helpers\Helper::getRandomGroupColor(),
+        "name" => strtoupper($faker->randomLetter()),
         "active"=>true
     ];
+});
+
+$factory->define(Lib\Models\Image::class, function (Faker\Generator $faker){
+    return [
+    ];
+});
+$factory->state(Lib\Models\Image::class, "license",function (Faker\Generator $faker){
+  return [
+      "filename" => "exemple-permis-conduire.png",
+      "original" => "exemple-permis-conduire.png",
+      "type" => "license",
+  ];
+});
+$factory->state(Lib\Models\Image::class, "profile",function (Faker\Generator $faker){
+  return [
+      "filename" => "example-profile-image.png",
+      "original" => "example-profile-image.png",
+      "type" => "profile",
+      //"user_id" => DB::table('users')->inRandomOrder()->first()
+  ];
 });
