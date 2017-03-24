@@ -19,10 +19,13 @@ class CreateSubscriptionRequest extends FormRequest
   }
   public function rules()
   {
-    return [
-      "car"=>"nullable|exists:cars,id",
-      "car_type" => "required_unless:car|exists:car_types,id",
-      "user"=>["nullable","exists:users,id"]
+    $rules = [
+      "car"=>"nullable|sometimes|exists:cars,id",
+      "car_type" => "nullable|sometimes|exists:car_types,id",
+      "user"=>["nullable","sometimes","exists:users,id"]
     ];
+    if(!$this->route("run"))//if the run isn't in the request params
+      $rules = array_merge($rules,["run"=>"required|exists:runs,id"]);
+    return $rules;
   }
 }

@@ -33,7 +33,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->get("/status/{model}","StatusController@model");
     $api->resource("waypoints","WaypointController");
     $api->get("/search/{model}","SearchController@fullText");
-  
+    
     $api->group(["namespace"=>"Runs"],function($api){
       /**
        * @var $api Dingo\Api\Routing\Router
@@ -57,6 +57,8 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
   
       $api->resource("runs.subscriptions","SubscriptionController");
       $api->resource("runs.runners","SubscriptionController");
+  
+      $api->resource("runners","SubscriptionController");
     });
     
 });

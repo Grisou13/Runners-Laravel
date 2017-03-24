@@ -76,13 +76,15 @@ class AddCarsToRunTest extends TestCase
   {
     $run = factory(Run::class)->create();
     $car = factory(Car::class)->create();
-    $res = $this->json("POST","/api/runs/{$run->id}/runners",["user"=>$this->user->id,"car"=>$car->id], ["x-access-token"=>$this->user->getAccessToken()]);
+    $user = factory(User::class)->create();
+   
+    $res = $this->json("POST","/api/runs/{$run->id}/runners",["user"=>$user->id,"car"=>$car->id], ["x-access-token"=>$user->getAccessToken()]);
     $res->assertStatus(200)->assertJson([
       "status"=>"ready_to_go"
     ]);
     $this->assertEquals($run->subscriptions()->getResults()->count(),1);//there must only be one subscription
     $this->assertNotNull($run->subscriptions()->getResults()->first()->user);
-    $this->assertEquals($run->subscriptions()->getResults()->first()->user->id,$this->user->id);
+    $this->assertEquals($run->subscriptions()->getResults()->first()->user->id,$user->id);
     $this->assertNotNull($run->subscriptions()->getResults()->first()->car);
     $this->assertEquals($run->subscriptions()->getResults()->first()->car->id,$car->id);
   }

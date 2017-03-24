@@ -19,6 +19,12 @@
 $router->get("/",["as"=>"index","uses"=>"HomeController@welcome"]);
 Auth::routes();
 
+$router->get("/test/{user?}",function(Illuminate\Http\Request $req){
+  dump($req->all());
+  dump($req->route("user"));
+  dump($req->get("asd"));
+});
+
 Route::get('/home', ["as"=>"home","uses"=>'HomeController@index']);
 
 Route::resource("groups", "GroupController");

@@ -30,7 +30,8 @@ class CarObserver
   {
     $run = $event->run;
     $run->subscriptions->map(function($sub){
-      $sub->car->status="free";
+      if($sub->car_id != null)
+        $sub->car->status="free";
     });
   }
 }
