@@ -9,9 +9,13 @@ class CarSeeder extends Seeder
      *
      * @return void
      */
+
     public function run()
     {
+      /*$colors = ['Bleu', 'Vert', 'Rouge'];
+      $nb_places = [2, 5, 8];
+      $status = ['Disponible', 'En réparation'];*/
 
-        factory(Lib\Models\Car::class,10)->create();
+      factory(Lib\Models\Car::class,10)->create();
     }
 }
