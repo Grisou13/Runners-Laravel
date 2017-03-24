@@ -60,7 +60,7 @@ User: Joel.DE-SOUSA
                           <input type="hidden" value="{{$user->id}}" name="id">
                           <div class="form-group">
                             <label for="image">Photo de profile</label>
-                            <input type="file" name="image" id="image">
+                            <input type="file" name="image" id="image" accept="image/*">
                           </div>
                           <input type="hidden" value="{{ csrf_token() }}" name="_token">
                           <input type="submit" class="btn btn-success" value="Changer" disabled>
@@ -83,7 +83,7 @@ User: Joel.DE-SOUSA
                           <input type="hidden" value="{{$user->id}}" name="id">
                           <div class="form-group">
                             <label for="image">Permis de conduire</label>
-                            <input type="file" name="image" id="image">
+                            <input type="file" name="image" id="image" accept="image/*">
                           </div>
                           <input type="hidden" value="{{ csrf_token() }}" name="_token">
                           <input type="submit" class="btn btn-success" value="Changer" disabled>
