@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use Lib\Models\Run;
+use Dingo\Api\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 
 class RunController extends Controller
@@ -13,7 +16,8 @@ class RunController extends Controller
      */
     public function index()
     {
-        //
+        $runs = Run::withCount("waypoints")->with(["waypoints","users"])->orderBy("planned_at")->get();
+        return view("run.index",compact("runs"));
     }
 
     /**
@@ -23,7 +27,7 @@ class RunController extends Controller
      */
     public function create()
     {
-        //
+        return view("run.create")->with("run",new Run);
     }
 
     /**
@@ -34,18 +38,20 @@ class RunController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $run = $this->api->post(app(UrlGenerator::class)->version("v1")->route("runs.store"))->be(Auth::user())->with($request->except(["_token"]));
+        return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+  /**
+   * Display the specified resource.
+   *
+   * @param Run $run
+   * @return \Illuminate\Http\Response
+   * @internal param int $id
+   */
+    public function show(Run $run)
     {
-        //
+        return view("run.show",compact("run"));
     }
 
     /**
@@ -54,9 +60,9 @@ class RunController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,Run $run)
     {
-        //
+        return view("run.edit")->with($run);
     }
 
     /**
@@ -66,9 +72,11 @@ class RunController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Run $run)
     {
-        //
+        $this->toApiRoute("patch","runs.update",$run,$request);
+        //$this->api->patch(app(UrlGenerator::class)->version("v1")->route("runs.update",$run))->with($request->except(["_token"]));
+        return redirect()->back();
     }
 
     /**
@@ -77,8 +85,9 @@ class RunController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Run $run)
     {
-        //
+        $this->api->delete(app(UrlGenerator::class)->version("v1")->route("runs.destroy",$run));
+        return redirect()->back();
     }
 }

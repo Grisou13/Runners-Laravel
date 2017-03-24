@@ -6,7 +6,7 @@
  * Time: 08:33
  */
 namespace Api;
-use App\User;
+use Lib\Models\User;
 use Dingo\Api\Auth\Provider\Authorization;
 use Dingo\Api\Http\InternalRequest;
 use Dingo\Api\Routing\Route;
@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+
 /**
  * Class ApiAuthProvider
  * Authorizes X-Acces-Token requests from the Runners mobile app.

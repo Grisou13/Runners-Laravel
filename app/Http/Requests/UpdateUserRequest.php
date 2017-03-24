@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Dingo\Api\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -27,8 +27,8 @@ class UpdateUserRequest extends FormRequest
           'firstname' => 'required|max:255',
           'lastname' => 'required|max:255',
           'name' => 'required|max:255',
-          'email' => 'required|email|max:255',
-          'phone_number' => 'required|max:255',
+          'email' => 'required|email|max:255|unique:users,email,'.$this->user->id,
+          'phone' => 'required|max:255',
           'sex' => 'required|max:255',
           'stat' => 'required|max:255',
           'accesstoken' => 'required|max:255'

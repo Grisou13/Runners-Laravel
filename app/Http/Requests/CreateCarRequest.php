@@ -4,7 +4,7 @@
 */
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Dingo\Api\Http\FormRequest;
 
 class CreateCarRequest extends FormRequest
 {
@@ -30,7 +30,7 @@ class CreateCarRequest extends FormRequest
           'brand'            => 'required',
           'model'            => 'required',
           'type'     => 'required',
-            'nb_place'=>"required|numeric"
+          'nb_place'=>"required|numeric"
         ];
     }
 }

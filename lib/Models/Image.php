@@ -1,0 +1,23 @@
+<?php
+/**
+*User: Joel.DE-SOUSA
+*/
+namespace Lib\Models;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Image extends Model
+{
+    use SoftDeletes;
+  protected $fillable = [
+      "filename","original","type","user_id"
+  ];
+  public function getFilePathAttribute()
+  {
+    return "images/".$this->filename;
+  }
+  public function user()
+  {
+      return $this->belongsTo(User::class);
+  }
+}

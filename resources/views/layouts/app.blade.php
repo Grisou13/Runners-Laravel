@@ -12,15 +12,26 @@
 
     <!-- Styles -->
     <link href="{{ asset("/css/app.css") }}" rel="stylesheet">
+    <link href="{{ asset("/css/style.css") }}" rel="stylesheet">
+    {{--<link href="{{ asset("/css/theme.css") }}" rel="stylesheet">--}}
+
     @stack("styles")
 
     <!-- Scripts -->
+    <script src="{{ asset('/js/axios.min.js') }}"></script>
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
             "token"=>auth()->check() ? auth()->user()->accesstoken : "anonymous",
             "basePath"=>url("/")
-        ]); ?>
+        ]); ?> ;
+
+        var api  = window.api = axios.create({
+            baseURL: "{!! url("/api") !!}",
+            timeout: 1000,
+            contentType:"application/json",
+            headers: {'X-Access-Token': window.Laravel.token}
+        });
     </script>
 </head>
 <body>
@@ -92,6 +103,7 @@
     <!-- Scripts -->
     <script src="{{ asset("/js/app.js") }}"></script>
     <script src="{{ asset("/js/padlock.js") }}"></script>
+    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
     @stack("scripts")
 </body>
 </html>

@@ -4,12 +4,12 @@
 */
 namespace App\Http\Controllers;
 
-use App\Comment;
+use Lib\Models\Comment;
 use App\Http\Requests\CreateCommentRequest;
-use App\User;
+use Lib\Models\User;
 use Session;
-use App\Car;
-use App\CarType;
+use Lib\Models\Car;
+use Lib\Models\CarType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
@@ -53,11 +53,12 @@ class CarController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CreateCarRequest $request){
+        //$request->flash();
         $input = $request->except(["_token"]);
 
         $car = new Car($input);
         $type = CarType::findOrFail($request->input("type"));
-        $car->car_type_id=$type->id;
+        $car->car_type()->associate($type);
         $car->save();
 
         // redirect
@@ -95,7 +96,8 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-
+      
+      $this->api()->be(auth()->user())->with($request->except("_token"))->update();
       //$car = Car::findOrFail($id);
 
       /*//TODO : Validation
@@ -109,11 +111,11 @@ class CarController extends Controller
       $input = $request->all();
 
       $car->fill($input)->save();
-      if($request->has("type"))
+      if($request->has("car_type"))
       {
-        $type = CarType::findOrFail($request->input("type"));
+        $type = CarType::findOrFail($request->input("car_type"));
 
-        $car->type()->associate($type);
+        $car->car_type()->associate($type);
       }
       $car->save();
       // redirect
@@ -130,7 +132,6 @@ class CarController extends Controller
     {
         // delete
         $car->delete();
-
         return redirect()->route("cars.index")->with("message","Car deleted successfully");
     }
 
@@ -142,7 +143,7 @@ class CarController extends Controller
         $comment->fill($request->except("_token"));
         $comment->commentable()->associate($car);
         if($request->has("user"))
-            $user = User::findOrFail($request->get("user"));
+            $user = User::find($request->get("user"));
         else
             $user = $request->user();
 

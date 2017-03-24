@@ -15,13 +15,16 @@ class CreateRunsTable extends Migration
     {
         Schema::create('runs', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
-            $table->string('start_site');
-            $table->string('arrival_site');
-            $table->string('flight_num');
-            $table->text('note');
+            $table->dateTime('started_at')->nullable();
+            $table->dateTime('ended_at')->nullable();
+            $table->dateTime("planned_at")->nullable();
+            $table->integer("nb_passenger");
+            $table->string("artist")->nullable();
+            $table->string('name');
+            $table->string("note")->nullable();
             $table->timestamps();
+          
+           $table->softDeletes();
         });
     }
 

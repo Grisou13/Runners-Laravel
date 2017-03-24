@@ -3,12 +3,13 @@
 *   User: Joël.DE-SOUSA
 */
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Input;
 use Validator;
 use Redirect;
 use Session;
 use Illuminate\Http\Request;
-use App\Image;
+use Lib\Models\Image;
 
 class ImageController extends Controller
 {

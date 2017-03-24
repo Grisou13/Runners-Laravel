@@ -8,36 +8,35 @@
 
 namespace Api\Controllers\V1;
 
-
 use Api\Controllers\BaseController;
+use Lib\Models\User;
+use Api\Requests\Filtering\StatusFilterable;
+use Api\Responses\Transformers\UserTransformer;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\User;
 use Illuminate\Http\Request;
-
-use Unlu\Laravel\Api\QueryBuilder;
-use Api\Requests\Filtering\RequestFilter;
-
+use Image as Intervention;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends BaseController
 {
     public function index(Request $request)
     {
-        $queryBuilder = new QueryBuilder(new User, $request);
-        if($request->has("page") || $request->has("limit"))
-          return $queryBuilder->build()->paginate();
-        return $queryBuilder->build()->get();
+        return User::all();
 
+    }
+    public function image(Request $request, User $user)
+    {
+      if($user->profileImage() == null)
+        throw new NotFoundHttpException("unable to find image of user {$user->id}");
+      $imagePath = public_path("images/".$user->profileImage()->filename);
+      $img = Intervention::make($imagePath);
+      return $img->response();
     }
     public function show(Request $request, User $user)
     {
-        $queryBuilder = new RequestFilter($user, $request);
-        //return $user;
-        $user = $queryBuilder->build()->get();
-        if($user->count() != 1)//just in case something happens during the querying of the model
-          throw new HttpException("sorry bru");
-        return $user->first();//we need to get the index 0, since RequestFilter can only use a global query ->returns a list of 1 item
+        return $user;
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -50,15 +49,25 @@ class UserController extends BaseController
         $user = new User;
         $user->fill($request->all());
         $user->save();
-        return $this->response()->created();
+        return $this->response()->created(route("users.show"),$user);
     }
     public function delete(User $user)
     {
         return $user->delete();
     }
-    public function me()
+
+    public function addGroup(Request $request, User $user)
     {
-        return $this->user();
+        $group = Group::findOrFail($request->get("group"));
+        $user->group()->associate($group);
+    }
+    public function changeGroup(Request $request, User $user, Group $group)
+    {
+        $user->group()->associate($group);
+    }
+    public function removeGroup(Request $request, User $user)
+    {
+        $user->group()->dissociate();
     }
 
 }

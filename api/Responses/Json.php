@@ -8,7 +8,6 @@
 
 namespace Api\Responses;
 
-
 use Dingo\Api\Http\Response\Format\Format as DefaultFormat;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
@@ -24,8 +23,6 @@ class Json extends DefaultFormat
      */
     public function formatEloquentModel($model)
     {
-        if($this->response->isOk())
-            return $this->encode($model->toArray());
         return $this->encode($model->toArray());
 
     }
@@ -42,8 +39,6 @@ class Json extends DefaultFormat
         if ($collection->isEmpty()) {
             return $this->encode([]);
         }
-        if($this->response->isOk())
-            return $this->encode($collection->toArray());
         return $this->encode($collection->toArray());
     }
 
@@ -61,8 +56,6 @@ class Json extends DefaultFormat
         array_walk_recursive($content, function (&$value) {
             $value = $this->morphToArray($value);
         });
-        if($this->response->isOk())
-            return $this->encode($content);
         return $this->encode($content);
     }
 
