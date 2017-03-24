@@ -15,10 +15,14 @@ use Illuminate\Validation\Rule;
 
 class ListRunRequest extends FormRequest
 {
+  public function authorize()
+  {
+    return true;
+  }
   public function rules()
   {
     return [
-      "status"=>["sometimes",Rule::in(Status::getStatusForRessource("run"))]
+      "status"=>["nullable","sometimes",Rule::in(Status::getStatusForRessource("run"))]
     ];
   }
 }

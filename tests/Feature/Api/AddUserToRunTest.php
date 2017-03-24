@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class AddCarsToRunTest extends TestCase
+class AddUserToRunTest extends TestCase
 {
     use DatabaseMigrations;
     public function setUp()
@@ -24,44 +24,7 @@ class AddCarsToRunTest extends TestCase
     /**
      * @test
      */
-    public function addCarToRun()
-    {
-      /**
-       * @var $run Run
-       */
-      $run = factory(Run::class)->create();
-      $car = factory(Car::class)->create();
-      $res = $this->json("POST","/api/runs/{$run->id}/runners",["car"=>$car->id], ["x-access-token"=>"root"]);
-      $res->assertStatus(200)->assertJson([
-        "status"=>"missing_user"
-      ]);
-      $this->assertEquals($run->subscriptions()->getResults()->count(),1);//there must only be one subscription
-      
-      //var_dump(Run::find(1)->subscriptions()->first());
-      $this->assertNotNull($run->subscriptions()->getResults()->first()->car);
-      $this->assertEquals($run->subscriptions()->getResults()->first()->car->id,$car->id);
-
-    }
-
-  /**
-   * @test
-   */
-    public function addCarTypeToRun()
-    {
-      /**
-       * @var $run Run
-       */
-      $run = factory(Run::class)->create();
-      $car_type = factory(CarType::class)->create();
-      $res = $this->json("POST","/api/runs/{$run->id}/runners",["car_type"=>$car_type->id], ["x-access-token"=>"root"]);
-      $res->assertStatus(200);
-      $res->assertStatus(200)->assertJson([
-        "status"=>"missing_user"
-      ]);
-      $this->assertEquals($run->subscriptions()->getResults()->count(),1);//there must only be one subscription
-      $this->assertNotNull($run->subscriptions()->getResults()->first()->car_type);
-      $this->assertEquals($run->subscriptions()->getResults()->first()->car_type->id,$car_type->id);
-    }
+    
   /**
    * @test
    */
@@ -72,7 +35,7 @@ class AddCarsToRunTest extends TestCase
      */
     $run = factory(Run::class)->create();
     $user = factory(User::class)->create();
-    $res = $this->json("POST","/api/runs/{$run->id}/runners",["user"=>$user->id], ["x-access-token"=>"root"]);
+    $res = $this->json("POST","/api/runs/{$run->id}/runners",["user"=>$user->id], ["x-access-token"=>$user->getAccessToken()]);
     $res->assertStatus(200)->assertJson([
       "status"=>"missing_car"
     ]);
@@ -80,7 +43,31 @@ class AddCarsToRunTest extends TestCase
     $this->assertNotNull($run->subscriptions()->getResults()->first()->user);
     $this->assertEquals($run->subscriptions()->getResults()->first()->user->id,$user->id);
   }
+  public function testAddNonFreeUserToRun()
+  {
+    /**
+     * @var $run Run
+     */
+    $run = factory(Run::class)->create();
+    $user = factory(User::class)->create();
+    $res = $this->json("POST","/api/runs/{$run->id}/runners",["user"=>$user->id], ["x-access-token"=>$user->getAccessToken()]);
+    $res->assertStatus(200)->assertJson([
+      "status"=>"missing_car"
+    ]);
+    $this->assertEquals($run->subscriptions()->getResults()->count(),1);//there must only be one subscription
+    $this->assertNotNull($run->subscriptions()->getResults()->first()->user);
+    $this->assertEquals($run->subscriptions()->getResults()->first()->user->id,$user->id);
   
+    $run2 = factory(Run::class)->create();
+    $res = $this->json("POST","/api/runs/{$run2->id}/runners",["user"=>$user->id], ["x-access-token"=>$user->getAccessToken()]);
+    $res->assertStatus(200)->assertJson([
+      "status"=>"missing_car"
+    ]);
+    $this->assertEquals($run->subscriptions()->getResults()->count(),1);//there must only be one subscription
+    $this->assertNotNull($run->subscriptions()->getResults()->first()->user);
+    $this->assertEquals($run->subscriptions()->getResults()->first()->user->id,$user->id);
+    
+  }
   /**
    * @test
    */
@@ -89,7 +76,7 @@ class AddCarsToRunTest extends TestCase
     $run = factory(Run::class)->create();
     $user = factory(User::class)->create();
     $car = factory(Car::class)->create();
-    $res = $this->json("POST","/api/runs/{$run->id}/runners",["user"=>$user->id,"car"=>$car->id], ["x-access-token"=>"root"]);
+    $res = $this->json("POST","/api/runs/{$run->id}/runners",["user"=>$user->id,"car"=>$car->id], ["x-access-token"=>$user->getAccessToken()]);
     $res->assertStatus(200)->assertJson([
       "status"=>"ready_to_go"
     ]);

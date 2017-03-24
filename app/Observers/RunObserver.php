@@ -26,6 +26,9 @@ class RunObserver
       'App\Events\RunSubscriptionSavedEvent',
       [$this,'updateRunStatus']
     );
+    $events->listen(
+      'App\Events\RunSubscriptionDeletedEvent',
+      [$this,'updateRunStatus']);
     
     $events->listen(
       'App\Events\RunSavingEvent',
@@ -54,7 +57,7 @@ class RunObserver
     $run = $event->run;
     $this->adaptRunStatus($run);
   }
-  public function updateRunStatus(RunSubscriptionSavedEvent $event)
+  public function updateRunStatus($event)
   {
     
     $run = $event->run;

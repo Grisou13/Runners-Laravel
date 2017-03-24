@@ -10,6 +10,7 @@ namespace App\Observers;
 
 
 use App\Events\RunDeletingEvent;
+use App\Events\RunSubscriptionDeletedEvent;
 
 class UserObserver
 {
@@ -24,7 +25,18 @@ class UserObserver
       "App\\Events\\RunStartedEvent",
       [$this,"makeUsersUnavailable"]
     );
+    $events->listen(
+      "App\\Events\\RunSubscriptionDeletedEvent",
+      [$this,"makeUserAvailable"]
+    );
     
+  }
+  public function makeUserAvailable(RunSubscriptionDeletedEvent $event)
+  {
+    //this will freee the user.
+    // TODO check if the user isn't already in runs, or run_subs
+    $event->run_subscription->user->status="free";
+    $event->run_subscription->user->save();
   }
   public function runIsDeleting(RunDeletingEvent $event)
   {

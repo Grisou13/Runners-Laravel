@@ -13,23 +13,19 @@ use Lib\Models\RunSubscription;
 
 class RunSubObserver
 {
-  public function creating(RunSubscription $sub)
+  public function subscribe($events)
   {
-
+    $events->listen(
+      'App\Events\RunSubscriptionSavingEvent',
+      [$this,'subscriptionIsSaving']
+    );
+    $events->listen(
+      'App\Events\RunDeletingEvent',
+      [$this,'deleteSubsForRun']
+    );
+    
   }
-  public function updating(RunSubscription $sub)
-  {
-
-  }
-  public function saving(RunSubscription $sub)
-  {
-      if($sub->has("car") && !$sub->has("car_type"))// just fill in the car type
-          $sub->car_type()->associate($sub->car->car_type)->save();
-      if($sub->has("car") && $sub->has("user"))
-      {
-          $sub->status = "ready_to_go";
-      }
-  }
+  
   public function subscriptionIsSaving(RunSubscriptionSavingEvent $event)
   {
     $sub = $event->run_subscription;
@@ -52,17 +48,6 @@ class RunSubObserver
       $sub->delete();
     });
   }
-  public function subscribe($events)
-  {
-    $events->listen(
-      'App\Events\RunSubscriptionSavingEvent',
-      [$this,'subscriptionIsSaving']
-    );
-    $events->listen(
-      'App\Events\RunDeletingEvent',
-      [$this,'deleteSubsForRun']
-    );
-    
-  }
+  
 
 }

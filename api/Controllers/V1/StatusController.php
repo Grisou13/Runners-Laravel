@@ -9,6 +9,7 @@
 namespace Api\Controllers\V1;
 
 use Api\Controllers\BaseController;
+use App\Helpers\Status;
 use Dingo\Api\Http\Request;
 
 
@@ -18,18 +19,8 @@ class StatusController extends BaseController
   {
     return config("status");
   }
-  public function model(Request $request)
+  public function model(Request $request, $model)
   {
-      return config("status.".$request->get("model"));
-//    $klass = str_singular(studly_case($model)); //get the true model name
-//    $instance = new \ReflectionClass("Lib\\Models\\".$klass); //create reflection to instanciate it
-//    $instance = $instance->newInstance();
-//    $query = $instance->newQuery();
-//    $data = $request->except(["token","_token"]);
-//    foreach($data as $input => $val)
-//    {
-//      $query->where($input,"like","%{$val}%");
-//    }
-//    return $query->get();
+      return Status::getStatusForRessource($model);
   }
 }

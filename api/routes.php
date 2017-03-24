@@ -29,8 +29,8 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->resource("groups",'GroupController');
     $api->resource("cars",'CarController', ["except"=>["delete"]]);
   
-    $api->get("/statuses","StatusController@index");
-    $api->get("/statuses/model","StatusController@model");
+    $api->get("/status","StatusController@index");
+    $api->get("/status/{model}","StatusController@model");
     $api->resource("waypoints","WaypointController");
     $api->get("/search/{model}","SearchController@fullText");
   

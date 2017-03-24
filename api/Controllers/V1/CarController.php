@@ -10,7 +10,7 @@ namespace Api\Controllers\V1;
 
 use App\Helpers\Status;
 use App\Http\Requests\CreateCommentRequest;
-use App\Http\Requests\ListCarRequest;
+use Api\Requests\ListCarRequest;
 use Lib\Models\Car;
 use Lib\Models\User;
 use Lib\Models\Comment;

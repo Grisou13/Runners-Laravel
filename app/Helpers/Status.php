@@ -19,7 +19,7 @@ class Status{
    * @return array
    */
   public static function getStatusForRessource($resName){
-    return collect(config("status.".self::resolveResourceName($resName)))->keys();
+    return self::getStatusKey($resName,"*")->toArray();
   }
   /**
    * shorthand for getting a resource status
@@ -77,6 +77,8 @@ class Status{
   public static function getStatusKey($ressource,$name){
     $resource_name = self::resolveResourceName($ressource);
     $statuses = collect(config("status.".$resource_name,[]));
+    if($name === "*")
+      return $statuses->keys();
     $index = $statuses->keys()->search($name);
     if($index !== false)
       return $statuses->keys()[$index];

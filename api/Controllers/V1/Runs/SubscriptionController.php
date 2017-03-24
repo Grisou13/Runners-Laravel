@@ -40,6 +40,12 @@ class SubscriptionController extends BaseController
       else
         throw new BadRequestHttpException("The user is ".$user->status. ", therefor you are not allowed to assign him");
     }
+    else
+    {
+      $user = $this->auth->user();
+      if($user->status == "free")
+        $sub->user()->associate($request->get("user"));
+    }
     if($request->has("car"))
     {
       $car = Car::find($request->get("car"));

@@ -6,7 +6,7 @@
  * Time: 15:29
  */
 
-namespace App\Http\Requests;
+namespace Api\Requests;
 
 
 use App\Helpers\Status;
@@ -23,7 +23,7 @@ class ListCarRequest extends FormRequest
   {
     return [
       "type"=>"exists:car_types,name",
-      "status"=>["sometimes",Rule::in(Status::getStatusForRessource("car"))]
+      "status"=>["sometimes","nullable",Rule::in(Status::getStatusForRessource("car"))]
     ];
   }
 }

@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Lib\Models\Run;
 use Lib\Models\RunSubscription;
 
-class RunSubscriptionUpdatedEvent
+class RunSubscriptionDeletedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
   
