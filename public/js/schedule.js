@@ -2,6 +2,59 @@
  * Created by Eric.BOUSBAA on 17.02.2017.
  */
 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
+(function() {
+    /**
+     * Decimal adjustment of a number.
+     *
+     * @param {String}  type  The type of adjustment.
+     * @param {Number}  value The number.
+     * @param {Integer} exp   The exponent (the 10 logarithm of the adjustment base).
+     * @returns {Number} The adjusted value.
+     */
+    function decimalAdjust(type, value, exp) {
+        // If the exp is undefined or zero...
+        if (typeof exp === 'undefined' || +exp === 0) {
+            return Math[type](value);
+        }
+        value = +value;
+        exp = +exp;
+        // If the value is not a number or the exp is not an integer...
+        if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+            return NaN;
+        }
+        // If the value is negative...
+        if (value < 0) {
+            return -decimalAdjust(type, -value, exp);
+        }
+        // Shift
+        value = value.toString().split('e');
+        value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+        // Shift back
+        value = value.toString().split('e');
+        return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+    }
+
+    // Decimal round
+    if (!Math.round10) {
+        Math.round10 = function(value, exp) {
+            return decimalAdjust('round', value, exp);
+        };
+    }
+    // Decimal floor
+    if (!Math.floor10) {
+        Math.floor10 = function(value, exp) {
+            return decimalAdjust('floor', value, exp);
+        };
+    }
+    // Decimal ceil
+    if (!Math.ceil10) {
+        Math.ceil10 = function(value, exp) {
+            return decimalAdjust('ceil', value, exp);
+        };
+    }
+})();
+
 function _hexToRgb(hex){
     // credits to http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -30,8 +83,16 @@ function _getDates(startDate, stopDate) {
     return dateArray;
 }
 function _updateSchedule(newScheduleInterval){
-    //let floatVal = parseFloat(newScheduleInterval.replace(":", "."));
-    console.log(newScheduleInterval)
+    newScheduleInterval = parseFloat(newScheduleInterval);
+    // let newSchedule = generateScheduleFromInterval(newScheduleInterval);
+    // schedule = newScheduleInterval;
+    // console.log("DONE");
+
+    let url = window.Laravel.basePath + "/api/settings/schedule_interval?token=root&value="+newScheduleInterval;
+
+    ajaxRequest("patch", url, null, console.log);
+    // location.reload();
+    // console.log(newSchedule);
     // change settings
 
 
@@ -78,14 +139,12 @@ var cellListener = function(){
             "end_time": date + " " + endHour,
             "group": groupId
         };
-        var cell = this
+        var cell = this;
         let assignDataId = function(scheduleCreated){
 
             cell.dataset.scheduleId = scheduleCreated.id;
         };
         ajaxRequest("post", url, data, assignDataId);
-
-
     }
 
 };
@@ -167,7 +226,7 @@ function createGrid(schedule, days, groups){
 
 function getAllGroups(){
     var url = window.Laravel.basePath + "/api/groups?token=root&include=schedules";
-    return ajaxRequest("get", url, "", false);
+    return ajaxRequest("get", url, "", null);
     // console.log(res);
 }
 
@@ -207,14 +266,14 @@ function editSchedule(currentSchedule, hourInterval, minutesInterval){
             document.getElementById("sch-validate").disabled = true;
             document.getElementById("sch-validate").style.opacity = "0.8";
         }
-
     };
+
     var changeSchedule = function(){
         let hoursDiff = document.getElementById("sch-hours").value;
         let minutesDiff = document.getElementById("sch-minutes").value;
         //TODO check if val is different that the one actually used.
 
-        _updateSchedule(hoursDiff + "." + minutesDiff));
+        _updateSchedule(hoursDiff + "." + minutesDiff);
 
         let alertElement = document.createElement("div");
         // if(!newDiff){
@@ -260,13 +319,6 @@ function editSchedule(currentSchedule, hourInterval, minutesInterval){
     container.appendChild(validateElement);
 }
 
-
-/**
- * Get all days. Yup.
- * @type {[type]}
- */
-var days = getAllDays();
-
 /**
  * Generates an array of hours on a day (24 hours) ie ([08:00, 10:00, 12:00, ...]).
  * Always starts at 08:00.
@@ -283,41 +335,53 @@ function generateScheduleFromInterval(jump){
     }
     let startTime = parseFloat(8).toFixed(1);
     var times = [];
-    var inc = startTime;
+    var inc = parseFloat(startTime);
     times.push(inc);
 
     do{
-        inc = parseFloat(inc) + parseFloat(jump);
-        inc = inc.toFixed(1);
+        // inc = parseFloat(inc) + parseFloat(jump);
+        inc += jump;
+        inc = Math.round10(inc,-2);
+        // inc = parseFloat(inc).toFixed(2);
+        // console.log(typeof(inc))
+        let decimal = inc % 1;
+
+        if(Math.round10(decimal, -2) >= 0.6){
+            inc = ~~inc + 1;
+            // // if we jump by *45* minutes we also need to keep the +15'
+            // console.log(Math.round10(0.6-jump, -2))
+        }
         if(inc >= 24){
             inc = 0;
         }
+
         times.push(inc);
     }while(inc != startTime);
     return times.slice(0, -1);
 }
+/**
+ * Get all days. Yup.
+ * @type {[type]}
+ */
+var days = getAllDays();
 
-function genSchedule(jj){
-    return false;
-}
+let intervalSettings = ajaxRequest("get", window.Laravel.basePath+"/api/settings/schedule_interval?token=root", "", null);
+// console.log(parseFloat(intervalSettings["value"]));
+intervalSettings = parseFloat(intervalSettings["value"]);
 
+var schedule = generateScheduleFromInterval(intervalSettings);
 
-// var schedule1 = generateScheduleFromInterval(2);
-// var schedule2 = generateScheduleFromInterval(1);
-var schedule3 = genSchedule();
-
-console.log(schedule3);
-var schedule = ["08:00", "10:00",
-                "12:00", "14:00",
-                "16:00", "18:00",
-                "20:00", "22:00",
-                "00:00", "02:00",
-                "04:00", "06:00"];
+// var schedule = ["08:00", "10:00",
+//                 "12:00", "14:00",
+//                 "16:00", "18:00",
+//                 "20:00", "22:00",
+//                 "00:00", "02:00",
+//                 "04:00", "06:00"];
 
 var groups = getAllGroups();
 // console.log(groups);
 createGrid(schedule, days, groups);
 
-var hourInterval = ["00", "01", "02", "03"];
-var minutesInterval = ["00","15","30","45"];
+var hourInterval = ["00", "01", "02"];
+var minutesInterval = ["00","15","30"];
 editSchedule(schedule, hourInterval, minutesInterval);

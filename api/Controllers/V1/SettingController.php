@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\V1\Controllers;
+namespace Api\Controllers\V1;
 
 use Api\Controllers\BaseController;
 use Lib\Models\Setting;
@@ -35,9 +35,9 @@ class SettingController extends BaseController
      * @param  \App\Settings  $settings
      * @return \Illuminate\Http\Response
      */
-    public function show(Setting $settings)
+    public function show(Setting $setting)
     {
-        return $settings;
+        return $setting;
     }
 
 

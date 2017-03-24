@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Lib\Models\Setting;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,11 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
+
+        Route::bind('setting', function ($value) {
+
+            return Setting::where('key', $value)->first();
+        });
     }
 
     /**
