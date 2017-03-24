@@ -144,9 +144,10 @@ var cellListener = function(){
 
             cell.dataset.scheduleId = scheduleCreated.id;
         };
+        console.log(data);
+
         ajaxRequest("post", url, data, assignDataId);
     }
-
 };
 function createTable(schedule, groups, day){
     var grid = document.createElement("table");
@@ -348,15 +349,17 @@ function generateScheduleFromInterval(jump){
 
         if(Math.round10(decimal, -2) >= 0.6){
             inc = ~~inc + 1;
-            // // if we jump by *45* minutes we also need to keep the +15'
+            // if we jump by *45* minutes we also need to keep the +15'
             // console.log(Math.round10(0.6-jump, -2))
         }
         if(inc >= 24){
             inc = 0;
         }
-
-        times.push(inc);
+        console.log(('0' + decimal).slice(0))
+        times.push(('0' + ~~inc).slice(-2) + ":" + ('0' + decimal).slice(0));
     }while(inc != startTime);
+    times[0] = ('0' + times[0]).slice(-2) + ":00";
+
     return times.slice(0, -1);
 }
 /**
@@ -369,15 +372,9 @@ let intervalSettings = ajaxRequest("get", window.Laravel.basePath+"/api/settings
 // console.log(parseFloat(intervalSettings["value"]));
 intervalSettings = parseFloat(intervalSettings["value"]);
 
+//TODO generate schedule in back-end (from settings)
 var schedule = generateScheduleFromInterval(intervalSettings);
-
-// var schedule = ["08:00", "10:00",
-//                 "12:00", "14:00",
-//                 "16:00", "18:00",
-//                 "20:00", "22:00",
-//                 "00:00", "02:00",
-//                 "04:00", "06:00"];
-
+console.log(schedule);
 var groups = getAllGroups();
 // console.log(groups);
 createGrid(schedule, days, groups);
@@ -385,3 +382,5 @@ createGrid(schedule, days, groups);
 var hourInterval = ["00", "01", "02"];
 var minutesInterval = ["00","15","30"];
 editSchedule(schedule, hourInterval, minutesInterval);
+
+//TOOD https://laravel.com/docs/5.4/dusk#waiting-for-elements
