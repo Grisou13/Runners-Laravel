@@ -6,7 +6,7 @@
  * Time: 10:58
  */
 
-namespace Api\Controllers\V1\Runs;
+namespace Api\Controllers\V1;
 
 
 use Api\Controllers\BaseController;
@@ -27,19 +27,34 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class SubscriptionController extends BaseController
 {
+  /**
+   * @var RunSubscription
+   */
+  private $subscription;
+  
+  /**
+   * SubscriptionController constructor.
+   * @param RunSubscription $subscription
+   */
+  public function __construct(RunSubscription $subscription)
+  {
+    $this->subscription = $subscription;
+  }
+  
   public function show(Request $request, RunSubscription $sub)
   {
     return $sub;
   }
-  public function index(Request $request,Run $run)
+  public function index(Request $request, Run $run)
   {
-      return $run->subscriptions;
+      return $this->subscription->newQuery()->get();
   }
 
-  public function store(CreateSubscriptionRequest $request, Run $run)
+  public function store(CreateSubscriptionRequest $request)
   {
-    $sub = new RunSubscription;
+    $sub = $this->subscription;
     //try and find the run in request or passed in path
+    $run = Run::find($request->get("run"));
     $sub->run()->associate($run);
     $sub->fill($request->except(["_token","token"]));
     if($request->has("user"))

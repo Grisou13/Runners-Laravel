@@ -42,13 +42,13 @@ class AddUserToRunTest extends TestCase
     $this->assertEquals($run->subscriptions()->getResults()->count(),1);//there must only be one subscription
     $this->assertNotNull($run->subscriptions()->getResults()->first()->user);
     $this->assertEquals($run->subscriptions()->getResults()->first()->user->id,$user->id);
+    $this->assertEquals($user->fresh()->status,"taken");
   }
   public function testAddNonFreeUserToRun()
   {
     /**
      * @var $run Run
      */
-    
     $run = factory(Run::class)->create();
     $user = factory(User::class)->create();
     $car = factory(Car::class)->create();
@@ -57,18 +57,16 @@ class AddUserToRunTest extends TestCase
     $this->assertEquals($run->subscriptions()->getResults()->count(),1);//there must only be one subscription
     $this->assertNotNull($run->subscriptions()->getResults()->first()->user);
     $this->assertEquals($run->subscriptions()->getResults()->first()->user->id,$user->id);
-//    $user->fresh();
-//    $this->assertEquals($user->status, "taken");
+    $this->assertEquals($user->fresh()->status,"taken");
+    $this->assertEquals($car->fresh()->status,"taken");
+    
     $run2 = factory(Run::class)->create();
     $car2 = factory(Car::class)->create();
-    //dump($user->status);
     $res = $this->json("POST","/api/runs/{$run2->id}/runners",["user"=>$user->id,"car"=>$car2->id], ["x-access-token"=>$user->getAccessToken()]);
     $user->fresh();
     $res->assertStatus(400);
     $this->assertEquals($run2->subscriptions()->getResults()->count(),0);//there must only be one subscription
-    //$this->assertEquals($user->status, "taken");
-
-    
+    $this->assertEquals($user->fresh()->status,"taken");
   }
   /**
    * @test
@@ -87,5 +85,7 @@ class AddUserToRunTest extends TestCase
     $this->assertEquals($run->subscriptions()->getResults()->first()->user->id,$user->id);
     $this->assertNotNull($run->subscriptions()->getResults()->first()->car);
     $this->assertEquals($run->subscriptions()->getResults()->first()->car->id,$car->id);
+    $this->assertEquals($user->fresh()->status,"taken");
+    $this->assertEquals($car->fresh()->status,"taken");
   }
 }
