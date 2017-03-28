@@ -22,20 +22,26 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CarController extends BaseController
 {
+    public function search(Request $request)
+    {
+      $query = $request->get("query","");
+      return Car::where("name","like","%$query%")->take(10);
+    }
     public function index(ListCarRequest $request)
     {
-      $cars = Car::with("car_type");
+      $query = Car::with("car_type");
       if($request->has("type"))
       {
-        $cars->whereHas("car_type",function($q) use ($request){
+        $query->whereHas("car_type",function($q) use ($request){
           $q->whereIn("name",explode(",",$request->get("type")));
         });
       }
       if($request->has("status"))
       {
-        $cars->ofStatus("status",$request->get("status"));
+        $query->ofStatus($request->get("status"));
       }
-      return $cars->get();
+      
+      return $query->get();
       
     }
     public function show(Request $request, Car $car)

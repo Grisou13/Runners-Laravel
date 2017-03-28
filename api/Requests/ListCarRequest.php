@@ -22,7 +22,7 @@ class ListCarRequest extends FormRequest
   public function rules()
   {
     return [
-      "type"=>"exists:car_types,name",
+      "type"=>"sometimes|exists:car_types,name",
       "status"=>["sometimes","nullable",Rule::in(Status::getStatusForRessource("car"))]
     ];
   }
