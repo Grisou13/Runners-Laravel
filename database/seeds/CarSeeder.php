@@ -12,10 +12,7 @@ class CarSeeder extends Seeder
 
     public function run()
     {
-      /*$colors = ['Bleu', 'Vert', 'Rouge'];
-      $nb_places = [2, 5, 8];
-      $status = ['Disponible', 'En réparation'];*/
-
-      factory(Lib\Models\Car::class,10)->create();
+      $ids = \Lib\Models\CarType::all()->pluck("id");
+      factory(Lib\Models\Car::class,10)->create(["car_type_id"=>$ids->random()]);
     }
 }

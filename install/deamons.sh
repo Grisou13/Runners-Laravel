@@ -11,10 +11,10 @@ echo "
 #/etc/init.d/laravelecho
 export PATH=$PATH:/usr/local/bin
 export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
-$BIN=/usr/local/lib/node_modules/laravel-echo-server/bin/server.js
+$BIN=$(which laravel-echo-server)
 case "$1" in
   start)
-  exec forever -s -m 5 -p /var/forever/pids start  $BIN start
+  exec forever -s -m 5 -p /var/forever/pids start $BIN start
   ;;
 stop)
   exec forever stop $BIN

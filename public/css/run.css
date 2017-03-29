@@ -31,3 +31,17 @@
   margin-bottom: 5px;
   width:110px;
 }
+
+.status{
+    min-width:5px;
+    background-color: floralwhite;
+}
+.ready{
+    background-color: #00ee00;
+}
+.error{
+    background-color: #880000;
+}
+.needs_filling{
+    background-color:lightgoldenrodyellow ;
+}

@@ -40,7 +40,7 @@
           </div>
         </div>
     </div>
-    @each("partials.run.show",$runs,"run")
+    @include("partials.run.list",compact("runs"))
 @stop
 @push("scripts")
 <script src="{{ asset("/js/typeahead.bundle.min.js") }}"></script>

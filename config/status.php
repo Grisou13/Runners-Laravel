@@ -24,7 +24,8 @@ return [
     "missing_user"=>"Il manque un chauffeur",
     "missing_car"=>"Il manque une voiture",
     "needs_filling"=>"Il faut encore remplir les imformations pour l'utilisateur, la voiture, ou le type de voiture",
-    "gone"=>"Le run est parti"
+    "gone"=>"Le run est parti",
+    "error"=>"Quelque chose c'est vraiment mal passé"
   ],
   "car"=>[
     "active"=>"Actif",

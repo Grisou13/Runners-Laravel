@@ -10,6 +10,7 @@ namespace Api\Controllers\V1\Runs;
 
 use Api\Controllers\BaseController;
 use Api\Requests\ListRunRequest;
+use Api\Requests\SearchRequest;
 use App\Http\Requests\CreateRunRequest;
 use Carbon\Carbon;
 use Lib\Models\Run;
@@ -28,6 +29,11 @@ class RunController extends BaseController
       if($request->has("status"))
         $query->ofStatus($request->get("status"));
       return $this->response()->collection($query->get(), new RunTransformer);
+    }
+    public function search(SearchRequest $request)
+    {
+      $query = $request->get("q","");
+      return Run::where("name","like","%$query%")->get();
     }
     public function show(Request $request, Run $run)
     {

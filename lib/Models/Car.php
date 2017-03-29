@@ -17,7 +17,8 @@ class Car extends Model
         "plate_number","brand","model","color","nb_place","comment","name"
     ];
     public $events = [
-      "saving"=>"App\\Events\\CarSavingEvent"
+      "saving"=>"App\\Events\\CarSavingEvent",
+      "creating"=>"App\\Events\\CarCreatingEvent"
     ];
     public function subscriptions()
     {

@@ -8,6 +8,7 @@
 
 namespace Api\Controllers\V1;
 
+use Api\Requests\SearchRequest;
 use App\Helpers\Status;
 use App\Http\Requests\CreateCommentRequest;
 use Api\Requests\ListCarRequest;
@@ -22,10 +23,10 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CarController extends BaseController
 {
-    public function search(Request $request)
+    public function search(SearchRequest $request)
     {
-      $query = $request->get("query","");
-      return Car::where("name","like","%$query%")->take(10);
+      $query = $request->get("q","");
+      return Car::where("name","like","%$query%")->get();
     }
     public function index(ListCarRequest $request)
     {

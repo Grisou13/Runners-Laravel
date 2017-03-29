@@ -34,10 +34,16 @@ $factory->define(Lib\Models\User::class, function (Faker\Generator $faker) {
         "name"=>$faker->unique()->name,
         "sex"=>$faker->boolean,
         "phone_number"=>$faker->phoneNumber,
-        "group_id"=>DB::table('groups')->inRandomOrder()->first()->id,
         "accesstoken"=>str_random(255),
         "group_id"=>factory(Lib\Models\Group::class)->create()->id,
     ];
+});
+
+$factory->define(Lib\Models\CarType::class, function(Faker\Generator $faker){
+  return [
+    "name"=>$faker->unique()->name,
+    "description"=>$faker->text
+  ];
 });
 
 $factory->define(Lib\Models\Car::class, function (Faker\Generator $faker){
@@ -47,19 +53,11 @@ $factory->define(Lib\Models\Car::class, function (Faker\Generator $faker){
         "model"=>collect(["Serie 4", "Monospace", "Truc"])->random(),
         "color"=>$faker->colorName,
         "nb_place"=>$faker->numberBetween(3,7),
-        //"car_type_id"=>function(){return factory(Lib\Models\CarType::class)->create()->id;},
-        "car_type_id"=>DB::table('car_types')->inRandomOrder()->first()->id,
+        "car_type_id"=>function(){return factory(Lib\Models\CarType::class)->create()->id;},
+        //"car_type_id"=>factory(\Lib\Models\CarType::class)->create()->id,
         "name"=>$faker->numberBetween(1,18),
     ];
 });
-
-/*$factory->define(Lib\Models\CarType::class, function (Faker\Generator $faker){
-    $car_types_name = ["VITO", "LIMO"];
-    return [
-        "name"=>collect($car_types_name)->random(),
-        "description"=>$faker->text
-    ];
-});*/
 
 $factory->define(Lib\Models\Waypoint::class, function(Faker\Generator $faker){
   $geo = str_replace(["\n","\r"],"",trim("{
@@ -153,9 +151,19 @@ $factory->define(Lib\Models\Waypoint::class, function(Faker\Generator $faker){
                     ]
 
                   }"));
+  
+  
   return [
-    "name"=>collect(["Lausanne","Paleo","Morges gare"])->random(),
-    "geo"=>$geo
+    "name"=>collect(["Nyon centre","Lausanne Gare","Paleo grande scène","Genève aéroport", "Chavannes", "lake geneva hotel"])->random(),
+    "geo"=>function($waypoint) use ($geo){
+      $url = "https://maps.googleapis.com/maps/api/geocode/json?region=CH&address=".urlencode($waypoint["name"]);
+      $client = new \GuzzleHttp\Client();
+      $res = $client->request('GET', $url);
+      if($res->getStatusCode() != 200)
+        return $geo;
+      $body = json_decode($res->getBody(),true);
+      return $body["results"][0];
+    }
   ];
 });
 $factory->define(Lib\Models\Run::class, function (Faker\Generator $faker){
