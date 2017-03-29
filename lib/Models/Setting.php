@@ -8,10 +8,5 @@ class Setting extends Model
 {
     public $timestamps = false;
     public $fillable = ["value"];
-/*
-    public function getRouteKeyName()
-    {
 
-
-    }*/
 }

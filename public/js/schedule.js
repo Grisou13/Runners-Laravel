@@ -3,6 +3,7 @@
  */
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
+/*
 (function() {
     /**
      * Decimal adjustment of a number.
@@ -11,7 +12,7 @@
      * @param {Number}  value The number.
      * @param {Integer} exp   The exponent (the 10 logarithm of the adjustment base).
      * @returns {Number} The adjusted value.
-     */
+
     function decimalAdjust(type, value, exp) {
         // If the exp is undefined or zero...
         if (typeof exp === 'undefined' || +exp === 0) {
@@ -54,6 +55,7 @@
         };
     }
 })();
+*/
 
 function _hexToRgb(hex){
     // credits to http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
@@ -82,6 +84,7 @@ function _getDates(startDate, stopDate) {
     }
     return dateArray;
 }
+/*
 function _updateSchedule(newScheduleInterval){
     newScheduleInterval = parseFloat(newScheduleInterval);
     // let newSchedule = generateScheduleFromInterval(newScheduleInterval);
@@ -94,9 +97,9 @@ function _updateSchedule(newScheduleInterval){
     // location.reload();
     // console.log(newSchedule);
     // change settings
-
-
 }
+*/
+
 function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
     // refer to https://kangax.github.io/compat-table/es6/#webkit for compatibility
@@ -161,6 +164,7 @@ function createTable(schedule, groups, day){
     // table header
     var headerTR = document.createElement("tr");
     var th = document.createElement("th");
+    th.style.width = "25%";
     th.innerHTML = "Groupes";
     headerTR.appendChild(th);
 
@@ -175,7 +179,7 @@ function createTable(schedule, groups, day){
     groups.forEach(function(group){
         var bodyTR = document.createElement("tr");
         var td = document.createElement("td");
-        td.innerHTML = "Group n° " + group.id;
+        td.innerHTML = "G°" + group.id;
         var rgb = _hexToRgb(group.color);
         td.style.backgroundColor = "rgba("+ [rgb["r"], rgb["g"], rgb["b"], 0.7].join(",") + ")";
         td.style.color = "white";
@@ -240,7 +244,7 @@ function getAllDays(){
     //for the moment, we only return an array of dates from now in one week
     return _getDates(moment().format(), moment().add(1, "week").format());
 }
-
+/*
 function editSchedule(currentSchedule, hourInterval, minutesInterval){
     var _diff = function(hor1, hor2){
         let r = parseInt(hor1) - parseInt(hor2);
@@ -277,10 +281,7 @@ function editSchedule(currentSchedule, hourInterval, minutesInterval){
         _updateSchedule(hoursDiff + "." + minutesDiff);
 
         let alertElement = document.createElement("div");
-        // if(!newDiff){
-        //     alertElement.innerHTML = "No given value"
-        // }
-        // container.appendChild(alertElement);
+
     };
 
     diffElement.innerHTML = "Tranche actuelle : " + diff.toString() + " H.";
@@ -319,68 +320,26 @@ function editSchedule(currentSchedule, hourInterval, minutesInterval){
     // append the submit button to container
     container.appendChild(validateElement);
 }
+*/
 
-/**
- * Generates an array of hours on a day (24 hours) ie ([08:00, 10:00, 12:00, ...]).
- * Always starts at 08:00.
- * @param  {Array} jump  The time beteewn each schedule column. The smaller the number is,
- *                       the bigger the return array will be.
- * @return [Array]       return the schedule (on 24 hours) generated with the jump.
- */
-function generateScheduleFromInterval(jump){
-    if(typeof(jump) == "string"){
-        throw new Error("Schedule jump: format non-valid !");
-    }
-    if(isNaN(parseFloat(jump)) || !isFinite(jump)){
-        throw new Error("Schedule second j: format non-valid !");
-    }
-    let startTime = parseFloat(8).toFixed(1);
-    var times = [];
-    var inc = parseFloat(startTime);
-    times.push(inc);
-
-    do{
-        // inc = parseFloat(inc) + parseFloat(jump);
-        inc += jump;
-        inc = Math.round10(inc,-2);
-        // inc = parseFloat(inc).toFixed(2);
-        // console.log(typeof(inc))
-        let decimal = inc % 1;
-
-        if(Math.round10(decimal, -2) >= 0.6){
-            inc = ~~inc + 1;
-            // if we jump by *45* minutes we also need to keep the +15'
-            // console.log(Math.round10(0.6-jump, -2))
-        }
-        if(inc >= 24){
-            inc = 0;
-        }
-        console.log(('0' + decimal).slice(0))
-        times.push(('0' + ~~inc).slice(-2) + ":" + ('0' + decimal).slice(0));
-    }while(inc != startTime);
-    times[0] = ('0' + times[0]).slice(-2) + ":00";
-
-    return times.slice(0, -1);
-}
-/**
- * Get all days. Yup.
- * @type {[type]}
- */
 var days = getAllDays();
 
-let intervalSettings = ajaxRequest("get", window.Laravel.basePath+"/api/settings/schedule_interval?token=root", "", null);
-// console.log(parseFloat(intervalSettings["value"]));
-intervalSettings = parseFloat(intervalSettings["value"]);
+schedule = ["08:00","08:30", "09:00","09:30",
+    "10:00","10:30", "11:00","11:30",
+    "12:00","12:30", "13:00","13:30",
+    "14:00","14:30", "15:00","15:30",
+    "16:00","16:30", "17:00","17:30",
+    "18:00","18:30", "19:00","19:30",
+    "20:00","20:30", "21:00","21:30",
+    "22:00","22:30", "23:00","23:30",
+    "00:00","00:30", "01:00","01:30",
+    "02:00","02:30", "03:00","03:30",
+    "04:00","04:30", "05:00","05:30",
+    "06:00","06:30", "07:00","07:30"
+];
 
-//TODO generate schedule in back-end (from settings)
-var schedule = generateScheduleFromInterval(intervalSettings);
-console.log(schedule);
 var groups = getAllGroups();
-// console.log(groups);
+
 createGrid(schedule, days, groups);
 
-var hourInterval = ["00", "01", "02"];
-var minutesInterval = ["00","15","30"];
-editSchedule(schedule, hourInterval, minutesInterval);
-
-//TOOD https://laravel.com/docs/5.4/dusk#waiting-for-elements
+//TODO https://laravel.com/docs/5.4/dusk#waiting-for-elements
