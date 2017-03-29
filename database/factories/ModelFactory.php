@@ -156,6 +156,7 @@ $factory->define(Lib\Models\Waypoint::class, function(Faker\Generator $faker){
   return [
     "name"=>collect(["Nyon centre","Lausanne Gare","Paleo grande scène","Genève aéroport", "Chavannes", "lake geneva hotel"])->random(),
     "geo"=>function($waypoint) use ($geo){
+      return $geo;
       $url = "https://maps.googleapis.com/maps/api/geocode/json?region=CH&address=".urlencode($waypoint["name"]);
       $client = new \GuzzleHttp\Client();
       $res = $client->request('GET', $url);
