@@ -144,7 +144,6 @@ var cellListener = function(){
         };
         var cell = this;
         let assignDataId = function(scheduleCreated){
-
             cell.dataset.scheduleId = scheduleCreated.id;
         };
         console.log(data);
@@ -174,7 +173,7 @@ function createTable(schedule, groups, day){
         headerTR.appendChild(th);
     });
     theader.appendChild(headerTR);
-
+    var bgColor;
     // table body
     groups.forEach(function(group){
         var bodyTR = document.createElement("tr");
@@ -182,13 +181,14 @@ function createTable(schedule, groups, day){
         td.innerHTML = "G°" + group.id;
         var rgb = _hexToRgb(group.color);
         td.style.backgroundColor = "rgba("+ [rgb["r"], rgb["g"], rgb["b"], 0.7].join(",") + ")";
-        td.style.color = "white";
+        // td.style.color = bgColor;
 
         bodyTR.appendChild(td);
         schedule.forEach(function(hour){
+            schedule.indexOf(hour) % 2 == 0 ? bgColor = "white" : bgColor = "#ECEFF1";
             var td = document.createElement("td");
             td.setAttribute("id", group.id + "-" + schedule.indexOf(hour) + "-" + day);
-
+            td.style.backgroundColor = bgColor;
             // is our row assigned ?
             td.dataset.assigned = "false";
             if(typeof group.schedules !== 'undefined' && group.schedules.length > 0){
