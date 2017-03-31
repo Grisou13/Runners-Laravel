@@ -72,6 +72,7 @@ function _hexToRgb(hex){
             b: parseInt(result[3], 16)
         } : null;
 }
+
 function _getDates(startDate, stopDate) {
     // https://momentjs.com/
     // credits to http://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates
@@ -84,6 +85,7 @@ function _getDates(startDate, stopDate) {
     }
     return dateArray;
 }
+
 /*
 function _updateSchedule(newScheduleInterval){
     newScheduleInterval = parseFloat(newScheduleInterval);
@@ -115,42 +117,40 @@ function ajaxRequest(method, url, data, callback) {
     });
     return returnedData;
 }
-var cellListener = function(){
-    var cell = this.id.split("-");
-    var groupId = cell[0];
-    var startHour = schedule[cell[1]];
 
-    var endHour = cell[1] == schedule.length - 1 ? schedule[0] : schedule[parseInt(cell[1]) + 1];
-
-    //var endHour = schedule[parseInt(cell[1]) + 1];
-    var date = cell.splice(2,3).join("-");
+function updateCell(cellID){
+    let cell = document.getElementById(cellID);
+    cellID = cellID.split("-");
+    let groupID = cellID[0];
+    let startHour = schedule[cellID[1]];
+    let endHour = schedule[cellID[1]];
+    let date = cellID.splice(2,3).join("-");
     let selGrp = groups.filter(function(x){
-        return x.id == groupId;
+        return x.id == groupID;
     })[0];
 
-    if(this.dataset.assigned === "true"){
-        let url = window.Laravel.basePath + "/api/schedules/" + this.dataset.scheduleId + "?token=root";
-        this.dataset.assigned = "false";
-        this.style.backgroundColor = "white";
+    if(cell.dataset.assigned === "true"){
+        let url = window.Laravel.basePath + "/api/schedules/" + cell.dataset.scheduleId + "?token=root";
+        cell.dataset.assigned = "false";
+        cell.style.backgroundColor = "white";
         ajaxRequest("delete", url, "", console.log);
     }else{
-        this.dataset.assigned = "true";
-        this.style.backgroundColor = "#" + selGrp.color;
-        let url = window.Laravel.basePath + "/api/groups/"+groupId+"/schedules?token=root";
+        cell.dataset.assigned = "true";
+        cell.style.backgroundColor = "#" + selGrp.color;
+        let url = window.Laravel.basePath + "/api/groups/"+groupID+"/schedules?token=root";
         let data = {
             "start_time": date + " " + startHour,
             "end_time": date + " " + endHour,
-            "group": groupId
+            "group": groupID
         };
-        var cell = this;
         let assignDataId = function(scheduleCreated){
             cell.dataset.scheduleId = scheduleCreated.id;
         };
-        console.log(data);
 
         ajaxRequest("post", url, data, assignDataId);
     }
-};
+}
+
 function createTable(schedule, groups, day){
     var grid = document.createElement("table");
     grid.style.width  = "80%";
@@ -174,10 +174,16 @@ function createTable(schedule, groups, day){
     });
     theader.appendChild(headerTR);
     var bgColor;
-    // table body
+
+    // listener vars
+    var isdown = false;
+    var modified = [];
+    var lin = 0;
+
     groups.forEach(function(group){
         var bodyTR = document.createElement("tr");
         var td = document.createElement("td");
+        td.style.cursor = "none";
         td.innerHTML = "G°" + group.id;
         var rgb = _hexToRgb(group.color);
         td.style.backgroundColor = "rgba("+ [rgb["r"], rgb["g"], rgb["b"], 0.7].join(",") + ")";
@@ -201,7 +207,42 @@ function createTable(schedule, groups, day){
                     }
                 })
             }
-            td.onclick = cellListener;
+            var changeColor = function(td){
+                if(typeof td.dataset.scheduleId == "undefined"){
+                    td.style.backgroundColor = "#" + group.color;
+                }else{
+                    td.style.backgroundColor = bgColor;
+                }
+            };
+            td.addEventListener("mousedown", function(e){
+                isdown = true;
+                lin = group.id;
+                modified.push(td.id);
+                changeColor(td);
+                return false;
+            });
+
+            td.addEventListener("mouseover", function(e){
+                if(isdown){
+                    if(lin == group.id){
+                        modified.push(td.id);
+                        changeColor(td);
+                    }
+                }
+                return false;
+            });
+            td.addEventListener("mouseup",function(e){
+                console.log("MOUSE UP EVENT");
+                console.log(modified);
+                // todo cal api here
+                modified.forEach(function(cellID){
+                    updateCell(cellID)
+                });
+                modified = [];
+                isdown = false;
+            });
+
+            // td.onclick = cellListener;
             // td.addEventListener("click", cellListener, false);
             bodyTR.appendChild(td);
         });
@@ -244,6 +285,7 @@ function getAllDays(){
     //for the moment, we only return an array of dates from now in one week
     return _getDates(moment().format(), moment().add(1, "week").format());
 }
+
 /*
 function editSchedule(currentSchedule, hourInterval, minutesInterval){
     var _diff = function(hor1, hor2){
