@@ -3,7 +3,8 @@
 return [
   "user"=>[
     "active"=>"Actif",
-    "taken"=>"En cours de run",
+    "taken"=>"Utilisé dans un run",
+    "gone"=>"Est parti en run",
     "not_present"=>"Pas présent",
     "free"=>"Disponible"
   ],
@@ -17,7 +18,8 @@ return [
     "gone"=>"Démarré",
     "ready"=>"Pret",
     "error"=>"Il manque des information pour démarrer le run",
-    "needs_filling"=>"Il n'y a actuellement aucun conoie prévu pour le run"
+    "needs_filling"=>"Il n'y a actuellement aucun conoie prévu pour le run",
+    "missing_cars"=>"Il manque des voiture pour démarrer le run"
   ],
   "run_subscription"=>[
     "ready_to_go"=>"Pret",
@@ -30,6 +32,7 @@ return [
   "car"=>[
     "active"=>"Actif",
     "taken"=>"Utilisé",
+    "gone"=>"Parti",
     "free"=>"Disponible",
     "problem"=>"La voiture n'est pas en &eacute;tat de fonctionnement"
   ]

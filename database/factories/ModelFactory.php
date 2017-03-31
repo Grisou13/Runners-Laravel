@@ -171,7 +171,7 @@ $factory->define(Lib\Models\Run::class, function (Faker\Generator $faker){
 
     return [
         "artist"=>$faker->name,
-        "nb_passenger"=>$faker->numberBetween(1,12),
+        "nb_passenger"=>$faker->numberBetween(1,3),
         "note"=>$faker->text,
         "planned_at"=>$faker->dateTimeBetween("+13 days","+15 days"),
     ];

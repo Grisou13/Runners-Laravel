@@ -10,6 +10,7 @@ namespace App\Observers;
 
 
 use App\Events\RunDeletingEvent;
+use App\Events\RunStartedEvent;
 use App\Events\RunSubscriptionDeletedEvent;
 use App\Events\RunSubscriptionDeletingEvent;
 use App\Events\RunSubscriptionSavingEvent;
@@ -42,6 +43,17 @@ class UserObserver
       [$this,"userCreating"]
     );
     
+    $events->listen(
+      "App\\Events\\RunStartedEvent",
+      [$this,"makeUserGone"]
+    );
+  }
+  public function makeUserGone(RunStartedEvent $event)
+  {
+    $event->run->subscriptions->map(function($sub){
+      $sub->user->status = "gone";
+      $sub->user->save();
+    });
   }
   public function makeUserUnavailable(RunSubscriptionSavingEvent $event)
   {

@@ -46,14 +46,16 @@
             @forelse($run->subscriptions as $sub)
                 @if($sub->status=="ready_to_go")
                     <div class="row bg-success">
-                        <div class="col-md-6">{{ $sub->car }} <button class="btn btn-danger">
+                        <div class="col-md-6">
+                            <button class="btn btn-danger">
                                 <span class="glyphicon glyphicon-remove-sign"></span>
+                                {{ $sub->car->name }}
                             </button>
                         </div>
                         <div class="col-md-6">
-                            {{ $sub->user }}
                             <button class="btn btn-danger">
                                 <span class="glyphicon glyphicon-remove-sign"></span>
+                                {{ $sub->user->name }}
                             </button>
                         </div>
                     </div>
@@ -62,7 +64,7 @@
                         <div class="col-md-6">
                             <div class="btn-group-vertical" role="group" aria-label="">
                                 @if($sub->car_type_id != null)
-                                    <button class="btn btn-info searchable" name="button" data-searchable="cars" data-restrict="car_type={{$sub->car_type}}&status=free">
+                                    <button class="btn btn-info searchable" name="button" data-searchable="cars" data-restrict="car_type={{$sub->car_type->id}}&status=free">
                                         <span class="glyphicon glyphicon-plus-sign"></span>
                                         Voiture
                                     </button>
@@ -83,8 +85,10 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            {{ $sub->user }}
-                            <button class="btn btn-danger glyphicon glyphicon-remove-sign"></button>
+                            <button class="btn btn-danger ">
+                                <span class="glyphicon glyphicon-remove-sign"></span>
+                                {{ $sub->user->name }}
+                            </button>
                         </div>
                     </div>
                 @elseif($sub->status == "missing_user")

@@ -11,6 +11,7 @@ namespace Api\Controllers\V1\Runs;
 use Api\Controllers\BaseController;
 use Api\Requests\ListRunRequest;
 use Api\Requests\SearchRequest;
+use App\Events\RunStartedEvent;
 use App\Http\Requests\CreateRunRequest;
 use Carbon\Carbon;
 use Lib\Models\Run;
@@ -91,7 +92,19 @@ class RunController extends BaseController
             if(!$sub->has("car") && $sub->has("user"))
                throw new NotAcceptableHttpException("All runners have not been filled, please fill run subscription $sub->id");
         }
+        $seats = $run->subscriptions->map(function($sub){
+          return $sub->car->nb_place;
+        })->sum();
+        if($seats < $run->nb_passenger)
+          throw new NotAcceptableHttpException("The run cannot start because number you don't have enough seats avaiable ($seats) in cars (needed : {$run->nb_passenger} )");
         $run->started_at = Carbon::now();
+        $run->status="gone";
+        $run->subscriptions->map(function($sub){
+          $sub->status = "gone";
+        });
+      //TODO: rethink where to put this event
+      //notify the run has started, this will triger observers that will put every utalised car and runner on "gone" status
+        event(new RunStartedEvent($run));
         return $run;
 
     }

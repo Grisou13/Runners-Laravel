@@ -19,7 +19,12 @@ class RunController extends Controller
         $runs = Run::withCount("waypoints")->with(["waypoints","users","subscriptions","subscriptions.car","subscriptions.user","subscriptions.car_type"])->orderBy("status")->orderBy("planned_at")->get();
         return view("run.index",compact("runs"));
     }
-
+    public function display()
+    {
+      if(!Auth::check())
+        Auth::onceUsingId(1);//force login
+      return view("run.display");
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -62,7 +67,7 @@ class RunController extends Controller
      */
     public function edit(Request $request,Run $run)
     {
-        return view("run.edit")->with($run);
+        return view("run.edit")->with("run",$run);
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+use Lib\Models\Car;
+use Lib\Models\CarType;
 use Lib\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,29 +17,75 @@ class RunSeeder extends Seeder
 
         if(!User::all()->count())
             $this->call(UserSeeder::class);
-        factory(Lib\Models\Run::class,10)->create()->each(function(\Lib\Models\Run $run){
-          $run->waypoints()->attach(factory(Lib\Models\Waypoint::class)->create());
-          $run->waypoints()->attach(factory(Lib\Models\Waypoint::class)->create());
-          if(rand(0,200) % 2){ //just add some more data
-            $sub = new Lib\Models\RunSubscription();
-            $sub->run()->associate($run);
-
-            //jongle entre les differente assoc
-            $rand = rand(0, 2);
-            if($rand == 0){
-              $sub->car_type()->associate(rand(1,2));
-            }elseif($rand == 1){
-              $sub->user()->associate(DB::table('users')->inRandomOrder()->first()->id);
-            }else{
-              $sub->car()->associate(1);
-              $sub->user()->associate(DB::table('users')->inRandomOrder()->first()->id);
-            }
-
-            $sub->save();
-            for($i=0;$i<=3;$i++)
-              $run->waypoints()->attach(factory(Lib\Models\Waypoint::class)->create());
-          }
+      
+        $waypoints = factory(Lib\Models\Waypoint::class,6)->create();
+        function createSub($run){
+          $sub = new Lib\Models\RunSubscription();
+          $sub->run()->associate($run);
+          $sub->user()->associate(User::all()->random());
+          $sub->car()->associate(Car::all()->random());
+          $sub->save();
+        }
+        factory(Lib\Models\Run::class,3)->create()->each(function(\Lib\Models\Run $run) use ($waypoints){
+          $run->waypoints()->attach($waypoints->random(rand(2,6)));
         });
+      
+        factory(Lib\Models\Run::class)->create()->each(function(\Lib\Models\Run $run) use ($waypoints){
+          $run->waypoints()->attach($waypoints->random(rand(2,6)));
+          $sub = new Lib\Models\RunSubscription();
+          $sub->run()->associate($run);
+          $sub->user()->associate(User::find(2));
+          $sub->car()->associate(Car::find(1));
+          $sub->save();
+        });
+      factory(Lib\Models\Run::class)->create()->each(function(\Lib\Models\Run $run) use ($waypoints){
+        $run->waypoints()->attach($waypoints->random(rand(2,6)));
+        $sub = new Lib\Models\RunSubscription();
+        $sub->run()->associate($run);
+        $sub->user()->associate(User::find(3));
+        $sub->car()->associate(Car::find(3));
+        $sub->save();
+      });
+      factory(Lib\Models\Run::class)->create()->each(function(\Lib\Models\Run $run) use ($waypoints){
+        $run->waypoints()->attach($waypoints->random(rand(2,6)));
+        $sub = new Lib\Models\RunSubscription();
+        $sub->run()->associate($run);
+        
+        $sub->car()->associate(Car::find(5));
+        $sub->save();
+      });
+      factory(Lib\Models\Run::class)->create()->each(function(\Lib\Models\Run $run) use ($waypoints){
+        $run->waypoints()->attach($waypoints->random(rand(2,6)));
+        $sub = new Lib\Models\RunSubscription();
+        $sub->run()->associate($run);
+        $sub->user()->associate(User::find(6));
+        $sub->save();
+      });
+      factory(Lib\Models\Run::class)->create()->each(function(\Lib\Models\Run $run) use ($waypoints){
+        $run->waypoints()->attach($waypoints->random(rand(2,6)));
+        $sub = new Lib\Models\RunSubscription();
+        $sub->run()->associate($run);
+        $sub->user()->associate(User::find(5));
+        $sub->car_type()->associate(CarType::find(2));
+        $sub->save();
+      });
+      factory(Lib\Models\Run::class)->create()->each(function(\Lib\Models\Run $run) use ($waypoints){
+        $run->waypoints()->attach($waypoints->random(rand(2,6)));
+        $sub = new Lib\Models\RunSubscription();
+        $sub->run()->associate($run);
+        $sub->car_type()->associate(CarType::find(2));
+        $sub->save();
+      });
+      factory(Lib\Models\Run::class)->create()->each(function(\Lib\Models\Run $run) use ($waypoints){
+        $run->waypoints()->attach($waypoints->random(rand(2,6)));
+        $sub = new Lib\Models\RunSubscription();
+        $sub->run()->associate($run);
+        $sub->user()->associate(User::find(8));
+        $sub->car_type()->associate(CarType::find(2));
+        $sub->save();
+      });
+      
+      
 
 
     }

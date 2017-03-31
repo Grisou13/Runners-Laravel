@@ -61,10 +61,11 @@ class RunObserver
   {
     
     $run = $event->run;
-    if($run->subscriptions()->ofStatus("ready_to_go")->count() == $run->subscriptions()->count())
-      $run->status = "ready";
-    else
-      $run->status="error";
+    $this->adaptRunStatus($run);
+//    if($run->subscriptions()->ofStatus("ready_to_go")->count() == $run->subscriptions()->count())
+//      $run->status = "ready";
+//    else
+//      $run->status="error";
     $run->save();
     //$this->adaptRunStatus($event->run);
   }
@@ -76,22 +77,24 @@ class RunObserver
   
   protected function adaptRunStatus(Run $run)
   {
-    if($run->started_at != null && $run->ended_at != null)
+    if($run->status != "gone")
     {
-      $run->status="gone";
-      $run->subscriptions->map(function($sub){
-        $sub->status = "gone";
-      });
-    }
-    else{
       if($run->subscriptions()->count() > 0 )
       {
-        if($run->started_at==null && $run->ended_at == null )
+        if($run->started_at==null && $run->ended_at == null && $run->status != "gone") //the run hasn't started
         {
           if($run->subscriptions()->ofStatus("ready_to_go")->count() == $run->subscriptions()->count())
             $run->status = "ready";
-          else
-            $run->status="error";
+          else{
+            $seats = $run->subscriptions->map(function($sub){
+              return $sub->car_id != null ? $sub->car->nb_place:0;
+            })->sum();
+            if($seats < $run->nb_passenger){
+              $run->status="missing_cars";
+            }
+            else
+              $run->status="error"; //something's not right here
+          }
         }
       }
       else
