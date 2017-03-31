@@ -57,8 +57,8 @@ class CarController extends Controller
         $input = $request->except(["_token"]);
 
         $car = new Car($input);
-        $type = CarType::findOrFail($request->input("type"));
-        $car->car_type()->associate($type);
+        //$type = CarType::find();
+        $car->car_type()->associate($request->input("type"));
         $car->save();
 
         // redirect
@@ -96,7 +96,7 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-      
+
       $this->api()->be(auth()->user())->with($request->except("_token"))->update();
       //$car = Car::findOrFail($id);
 

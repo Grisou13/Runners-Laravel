@@ -53,6 +53,6 @@ class Car extends Model
     }
     public function setNameAttribute($value)
     {
-      return $this->attributes["name"] = $this->car_type->name . " " . $value;
+      $this->attributes["name"] = $this->car_type->name . " " . $value;
     }
 }

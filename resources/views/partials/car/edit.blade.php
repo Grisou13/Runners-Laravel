@@ -37,7 +37,7 @@ User: Joel.DE-SOUSA
                   </div>
                 </div>
 
-                {{ Form::bsSelect("type",$car_types->mapWithKeys(function($t){return [" {$t->id}"=>$t->type];}),old("car_type",$car->car_type_id)) }}
+                {{ Form::bsSelect("type",$car_types->mapWithKeys(function($t){return [" {$t->id}"=>$t->name];}),old("car_type",$car->car_type_id)) }}
                 <!-- <div class="form-group{{ $errors->has('car_type_id') ? ' has-error' : '' }}">
                   {{ Form::label('car_type_id', 'Type de voiture ', array('class' => 'col-md-4 control-label')) }}
                   <div class="col-md-6">
