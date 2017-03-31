@@ -76,14 +76,27 @@ class Run extends Model
     public static function resolveGeoLocationName($geo){
       return $geo["address_components"][0]["short_name"];//force first element of result
     }
+  /**
+   * Should be readonly
+   * @return $this
+   */
     public function users()
     {
         return $this->belongsToMany(User::class,"run_drivers")->using(RunDriver::class)->withPivot(["car_type_id","car_id"]);
     }
+  /**
+   * Should be readonly
+   * @return $this
+   */
     public function cars()
     {
         return $this->belongsToMany(Car::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_type_id"]);
     }
+  
+  /**
+   * Should be readonly
+   * @return $this
+   */
     public function car_types()
     {
         return $this->belongsToMany(CarType::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_id"]);

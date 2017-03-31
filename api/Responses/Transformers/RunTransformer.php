@@ -24,9 +24,9 @@ class RunTransformer extends TransformerAbstract
       "status"=>$run->status,
       "nb_passenger"=>$run->nb_passenger,
       "title"=>$run->name,
-      "begin_date"=>$run->planned_at,
-      "start_at"=>$run->started_at,
-      "end_at"=>$run->ended_at,
+      "begin_at"=>(string)$run->planned_at,
+      "start_at"=>(string)$run->started_at,
+      "end_at"=>(string)$run->ended_at,
     ];
   }
   public function includeRunners(Run $run)

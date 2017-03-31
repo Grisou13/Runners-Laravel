@@ -25,8 +25,13 @@ class RunSubscriptionTransformer extends TransformerAbstract
   public function transform(RunSubscription $sub)
   {
     return [
+      "id"=>$sub->id,
       "status"=>$sub->status
     ];
+  }
+  public function includeRun(RunSubscription $sub)
+  {
+    return $this->item($sub->run, new RunTransformer);
   }
   public function includeUser(RunSubscription $sub)
   {

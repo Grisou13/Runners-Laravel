@@ -40,7 +40,7 @@ class ApiServiceProvider extends RouteServiceProvider
     {
       return;
         $this->publishes([
-            __DIR__.'/config/request_filtering.php' => config_path('api-filter.php'),
+            __DIR__.'/config/api.php' => config_path('api.php'),
         ]);
     }
     /**
@@ -51,7 +51,7 @@ class ApiServiceProvider extends RouteServiceProvider
     {
       return;
         $this->mergeConfigFrom(
-            __DIR__.'/config/request_filtering.php', 'api-filter.php'
+            __DIR__.'/config/api.php', 'api.php'
         );
     }
     /**

@@ -6,10 +6,7 @@ use Api\Controllers\BaseController as Base;
 
 class AuthenticatedUserController extends Base
 {
-  public function __construct()
-  {
-    $this->middleware("auth");
-  }
+
   public function me()
   {
     return $this->user();

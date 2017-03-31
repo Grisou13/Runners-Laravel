@@ -29,7 +29,7 @@ class CarTransformer extends TransformerAbstract
       "name"=>$car->name,
       "plate_number"=>$car->plate_number,
       "nb_place"=>$car->nb_place,
-      
+      "status"=>$car->status
     ];
   }
   public function includeType(Car $car)

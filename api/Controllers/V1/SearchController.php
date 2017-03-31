@@ -8,6 +8,7 @@
 
 namespace Api\Controllers\V1;
 
+use Api\Requests\SearchRequest;
 use Lib\Models\CarType;
 use Lib\Models\Car;
 use Lib\Models\User;
@@ -17,6 +18,12 @@ use Illuminate\Http\Request;
 
 class SearchController extends BaseController
 {
+  protected $models = [
+    "users",
+    "cars",
+    "runs",
+    "waypoints"
+  ];
   public function fullText(Request $request, $model)
   {
     $klass = str_singular(studly_case($model)); //get the true model name
@@ -29,5 +36,15 @@ class SearchController extends BaseController
       $query->where($input,"like","%{$val}%");
     }
     return $query->get();
+  }
+  public function globalSearch(SearchRequest $request)
+  {
+    $query = $request->get("q");
+    $res = [];
+    //search all the models
+    foreach($this->models as $m)
+      $res[$m] = $this->api->get("/api/$m/search",["q"=>$query]);
+    
+    return $res;
   }
 }

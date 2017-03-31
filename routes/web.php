@@ -19,11 +19,6 @@
 $router->get("/",["as"=>"index","uses"=>"HomeController@welcome"]);
 Auth::routes();
 
-$router->get("/test/{user?}",function(Illuminate\Http\Request $req){
-  dump($req->all());
-  dump($req->route("user"));
-  dump($req->get("asd"));
-});
 
 Route::get('/home', ["as"=>"home","uses"=>'HomeController@index']);
 
@@ -33,6 +28,7 @@ Route::resource('cars', 'CarController'); // Joël.DE-SOUSA
 
 $router->post("cars/{car}/comment",["as"=>"cars.comments.store","uses"=>"CarController@addComment"]);
 
+$router->get("/runs/display","RunController@display");
 $router->resource("runs","RunController");
 //$router->post("runs/{run}/car/{car}",function(){
 //  Run::find(1)->cars()->first()->pivot->user()->associate(1)->save();

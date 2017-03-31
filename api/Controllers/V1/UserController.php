@@ -9,6 +9,7 @@
 namespace Api\Controllers\V1;
 
 use Api\Controllers\BaseController;
+use Api\Requests\SearchRequest;
 use Lib\Models\User;
 use Api\Requests\Filtering\StatusFilterable;
 use Api\Responses\Transformers\UserTransformer;
@@ -25,6 +26,15 @@ class UserController extends BaseController
     {
         return User::all();
 
+    }
+    public function search(SearchRequest $request)
+    {
+      $query = $request->get("q");
+      return User::where("name","like","%$query%")
+        ->orWhere("firstname","like","%$query%")
+        ->orWhere("lastname","like","%$query%")
+        ->orWhere("email","like","%$query%")
+        ->get();
     }
     public function image(Request $request, User $user)
     {

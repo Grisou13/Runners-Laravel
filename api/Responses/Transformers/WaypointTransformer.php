@@ -16,8 +16,9 @@ class WaypointTransformer extends TransformerAbstract
   public function transform(Waypoint $point)
   {
     return [
+      "id"=>$point->id,
       "nickname"=>$point->name,
-      "geocoder"=>$point->geo
+      "geocoder"=>$point->geo,
     ];
   }
 }

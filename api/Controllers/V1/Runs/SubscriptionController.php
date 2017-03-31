@@ -27,19 +27,19 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class SubscriptionController extends BaseController
 {
-  public function index(Run $run)
+  public function show(Request $request, RunSubscription $sub)
   {
-    return $run->subscriptions;
+    return $sub;
   }
-  public function storeWithoutRun(CreateSubscriptionRequest $request)
+  public function index(Request $request,Run $run)
   {
-    $this->store($request, Run::find($request->get("run")));
+      return $run->subscriptions;
   }
-  public function store(CreateSubscriptionRequest $request)
+
+  public function store(CreateSubscriptionRequest $request, Run $run)
   {
     $sub = new RunSubscription;
     //try and find the run in request or passed in path
-    $run = $request->route("run") != null ? Run::findOrFail($request->route("run")) : $request->get("run");
     $sub->run()->associate($run);
     $sub->fill($request->except(["_token","token"]));
     if($request->has("user"))
@@ -47,10 +47,7 @@ class SubscriptionController extends BaseController
       $user = User::find($request->get("user"));
       if($user->status == "free"){
         $sub->user()->associate($user);
-//        $user->status = "taken";
-//        $user->save();
       }
-        
       else{
         Log::debug("trying to associate to run ({$run->id} {$run->status}) user ({$user->id} {$user->status}) that isn't free.");
         throw new BadRequestHttpException("The user is ".$user->status. ", therefor you are not allowed to assign him");

@@ -28,7 +28,7 @@
 
         var api  = window.api = axios.create({
             baseURL: "{!! url("/api") !!}",
-            timeout: 1000,
+            timeout: 5000,
             contentType:"application/json",
             headers: {'X-Access-Token': window.Laravel.token}
         });

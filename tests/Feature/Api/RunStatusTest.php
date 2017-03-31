@@ -49,6 +49,7 @@ class RunStatusTest extends TestCase
       
       $user = $this->createDefaultUser();
       $run = factory(Run::class)->create();
+      
       $car = factory(Car::class)->create();
       $sub = new RunSubscription();
       $sub->run()->associate($run);
@@ -78,7 +79,7 @@ class RunStatusTest extends TestCase
             "status"=>"ready_to_go"
         ]]],
       ]);
-      $this->assertEquals($car->status,Status::getStatus("car","taken")); //the status for the first car should be taken
+      $this->assertEquals($car->status,"taken"); //the status for the first car should be taken
       //only one of the 3 runs created should be listed
       
       $this->assertCount(1,$res->json());
@@ -90,7 +91,16 @@ class RunStatusTest extends TestCase
           "status"=>"error"
         ]
       ]);
-      //only one of the 3 runs created should be listed
-      $this->assertCount(2,$res->json());
+      //only one of the 1 runs created should be listed
+      $this->assertCount(1,$res->json());
+      $res = $this->getJson("/api/runs/?status=missing_cars",["x-access-token"=>$user->getAccessToken()]);
+      //we should only get 1 item with this id
+      $res->assertStatus(200)->assertJson([
+        [
+          "status"=>"missing_cars"
+        ]
+      ]);
+      //only one of the 1 runs created should be listed
+      $this->assertCount(1,$res->json());
     }
 }
