@@ -18,5 +18,6 @@ elixir((mix) => {
        .webpack('app.js');
     mix.webpack("runs.js");
     mix.webpack('runs/app.jsx', 'public/js/run-app.js');
+    mix.webpack('runs/display.jsx', 'public/js/run-display.js');
     //mix.combine(["/resources/assets/js/typeahead.bundle.min.js",'/resources/assets/js/runs.js'], 'public/js/run-searcher.js');
 });

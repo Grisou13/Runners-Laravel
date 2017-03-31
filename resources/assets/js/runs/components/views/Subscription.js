@@ -12,25 +12,30 @@ import RemoveCarTypeButton from './subs/RemoveCarTypeButton'
 const Subscription = ({sub,user=null,car=null,car_type=null}) => {
     let userBtn = null;
     let carBtn = null;
+    let carTypeBtn = null;
     if(user != null)
         userBtn = (<RemoveUserButton sub={sub} user={user} />)
     else
       userBtn = (<AddUserButton sub={sub.id} />)
     if(car != null)
         carBtn = (<RemoveCarButton sub={sub} car={car} />)
-    else{
-        if(car_type != null)
-            carBtn = (<div><AddCarButton sub={sub} car_type={car_type} /><RemoveCarTypeButton sub={sub} car_type={car_type} /></div>)
-        else
-            carBtn = (<div><AddCarButton sub={sub} /><AddCarTypeButton sub={sub} /></div>)
-    }
+    else
+        carBtn = (<AddCarButton sub={sub} />)
+    if(car_type != null)
+        carTypeBtn = (<RemoveCarTypeButton sub={sub} car_type={car_type} />)
+    else
+        carTypeBtn = (<AddCarTypeButton sub={sub} />)
+
      return (
-         <div>
-             <div className="col-md-6">
-                 {carBtn}
+         <div className="row subscription">
+             <div className="col-md-1">
+                 <span className="label label-primary">{car_type ? car_type.type: "-"}</span>
              </div>
-             <div className="col-md-6">
-                 {userBtn}
+             <div className="col-md-1 col-md-push-1">
+                 <span className="label label-primary">{car ? car.name: "-"}</span>
+             </div>
+             <div className="col-md-1 col-md-push-3">
+                 <span className="label label-primary">{user ? user.name: "-"}</span>
              </div>
          </div>
 

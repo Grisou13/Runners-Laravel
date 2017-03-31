@@ -19,7 +19,7 @@ class RunList extends React.Component
     render(){
 
         return (
-            <div className="display">
+            <div>
                 {this.props.runs.map(run => {
                     return (
                         <div key={run.id} id={run.id} className={run.status} style={{marginRight:"0px"}} >

@@ -67,8 +67,8 @@ class CarObserver
     if($event->run_subscription->car_id != null)
     {
       $car = $event->run_subscription->car;
-      if($event->run_subscription->car_type_id != null)
-        $event->run_subscription->car_type()->associate($car->car_type_id)->save();
+//      if($event->run_subscription->car_type_id != null)
+//        $event->run_subscription->car_type()->associate($car->car_type_id)->save();
       $car->status="taken";
       $car->save();
     }

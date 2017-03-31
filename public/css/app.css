@@ -7699,9 +7699,13 @@ button.close {
 }
 
 .waypoint-list li:not(:first-child)::before {
-  content: "->";
   width: 5px;
   margin-right: 2px;
+}
+
+#run-app {
+  padding-right: 7px;
+  padding-left: 15px;
 }
 
 .panel-heading {
@@ -7770,19 +7774,36 @@ button.close {
 }
 
 .ready {
-  background-color: #00ee00;
+  background-color: #00E676;
 }
 
 .error {
-  background-color: #880000;
+  background-color: #F44336;
 }
 
 .needs_filling {
-  background-color: lightgoldenrodyellow;
+  background-color: #FF9800;
+}
+
+.missing_cars {
+  background-color: #FF9800;
 }
 
 .gone {
-  background-color: #00AA00;
+  background-color: #1B5E20;
+}
+
+.display .label {
+  display: inline-block;
+  font-size: 100%;
+  min-width: 100%;
+  line-height: 15px;
+  margin-right: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: middle;
 }
 
 /*# sourceMappingURL=app.css.map */

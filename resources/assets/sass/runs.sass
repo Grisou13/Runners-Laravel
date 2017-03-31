@@ -1,3 +1,5 @@
+
+
 .waypoint-list
   list-style-type: none
   margin: 2px
@@ -5,10 +7,13 @@
   & li
     display: inline-block
   & li:not(:first-child)::before
-    content: "->"
     //display: inline-block
     width: 5px
     margin-right: 2px
+
+#run-app
+  padding-right: 7px
+  padding-left: 15px
 
 .panel-heading
   background-color: #d5d5d5 !important
@@ -61,13 +66,35 @@
     left: 0
     top: 0
 .ready
-  background-color: #00ee00
+  background-color: $ready
 
 .error
-  background-color: #880000
+  background-color: $error
 
 .needs_filling
-  background-color: lightgoldenrodyellow
+  background-color: $needs_filling
+
+.missing_cars
+  background-color: $missing_cars
 
 .gone
-  background-color: #00AA00
+  background-color: $gone
+
+
+//The following classes will only be used when displaying the /runs/display route
+
+.display
+  &.subscription
+    //&.col-*
+    //  line-height: 40px
+  .label
+    display: inline-block
+    font-size: 100%
+    min-width: 100%
+    line-height: 15px
+    margin-right: 5px
+    padding-top: 2px
+    padding-bottom: 2px
+    padding-left: 10px
+    padding-right: 10px
+    vertical-align: middle

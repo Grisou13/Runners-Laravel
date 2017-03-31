@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 
-const Waypoint = ({point})=>(
-    <li>{point.nickname}</li>
+const Waypoint = ({point, icon = null})=>(
+    <li>{point.nickname} {icon}</li>
 )
 
 Waypoint.propTypes = {
@@ -9,7 +9,8 @@ Waypoint.propTypes = {
         id: PropTypes.number.isRequired,
         nickname: PropTypes.string.isRequired,
         geocoder: PropTypes.any.isRequired
-    }).isRequired
+    }).isRequired,
+    icon: PropTypes.node
 }
 
 export default Waypoint
