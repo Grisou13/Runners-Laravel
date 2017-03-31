@@ -187,7 +187,6 @@ function createTable(schedule, groups, day){
         td.innerHTML = "G°" + group.id;
         var rgb = _hexToRgb(group.color);
         td.style.backgroundColor = "rgba("+ [rgb["r"], rgb["g"], rgb["b"], 0.7].join(",") + ")";
-        // td.style.color = bgColor;
 
         bodyTR.appendChild(td);
         schedule.forEach(function(hour){
@@ -207,6 +206,7 @@ function createTable(schedule, groups, day){
                     }
                 })
             }
+            // change color of the given cell (based on the group, or return to bgColor)
             var changeColor = function(td){
                 if(typeof td.dataset.scheduleId == "undefined"){
                     td.style.backgroundColor = "#" + group.color;
@@ -234,10 +234,13 @@ function createTable(schedule, groups, day){
             td.addEventListener("mouseup",function(e){
                 console.log("MOUSE UP EVENT");
                 console.log(modified);
-                // todo cal api here
+                tbody.style.opacity = .5;
+                console.log("Wait for it....")
                 modified.forEach(function(cellID){
                     updateCell(cellID)
                 });
+                tbody.style.opacity = 1;
+                console.log("DONE DONE DONE DONE DONE");
                 modified = [];
                 isdown = false;
             });
@@ -385,3 +388,5 @@ var groups = getAllGroups();
 createGrid(schedule, days, groups);
 
 //TODO https://laravel.com/docs/5.4/dusk#waiting-for-elements
+//TODO visual division of hours and day&night
+//TODO wait icon (or disable table)
