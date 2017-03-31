@@ -56,9 +56,9 @@ class CarController extends Controller
         //$request->flash();
         $input = $request->except(["_token"]);
 
-        $car = new Car($input);
-        //$type = CarType::find();
-        $car->car_type()->associate($request->input("type"));
+        $car = new Car;
+        $car->car_type()->associate($request->get("type"));
+        $car->fill($request->all());
         $car->save();
 
         // redirect
