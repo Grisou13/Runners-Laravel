@@ -1,0 +1,73 @@
+.waypoint-list
+  list-style-type: none
+  margin: 2px
+  padding: 3px
+  & li
+    display: inline-block
+  & li:not(:first-child)::before
+    content: "->"
+    //display: inline-block
+    width: 5px
+    margin-right: 2px
+
+.panel-heading
+  background-color: #d5d5d5 !important
+  height: 45px
+  font-size: 16px
+  color: #fff !important
+
+.filters
+  height: 100px
+
+.input-filter
+  display: inline-block
+  width: 150px
+  margin-right: 10px
+  margin-top: 33px
+
+.input-hour
+  width: 65px
+
+.input-radio
+  list-style-type: none
+  position: relative
+  float: right
+  margin-top: 15px
+
+.filter-race
+  position: absolute
+  top: 0
+  height: 100%
+
+.btn-run
+  margin-bottom: 5px
+  width: 110px
+
+.run
+  margin-bottom: 5px
+  margin-top: 5px
+  padding-top: 8px
+  padding-bottom: 9px
+  &:nth-child(even)
+    background-color: white
+  &:nth-child(odd)
+    background-color: #ECEFF1
+  &::before
+    content: ' '
+    height: 100%
+    width: 15px
+    margin-right: 5px
+    position: absolute
+    left: 0
+    top: 0
+.ready
+  background-color: #00ee00
+
+.error
+  background-color: #880000
+
+.needs_filling
+  background-color: lightgoldenrodyellow
+
+.gone
+  background-color: #00AA00

@@ -1,15 +1,24 @@
 import React, {PropTypes} from 'react'
 
-const Run = ({name, nb_passenger}) => (
-    <div>
-        <p>{name}</p>
-        <p>{nb_passenger}</p>
+const RunDetails = ({title, nb_passenger}) => (
+    <div className="col-md-2 col-xs-11 text-center">
+        <div className="container-fluid">
+            <div className="row">
+                <div className="col-md-12">
+                    <div className="title">
+                        { title }
+                    </div>
+                    <div className="passengers">
+                        { nb_passenger } personnes
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 )
-
-Run.propTypes = {
-    name:PropTypes.string.isRequired,
-    nb_passenger:PropTypes.string.isRequired,
+RunDetails.propTypes = {
+    title:PropTypes.string.isRequired,
+    nb_passenger:PropTypes.number.isRequired,
 }
 
-export default Run
+export default RunDetails
