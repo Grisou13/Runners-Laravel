@@ -1,15 +1,6 @@
 
 
-.waypoint-list
-  list-style-type: none
-  margin: 2px
-  padding: 3px
-  & li
-    display: inline-block
-  & li:not(:first-child)::before
-    //display: inline-block
-    width: 5px
-    margin-right: 2px
+
 
 #run-app
   padding-right: 7px
@@ -50,13 +41,11 @@
 
 .run
   margin-bottom: 5px
-  margin-top: 5px
-  padding-top: 8px
-  padding-bottom: 9px
-  &:nth-child(even)
-    background-color: white
+  margin-top: 10px
+  //padding-top: 8px
+  //padding-bottom: 9px
   &:nth-child(odd)
-    background-color: #ECEFF1
+    background-color: $run-bg
   &::before
     content: ' '
     height: 100%
@@ -84,17 +73,64 @@
 //The following classes will only be used when displaying the /runs/display route
 
 .display
+  font-size: 2rem
+  & .run
+    padding-top: 10px
+  & .title
+    font-weight: bold
   &.subscription
-    //&.col-*
-    //  line-height: 40px
-  .label
-    display: inline-block
-    font-size: 100%
-    min-width: 100%
-    line-height: 15px
-    margin-right: 5px
-    padding-top: 2px
-    padding-bottom: 2px
-    padding-left: 10px
-    padding-right: 10px
+    min-height: 200px
+    display: table
+  .user, .car_type, .car
+    height: auto
+    min-height: 50px
+    padding: auto
     vertical-align: middle
+    //color: $gray-dark
+    font-weight: bold
+    border-radius: 0
+    margin: 0
+    overflow: hidden
+    display: table-cell
+    font-size: 2.5rem
+  @media (min-width: $screen-lg-min)
+    .user
+      border-left: 2px solid darken($run-bg, 20%)
+      border-bottom: 2px solid darken($run-bg, 20%)
+      border-top: 2px solid $run-bg
+      border-right: 2px solid darken($run-bg, 20%)
+    .car
+      border-top: 2px solid $run-bg
+      border-bottom: 2px solid darken($run-bg, 20%)
+      border-left: 2px solid darken($run-bg, 20%)
+  @media (max-width: $screen-md-max)
+    .user
+      border-top: 2px solid darken($run-bg, 20%)
+      border-bottom: 2px solid darken($run-bg, 20%)
+      border-left: 2px solid darken($run-bg, 20%)
+    .car
+      border-top: 2px solid darken($run-bg, 20%)
+      border-bottom: 2px solid darken($run-bg, 20%)
+
+  .user > span, .car_type > span, .car > span
+    min-width: 100%
+  &.run-details
+    padding-top: 8px
+    padding-bottom: 9px
+.waypoint-list
+  font-size: 1.8rem
+  padding-top: 8px
+  padding-bottom: 9px
+  list-style-type: none
+  margin: 2px
+  & .glyphicon
+    font-size: 1.5rem
+    margin-right: 5px
+    vertical-align: center
+    font-weight: lighter
+  & li
+    display: inline-block
+  & li:not(:first-child)::before
+    //display: inline-block
+    width: 5px
+    margin-right: 2px

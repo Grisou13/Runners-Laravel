@@ -23,7 +23,7 @@ class RunList extends React.Component
                 {this.props.runs.map(run => {
                     return (
                         <div key={run.id} id={run.id} className={run.status} style={{marginRight:"0px"}} >
-                            <div className="row run" style={{marginLeft:"10px", paddingRight:"-10px", marginRight:"0px"}}>
+                            <div className="row run" style={{marginLeft:"15px", paddingRight:"-10px"}}>
                                 <RunDetails title={run.title} nb_passenger={run.nb_passenger} />
                                 <WaypointList runId={run.id} points={run.waypoints} />
                                 <SubscriptionList subs={run.runners} />

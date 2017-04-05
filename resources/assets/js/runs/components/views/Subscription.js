@@ -27,15 +27,12 @@ const Subscription = ({sub,user=null,car=null,car_type=null}) => {
         carTypeBtn = (<AddCarTypeButton sub={sub} />)
 
      return (
-         <div className="row subscription">
-             <div className="col-md-1">
-                 <span className="label label-primary">{car_type ? car_type.type: "-"}</span>
+         <div className="row subscription" style={{ height:"100%", minHeight:"100px" }}>
+             <div className="col-md-6 col-xs-6 car">
+                 <span className="">{car ? car.name: (car_type ? car_type.type: " ")}</span>
              </div>
-             <div className="col-md-1 col-md-push-1">
-                 <span className="label label-primary">{car ? car.name: "-"}</span>
-             </div>
-             <div className="col-md-1 col-md-push-3">
-                 <span className="label label-primary">{user ? user.name: "-"}</span>
+             <div className="col-md-6 col-xs-6 user">
+                 <span className="">{user ? user.name: " "}</span>
              </div>
          </div>
 
