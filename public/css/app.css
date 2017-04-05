@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url("https://fonts.googleapis.com/css?family=Droid+Serif");
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -7748,11 +7748,40 @@ button.close {
   transform-origin: 50% 50%;
   left: -25px;
   position: absolute;
-  top: 36px;
+  top: 50px;
+}
+
+.run {
+  font-size: 1.2rem;
+}
+
+.run .run-details .date {
+  font-size: 3rem;
 }
 
 .run .run-details .title {
+  font-size: 2.8rem;
   padding-left: 20px;
+}
+
+.run .run-details .passengers {
+  font-size: 2.5rem;
+}
+
+.run .subscription {
+  font-size: 3rem;
+}
+
+.run .waypoint-list {
+  font-size: 1.8rem;
+}
+
+.run .waypoint-list li:first-of-type, .run .waypoint-list li:last-of-type {
+  font-size: 2rem;
+}
+
+.run .waypoint-list .glyphicon {
+  font-size: 1.2rem;
 }
 
 .run:nth-child(odd) {
@@ -7802,9 +7831,10 @@ button.close {
   font-weight: bold;
 }
 
-.display.subscription {
+.display .subscription {
   min-height: 200px;
   display: table;
+  margin-left: 30px;
 }
 
 .display .user, .display .car_type, .display .car {
@@ -7817,7 +7847,6 @@ button.close {
   margin: 0;
   overflow: hidden;
   display: table-cell;
-  font-size: 2.5rem;
 }
 
 @media (min-width: 1200px) {
@@ -7853,7 +7882,6 @@ button.close {
 }
 
 .waypoint-list {
-  font-size: 1.8rem;
   padding-bottom: 10px;
   list-style-type: none;
   padding-left: 0;
@@ -7861,10 +7889,14 @@ button.close {
 }
 
 .waypoint-list .glyphicon {
-  font-size: 1.5rem;
   margin-right: 5px;
-  vertical-align: center;
   font-weight: lighter;
+  vertical-align: text-top;
+  margin-top: 2px;
+  width: 18px;
+  -webkit-transform: scaleX(1.8);
+  transform: scaleX(1.8);
+  margin-left: 11px;
 }
 
 .waypoint-list li {

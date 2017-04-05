@@ -36,20 +36,16 @@ class CreateRunRequest extends FormRequest
             "planned_at"=>"sometimes|date",
             "waypoints"=>["required","min:2"],
             "waypoints.*"=>Rule::in(Waypoint::all()->pluck("id")->toArray()),
-            "convoys"=>"sometimes|min:1",
-            "convoys.*.car_type"=>["sometimes",Rule::in(CarType::all()->pluck("id")->toArray())],
-            "convoys.*.car"=>["sometimes",Rule::in(Car::all()->pluck("id")->toArray())],
-            "convoys.*.user"=>["required",Rule::in(User::all()->pluck("id")->toArray())]
-          
+            "car_type"=>"sometimes|exists:car_types,id",
         ];
     }
     public function messages()
     {
       return [
         "waypoints.in"=>"Could not find waypoints ".collect($this->get("waypoints")),
-        "car_types.in"=>"Could not find car types ".collect($this->get("convoy.*.car_types")),
-        "cars.in"=>"Could not find cars ".collect($this->get("convoys.*.cars")),
-        "runners.in"=>"Could not find drivers ".collect($this->get("convoys.*.user"))
+//        "car_types.in"=>"Could not find car types ".collect($this->get("convoy.*.car_types")),
+//        "cars.in"=>"Could not find cars ".collect($this->get("convoys.*.cars")),
+//        "runners.in"=>"Could not find drivers ".collect($this->get("convoys.*.user"))
       ];
     }
 }

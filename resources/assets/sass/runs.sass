@@ -39,6 +39,7 @@
   margin-bottom: 5px
   width: 110px
 
+
 .run
   margin-bottom: 5px
   margin-top: 10px
@@ -51,9 +52,27 @@
       transform-origin: 50% 50%
       left: -25px
       position: absolute
-      top: 36px
+      top: 50px
+
+.run
+  font-size: 1.2rem
+  & .run-details
+    & .date
+      font-size: 3rem
     & .title
+      font-size: 2.8rem
       padding-left: 20px
+    & .passengers
+      font-size: 2.5rem
+  & .subscription
+    font-size: 3rem
+  & .waypoint-list
+    font-size: 1.8rem
+    & li:first-of-type, & li:last-of-type
+      font-size: 2rem
+
+    & .glyphicon
+      font-size: 1.2rem
   //padding-top: 8px
   //padding-bottom: 9px
   &:nth-child(odd)
@@ -92,21 +111,20 @@
     padding-bottom: 10px
   & .title
     font-weight: bold
-  &.subscription
+  & .subscription
     min-height: 200px
     display: table
-  .user, .car_type, .car
+    margin-left: 30px
+  & .user, & .car_type, & .car
     height: auto
     min-height: 50px
     padding: auto
     vertical-align: middle
-    //color: $gray-dark
     font-weight: bold
     border-radius: 0
     margin: 0
     overflow: hidden
     display: table-cell
-    font-size: 2.5rem
   @media (min-width: $screen-lg-min)
     .user
       border-left: 2px solid darken($run-bg, 20%)
@@ -130,17 +148,21 @@
   &.run-details
     padding-top: 8px
     padding-bottom: 9px
+
 .waypoint-list
-  font-size: 1.8rem
+
   padding-bottom: 10px
   list-style-type: none
   padding-left: 0
   margin: 2px
   & .glyphicon
-    font-size: 1.5rem
     margin-right: 5px
-    vertical-align: center
     font-weight: lighter
+    vertical-align: text-top
+    margin-top: 2px
+    width: 18px
+    transform: scaleX(1.8)
+    margin-left: 11px
   & li
     display: inline-block
   & li:not(:first-child)::before

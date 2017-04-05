@@ -32,12 +32,12 @@ class RunList extends React.Component
                             <div key={run.id} id={run.id} className={run.status} style={{marginRight:"34px", marginLeft:"23px"}} >
                                 <div className="row run" style={{marginLeft:"15px", paddingRight:"-10px"}}>
                                     <RunDetails title={run.title} nb_passenger={run.nb_passenger} date={d} />
-                                    <div className="row col-md-6 col-xs-12">
+                                    <div className="row col-md-5 col-xs-12">
                                         <div className="row">
                                             <WaypointList run={run} points={run.waypoints} />
                                         </div>
                                         <div className="row">
-                                            <span style={{fontWeight:"bold"}}>{ t }</span>
+                                            <span style={{fontWeight:"bold", fontSize:"2.5rem"}}>{ t }</span>
                                         </div>
                                     </div>
 
