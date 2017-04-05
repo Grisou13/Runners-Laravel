@@ -7688,21 +7688,6 @@ button.close {
   }
 }
 
-.waypoint-list {
-  list-style-type: none;
-  margin: 2px;
-  padding: 3px;
-}
-
-.waypoint-list li {
-  display: inline-block;
-}
-
-.waypoint-list li:not(:first-child)::before {
-  width: 5px;
-  margin-right: 2px;
-}
-
 #run-app {
   padding-right: 7px;
   padding-left: 15px;
@@ -7750,13 +7735,24 @@ button.close {
 
 .run {
   margin-bottom: 5px;
-  margin-top: 5px;
-  padding-top: 8px;
-  padding-bottom: 9px;
+  margin-top: 10px;
 }
 
-.run:nth-child(even) {
-  background-color: white;
+.run .run-details .date {
+  width: 50px;
+  height: 15px;
+  margin-right: 5px;
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  left: -25px;
+  position: absolute;
+  top: 36px;
+}
+
+.run .run-details .title {
+  padding-left: 20px;
 }
 
 .run:nth-child(odd) {
@@ -7793,17 +7789,91 @@ button.close {
   background-color: #1B5E20;
 }
 
-.display .label {
-  display: inline-block;
-  font-size: 100%;
-  min-width: 100%;
-  line-height: 15px;
-  margin-right: 5px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 10px;
-  padding-right: 10px;
+.display {
+  font-size: 2rem;
+}
+
+.display .run {
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.display .title {
+  font-weight: bold;
+}
+
+.display.subscription {
+  min-height: 200px;
+  display: table;
+}
+
+.display .user, .display .car_type, .display .car {
+  height: auto;
+  min-height: 50px;
+  padding: auto;
   vertical-align: middle;
+  font-weight: bold;
+  border-radius: 0;
+  margin: 0;
+  overflow: hidden;
+  display: table-cell;
+  font-size: 2.5rem;
+}
+
+@media (min-width: 1200px) {
+  .display .user {
+    border-left: 2px solid #b1bec6;
+    border-bottom: 2px solid #b1bec6;
+  }
+  .display .car {
+    border-bottom: 2px solid #b1bec6;
+    border-left: 2px solid #b1bec6;
+  }
+}
+
+@media (max-width: 1199px) {
+  .display .user {
+    border-top: 2px solid #b1bec6;
+    border-bottom: 2px solid #b1bec6;
+    border-left: 2px solid #b1bec6;
+  }
+  .display .car {
+    border-top: 2px solid #b1bec6;
+    border-bottom: 2px solid #b1bec6;
+  }
+}
+
+.display .user > span, .display .car_type > span, .display .car > span {
+  min-width: 100%;
+}
+
+.display.run-details {
+  padding-top: 8px;
+  padding-bottom: 9px;
+}
+
+.waypoint-list {
+  font-size: 1.8rem;
+  padding-bottom: 10px;
+  list-style-type: none;
+  padding-left: 0;
+  margin: 2px;
+}
+
+.waypoint-list .glyphicon {
+  font-size: 1.5rem;
+  margin-right: 5px;
+  vertical-align: center;
+  font-weight: lighter;
+}
+
+.waypoint-list li {
+  display: inline-block;
+}
+
+.waypoint-list li:not(:first-child)::before {
+  width: 5px;
+  margin-right: 2px;
 }
 
 /*# sourceMappingURL=app.css.map */
