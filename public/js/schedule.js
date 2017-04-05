@@ -132,7 +132,6 @@ function updateCell(cellID){
     if(cell.dataset.assigned === "true"){
         let url = window.Laravel.basePath + "/api/schedules/" + cell.dataset.scheduleId + "?token=root";
         cell.dataset.assigned = "false";
-        cell.style.backgroundColor = "white";
         ajaxRequest("delete", url, "", console.log);
     }else{
         cell.dataset.assigned = "true";
@@ -145,11 +144,67 @@ function updateCell(cellID){
         };
         let assignDataId = function(scheduleCreated){
             cell.dataset.scheduleId = scheduleCreated.id;
+            console.log("Sucess ! Assigned...")
         };
 
         ajaxRequest("post", url, data, assignDataId);
     }
 }
+// function updateCells(cells){
+//     let startCellID = cells[0];
+//     let endCellID = cells[cells.length -1]
+//     let startCell = document.getElementById(startCellID);
+//     let endCell = document.getElementById(endCellID);
+//
+//     startCellID = startCellID.split("-");
+//     endCellID = endCellID.split("-");
+//
+//     let groupID = startCellID[0];
+//     let startHour = schedule[startCellID[1]];
+//     let endHour = schedule[endCellID[1]];
+//
+//
+//     let date = startCellID.splice(2,3).join("-");
+//
+//     let selGrp = groups.filter(function(x){
+//         return x.id == groupID;
+//     })[0];
+//
+//     if(startCell.dataset.assigned === "true"){
+//         // let url = window.Laravel.basePath + "/api/schedules/" + cell.dataset.scheduleId + "?token=root";
+//         // cell.dataset.assigned = "false";
+//         //
+//         // cell.style.backgroundColor = "white";
+//         // ajaxRequest("delete", url, "", console.log);
+//
+//     }else{
+//         cells.forEach(function(cell){
+//             document.getElementById(cell).dataset.assigned = "true";
+//             document.getElementById(cell).style.backgroundColor = "#" + selGrp.color;
+//         });
+//
+//         let url = window.Laravel.basePath + "/api/groups/"+groupID+"/schedules?token=root";
+//         console.log("houuuuurs");
+//         console.log(startHour)
+//         console.log(endHour)
+//         sort(startHour, endHour)
+//         let data = {
+//             "start_time": date + " " + startHour,
+//             "end_time": date + " " + endHour,
+//             "group": groupID
+//         };
+//         //
+//         // let assignDataId = function(scheduleCreated){
+//         //     startCell.dataset.scheduleId = scheduleCreated.id;
+//         //     console.log("CALLBACK CALLBACK CALLBACK")
+//         //     console.log(scheduleCreated)
+//         //     console.log(scheduleCreated.id)
+//         //
+//         // };
+//
+//         ajaxRequest("post", url, data, null);
+//     }
+// }
 
 function createTable(schedule, groups, day){
     var grid = document.createElement("table");
@@ -185,8 +240,9 @@ function createTable(schedule, groups, day){
         var td = document.createElement("td");
         td.style.cursor = "none";
         td.innerHTML = "G°" + group.id;
+        td.style.color = "white";
         var rgb = _hexToRgb(group.color);
-        td.style.backgroundColor = "rgba("+ [rgb["r"], rgb["g"], rgb["b"], 0.7].join(",") + ")";
+        td.style.backgroundColor = "rgba("+ [rgb["r"], rgb["g"], rgb["b"], 0.9].join(",") + ")";
 
         bodyTR.appendChild(td);
         schedule.forEach(function(hour){
@@ -194,6 +250,7 @@ function createTable(schedule, groups, day){
             var td = document.createElement("td");
             td.setAttribute("id", group.id + "-" + schedule.indexOf(hour) + "-" + day);
             td.style.backgroundColor = bgColor;
+            td.dataset.bgColor = bgColor;
             // is our row assigned ?
             td.dataset.assigned = "false";
             if(typeof group.schedules !== 'undefined' && group.schedules.length > 0){
@@ -206,12 +263,14 @@ function createTable(schedule, groups, day){
                     }
                 })
             }
+
             // change color of the given cell (based on the group, or return to bgColor)
             var changeColor = function(td){
-                if(typeof td.dataset.scheduleId == "undefined"){
+
+                if(td.dataset.assigned == "false"){
                     td.style.backgroundColor = "#" + group.color;
                 }else{
-                    td.style.backgroundColor = bgColor;
+                    td.style.backgroundColor = td.dataset.bgColor;
                 }
             };
             td.addEventListener("mousedown", function(e){
@@ -232,15 +291,9 @@ function createTable(schedule, groups, day){
                 return false;
             });
             td.addEventListener("mouseup",function(e){
-                console.log("MOUSE UP EVENT");
-                console.log(modified);
-                tbody.style.opacity = .5;
-                console.log("Wait for it....")
                 modified.forEach(function(cellID){
                     updateCell(cellID)
                 });
-                tbody.style.opacity = 1;
-                console.log("DONE DONE DONE DONE DONE");
                 modified = [];
                 isdown = false;
             });

@@ -4,3 +4,9 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
+
+.disabled{
+    pointer-events: none;
+    opacity: 0.4;
+    color: blue;
+}
