@@ -21,6 +21,9 @@ class Status{
   public static function getStatusForRessource($resName){
     return self::getStatusKey($resName,"*")->toArray();
   }
+  public static function getFullStatusForRessource($resName){
+    return config("status.".self::resolveResourceName($resName));
+  }
   /**
    * shorthand for getting a resource status
    * This method accepts 1 argument, which must be either the status key of a resource, or a status name.
@@ -53,7 +56,7 @@ class Status{
 
       return config("status.". self::resolveResourceName($ressource) .".". $key);
   }
-  
+
   /**
    * Resolves a class_name, a class object or string to a valid status type
    * @param $r
@@ -88,6 +91,6 @@ class Status{
         return $statuses->keys()[$index];
     }
     return null;
-    
+
   }
 }
