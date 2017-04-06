@@ -28,8 +28,9 @@ Route::resource('cars', 'CarController'); // Joël.DE-SOUSA
 
 $router->post("cars/{car}/comment",["as"=>"cars.comments.store","uses"=>"CarController@addComment"]);
 
-$router->get("/runs/display","RunController@display");
 $router->resource("runs","RunController");
+$router->get("/runs/display","RunController@display");
+
 //$router->post("runs/{run}/car/{car}",function(){
 //  Run::find(1)->cars()->first()->pivot->user()->associate(1)->save();
 //});

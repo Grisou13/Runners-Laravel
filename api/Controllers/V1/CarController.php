@@ -53,6 +53,10 @@ class CarController extends BaseController
     public function update(UpdateCarRequest $request, Car $car)
     {
         $car->update($request->all());
+        if($request->has("car_type"))
+        {
+          $car->car_type()->associate($request->get("car_type"));
+        }
         $car->save();
         return $this->response()->accepted();
     }

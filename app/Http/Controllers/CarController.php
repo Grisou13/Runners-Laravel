@@ -97,17 +97,9 @@ class CarController extends Controller
     public function update(Request $request, Car $car)
     {
 
-      $this->api()->be(auth()->user())->with($request->except("_token"))->update();
+      $this->api()->be(auth()->user())->with($request->except("_token"))->patch("/cars/{$car->id}");
+      return redirect()->back()->with("message","Car updated!");
       //$car = Car::findOrFail($id);
-
-      /*//TODO : Validation
-      $this->validate($request, [
-        'license_plates'   => 'required',
-        'brand'            => 'required',
-        'model'            => 'required'
-      ]);*/
-
-
       $input = $request->all();
 
       $car->fill($input)->save();

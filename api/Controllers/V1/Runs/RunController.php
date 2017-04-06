@@ -43,8 +43,16 @@ class RunController extends BaseController
 
     public function update(Request $request, Run $run)
     {
+
         $run->update($request->all());
-        return $this->response()->accepted();
+        if($request->has("waypoints"))
+        {
+          $run->waypoints()->detach();//remove all waypoints and reassign them
+          $run->waypoints()->attach($request->get("waypoints"));
+        }
+
+        $run->save();
+        return $run;
     }
     public function store(CreateRunRequest $request)
     {
@@ -70,8 +78,8 @@ class RunController extends BaseController
         //save relationships
         if(count($subs))
           $run->subscriptions()->saveMany($subs);
-        foreach($request->get("waypoints") as $point)
-          $run->waypoints()->attach($point);
+
+        $run->waypoints()->attach($request->get("waypoints"));
         
       return $run;
       //return $this->response->item($run, new RunTransformer);

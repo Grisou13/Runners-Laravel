@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRunRequest;
 use Auth;
+use Dingo\Api\Exception\ValidationHttpException;
 use Illuminate\Contracts\View\View;
 use Lib\Models\CarType;
 use Lib\Models\Run;
@@ -36,7 +37,7 @@ class RunController extends Controller
      */
     public function create()
     {
-        return view("run.create")->with("run",new Run)->with("car_types",CarType::actif()->get())->with("waypoints", Waypoint::all());
+        return view("run.create")->with("run",new Run)->with("car_types",CarType::free()->get())->with("waypoints", Waypoint::all());
     }
 
     /**
@@ -48,10 +49,9 @@ class RunController extends Controller
     public function store(CreateRunRequest $request)
     {
         $run_data = $request->except(["car_type"]);
-
-        $run = $this->api->post(app(UrlGenerator::class)->version("v1")->route("runs.store"))->be(Auth::user())->with($run_data);
-        $sub = $this->api->post(app(UrlGenerator::class)->version("v1")->route("runs.subscriptions.store",$run))->with(["car_type"=>$request->get("car_type")]);
-        return redirect()->back();
+        $run = $this->api->be(Auth::user())->post("/runs",$run_data);
+        $sub = $this->api->be(Auth::user())->post("/runs/{$run->id}/runners",["car_type"=>$request->get("car_type")]);
+        return redirect()->route("runs.index");
     }
 
   /**
@@ -74,7 +74,7 @@ class RunController extends Controller
      */
     public function edit(Request $request,Run $run)
     {
-      return view("run.create")->with("run",$run)->with("car_types",CarType::actif()->get())->with("waypoints", Waypoint::all());
+      return view("run.create")->with("run",$run)->with("car_types",CarType::free()->get())->with("waypoints", Waypoint::all());
     }
 
     /**
@@ -86,8 +86,7 @@ class RunController extends Controller
      */
     public function update(Request $request, Run $run)
     {
-        $this->toApiRoute("patch","runs.update",$run,$request);
-        //$this->api->patch(app(UrlGenerator::class)->version("v1")->route("runs.update",$run))->with($request->except(["_token"]));
+        $this->api->put("/runs/{$run->id}",$request->all());
         return redirect()->back();
     }
 

@@ -30,11 +30,11 @@ class CreateRunRequest extends FormRequest
     {
       
         return [
-            "title"=>"required_without:artist|min:1",
-            "artist"=>"required_without:title|min:1",
+            "title"=>"required|min:1",
+            "artist"=>"sometimes|required_without:title|min:1",
             "nb_passenger"=>"required|numeric|max:50",
-            "planned_at"=>"sometimes|date",
-            "waypoints"=>["required","min:2"],
+            "planned_at"=>"required|date",
+            "waypoints"=>"required|min:2",
             "waypoints.*"=>Rule::in(Waypoint::all()->pluck("id")->toArray()),
             "car_type"=>"sometimes|exists:car_types,id",
         ];

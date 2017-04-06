@@ -56,8 +56,11 @@ class Run extends Model
 
     public function setArtistAttribute($value)
     {
-      $this->attributes["name"]=$value;
-      $this->attributes["artist"]=$value;
+      return $this->attributes["name"]=$value; //instead set the run name prop
+    }
+    public function setTitleAttribute($val)
+    {
+      return $this->attributes["name"] = $val;
     }
 
     public function getEndLocationAttribute(){
