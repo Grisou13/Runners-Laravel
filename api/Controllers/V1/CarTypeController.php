@@ -32,8 +32,17 @@ class CarTypeController extends BaseController
     }
     public function index(Request $request)
     {
+
       $type = new CarType;
       $query = $type->newQuery();
+      if($request->has("status"))
+      {
+        $status = $request->get("status");
+        $query->whereHas("cars",function($q) use ($status){
+          return $q->where("status",$status);
+        });
+      }
+
       return $query->get();
       
     }

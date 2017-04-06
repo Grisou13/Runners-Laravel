@@ -16,4 +16,10 @@ class CarType extends Model
     {
       return 'name';
     }
+    public function scopeActif()
+    {
+      return $this->whereHas("cars",function($q){
+        $q->where("status","actif");
+      });
+    }
 }

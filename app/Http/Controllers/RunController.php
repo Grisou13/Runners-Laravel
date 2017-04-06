@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateRunRequest;
 use Auth;
+use Illuminate\Contracts\View\View;
+use Lib\Models\CarType;
 use Lib\Models\Run;
 use Dingo\Api\Routing\UrlGenerator;
 use Illuminate\Http\Request;
+use Lib\Models\Waypoint;
 
 class RunController extends Controller
 {
@@ -28,11 +32,11 @@ class RunController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function create()
     {
-        return view("run.create")->with("run",new Run);
+        return view("run.create")->with("run",new Run)->with("car_types",CarType::actif()->get())->with("waypoints", Waypoint::all());
     }
 
     /**
@@ -41,9 +45,12 @@ class RunController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRunRequest $request)
     {
-        $run = $this->api->post(app(UrlGenerator::class)->version("v1")->route("runs.store"))->be(Auth::user())->with($request->except(["_token"]));
+        $run_data = $request->except(["car_type"]);
+
+        $run = $this->api->post(app(UrlGenerator::class)->version("v1")->route("runs.store"))->be(Auth::user())->with($run_data);
+        $sub = $this->api->post(app(UrlGenerator::class)->version("v1")->route("runs.subscriptions.store",$run))->with(["car_type"=>$request->get("car_type")]);
         return redirect()->back();
     }
 
@@ -51,7 +58,7 @@ class RunController extends Controller
    * Display the specified resource.
    *
    * @param Run $run
-   * @return \Illuminate\Http\Response
+   * @return View
    * @internal param int $id
    */
     public function show(Run $run)
@@ -63,11 +70,11 @@ class RunController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function edit(Request $request,Run $run)
     {
-        return view("run.edit")->with("run",$run);
+      return view("run.create")->with("run",$run)->with("car_types",CarType::actif()->get())->with("waypoints", Waypoint::all());
     }
 
     /**

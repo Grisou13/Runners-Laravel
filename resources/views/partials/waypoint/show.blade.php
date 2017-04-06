@@ -1,7 +1,7 @@
 <div id="map"></div>
 <script>
-    //will cast $itinerary to json, Thanks eloquent! :)
-    var currentRun = <?php echo json_encode($run) ?>;
+    //will cast $waypoint to json, Thanks eloquent! :)
+    var currentRun = JSON.parse("{{ $run }})
     //this normally in the future will only use the api, so we already prepare and do requests with the run ID (even though we already have the data)
     var map;
     function searchAdress(term){
