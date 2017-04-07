@@ -8,6 +8,7 @@ use App\Events\RunFinishedEvent;
 use App\Events\RunSavedEvent;
 use App\Events\RunSavingEvent;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
@@ -48,7 +49,7 @@ class Run extends Model
       'deleting' => RunDeletingEvent::class,
       'deleted' => RunDeletedEvent::class
     ];
-
+   
     public function waypoints(){
       //all fields selected in pivot table are prefixed with pivot_*
       return $this->sortableBelongsToMany(Waypoint::class,"order")->withPivot("order");
@@ -81,7 +82,7 @@ class Run extends Model
     }
   /**
    * Should be readonly
-   * @return $this
+   * @return
    */
     public function users()
     {
@@ -89,7 +90,7 @@ class Run extends Model
     }
   /**
    * Should be readonly
-   * @return $this
+   * @return
    */
     public function cars()
     {
@@ -98,7 +99,7 @@ class Run extends Model
   
   /**
    * Should be readonly
-   * @return $this
+   * @return
    */
     public function car_types()
     {
@@ -117,63 +118,8 @@ class Run extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-  
-  
-//  public function associateUser(User $user)
-//  {
-//    $user->status = "taken";
-//    return $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"user_id"=>$user->id])->user()->associate($user)->save();
-//  }
-//  public function associateCar(Car $car)
-//  {
-//    $car->status = "taken";
-//    return $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_id"=>$car->id])->car()->associate($car)->save();
-//  }
-//  public function associateCarType(CarType $car_type)
-//  {
-//    $this->status ="missing_car";
-//    $this->save();
-//    //$car->status = StatusHelper::getStatusKey($car_type,"taken");
-//    return $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_type_id"=>$car_type->id])->car_type()->associate($car_type)->save();
-//  }
-//  public function dissociateUser(User $user)
-//  {
-//
-//  }
-//  public function associateUserAndCar(User $user, Car $car)
-//  {
-//    if(!$this->exists)
-//      return false;
-//    //the number of subscriptions matches the number of full subscriptions for this run
-//    if($this->subscriptions()->where("run_id",$this->id)->whereNotNull("user_id")->whereNotNull("car_id")->count() == $this->subscriptions()->count()) {
-//      $this->status = "ready_to_go";
-//      $this->save();
-//    }
-//    //$car->status = StatusHelper::getStatusKey($car_type,"taken");
-//    $sub = $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_id"=>$car->id, "user_id"=>$user->id]);
-//    $sub->car()->associate($car);
-//    $sub->user()->associate($user);
-//    $sub->save();
-//    return $sub;
-//  }
-//  public function associateUserAndCarType(User $user, CarType $car_type)
-//  {
-//    $this->status ="missing_car";
-//    $this->save();
-//    //$car->status = StatusHelper::getStatusKey($car_type,"taken");
-//    $sub = $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_type_id"=>$car_type->id, "user_id"=>$user->id]);
-//    $sub->car_type()->associate($car_type);
-//    $sub->user()->associate($user);
-//    $sub->save();
-//    return $sub;
-//
-//  }
-//
-//  public function dissociateCarType(CarType $car_type)
-//  {
-//  }
-//
-//  public function dissociateCar(Car $car)
-//  {
-//  }
+    public function scopeActif($query)
+    {
+      return $query->where( \DB::raw('DAY(planned_at)'), '>=', date('d'));
+    }
 }

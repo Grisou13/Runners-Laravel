@@ -1,0 +1,62 @@
+#run-app
+  padding-right: 7px
+  padding-left: 15px
+
+.run
+  margin-bottom: 5px
+  margin-top: 10px
+  & .run-details
+    & .date
+      width: 50px
+      height: 15px
+      margin-right: 5px
+      transform: rotate(-90deg)
+      transform-origin: 50% 50%
+      left: -25px
+      position: absolute
+      top: 50px
+  &:nth-child(odd)
+    background-color: $run-bg
+  &::before
+    content: ' '
+    height: 100%
+    width: 15px
+    margin-right: 5px
+    position: absolute
+    left: 0
+    top: 0
+
+.ready
+  background-color: $ready
+
+.error
+  background-color: $error
+
+.needs_filling
+  background-color: $needs_filling
+
+.missing_cars
+  background-color: $missing_cars
+
+.gone
+  background-color: $gone
+
+.waypoint-list
+  padding-bottom: 10px
+  list-style-type: none
+  padding-left: 0
+  margin: 2px
+  & .glyphicon
+    margin-right: 5px
+    font-weight: lighter
+    vertical-align: text-top
+    margin-top: 2px
+    width: 18px
+    transform: scaleX(1.8)
+    margin-left: 11px
+  & li
+    display: inline-block
+  & li:not(:first-child)::before
+    //display: inline-block
+    width: 5px
+    margin-right: 2px

@@ -7,7 +7,7 @@
         </div>
     </thead>
     <tbody class="run-list">
-        @each("partials.run.item",$runs,"run","<tr><td colspan=6></td></tr>")
+        @each("partials.run.item",$runs,"run")
     </tbody>
 </table>
 

@@ -27,7 +27,7 @@
 
 
                 <div class="col-md-6">
-                    {{ Form::select("waypoints[]",$waypoints,old("waypoints[".$point->id."]"), ['class' => 'form-control']) }}
+                    {{ Form::select("waypoints[]",$waypoints,null, ['class' => 'form-control']) }}
                 </div>
             </div>
             {{--{!! Form::bsSelect("waypoints[]", $waypoints) !!}--}}
@@ -42,7 +42,7 @@
         <div id="waypoint-last">
             <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
                 <div class="col-md-6 col-md-push-4">
-                    {{ Form::select("waypoints[]",$waypoints,old("waypoints[".$point->id."]"), ['class' => 'form-control']) }}
+                    {{ Form::select("waypoints[]",$waypoints,null, ['class' => 'form-control']) }}
                 </div>
             </div>
         </div>

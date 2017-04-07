@@ -28,7 +28,6 @@ class CreateRunRequest extends FormRequest
      */
     public function rules()
     {
-      
         return [
             "title"=>"required|min:1",
             "artist"=>"sometimes|required_without:title|min:1",

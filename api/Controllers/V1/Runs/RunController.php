@@ -27,6 +27,12 @@ class RunController extends BaseController
     {
       $query = new Run;
       $query = $query->newQuery();
+      if($request->has("between")) {
+        $dates = explode(",",$request->get("between"));
+        $query->whereBetween("planned_at", $dates);
+      }
+      else
+      $query->actif();//retrive all active runs @see Lib\Models\Run::scopeActif
       if($request->has("status"))
         $query->ofStatus($request->get("status"));
       return $this->response()->collection($query->get(), new RunTransformer);

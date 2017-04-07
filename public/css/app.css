@@ -7693,46 +7693,6 @@ button.close {
   padding-left: 15px;
 }
 
-.panel-heading {
-  background-color: #d5d5d5 !important;
-  height: 45px;
-  font-size: 16px;
-  color: #fff !important;
-}
-
-.filters {
-  height: 100px;
-}
-
-.input-filter {
-  display: inline-block;
-  width: 150px;
-  margin-right: 10px;
-  margin-top: 33px;
-}
-
-.input-hour {
-  width: 65px;
-}
-
-.input-radio {
-  list-style-type: none;
-  position: relative;
-  float: right;
-  margin-top: 15px;
-}
-
-.filter-race {
-  position: absolute;
-  top: 0;
-  height: 100%;
-}
-
-.btn-run {
-  margin-bottom: 5px;
-  width: 110px;
-}
-
 .run {
   margin-bottom: 5px;
   margin-top: 10px;
@@ -7749,39 +7709,6 @@ button.close {
   left: -25px;
   position: absolute;
   top: 50px;
-}
-
-.run {
-  font-size: 1.2rem;
-}
-
-.run .run-details .date {
-  font-size: 3rem;
-}
-
-.run .run-details .title {
-  font-size: 2.8rem;
-  padding-left: 20px;
-}
-
-.run .run-details .passengers {
-  font-size: 2.5rem;
-}
-
-.run .subscription {
-  font-size: 3rem;
-}
-
-.run .waypoint-list {
-  font-size: 1.8rem;
-}
-
-.run .waypoint-list li:first-of-type, .run .waypoint-list li:last-of-type {
-  font-size: 2rem;
-}
-
-.run .waypoint-list .glyphicon {
-  font-size: 1.2rem;
 }
 
 .run:nth-child(odd) {
@@ -7818,6 +7745,62 @@ button.close {
   background-color: #1B5E20;
 }
 
+.waypoint-list {
+  padding-bottom: 10px;
+  list-style-type: none;
+  padding-left: 0;
+  margin: 2px;
+}
+
+.waypoint-list .glyphicon {
+  margin-right: 5px;
+  font-weight: lighter;
+  vertical-align: text-top;
+  margin-top: 2px;
+  width: 18px;
+  -webkit-transform: scaleX(1.8);
+  transform: scaleX(1.8);
+  margin-left: 11px;
+}
+
+.waypoint-list li {
+  display: inline-block;
+}
+
+.waypoint-list li:not(:first-child)::before {
+  width: 5px;
+  margin-right: 2px;
+}
+
+.run {
+  font-size: 1rem;
+}
+
+.run .run-details .date {
+  font-size: 1.1rem;
+}
+
+.run .run-details .title {
+  font-size: 1.5rem;
+  padding-left: 20px;
+}
+
+.run .run-details .passengers {
+  font-size: 1.2rem;
+}
+
+.run .subscription {
+  font-size: 1.5rem;
+}
+
+.run .waypoint-list {
+  font-size: 1.5rem;
+}
+
+.run .waypoint-list .glyphicon {
+  font-size: 0.8rem;
+}
+
 .display {
   font-size: 2rem;
 }
@@ -7825,6 +7808,36 @@ button.close {
 .display .run {
   padding-top: 20px;
   padding-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.display .run .run-details .date {
+  font-size: 3rem;
+}
+
+.display .run .run-details .title {
+  font-size: 2.8rem;
+  padding-left: 20px;
+}
+
+.display .run .run-details .passengers {
+  font-size: 2.5rem;
+}
+
+.display .run .subscription {
+  font-size: 3rem;
+}
+
+.display .run .waypoint-list {
+  font-size: 1.8rem;
+}
+
+.display .run .waypoint-list li:first-of-type, .display .run .waypoint-list li:last-of-type {
+  font-size: 2rem;
+}
+
+.display .run .waypoint-list .glyphicon {
+  font-size: 1.2rem;
 }
 
 .display .title {
@@ -7876,36 +7889,63 @@ button.close {
   min-width: 100%;
 }
 
-.display.run-details {
+.display .run-details {
   padding-top: 8px;
   padding-bottom: 9px;
 }
 
-.waypoint-list {
+.display .waypoint-list {
   padding-bottom: 10px;
-  list-style-type: none;
   padding-left: 0;
   margin: 2px;
 }
 
-.waypoint-list .glyphicon {
+.display .waypoint-list .glyphicon {
   margin-right: 5px;
-  font-weight: lighter;
-  vertical-align: text-top;
   margin-top: 2px;
-  width: 18px;
   -webkit-transform: scaleX(1.8);
   transform: scaleX(1.8);
   margin-left: 11px;
 }
 
-.waypoint-list li {
-  display: inline-block;
+.panel-heading {
+  background-color: #d5d5d5 !important;
+  height: 45px;
+  font-size: 16px;
+  color: #fff !important;
 }
 
-.waypoint-list li:not(:first-child)::before {
-  width: 5px;
-  margin-right: 2px;
+.filters {
+  height: 100px;
+}
+
+.input-filter {
+  display: inline-block;
+  width: 150px;
+  margin-right: 10px;
+  margin-top: 33px;
+}
+
+.input-hour {
+  width: 65px;
+}
+
+.input-radio {
+  list-style-type: none;
+  position: relative;
+  float: right;
+  margin-top: 15px;
+}
+
+.filter-race {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+.btn-run {
+  margin-bottom: 5px;
+  width: 110px;
 }
 
 /*# sourceMappingURL=app.css.map */
