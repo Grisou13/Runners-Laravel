@@ -2,60 +2,6 @@
  * Created by Eric.BOUSBAA on 17.02.2017.
  */
 
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
-/*
-(function() {
-    /**
-     * Decimal adjustment of a number.
-     *
-     * @param {String}  type  The type of adjustment.
-     * @param {Number}  value The number.
-     * @param {Integer} exp   The exponent (the 10 logarithm of the adjustment base).
-     * @returns {Number} The adjusted value.
-
-    function decimalAdjust(type, value, exp) {
-        // If the exp is undefined or zero...
-        if (typeof exp === 'undefined' || +exp === 0) {
-            return Math[type](value);
-        }
-        value = +value;
-        exp = +exp;
-        // If the value is not a number or the exp is not an integer...
-        if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
-            return NaN;
-        }
-        // If the value is negative...
-        if (value < 0) {
-            return -decimalAdjust(type, -value, exp);
-        }
-        // Shift
-        value = value.toString().split('e');
-        value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
-        // Shift back
-        value = value.toString().split('e');
-        return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
-    }
-
-    // Decimal round
-    if (!Math.round10) {
-        Math.round10 = function(value, exp) {
-            return decimalAdjust('round', value, exp);
-        };
-    }
-    // Decimal floor
-    if (!Math.floor10) {
-        Math.floor10 = function(value, exp) {
-            return decimalAdjust('floor', value, exp);
-        };
-    }
-    // Decimal ceil
-    if (!Math.ceil10) {
-        Math.ceil10 = function(value, exp) {
-            return decimalAdjust('ceil', value, exp);
-        };
-    }
-})();
-*/
 
 function _hexToRgb(hex){
     // credits to http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
@@ -86,21 +32,6 @@ function _getDates(startDate, stopDate) {
     return dateArray;
 }
 
-/*
-function _updateSchedule(newScheduleInterval){
-    newScheduleInterval = parseFloat(newScheduleInterval);
-    // let newSchedule = generateScheduleFromInterval(newScheduleInterval);
-    // schedule = newScheduleInterval;
-    // console.log("DONE");
-
-    let url = window.Laravel.basePath + "/api/settings/schedule_interval?token=root&value="+newScheduleInterval;
-
-    ajaxRequest("patch", url, null, console.log);
-    // location.reload();
-    // console.log(newSchedule);
-    // change settings
-}
-*/
 
 function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
@@ -150,63 +81,8 @@ function updateCell(cellID){
         ajaxRequest("post", url, data, assignDataId);
     }
 }
-// function updateCells(cells){
-//     let startCellID = cells[0];
-//     let endCellID = cells[cells.length -1]
-//     let startCell = document.getElementById(startCellID);
-//     let endCell = document.getElementById(endCellID);
-//
-//     startCellID = startCellID.split("-");
-//     endCellID = endCellID.split("-");
-//
-//     let groupID = startCellID[0];
-//     let startHour = schedule[startCellID[1]];
-//     let endHour = schedule[endCellID[1]];
-//
-//
-//     let date = startCellID.splice(2,3).join("-");
-//
-//     let selGrp = groups.filter(function(x){
-//         return x.id == groupID;
-//     })[0];
-//
-//     if(startCell.dataset.assigned === "true"){
-//         // let url = window.Laravel.basePath + "/api/schedules/" + cell.dataset.scheduleId + "?token=root";
-//         // cell.dataset.assigned = "false";
-//         //
-//         // cell.style.backgroundColor = "white";
-//         // ajaxRequest("delete", url, "", console.log);
-//
-//     }else{
-//         cells.forEach(function(cell){
-//             document.getElementById(cell).dataset.assigned = "true";
-//             document.getElementById(cell).style.backgroundColor = "#" + selGrp.color;
-//         });
-//
-//         let url = window.Laravel.basePath + "/api/groups/"+groupID+"/schedules?token=root";
-//         console.log("houuuuurs");
-//         console.log(startHour)
-//         console.log(endHour)
-//         sort(startHour, endHour)
-//         let data = {
-//             "start_time": date + " " + startHour,
-//             "end_time": date + " " + endHour,
-//             "group": groupID
-//         };
-//         //
-//         // let assignDataId = function(scheduleCreated){
-//         //     startCell.dataset.scheduleId = scheduleCreated.id;
-//         //     console.log("CALLBACK CALLBACK CALLBACK")
-//         //     console.log(scheduleCreated)
-//         //     console.log(scheduleCreated.id)
-//         //
-//         // };
-//
-//         ajaxRequest("post", url, data, null);
-//     }
-// }
 
-function createTable(schedule, groups, day){
+function createTable(schedule, groups, day, gridID){
     var grid = document.createElement("table");
     grid.style.width  = "80%";
     grid.setAttribute("border", "1");
@@ -234,7 +110,6 @@ function createTable(schedule, groups, day){
     var isdown = false;
     var modified = [];
     var lin = 0;
-
     groups.forEach(function(group){
         var bodyTR = document.createElement("tr");
         var td = document.createElement("td");
@@ -251,6 +126,7 @@ function createTable(schedule, groups, day){
             td.setAttribute("id", group.id + "-" + schedule.indexOf(hour) + "-" + day);
             td.style.backgroundColor = bgColor;
             td.dataset.bgColor = bgColor;
+            td.dataset.gridID = gridID;
             // is our row assigned ?
             td.dataset.assigned = "false";
             if(typeof group.schedules !== 'undefined' && group.schedules.length > 0){
@@ -291,9 +167,16 @@ function createTable(schedule, groups, day){
                 return false;
             });
             td.addEventListener("mouseup",function(e){
+
+
+                // update the state of each selected div
+                // TODO use time-slot instead of using each cell independently
                 modified.forEach(function(cellID){
-                    updateCell(cellID)
+                    // console.log(td.parentElement.parentElement.parentElement);
+                    updateCell(cellID);
                 });
+                //document.body.classList.remove('disabled');
+                // remove grid disabled filter
                 modified = [];
                 isdown = false;
             });
@@ -313,9 +196,10 @@ function createTable(schedule, groups, day){
 
 function createGrid(schedule, days, groups){
     var container = document.getElementsByClassName('schedule-container')[0];
-
+    let i=1;
     days.forEach(function(day){
-        var dayTable = createTable(schedule, groups, day);
+        var dayTable = createTable(schedule, groups, day, i);
+        dayTable.id = i;
         moment.locale("fr");
         let div = document.createElement("div");
         div.innerHTML = moment(day).format("LL");
@@ -323,13 +207,13 @@ function createGrid(schedule, days, groups){
         div.style.fontSize = "25px";
         container.appendChild(div);
         container.appendChild(dayTable);
+        i++;
     });
 }
 
 function getAllGroups(){
     var url = window.Laravel.basePath + "/api/groups?token=root&include=schedules";
     return ajaxRequest("get", url, "", null);
-    // console.log(res);
 }
 
 /*
@@ -342,83 +226,6 @@ function getAllDays(){
     return _getDates(moment().format(), moment().add(1, "week").format());
 }
 
-/*
-function editSchedule(currentSchedule, hourInterval, minutesInterval){
-    var _diff = function(hor1, hor2){
-        let r = parseInt(hor1) - parseInt(hor2);
-        if(r < 0){
-            r = Math.abs(r);
-        }
-        return r;
-    };
-
-    var container = document.getElementsByClassName("schedule-edit")[0];
-    var diffElement = document.createElement("div");
-    let sel = currentSchedule[0];
-    var diff = _diff(sel, currentSchedule[currentSchedule.indexOf(sel)+1]);
-    var typingValidation = function(){
-        // Get our two dropdown list values
-        let hoursInput = document.getElementById("sch-hours").value;
-        let minutesInput = document.getElementById("sch-minutes").value;
-
-        // Submit button is clickable only if we have a jump bigger than 0
-        if(hoursInput != "00" || minutesInput != "00"){
-            document.getElementById("sch-validate").disabled = false;
-            document.getElementById("sch-validate").style.opacity = "1";
-        }else{
-            document.getElementById("sch-validate").disabled = true;
-            document.getElementById("sch-validate").style.opacity = "0.8";
-        }
-    };
-
-    var changeSchedule = function(){
-        let hoursDiff = document.getElementById("sch-hours").value;
-        let minutesDiff = document.getElementById("sch-minutes").value;
-        //TODO check if val is different that the one actually used.
-
-        _updateSchedule(hoursDiff + "." + minutesDiff);
-
-        let alertElement = document.createElement("div");
-
-    };
-
-    diffElement.innerHTML = "Tranche actuelle : " + diff.toString() + " H.";
-    diffElement.style.fontSize = "20px";
-    container.appendChild(diffElement);
-    //container[0].appendChild(changeElement);
-
-    // hour dropdown
-    // hour jump given in parameter array
-    var selectHour = document.createElement("select");
-    hourInterval.forEach(function(val){
-        selectHour.options.add(new Option(val,val))
-    });
-    selectHour.setAttribute("id", "sch-hours")
-    selectHour.onchange = typingValidation;
-    // minutes dropdown
-    // minutes jump given in parameter array
-    var selMinutes = document.createElement("select");
-    minutesInterval.forEach(function(val){
-        selMinutes.options.add(new Option(val,val))
-    });
-    selMinutes.setAttribute("id", "sch-minutes");
-    selMinutes.onchange = typingValidation;
-
-    // append the options to container
-    container.appendChild(selectHour);
-    container.appendChild(selMinutes);
-
-    // submit button
-    var validateElement = document.createElement("input");
-    validateElement.type = "submit";
-    validateElement.setAttribute("id", "sch-validate");
-    validateElement.disabled = true;
-    validateElement.style.opacity = "0.7";
-    validateElement.onclick = changeSchedule;
-    // append the submit button to container
-    container.appendChild(validateElement);
-}
-*/
 
 var days = getAllDays();
 
@@ -442,4 +249,4 @@ createGrid(schedule, days, groups);
 
 //TODO https://laravel.com/docs/5.4/dusk#waiting-for-elements
 //TODO visual division of hours and day&night
-//TODO wait icon (or disable table)
+//TODO 'waiting' icon (or disable table)
