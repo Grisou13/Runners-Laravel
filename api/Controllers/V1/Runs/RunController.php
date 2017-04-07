@@ -19,6 +19,7 @@ use Lib\Models\RunSubscription;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Http\Request;
 use Api\Responses\Transformers\RunTransformer;
+use Lib\Models\Waypoint;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 
 class RunController extends BaseController
@@ -85,7 +86,25 @@ class RunController extends BaseController
         if(count($subs))
           $run->subscriptions()->saveMany($subs);
 
-        $run->waypoints()->attach($request->get("waypoints"));
+        foreach($request->get("waypoints") as $point){
+          $point = Waypoint::firstOrNew(["id"=>$point],["name"=>$point]);
+          if($point->exists())
+            $run->waypoints()->attach($request->get("waypoints"));
+          else{
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?key=".env("GOOGLE_API_KEY")."&region=CH&address=".urlencode($point->name);
+            $client = new \GuzzleHttp\Client();
+            $res = $client->request('GET', $url);
+            if($res->getStatusCode() == 200)
+            {
+              $body = json_decode($res->getBody(),true);
+              $point->geo = $body["results"][0];
+            }
+            $point->save();
+            $run->waypoints()->attach($point);
+
+          }
+        }
+
         
       return $run;
       //return $this->response->item($run, new RunTransformer);
