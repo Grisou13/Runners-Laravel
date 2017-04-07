@@ -8,7 +8,7 @@
 <div class="form-group">
     <div class="col-md-6 col-md-offset-4">
         <div class="col-md-3">
-            <input type="submit" class="btn btn-primary" {{ $run->exists()?"disabled":"" }} name="" value="{{ $run->exists() ? "Create" : "Edit" }} the run">
+            <input type="submit" class="btn btn-primary" {{ $run->exists?"disabled":"" }} name="" value="{{ $run->exists ? "Edit" : "Create" }} the run">
         </div>
         <div class="col-md-3 col-md-push-1">
             <a href="{{ route("runs.index") }}" class="btn btn-danger">Cancel</a>
