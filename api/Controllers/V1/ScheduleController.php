@@ -16,9 +16,9 @@ use Api\Controllers\BaseController;
 use Illuminate\Http\Request;
 
 class ScheduleController extends BaseController{
-    public function index(Request $request, Group $group)
+    public function index(Request $request)
     {
-        return $this->response()->collection($group->schedules, new ScheduleTransformer);
+        return $this->response()->collection(Schedule::all(), new ScheduleTransformer);
     }
     public function show(Request $request, Schedule $schedule)
     {
