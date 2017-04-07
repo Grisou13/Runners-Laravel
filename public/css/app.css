@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url("https://fonts.googleapis.com/css?family=Droid+Serif");
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -7686,6 +7686,266 @@ button.close {
   .hidden-print {
     display: none !important;
   }
+}
+
+#run-app {
+  padding-right: 7px;
+  padding-left: 15px;
+}
+
+.run {
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+.run .run-details .date {
+  width: 50px;
+  height: 15px;
+  margin-right: 5px;
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  left: -25px;
+  position: absolute;
+  top: 50px;
+}
+
+.run:nth-child(odd) {
+  background-color: #ECEFF1;
+}
+
+.run::before {
+  content: ' ';
+  height: 100%;
+  width: 15px;
+  margin-right: 5px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.ready {
+  background-color: #00E676;
+}
+
+.error {
+  background-color: #F44336;
+}
+
+.needs_filling {
+  background-color: #FF9800;
+}
+
+.missing_cars {
+  background-color: #FF9800;
+}
+
+.gone {
+  background-color: #1B5E20;
+}
+
+.waypoint-list {
+  padding-bottom: 10px;
+  list-style-type: none;
+  padding-left: 0;
+  margin: 2px;
+}
+
+.waypoint-list .glyphicon {
+  margin-right: 5px;
+  font-weight: lighter;
+  vertical-align: text-top;
+  margin-top: 2px;
+  width: 18px;
+  -webkit-transform: scaleX(1.8);
+  transform: scaleX(1.8);
+  margin-left: 11px;
+}
+
+.waypoint-list li {
+  display: inline-block;
+}
+
+.waypoint-list li:not(:first-child)::before {
+  width: 5px;
+  margin-right: 2px;
+}
+
+.run {
+  font-size: 1rem;
+}
+
+.run .run-details .date {
+  font-size: 1.1rem;
+}
+
+.run .run-details .title {
+  font-size: 1.5rem;
+  padding-left: 20px;
+}
+
+.run .run-details .passengers {
+  font-size: 1.2rem;
+}
+
+.run .subscription {
+  font-size: 1.5rem;
+}
+
+.run .waypoint-list {
+  font-size: 1.5rem;
+}
+
+.run .waypoint-list .glyphicon {
+  font-size: 0.8rem;
+}
+
+.display {
+  font-size: 2rem;
+}
+
+.display .run {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.display .run .run-details .date {
+  font-size: 3rem;
+}
+
+.display .run .run-details .title {
+  font-size: 2.8rem;
+  padding-left: 20px;
+}
+
+.display .run .run-details .passengers {
+  font-size: 2.5rem;
+}
+
+.display .run .subscription {
+  font-size: 3rem;
+}
+
+.display .run .waypoint-list {
+  font-size: 1.8rem;
+}
+
+.display .run .waypoint-list li:first-of-type, .display .run .waypoint-list li:last-of-type {
+  font-size: 2rem;
+}
+
+.display .run .waypoint-list .glyphicon {
+  font-size: 1.2rem;
+}
+
+.display .title {
+  font-weight: bold;
+}
+
+.display .subscription {
+  min-height: 200px;
+  display: table;
+  margin-left: 30px;
+}
+
+.display .user, .display .car_type, .display .car {
+  height: auto;
+  min-height: 50px;
+  padding: auto;
+  vertical-align: middle;
+  font-weight: bold;
+  border-radius: 0;
+  margin: 0;
+  overflow: hidden;
+  display: table-cell;
+}
+
+@media (min-width: 1200px) {
+  .display .user {
+    border-left: 2px solid #b1bec6;
+    border-bottom: 2px solid #b1bec6;
+  }
+  .display .car {
+    border-bottom: 2px solid #b1bec6;
+    border-left: 2px solid #b1bec6;
+  }
+}
+
+@media (max-width: 1199px) {
+  .display .user {
+    border-top: 2px solid #b1bec6;
+    border-bottom: 2px solid #b1bec6;
+    border-left: 2px solid #b1bec6;
+  }
+  .display .car {
+    border-top: 2px solid #b1bec6;
+    border-bottom: 2px solid #b1bec6;
+  }
+}
+
+.display .user > span, .display .car_type > span, .display .car > span {
+  min-width: 100%;
+}
+
+.display .run-details {
+  padding-top: 8px;
+  padding-bottom: 9px;
+}
+
+.display .waypoint-list {
+  padding-bottom: 10px;
+  padding-left: 0;
+  margin: 2px;
+}
+
+.display .waypoint-list .glyphicon {
+  margin-right: 5px;
+  margin-top: 2px;
+  -webkit-transform: scaleX(1.8);
+  transform: scaleX(1.8);
+  margin-left: 11px;
+}
+
+.panel-heading {
+  background-color: #d5d5d5 !important;
+  height: 45px;
+  font-size: 16px;
+  color: #fff !important;
+}
+
+.filters {
+  height: 100px;
+}
+
+.input-filter {
+  display: inline-block;
+  width: 150px;
+  margin-right: 10px;
+  margin-top: 33px;
+}
+
+.input-hour {
+  width: 65px;
+}
+
+.input-radio {
+  list-style-type: none;
+  position: relative;
+  float: right;
+  margin-top: 15px;
+}
+
+.filter-race {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+.btn-run {
+  margin-bottom: 5px;
+  width: 110px;
 }
 
 /*# sourceMappingURL=app.css.map */

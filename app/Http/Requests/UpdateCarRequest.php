@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Dingo\Api\Http\FormRequest;
 use Illuminate\Validation\Rule;
+
 class UpdateCarRequest extends FormRequest
 {
     /**
@@ -24,7 +25,8 @@ class UpdateCarRequest extends FormRequest
     public function rules()
     {
         return [
-            "plate_number"=>["required",Rule::unique('cars',"plate_number")->ignore($this->route("car")->id§)]
+            "plate_number"=>["required",Rule::unique('cars',"plate_number")->ignore($this->route("car")->id)],
+            "car_type"=>"sometimes|required|exists:car_types,id"
         ];
     }
 }

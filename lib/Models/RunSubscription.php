@@ -3,13 +3,25 @@
 namespace Lib\Models;
 use App\Concerns\StatusConcern;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Helpers\Status as StatusHelper;
 class RunSubscription extends Model
 {
-    use StatusConcern;
+    use StatusConcern, SoftDeletes, StatusConcern;
     public $table = "run_drivers";
-    public $fillable = ["status","car_id","run_id","car_type_id","user_id"];
+    public $fillable = ["car_id","run_id","car_type_id","user_id"];
     public $hidden = ["id"];
+    protected $touches = [
+      "run"
+    ];
+    protected $events = [
+      "saving"=>"App\\Events\\RunSubscriptionSavingEvent",
+      "saved"=>"App\\Events\\RunSubscriptionSavedEvent",
+      "deleting"=>"App\\Events\\RunSubscriptionDeletingEvent",
+      "deleted"=>"App\\Events\\RunSubscriptionDeletedEvent"
+    ];
+    
+  
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -26,4 +38,5 @@ class RunSubscription extends Model
     {
         return $this->belongsTo(Run::class);
     }
+    
 }

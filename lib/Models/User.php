@@ -3,6 +3,7 @@
 *User: Joel.DE-SOUSA
 */
 namespace Lib\Models;
+use App\Events\UserCreatingEvent;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -43,7 +44,12 @@ class User extends Authenticatable implements StatusableContract
         'password', 'remember_token', "accesstoken"
     ];
 
-    public function role()
+    
+    protected $events = [
+      "creating"=>UserCreatingEvent::class
+    ];
+  
+  public function role()
     {
         return $this->belongsTo(Role::class);
     }
@@ -58,6 +64,10 @@ class User extends Authenticatable implements StatusableContract
     public static function getAccessTokenKey()
     {
       return "accesstoken";
+    }
+    public function getAccessToken()
+    {
+      return $this->attributes[$this->getAccessTokenKey()];
     }
     public function setAccesstokenAttribute($value)
     {
@@ -81,6 +91,6 @@ class User extends Authenticatable implements StatusableContract
     }
     public function setNameAttribute($value)
     {
-        $this->attributes["name"] = $value ? $value : $this->attributes["firstname"]. " ".$this->attributes["lastname"];
+        $this->attributes["name"] = $value ? $value : $this->attributes["firstname"]. " " .$this->attributes["lastname"];
     }
 }

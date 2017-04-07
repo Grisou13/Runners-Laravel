@@ -1,0 +1,47 @@
+.panel-heading{
+  background-color: #d5d5d5 !important;
+  height: 45px;
+  font-size: 16px;
+  color: #fff !important;
+}
+.filters{
+  height: 100px;
+}
+.input-filter{
+  display: inline-block;
+  width: 150px;
+  margin-right: 10px;
+  margin-top: 33px;
+}
+.input-hour{
+  width: 65px;
+}
+.input-radio{
+  list-style-type: none;
+  position: relative;
+  float:right;
+  margin-top: 15px;
+}
+.filter-race{
+  position: absolute;
+  top:0;
+  height: 100%;
+}
+.btn-run{
+  margin-bottom: 5px;
+  width:110px;
+}
+
+.status{
+    min-width:5px;
+    background-color: floralwhite;
+}
+.ready{
+    background-color: #00ee00;
+}
+.error{
+    background-color: #880000;
+}
+.needs_filling{
+    background-color:lightgoldenrodyellow ;
+}

@@ -9,9 +9,10 @@ class CarSeeder extends Seeder
      *
      * @return void
      */
+
     public function run()
     {
-
-        factory(Lib\Models\Car::class,10)->create();
+      $ids = \Lib\Models\CarType::all()->pluck("id");
+      factory(Lib\Models\Car::class,10)->create(["car_type_id"=>$ids->random()]);
     }
 }

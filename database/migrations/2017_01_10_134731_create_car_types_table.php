@@ -15,15 +15,22 @@ class CreateCarTypesTable extends Migration
     {
         Schema::create('car_types', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name')->unique();
+            $table->string('description')->nullable();
             $table->timestamps();
-            $table->string('name');
-            $table->string('description');
         });
-        Schema::table('cars', function (Blueprint $table) {
-          $table->integer('car_type_id')->unsigned();
-          $table->foreign('car_type_id')->references('id')->on('car_types');
-
-        });
+        if(strtolower(env("DB_CONNECTION")) == "sqlite") {
+          Schema::table('cars', function (Blueprint $table) {
+            $table->integer('car_type_id')->unsigned()->nullable()->default("");
+            $table->foreign('car_type_id')->references('id')->on('car_types');
+          });
+        }
+        else {
+          Schema::table('cars', function (Blueprint $table) {
+            $table->integer('car_type_id')->unsigned();
+            $table->foreign('car_type_id')->references('id')->on('car_types');
+          });
+        }
     }
 
     /**
@@ -33,6 +40,10 @@ class CreateCarTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('car_types');
+      Schema::table("cars",function (Blueprint $table){
+        $table->dropForeign(["car_type"]);
+        $table->dropColumn("car_type_id");
+      });
+      Schema::dropIfExists('car_types');
     }
 }

@@ -36,29 +36,29 @@ $factory->define(Lib\Models\User::class, function (Faker\Generator $faker) {
         "phone_number"=>$faker->phoneNumber,
         "accesstoken"=>str_random(255),
         "group_id"=>factory(Lib\Models\Group::class)->create()->id,
-        "status"=>Lib\Models\Helpers\Status::getUserStatus("actif")
     ];
+});
+
+$factory->define(Lib\Models\CarType::class, function(Faker\Generator $faker){
+  return [
+    "name"=>$faker->unique()->name,
+    "description"=>$faker->text
+  ];
 });
 
 $factory->define(Lib\Models\Car::class, function (Faker\Generator $faker){
     return [
         "plate_number"=>"VD ".$faker->numberBetween(1000000,200000),
-        "brand"=>$faker->company,
-        "model"=>$faker->word,
+        "brand"=>collect(["BMW","Suzuki","Renault","Hyundai"])->random(),
+        "model"=>collect(["Serie 4", "Monospace", "Truc"])->random(),
         "color"=>$faker->colorName,
         "nb_place"=>$faker->numberBetween(3,7),
         "car_type_id"=>function(){return factory(Lib\Models\CarType::class)->create()->id;},
+        //"car_type_id"=>factory(\Lib\Models\CarType::class)->create()->id,
         "name"=>$faker->numberBetween(1,18),
-        "status"=>Lib\Models\Helpers\Status::getCarStatus("actif")
     ];
 });
 
-$factory->define(Lib\Models\CarType::class, function (Faker\Generator $faker){
-    return [
-        "name"=>$faker->unique()->word,
-        "description"=>$faker->text
-    ];
-});
 $factory->define(Lib\Models\Waypoint::class, function(Faker\Generator $faker){
   $geo = str_replace(["\n","\r"],"",trim("{
                     \"address_components\": [
@@ -151,27 +151,60 @@ $factory->define(Lib\Models\Waypoint::class, function(Faker\Generator $faker){
                     ]
 
                   }"));
+  
+  
   return [
-    "name"=>collect(["Lausanne","Paleo","Morges gare"])->random(),
-    "geo"=>$geo
+    "name"=>collect(["Nyon centre","Lausanne Gare","Paleo grande scène","Genève aéroport", "Chavannes", "lake geneva hotel"])->random(),
+    "geo"=>function($waypoint) use ($geo){
+      return $geo;
+      $url = "https://maps.googleapis.com/maps/api/geocode/json?region=CH&address=".urlencode($waypoint["name"]);
+      $client = new \GuzzleHttp\Client();
+      $res = $client->request('GET', $url);
+      if($res->getStatusCode() != 200)
+        return $geo;
+      $body = json_decode($res->getBody(),true);
+      return $body["results"][0];
+    }
   ];
 });
 $factory->define(Lib\Models\Run::class, function (Faker\Generator $faker){
 
     return [
-        //"user_id"=>function(){return Lib\Models\User::find(1)->id;},
-        //"car_id"=>function(){return factory(Lib\Models\Car::class)->create()->id;},
-//        "geo_from"=>$geoFrom,
-//        "geo_to"=>$geoTo,
         "artist"=>$faker->name,
-        "nb_passenger"=>$faker->numberBetween(1,12),
+        "nb_passenger"=>$faker->numberBetween(1,3),
         "note"=>$faker->text,
         "planned_at"=>$faker->dateTimeBetween("+13 days","+15 days"),
     ];
 });
+$factory->define(Lib\Models\RunSubscription::class, function(Faker\Generator $faker){
+  return [
+    "status"=>"not ok"
+  ];
+});
 $factory->define(Lib\Models\Group::class, function (Faker\Generator $faker){
     return [
-        "color" => Lib\Models\Http\Helpers\Helper::getRandomGroupColor(),
+        "color" => App\Http\Helpers\Helper::getRandomGroupColor(),
+        "name" => strtoupper($faker->randomLetter()),
         "active"=>true
     ];
+});
+
+$factory->define(Lib\Models\Image::class, function (Faker\Generator $faker){
+    return [
+    ];
+});
+$factory->state(Lib\Models\Image::class, "license",function (Faker\Generator $faker){
+  return [
+      "filename" => "exemple-permis-conduire.png",
+      "original" => "exemple-permis-conduire.png",
+      "type" => "license",
+  ];
+});
+$factory->state(Lib\Models\Image::class, "profile",function (Faker\Generator $faker){
+  return [
+      "filename" => "example-profile-image.png",
+      "original" => "example-profile-image.png",
+      "type" => "profile",
+      //"user_id" => DB::table('users')->inRandomOrder()->first()
+  ];
 });

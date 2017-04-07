@@ -56,9 +56,9 @@ class CarController extends Controller
         //$request->flash();
         $input = $request->except(["_token"]);
 
-        $car = new Car($input);
-        $type = CarType::findOrFail($request->input("type"));
-        $car->car_type()->associate($type);
+        $car = new Car;
+        $car->car_type()->associate($request->get("type"));
+        $car->fill($request->all());
         $car->save();
 
         // redirect
@@ -96,18 +96,10 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-      
-      $this->api()->be(auth()->user())->with($request->except("_token"))->update();
+
+      $this->api()->be(auth()->user())->with($request->except("_token"))->patch("/cars/{$car->id}");
+      return redirect()->back()->with("message","Car updated!");
       //$car = Car::findOrFail($id);
-
-      /*//TODO : Validation
-      $this->validate($request, [
-        'license_plates'   => 'required',
-        'brand'            => 'required',
-        'model'            => 'required'
-      ]);*/
-
-
       $input = $request->all();
 
       $car->fill($input)->save();

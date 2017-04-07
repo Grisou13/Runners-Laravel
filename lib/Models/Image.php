@@ -12,6 +12,10 @@ class Image extends Model
   protected $fillable = [
       "filename","original","type","user_id"
   ];
+  public function getFilePathAttribute()
+  {
+    return "images/".$this->filename;
+  }
   public function user()
   {
       return $this->belongsTo(User::class);

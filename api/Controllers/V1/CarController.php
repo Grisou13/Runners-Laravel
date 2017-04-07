@@ -8,6 +8,10 @@
 
 namespace Api\Controllers\V1;
 
+use Api\Requests\SearchRequest;
+use App\Helpers\Status;
+use App\Http\Requests\CreateCommentRequest;
+use Api\Requests\ListCarRequest;
 use Lib\Models\Car;
 use Lib\Models\User;
 use Lib\Models\Comment;
@@ -19,9 +23,27 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CarController extends BaseController
 {
-    public function index(Request $request)
+    public function search(SearchRequest $request)
     {
-      return Car::all();
+      $query = $request->get("q","");
+      return Car::where("name","like","%$query%")->get();
+    }
+    public function index(ListCarRequest $request)
+    {
+      $query = Car::with("car_type");
+      if($request->has("type"))
+      {
+        $query->whereHas("car_type",function($q) use ($request){
+          $q->whereIn("name",explode(",",$request->get("type")));
+        });
+      }
+      if($request->has("status"))
+      {
+        $query->ofStatus($request->get("status"));
+      }
+      
+      return $query->get();
+      
     }
     public function show(Request $request, Car $car)
     {
@@ -31,6 +53,10 @@ class CarController extends BaseController
     public function update(UpdateCarRequest $request, Car $car)
     {
         $car->update($request->all());
+        if($request->has("car_type"))
+        {
+          $car->car_type()->associate($request->get("car_type"));
+        }
         $car->save();
         return $this->response()->accepted();
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Dingo\Api\Routing\Helpers;
+use Dingo\Api\Routing\UrlGenerator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -69,5 +70,15 @@ class Controller extends BaseController
             $data = $data->excpet(["_token"]);
         }
         return $this->api->{$method}($url)->with($data->except($this->uselessRequestFields));
+    }
+    protected function rerouteRequest(Request $request, $version = "v1")
+    {
+      $method = $request->method();
+      
+      $data = $request->all();
+      //$token = Auth::user()->getAccessToken();
+      $url = $request->path();
+      return $this->api->{$method}($url)->version($version)->with($data)->be(Auth::user());
+
     }
 }

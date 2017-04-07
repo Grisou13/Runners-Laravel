@@ -1,5 +1,4 @@
 <?php
-
 namespace Lib\Models\Relationships;
 
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +17,6 @@ class SortableBelongsToMany extends BelongsToMany
   {
     $attributes = array_merge($attributes, [$this->getOrderColumnName()=> $this->getNextPosition()]);
     return parent::attach($id, $attributes, $touch);
-
   }
   public function getOrderColumnName()
   {

@@ -1,6 +1,3 @@
-<!--
-User: Joel.DE-SOUSA
--->
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
@@ -12,12 +9,12 @@ User: Joel.DE-SOUSA
                 @else
                   {{ Form::open(array('route' => 'cars.store', 'class' => 'form-horizontal')) }}
                 @endif
-                {{ Form::bsText("plate_number", old("plate_number")) }}
-                {{ Form::bsText("brand", old("brand")) }}
-                {{ Form::bsText("model", old("model")) }}
-                {{ Form::bsText("color", old("color")) }}
-                {{ Form::bsText("nb_place", old("nb_place")) }}
-                {{ Form::bsText("name", old("name")) }}
+                {{ Form::bsText("plate_number") }}
+                {{ Form::bsText("brand") }}
+                {{ Form::bsText("model") }}
+                {{ Form::bsText("color") }}
+                {{ Form::bsText("nb_place") }}
+                {{ Form::bsText("name") }}
                 <div class="form-group">
                   @foreach($errors as $er)
                     <div class="alert alert-danger">
@@ -25,19 +22,11 @@ User: Joel.DE-SOUSA
                     </div>
                   @endforeach
                 </div>
-                <div class="form-group{{ $errors->has('stat') ? ' has-error' : '' }}">
-                  {{ Form::label('stat', 'Status ', array('class' => 'col-md-4 control-label')) }}
-                  <div class="col-md-6">
-                    {{ Form::text('stat', old('stat'), array('class' => 'form-control')) }}
-                    @if ($errors->has('stat'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('stat') }}</strong>
-                        </span>
-                    @endif
-                  </div>
-                </div>
+                @if($car->exists)
+                {{ Form::bsSelect("status",\App\Helpers\Status::getFullStatusForRessource($car),old("status",$car->status)) }}
 
-                {{ Form::bsSelect("type",$car_types->mapWithKeys(function($t){return [" {$t->id}"=>$t->type];}),old("car_type",$car->car_type_id)) }}
+                @endif
+                {{ Form::bsSelect("type",$car_types->mapWithKeys(function($t){return [" {$t->id}"=>$t->name];}),$car->car_type_id) }}
                 <!-- <div class="form-group{{ $errors->has('car_type_id') ? ' has-error' : '' }}">
                   {{ Form::label('car_type_id', 'Type de voiture ', array('class' => 'col-md-4 control-label')) }}
                   <div class="col-md-6">
@@ -64,7 +53,7 @@ User: Joel.DE-SOUSA
                     <div class="form-group">
                       <div class="col-md-6 col-md-offset-4">
                           <div class="col-md-3">
-                            <input type="submit" class="btn btn-primary" {{ $car->exists()?"disabled":"" }} name="" value="{{ $car->exists() ? "Edit" : "Create" }} the car">
+                            <input type="submit" class="btn btn-primary" {{ $car->exists?"disabled":"" }} name="" value="{{ $car->exists ? "Edit" : "Create" }} the car">
                               <!-- <button {{ $mode !== null && $mode === "edit" ? 'disabled' : ''}} type="submit" class="btn btn-primary">
                                   <span>{{ $mode == "edit" ? "Edit" : "Create" }} the car</span>
                               </button> -->

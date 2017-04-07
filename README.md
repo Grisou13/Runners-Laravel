@@ -83,8 +83,5 @@ composer require predis/predis
 
 ### For production
 
-Install Redis
+Use the script `install/install.sh`.
 
-```
-TODO
-```

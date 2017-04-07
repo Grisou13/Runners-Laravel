@@ -34,8 +34,6 @@ class Waypoint extends Model
     protected static function boot(){
       parent::boot();
       static::creating(function($self){
-        \Log::debug($self->geo);
-        \Log::debug($self->geo["geometry"]["location"]);
         $self->latlng = $self->geo["geometry"]["location"];
       });
     }

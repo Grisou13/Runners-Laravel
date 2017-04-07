@@ -9,6 +9,7 @@
 namespace Api\Controllers\V1\Runs;
 
 use Api\Controllers\BaseController;
+use Lib\Models\Car;
 use Lib\Models\Run;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Http\Request;
@@ -16,9 +17,12 @@ use Api\Responses\Transformers\RunTransformer;
 
 class CarController extends BaseController
 {
-    public function index(Request $request)
+    public function index(Request $request, Run $run)
     {
-      return $this->response()->collection(Run::all(), new RunTransformer);
+      return Car::whereHas("car_type",function($q) use ($run){
+        return $q->whereIn("id",$run->car_types->pluck("id"));
+      })->get();
+      //return $this->response()->collection(Run::all(), new RunTransformer);
     }
     public function show(Request $request, Run $run)
     {

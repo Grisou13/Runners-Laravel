@@ -19,6 +19,7 @@
 $router->get("/",["as"=>"index","uses"=>"HomeController@welcome"]);
 Auth::routes();
 
+
 Route::get('/home', ["as"=>"home","uses"=>'HomeController@index']);
 
 Route::resource("groups", "GroupController");
@@ -27,10 +28,13 @@ Route::resource('cars', 'CarController'); // Joël.DE-SOUSA
 
 $router->post("cars/{car}/comment",["as"=>"cars.comments.store","uses"=>"CarController@addComment"]);
 
+$router->get("/runs/display","RunController@display");
 $router->resource("runs","RunController");
-$router->post("runs/{run}/car/{car}",function(){
-  Run::find(1)->cars()->first()->pivot->user()->associate(1)->save();
-});
+
+
+//$router->post("runs/{run}/car/{car}",function(){
+//  Run::find(1)->cars()->first()->pivot->user()->associate(1)->save();
+//});
 $router->resource("runs.cars","Run\\CarController",["except"=>"create","edit","update"]);
 $router->resource("runs.runners","Run\\RunnerController",["except"=>"create","edit","update"]);
 $router->resource("runs.car_types","Run\\CarTypeController",["except"=>"create","edit","update"]);

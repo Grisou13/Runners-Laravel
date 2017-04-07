@@ -8,6 +8,7 @@
 
 namespace Api\Controllers\V1;
 
+use Api\Requests\SearchRequest;
 use Lib\Models\Waypoint;
 use Lib\Models\User;
 use Api\Controllers\BaseController;
@@ -20,6 +21,11 @@ class WaypointController extends BaseController
     public function index(Request $request)
     {
         return Waypoint::all();
+    }
+    public function search(SearchRequest $request)
+    {
+      $query = $request->get("q");
+      return Waypoint::where("name","like","%$query%")->get();
     }
     public function show(Request $request,Waypoint $point)
     {

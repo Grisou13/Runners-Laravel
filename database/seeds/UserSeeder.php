@@ -24,12 +24,12 @@ class UserSeeder extends Seeder
             "password"=>bcrypt("root"),
             "status"=>$sta
         ]);
-        factory(Lib\Models\User::class,3)->create();
-        factory(Lib\Models\User::class,5)->create()->each(function(Lib\Models\User $u){
-            $u->group()->associate(factory(Lib\Models\User::class)->make());
+        factory(Lib\Models\User::class,10)->create()->each(function($user){
+          $img = factory(Lib\Models\Image::class)->states("profile")->make(["user_id"=>$user->id]);
+          $img->save();
+          $img = factory(Lib\Models\Image::class)->states("license")->make(["user_id"=>$user->id]);
+          $img->save();
         });
-//        factory(\App\Schedule::class, 5)->create()->each(function($schedule){
-//            $schedule->group()->associate(Group::find(rand(0,5)));
-//        });
+
     }
 }

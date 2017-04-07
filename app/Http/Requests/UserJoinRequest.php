@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Dingo\Api\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserJoinRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UserJoinRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,8 @@ class UserJoinRequest extends FormRequest
     public function rules()
     {
         return [
-            "id"=>"exists:users"
+            //"resource"=>["required",Rule::in(["car","car_type"])]
+            
         ];
     }
 }

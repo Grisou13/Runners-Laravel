@@ -9,14 +9,16 @@
 namespace Api\Controllers\V1;
 
 use Api\Controllers\BaseController;
+use Api\Requests\SearchRequest;
 use Lib\Models\User;
 use Api\Requests\Filtering\StatusFilterable;
 use Api\Responses\Transformers\UserTransformer;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
-
+use Image as Intervention;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends BaseController
 {
@@ -24,6 +26,23 @@ class UserController extends BaseController
     {
         return User::all();
 
+    }
+    public function search(SearchRequest $request)
+    {
+      $query = $request->get("q");
+      return User::where("name","like","%$query%")
+        ->orWhere("firstname","like","%$query%")
+        ->orWhere("lastname","like","%$query%")
+        ->orWhere("email","like","%$query%")
+        ->get();
+    }
+    public function image(Request $request, User $user)
+    {
+      if($user->profileImage() == null)
+        throw new NotFoundHttpException("unable to find image of user {$user->id}");
+      $imagePath = public_path("images/".$user->profileImage()->filename);
+      $img = Intervention::make($imagePath);
+      return $img->response();
     }
     public function show(Request $request, User $user)
     {

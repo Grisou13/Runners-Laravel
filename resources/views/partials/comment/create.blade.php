@@ -12,7 +12,7 @@
             </div>
             <div class="row col-md-12">
                 <select name="user" class="col-md-4" id="" disabled>
-                    @foreach(App\User::all() as $user)
+                    @foreach(Lib\Models\User::all() as $user)
                         <option value="{{ $user->id }}" {{ auth()->check() && auth()->user()->id == $user->id ? "selected" : "" }}>{{ $user->name }}</option>
                     @endforeach
                 </select>
