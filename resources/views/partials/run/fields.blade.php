@@ -1,6 +1,15 @@
  {{ Form::bsText("name",$run->name) }}
  {{ Form::bsText("nb_passenger",$run->nb_passenger) }}
- {{ Form::bsText("planned_at",$run->planned_at) }}
+
+ <div class="form-group">
+     <label for="planned_at" class="col-md-4 control-label">Planifé à</label>
+     <div class="col-md-6">
+         <input type="hidden" id="input_planned_at" name="planned_at" value="">
+         <div id="planned_at"></div>
+     </div>
+ </div>
+
+ {{--{{ Form::bsText("planned_at",$run->planned_at) }}--}}
 
 
 
@@ -99,15 +108,24 @@
 </div>
 @endif
 
+ @push("styles")
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
+ @endpush
+
 @push("scripts")
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="http://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-fr.js"></script>
 <script type="text/javascript">
 
 // picker pour la date des runs
 $( function() {
   $( "#planned_at" ).datetimepicker({
-    dateFormat: 'yy-mm-dd'
+      altField: "#input_planned_at",
+      timeFormat:"hh:mm",
+      dateFormat: 'yy-mm-dd',
+      altFieldTimeOnly: false
   });
 } );
 // _______________________________
