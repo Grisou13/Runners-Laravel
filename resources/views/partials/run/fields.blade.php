@@ -3,6 +3,7 @@
  {{ Form::bsText("planned_at",$run->planned_at) }}
 
 
+
 <div id="waypoint-selection" class="waypoints">
     @php
         $waypoints = $waypoints->mapWithKeys(function($p){
@@ -99,7 +100,17 @@
 @endif
 
 @push("scripts")
-<script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="http://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript">
+
+// picker pour la date des runs
+$( function() {
+  $( "#planned_at" ).datetimepicker({
+    dateFormat: 'yy-mm-dd'
+  });
+} );
+// _______________________________
     document.querySelectorAll(".button-remove").forEach(function(container){
         var b = container.getElementsByTagName("button")[0]
         b.addEventListener("click",function(e){
@@ -154,6 +165,8 @@
         container.appendChild(btnContainer)
         document.getElementById("waypoint-selection").insertBefore(container,document.getElementById("waypoint-last"))
     })
+
+
     /*
 window.api.get("/waypoints")
  .then(function(res){

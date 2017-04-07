@@ -14,6 +14,8 @@
     <link href="{{ asset("/css/app.css") }}" rel="stylesheet">
     <link href="{{ asset("/css/style.css") }}" rel="stylesheet">
     {{--<link href="{{ asset("/css/theme.css") }}" rel="stylesheet">--}}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="http://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.css">
 
     @stack("styles")
 
