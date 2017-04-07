@@ -9,10 +9,6 @@
      </div>
  </div>
 
- {{--{{ Form::bsText("planned_at",$run->planned_at) }}--}}
-
-
-
 <div id="waypoint-selection" class="waypoints">
     @php
         $waypoints = $waypoints->mapWithKeys(function($p){
