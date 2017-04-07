@@ -55,24 +55,17 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
        * @var $api Dingo\Api\Routing\Router
        */
       $api->get("/runs/search",["as"=>"runs.search","uses"=>"RunController@search"]);
+      $api->delete("/runs/{run}/waypoints",["as"=>"runs.waypoints.destroy_all","uses"=>"WaypointController@deleteAll"]);
+      $api->delete("/runs/{run}/subscriptions",["as"=>"runs.subscriptions.destroy_all","uses"=>"SubscriptionController@deleteAll"]);
+      $api->delete("/runs/{run}/runners",["as"=>"runs.runners.destroy_all","uses"=>"SubscriptionController@deleteAll"]);
+
       $api->resource("runs","RunController");
-      
       $api->resource("runs.waypoints","WaypointController");
-      $api->resource("runs.car_types","CarTypeController");
-      $api->resource("runs.cars","CarController");
-      $api->resource("runs.users","UserController");
       $api->resource("runs.subscriptions","SubscriptionController");
       $api->resource("runs.runners","SubscriptionController");
       
       $api->post("/runs/{run}/start",["as"=>"run.start","uses"=>"RunController@start"]);
       $api->post("/runs/{run}/stop",["as"=>"run.stop","uses"=>"RunController@stop"]);
-      
-      //adding cars to run
-      $api->post("/runs/{run}/cars/{car}/join","CarController@join");
-      $api->delete("/runs/{run}/cars/{car}/unjoin","CarController@unjoin");//deletes a user from a car
-      //adding a user to a run
-      $api->post("/runs/{run}/users/{user}/join","UserController@join");
-      $api->delete("/runs/{run}/users/{user}/unjoin","UserController@unjoin"); //deletes a car from a user
     });
 });
 

@@ -13,6 +13,7 @@ use App\Helpers\Status;
 use App\Http\Requests\CreateCommentRequest;
 use Api\Requests\ListCarRequest;
 use Lib\Models\Car;
+use Lib\Models\Run;
 use Lib\Models\User;
 use Lib\Models\Comment;
 use Api\Controllers\BaseController;
@@ -40,6 +41,34 @@ class CarController extends BaseController
       if($request->has("status"))
       {
         $query->ofStatus($request->get("status"));
+      }
+      /*
+       * In the following requests we use id's instead of retrieving the object.
+       * This allows us to be much more efficient when filtering query like this
+       */
+      if($request->has("between"))
+      {
+        $runs = Run::whenBetween(explode(",",$request->get("between")))->has("cars")->get();
+        $cars = $runs->map(function($r){
+          return $r->subscriptions->map(function($s){
+            return $s->car_id ? $s->car_id : null;
+          });
+        })->filter(function($c){
+          return $c != null;
+        });
+        $query->whereIn("id",$cars->all());
+      }
+      if($request->has("after"))
+      {
+        $runs = Run::when($request->get("after"))->has("cars")->get();
+        $cars = $runs->map(function($r){
+          return $r->subscriptions->map(function($s){
+            return $s->car_id ? $s->car_id : null;
+          });
+        })->filter(function($c){
+          return $c != null;
+        });
+        $query->whereIn("id",$cars->all());
       }
       
       return $query->get();
