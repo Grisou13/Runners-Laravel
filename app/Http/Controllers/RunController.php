@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Lib\Models\Run;
+use Lib\Models\CarType;
+use Lib\Models\Waypoint;
 use Dingo\Api\Routing\UrlGenerator;
 use Illuminate\Http\Request;
+
 
 class RunController extends Controller
 {
@@ -32,7 +35,7 @@ class RunController extends Controller
      */
     public function create()
     {
-        return view("run.create")->with("run",new Run);
+        return view("run.create")->with("run",new Run)->with("car_types", CarType::all())->with("waypoints", Waypoint::all());
     }
 
     /**
