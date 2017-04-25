@@ -118,7 +118,13 @@ class Run extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-    public function scopeActif($query)
+  
+  /**
+   * Retrieves all the runs planned today
+   * @param Builder $query
+   * @return $this
+   */
+    public function scopeActif(Builder $query)
     {
       return $query->where( \DB::raw('DAY(planned_at)'), '>=', date('d'));
     }

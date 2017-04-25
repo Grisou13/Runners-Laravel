@@ -19,7 +19,7 @@ class RunList extends React.Component
     render(){
         let runs = _.sortBy(this.props.runs,["status","begin_at"])
         return (
-            <div className="display container-fluid">
+            <div className="container-fluid">
                 <div className="row text-center">
                     <Time UTCOffset={2} />
                 </div>

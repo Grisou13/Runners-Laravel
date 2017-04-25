@@ -40,10 +40,10 @@
           </div>
         </div>
     </div>
-    <div id="run-list"></div>
+    <div id="run-display-app" class="run-list"></div>
     {{--@include("partials.run.list",compact("runs"))--}}
 @stop
 @push("scripts")
 <script src="{{ asset("/js/typeahead.bundle.min.js") }}"></script>
-<script src="{{ asset("/js/run-list.js") }}"></script>
+<script src="{{ asset("/js/run-display.js") }}"></script>
 @endpush
