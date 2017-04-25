@@ -24,6 +24,7 @@ Route::get('/home', ["as"=>"home","uses"=>'HomeController@index']);
 
 Route::resource("groups", "GroupController");
 Route::resource("schedule", "ScheduleController");
+Route::resource("kiela", "KielaController"); 
 $router->post("cars/{car}/comment",["as"=>"cars.comments.store","uses"=>"CarController@addComment"]);
 Route::resource('cars', 'CarController');
 
