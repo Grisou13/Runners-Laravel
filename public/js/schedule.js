@@ -2,7 +2,6 @@
  * Created by Eric.BOUSBAA on 17.02.2017.
  */
 
-
 function _hexToRgb(hex){
     // credits to http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -110,6 +109,7 @@ function createTable(schedule, groups, day, gridID){
     var isdown = false;
     var modified = [];
     var lin = 0;
+
     groups.forEach(function(group){
         var bodyTR = document.createElement("tr");
         var td = document.createElement("td");
@@ -121,14 +121,16 @@ function createTable(schedule, groups, day, gridID){
 
         bodyTR.appendChild(td);
         schedule.forEach(function(hour){
+
             schedule.indexOf(hour) % 2 == 0 ? bgColor = "white" : bgColor = "#ECEFF1";
+            // if(hour == "08")
             var td = document.createElement("td");
             td.setAttribute("id", group.id + "-" + schedule.indexOf(hour) + "-" + day);
-            td.style.backgroundColor = bgColor;
             td.dataset.bgColor = bgColor;
             td.dataset.gridID = gridID;
-            // is our row assigned ?
+            td.style.backgroundColor = bgColor;
             td.dataset.assigned = "false";
+            // is our cell assigned ?
             if(typeof group.schedules !== 'undefined' && group.schedules.length > 0){
                 group.schedules.forEach(function(p){
                     let datetime = p.start_time.split(" ");
@@ -137,12 +139,11 @@ function createTable(schedule, groups, day, gridID){
                         td.dataset.scheduleId = p.id;
                         td.dataset.assigned = "true";
                     }
-                })
+                });
             }
 
             // change color of the given cell (based on the group, or return to bgColor)
             var changeColor = function(td){
-
                 if(td.dataset.assigned == "false"){
                     td.style.backgroundColor = "#" + group.color;
                 }else{
@@ -175,8 +176,7 @@ function createTable(schedule, groups, day, gridID){
                     // console.log(td.parentElement.parentElement.parentElement);
                     updateCell(cellID);
                 });
-                //document.body.classList.remove('disabled');
-                // remove grid disabled filter
+
                 modified = [];
                 isdown = false;
             });

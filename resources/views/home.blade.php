@@ -19,6 +19,7 @@
                         <li><a href="{{ route("users.create") }}">Créer un nouveau chauffeur</a></li>
                         <li><a href="{{ route("schedule.index") }}">Horaires</a></li>
                         <li><a href="{{ route("runs.index") }}">Courses</a></li>
+                        <li><a href="{{ route("kiela.index") }}">Kiéla</a></li>
                     </ul>
                 </div>
             </div>
