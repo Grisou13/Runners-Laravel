@@ -7,6 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Lib\Models\Setting;
 
 class StartRunsJob implements ShouldQueue
 {
@@ -29,6 +30,12 @@ class StartRunsJob implements ShouldQueue
      */
     public function handle()
     {
-        //
+      $autostart = Setting::where("auto-start-runs")->first();
+        if($autostart)
+          $this->startAllPlanifiedRuns();
+    }
+    protected function startAllPlanifiedRuns()
+    {
+
     }
 }

@@ -24,7 +24,11 @@ class WaypointController extends BaseController
     {
       return $run;
     }
-
+    public function deleteAll(Run $run)
+    {
+      $run->waypoints()->detach();
+      return $run;
+    }
     public function update(Request $request, Run $run)
     {
         $run->update($request->all());

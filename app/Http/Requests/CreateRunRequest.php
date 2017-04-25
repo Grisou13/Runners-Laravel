@@ -34,7 +34,7 @@ class CreateRunRequest extends FormRequest
             "nb_passenger"=>"required|numeric|max:50",
             "planned_at"=>"required|date",
             "waypoints"=>"required|min:2",
-            "waypoints.*"=>Rule::in(Waypoint::all()->pluck("id")->toArray()),
+            //"waypoints.*"=>Rule::in(Waypoint::all()->pluck("id")->toArray()),
             "car_type"=>"sometimes|exists:car_types,id",
         ];
     }

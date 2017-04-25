@@ -22,10 +22,10 @@ class Run extends Model
       "name"=>"required_if:artist,''",
     ];
     protected $fillable = [
-        "name","planned_at","note","ended_at", "nb_passenger", "artist"
+        "name","planned_at","nb_passenger"
     ];
     protected $guarded = [
-      "started_at"
+      "started_at","ended_at"
     ];
     protected $attributes = [
       "status"=>"free"
@@ -49,11 +49,6 @@ class Run extends Model
       'deleting' => RunDeletingEvent::class,
       'deleted' => RunDeletedEvent::class
     ];
-   
-    public function waypoints(){
-      //all fields selected in pivot table are prefixed with pivot_*
-      return $this->sortableBelongsToMany(Waypoint::class,"order")->withPivot("order");
-    }
 
     public function setArtistAttribute($value)
     {
@@ -64,21 +59,9 @@ class Run extends Model
       return $this->attributes["name"] = $val;
     }
 
-    public function getEndLocationAttribute(){
-      return $this->waypoints->last();
-    }
-    public function getStartLocationAttribute(){
-      return $this->waypoints->first();
-    }
-    public function defaultRunName(){
-      //try getting the name from the artist
-      if(array_key_exists("artist",$this->attributes))
-        return $this->attributes["artist"];
-      //or maybe the starting point name
-      return self::resolveGeoLocationName($this->waypoints->first()->geo);
-    }
-    public static function resolveGeoLocationName($geo){
-      return $geo["address_components"][0]["short_name"];//force first element of result
+    public function waypoints(){
+      //all fields selected in pivot table are prefixed with pivot_*
+      return $this->sortableBelongsToMany(Waypoint::class,"order")->withPivot("order");
     }
   /**
    * Should be readonly
@@ -128,4 +111,14 @@ class Run extends Model
     {
       return $query->where( \DB::raw('DAY(planned_at)'), '>=', date('d'));
     }
+    public function scopeWhen($query, $date)
+    {
+      return $query->where( \DB::raw('DAY(planned_at)'), '>=', $date)->actif();// + the run must be actif
+    }
+  public function scopeWhenBetween($query, $dates)
+  {
+    $d1 = new Carbon($dates[0]);//d1 is the first day
+    $d2 = new Carbon($dates[1]);//d2 is the last day
+    return $query->where( \DB::raw('DAY(planned_at)'), '>=', $d1->day)->where(\DB::raw('DAY(planned_at)'), '<=', $d2->day)->actif();// + the run must be actif
+  }
 }

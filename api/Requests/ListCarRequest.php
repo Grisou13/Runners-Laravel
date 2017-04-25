@@ -23,7 +23,10 @@ class ListCarRequest extends FormRequest
   {
     return [
       "type"=>"sometimes|exists:car_types,name",
-      "status"=>["sometimes","nullable",Rule::in(Status::getStatusForRessource("car"))]
+      "status"=>["sometimes","nullable",Rule::in(Status::getStatusForRessource("car"))],
+      "between"=>"sometimes|required|size:2",
+      "between.*"=>"date",
+      "after"=>"sometimes|required_without:between|date"
     ];
   }
 }

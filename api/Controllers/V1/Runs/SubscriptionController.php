@@ -35,7 +35,11 @@ class SubscriptionController extends BaseController
   {
       return $run->subscriptions;
   }
-
+  public function deleteAll(Run $run)
+  {
+    $run->subscriptions()->detach();
+    return $run;
+  }
   public function store(CreateSubscriptionRequest $request, Run $run)
   {
     $sub = new RunSubscription;

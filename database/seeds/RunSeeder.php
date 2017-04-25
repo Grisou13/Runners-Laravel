@@ -20,14 +20,13 @@ class RunSeeder extends Seeder
         $this->call(UserSeeder::class);
     
       factory(Lib\Models\Waypoint::class,10)->create();
-    //just create 3 empty waypoints
       factory(Lib\Models\Run::class,3)->create()->each(function(\Lib\Models\Run $run){
-        $run->waypoints()->attach(Waypoint::all()->random(rand(2,6)));
+        $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
       });
     
       $run = factory(Lib\Models\Run::class)->create();
         
-      $run->waypoints()->attach(Waypoint::all()->random(rand(2,6)));
+      $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
       $sub = new Lib\Models\RunSubscription();
       $sub->run()->associate($run);
       $sub->user()->associate(2);
@@ -35,7 +34,7 @@ class RunSeeder extends Seeder
       $sub->save();
       
       $run = factory(Lib\Models\Run::class)->create();
-      $run->waypoints()->attach(Waypoint::all()->random(rand(2,6)));
+      $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
       $sub = new Lib\Models\RunSubscription();
       $sub->run()->associate($run);
       $sub->user()->associate(3);
@@ -43,21 +42,21 @@ class RunSeeder extends Seeder
       $sub->save();
       
       $run = factory(Lib\Models\Run::class)->create();
-      $run->waypoints()->attach(Waypoint::all()->random(rand(2,6)));
+      $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
       $sub = new Lib\Models\RunSubscription();
       $sub->run()->associate($run);
       $sub->car()->associate(5);
       $sub->save();
       
       $run = factory(Lib\Models\Run::class)->create();
-      $run->waypoints()->attach(Waypoint::all()->random(rand(2,6)));
+      $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
       $sub = new Lib\Models\RunSubscription();
       $sub->run()->associate($run);
       $sub->user()->associate(6);
       $sub->save();
       
       $run = factory(Lib\Models\Run::class)->create();
-      $run->waypoints()->attach(Waypoint::all()->random(rand(2,6)));
+      $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
       $sub = new Lib\Models\RunSubscription();
       $sub->run()->associate($run);
       $sub->user()->associate(5);
@@ -65,14 +64,14 @@ class RunSeeder extends Seeder
       $sub->save();
       
       $run = factory(Lib\Models\Run::class)->create();
-      $run->waypoints()->attach(Waypoint::all()->random(rand(2,6)));
+      $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
       $sub = new Lib\Models\RunSubscription();
       $sub->run()->associate($run);
       $sub->car_type()->associate(2);
       $sub->save();
       
       $run = factory(Lib\Models\Run::class)->create();
-      $run->waypoints()->attach(Waypoint::all()->random(rand(2,6)));
+      $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
       $sub = new Lib\Models\RunSubscription();
       $sub->run()->associate($run);
       $sub->user()->associate(8);
