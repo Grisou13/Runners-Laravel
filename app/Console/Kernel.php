@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\DeleteDatabase;
+use App\Console\Commands\EchoTest;
 use App\Console\Commands\OverideRunDatesToToday;
 use App\Console\Commands\ResetDatabase;
 use App\Console\Commands\ScaffholdApp;
@@ -21,6 +22,7 @@ class Kernel extends ConsoleKernel
         ScaffholdApp::class
         DeleteDatabase::class,
         OverideRunDatesToToday::class
+        EchoTest::class
     ];
 
     /**
