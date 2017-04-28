@@ -110,7 +110,12 @@ class SubscriptionController extends BaseController
   }
   public function delete(RunSubscription $sub)
   {
-    
     $sub->delete();
+  }
+  public function stop(RunSubscription $sub)
+  {
+    $sub->status="finished";
+    $sub->save();
+    return $sub;
   }
 }

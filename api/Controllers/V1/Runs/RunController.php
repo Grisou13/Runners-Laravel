@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Api\Responses\Transformers\RunTransformer;
 use Lib\Models\Waypoint;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class RunController extends BaseController
 {
@@ -141,11 +142,33 @@ class RunController extends BaseController
         return $run;
 
     }
+    protected function terminateRun(Run $run){
+      $run->ended_at = Carbon::now();
+      $run->status="finished";
+      $run->save();
+      $run->delete();
+    }
     public function stop(Request $request, Run $run)
     {
-      $run->ended_at = Carbon::now();
-      $run->save();
-      $run->delete();//deleting the model will populate ended_at field, and archive it
+      $user = $this->user();
+      if(!$user->can("end",$run))
+        throw new UnauthorizedHttpException("You are not allowed to finish a run");
+      
+      $run->subscriptions->each(function($sub) use ($user){
+        if($user->id = $sub->user_id){
+          $sub->status = "finished";
+          $sub->save();
+          return false;//terminate the loop
+        }
+      });
+      if($user->car("forceEnd",Run::class))
+        $this->terminateRun($run);
+      else{
+        if($run->subscriptions->every(function($sub){
+          return $sub->status == "finished";
+        }))
+          $this->terminateRun($run);
+      }
       return $run;
     }
 }
