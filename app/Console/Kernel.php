@@ -19,9 +19,9 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         ResetDatabase::class,
-        ScaffholdApp::class
+        ScaffholdApp::class,
         DeleteDatabase::class,
-        OverideRunDatesToToday::class
+        OverideRunDatesToToday::class,
         EchoTest::class
     ];
 
@@ -33,6 +33,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+      if((bool)env("APP_DEBUG"))
+        $schedule->command("runs:update_date")->hourly();
         // $schedule->command('inspire')
         //          ->hourly();
     }

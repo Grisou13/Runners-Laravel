@@ -8,17 +8,21 @@
          <div id="planned_at"></div>
      </div>
  </div>
-
+ @php
+     $waypoints = $waypoints->mapWithKeys(function($p){
+         return [(string)$p->id => $p->name];
+     });
+     $car_types = $car_types->mapWithKeys(function($c){
+         return [(string)$c->id => $c->name];
+     });
+     $cars = $cars->mapWithKeys(function($c){
+             return [(string)$c->id => $c->name];
+     });
+     $users = $users->mapWithKeys(function($c){
+             return [(string)$c->id => $c->name];
+     });
+ @endphp
 <div id="waypoint-selection" class="waypoints">
-    @php
-        $waypoints = $waypoints->mapWithKeys(function($p){
-            return [(string)$p->id => $p->name];
-        });
-        $car_types = $car_types->mapWithKeys(function($c){
-            return [(string)$c->id => $c->name];
-        });
-    @endphp
-
     @if(!$run->exists)
         <div id="waypoint-first">
             <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
@@ -98,11 +102,52 @@
 
 
 
-@if(!$run->exists)
-<div id="car_type">
-    {!! Form::bsSelect("car_type",$car_types) !!}
+
+<div id="subs">
+    <div class="form-group {{ $errors->has("subscriptions") ? ' has-error' : '' }}">
+        <div class="">
+            {{ Form::label("subscriptions", ucfirst("Convois"), array('class' => 'control-label col-md-4')) }}
+            @if ($errors->has("subscriptions"))
+                <span class="help-block">
+                        <strong>{{ $errors->first("subscriptions") }}</strong>
+                    </span>
+            @endif
+        </div>
+        <div class="col-md-6">
+            <button style="width:100%" class="btn btn-info" id="add-sub">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </div>
+    </div>
+    @if($run->exists)
+        @foreach($run->subscriptions as $sub)
+            <div class="col-md-push-4 col-md-5">
+                {{ dump($sub) }}
+                <div class="row">
+                    @if($sub->car_type_id != null)
+                        {!! Form::select("subscriptions[{$sub->id}][car_type]",$car_types, old("subscriptions[{$sub->id}][car_type]",$sub->car_type_id), ["placeholder"=>" ",'class' => 'col-md-2']) !!}
+                        {!! Form::select("subscriptions[{$sub->id}][car]",$cars, old("subscriptions[{$sub->id}][car]",$sub->car_id), ["placeholder"=>" ",'class' => 'col-md-2']) !!}
+                    @else
+                        {!! Form::select("subscriptions[{$sub->id}][car_type]",$car_types, old("subscriptions[{$sub->id}][car_type]",$sub->car_type_id), ["placeholder"=>" ",'class' => 'col-md-2']) !!}
+                    @endif
+
+                    {!! Form::select("subscriptions[{$sub->id}][user]",$users, old("subscriptions[{$sub->id}][user]",$sub->user_id), ["placeholder"=>" ",'class' => 'col-md-2']) !!}
+                    <div class="col-md-2">
+                        <button class="btn btn-danger" type="button">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+{{--first a user must select a car type to get list of all cars--}}
+{{--any user may be assigned to a run--}}
+{{--a minus button is available to delete the subscription--}}
+        @endforeach
+    @endif
 </div>
-@endif
+
 
  @push("styles")
  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
