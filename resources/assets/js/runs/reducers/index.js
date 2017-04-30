@@ -1,11 +1,11 @@
 import { createStore,combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import runs from './runs'
-import statusFilter from './statusFilter'
+import filterReducer from './filters'
 
 const reducers = combineReducers({
     runs,
-    statusFilter
+    filterReducer
 })
 
 export default createStore(reducers, applyMiddleware(thunk))

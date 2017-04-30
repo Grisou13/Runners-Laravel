@@ -10,30 +10,24 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Lib\Models\Run;
-use Lib\Models\RunSubscription;
 
-class RunSubscriptionUpdatedEvent implements ShouldBroadcast
+class RunStoppedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-  
     /**
      * @var Run
      */
     public $run;
-    /**
-     * @var RunSubscription
-     */
-    public $run_subscription;
-    
+
     /**
      * Create a new event instance.
      *
-     * @param RunSubscription $run_subscription
+     * @return void
      */
-    public function __construct(RunSubscription $run_subscription)
+    public function __construct(Run $run)
     {
-      $this->run_subscription = $run_subscription;
-      $this->run = $run_subscription->run;
+        //
+        $this->run = $run;
     }
 
     /**
@@ -43,9 +37,10 @@ class RunSubscriptionUpdatedEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('runs.'.$this->run->id.'.subscriptions');
+        return new Channel('runs.'.$this->run->id);
     }
-    public function broadcastAs(){
-        return "updated";
+    public function broadcastAs()
+    {
+        return "stopped";
     }
 }

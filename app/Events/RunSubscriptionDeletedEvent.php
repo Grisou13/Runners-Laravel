@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Lib\Models\Run;
 use Lib\Models\RunSubscription;
 
-class RunSubscriptionDeletedEvent
+class RunSubscriptionDeletedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
   
@@ -43,6 +43,9 @@ class RunSubscriptionDeletedEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('runs.'.$this->run->id.'.subscriptions');
+    }
+    public function broadcastAs(){
+        return "deleted";
     }
 }

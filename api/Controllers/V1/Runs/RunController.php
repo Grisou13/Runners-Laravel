@@ -33,10 +33,22 @@ class RunController extends BaseController
         $dates = explode(",",$request->get("between"));
         $query->whereBetween("planned_at", $dates);
       }
-      else
-      $query->actif();//retrive all active runs @see Lib\Models\Run::scopeActif
+      if($request->has("actif"))
+        $query->actif();//retrive all active runs @see Lib\Models\Run::scopeActif
       if($request->has("status"))
         $query->ofStatus($request->get("status"));
+      if($request->has("sortBy")){
+          $sorts = explode(",",$request->get("sortBy"));
+          foreach($sorts as $sort){
+              $t = explode(" ",$sort);
+              $column = $t[0];
+              if(count($t)==2)
+                  $sorting = $t[1];
+              else
+                  $sorting = "ASC";//default sorting
+              $query->orderBy($column,$sorting);
+          }
+      }
       return $this->response()->collection($query->get(), new RunTransformer);
     }
     public function search(SearchRequest $request)
