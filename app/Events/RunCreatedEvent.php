@@ -11,7 +11,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Lib\Models\Run;
 
-class RunCreatedEvent
+class RunCreatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
   
@@ -33,6 +33,9 @@ class RunCreatedEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('runs');
+    }
+    public function broadcastAs(){
+        return "created";
     }
 }

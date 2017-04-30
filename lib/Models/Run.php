@@ -7,6 +7,7 @@ use App\Events\RunDeletingEvent;
 use App\Events\RunFinishedEvent;
 use App\Events\RunSavedEvent;
 use App\Events\RunSavingEvent;
+use App\Events\RunUpdatedEvent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -47,7 +48,8 @@ class Run extends Model
       'saving' => RunSavingEvent::class,
       "saved" => RunSavedEvent::class,
       'deleting' => RunDeletingEvent::class,
-      'deleted' => RunDeletedEvent::class
+      'deleted' => RunDeletedEvent::class,
+      'updated' => RunUpdatedEvent::class
     ];
 
     public function setArtistAttribute($value)
