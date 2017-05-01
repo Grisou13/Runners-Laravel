@@ -45,10 +45,18 @@ class RunList extends React.Component
     }
     render(){
         let display = null;
-        if(this.props.loaded){
+        console.log(this.props)
+        if(this.props.error != false){
+            display = (
+                <div>
+                    <p>There has been an error fetching the runs, please try again later, or logging in</p>
+                </div>
+            )
+        }
+        else if(this.props.loaded){
             if(this.props.runs.length){
-                let runs = _.sortBy(this.props.runs,["status","begin_at"])
-                display = this.renderList(runs)
+                //let runs = _.sortBy(this.props.runs,["status","begin_at"])
+                display = this.renderList(this.props.runs)
             }
             else{
                 display = "No runs available for today..."
@@ -71,24 +79,24 @@ class RunList extends React.Component
 
 
 const getVisibleRuns = (runs, filters) => {
-    filters.forEach((f, key)=>{
-        switch(key){
-            case FILTER_STATUS:
-                runs = runs.filter(r => f.payload.indexOf(r.status) > -1)
-                break;
-            case FILTER_WAYPOINT_BETWEEN:
-                var from = f.payload[0]
-                var to = f.payload[1]
-                runs = runs.filter((r)=>{
-                    //TODO search between
-                    if(r.waypoints.filter(w => w.name.startswith(from)) && r.waypoints.reverse().filter(w => w.name.startswith(to)))
-                        return r
-                })
-                break;
-            default:
-                return true;
-        }
-    })
+    // filters.forEach((f, key)=>{
+    //     switch(key){
+    //         case FILTER_STATUS:
+    //             runs = runs.filter(r => f.payload.indexOf(r.status) > -1)
+    //             break;
+    //         case FILTER_WAYPOINT_BETWEEN:
+    //             var from = f.payload[0]
+    //             var to = f.payload[1]
+    //             runs = runs.filter((r)=>{
+    //                 //TODO search between
+    //                 if(r.waypoints.filter(w => w.name.startswith(from)) && r.waypoints.reverse().filter(w => w.name.startswith(to)))
+    //                     return r
+    //             })
+    //             break;
+    //         default:
+    //             return true;
+    //     }
+    // })
     return runs;
 }
 
@@ -97,7 +105,8 @@ const mapStateToProps = (state) => {
     console.log(state)
     return {
         runs: getVisibleRuns(state.runs, state.filters),
-        loaded: state.ui.loaded
+        loaded: state.ui.loaded,
+        error: state.ui.error
     }
 }
 

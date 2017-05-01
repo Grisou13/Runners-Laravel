@@ -3,6 +3,7 @@ import {GOT_RUNS} from './consts'
 import {ADD_RUN} from "./consts";
 import {DELETE_RUN} from "./consts";
 import {UPDATE_RUN} from "./consts";
+import {FETCHING_RUN_FAILED} from "./consts";
 export const gotRuns = (runs) => {
     return {
         type:GOT_RUNS,
@@ -47,10 +48,20 @@ export const removeRun = (run) => {
         payload: run
     }
 }
+export const fetchingFailed = (error) => {
+    return {
+        type:FETCHING_RUN_FAILED,
+        error
+    }
+}
 export const getRuns = () => {
     return (dispatch) => {
-        api.get("/runs?sortBy=status ASC, planned_at DESC").then(
+        api.get("/runs?sortBy=planned_at,status").then(
             res => dispatch(gotRuns(res.data))
         )
+        .catch((res)=>{
+            console.log(res)
+            dispatch(fetchingFailed(res))
+        })
     }
 }

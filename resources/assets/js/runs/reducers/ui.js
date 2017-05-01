@@ -1,22 +1,26 @@
 import {TOGGLE_DISPLAY_MODE} from "../actions/consts";
 import {UI_LOADED} from "../actions/consts";
 import {GOT_RUNS} from "../actions/consts";
+import {FETCHING_RUN_FAILED} from "../actions/consts";
 /**
  * Created by thomas_2 on 29.04.2017.
  */
 
 
-const state = {
+const defaultState = {
     displayMode: false,
-    loaded:false
+    loaded:false,
+    error:false
 }
 
-export default (state = state, action) => {
+export default (state = defaultState, action) => {
     switch(action.type){
         case TOGGLE_DISPLAY_MODE:
-            return {...state, displayMode: !state.displayMode}
+            return Object.assign({}, state, {displayMode: !state.displayMode})
         case GOT_RUNS:
-            return {...state, loaded:true}
+            return Object.assign({}, state, {loaded: true})
+        case FETCHING_RUN_FAILED:
+            return Object.assign({}, state, {loaded: true, error: action.error})
         default:
             return state;
     }

@@ -36,17 +36,17 @@ Vue.http.interceptors.push((request, next) => {
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-import io from 'socket.io-client'
-window.io = io
-import Echo from "laravel-echo"
-
-var echo = new Echo({
-    broadcaster: 'socket.io',
-    host: window.location.hostname + ':6001'
-});
-
-echo.channel("test")
-    .on("event", (data)=>{
-        console.log("WAZA")
-        console.log(data)
-    })
+// import io from 'socket.io-client'
+// window.io = io
+// import Echo from "laravel-echo"
+//
+// var echo = new Echo({
+//     broadcaster: 'socket.io',
+//     host: window.location.hostname + ':6001'
+// });
+//
+// echo.channel("test")
+//     .on("event", (data)=>{
+//         console.log("WAZA")
+//         console.log(data)
+//     })

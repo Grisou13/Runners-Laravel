@@ -6,7 +6,9 @@ use Api\Controllers\BaseController as Base;
 
 class AuthenticatedUserController extends Base
 {
-
+  public function token(){
+    return $this->user()->getAccessToken();
+  }
   public function me()
   {
     return $this->user();

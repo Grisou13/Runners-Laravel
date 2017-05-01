@@ -40,10 +40,10 @@ class RunController extends BaseController
       if($request->has("sortBy")){
           $sorts = explode(",",$request->get("sortBy"));
           foreach($sorts as $sort){
-              $t = explode(" ",$sort);
-              $column = $t[0];
+              $t = explode(":",$sort);
+              $column = trim($t[0]);
               if(count($t)==2)
-                  $sorting = $t[1];
+                  $sorting = trim($t[1]);
               else
                   $sorting = "ASC";//default sorting
               $query->orderBy($column,$sorting);
@@ -157,6 +157,11 @@ class RunController extends BaseController
     protected function terminateRun(Run $run){
       $run->ended_at = Carbon::now();
       $run->status="finished";
+      $run->subscriptions->each(function($sub){
+        $sub->status = "finished";
+        $sub->save();
+        $sub->delete();
+      });
       $run->save();
       $run->delete();
     }
