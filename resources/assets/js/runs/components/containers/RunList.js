@@ -10,11 +10,9 @@ import SubscriptionList from './../views/SubscriptionList'
 import Time from './../views/Time'
 import {FILTER_STATUS} from "../../actions/consts";
 import {FILTER_WAYPOINT_BETWEEN} from "../../actions/consts";
+
 class RunList extends React.Component
 {
-    constructor(props){
-        super(props);
-    }
     componentDidMount(){
         this.props.getRuns()
     }
@@ -35,10 +33,8 @@ class RunList extends React.Component
                                 <span style={{fontWeight:"bold", fontSize:"2.5rem"}}>{ t }</span>
                             </div>
                         </div>
-
                         <SubscriptionList subs={run.runners} />
                     </div>
-
                 </div>
             )
         })

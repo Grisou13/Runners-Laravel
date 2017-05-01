@@ -2,6 +2,7 @@
 
 namespace Lib\Models;
 use App\Concerns\StatusConcern;
+use App\Events\RunCreatedEvent;
 use App\Events\RunDeletedEvent;
 use App\Events\RunDeletingEvent;
 use App\Events\RunFinishedEvent;
@@ -47,6 +48,7 @@ class Run extends Model
     protected $events = [
       'saving' => RunSavingEvent::class,
       "saved" => RunSavedEvent::class,
+      'created'=>RunCreatedEvent::class,
       'deleting' => RunDeletingEvent::class,
       'deleted' => RunDeletedEvent::class,
       'updated' => RunUpdatedEvent::class

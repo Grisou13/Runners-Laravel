@@ -170,10 +170,10 @@ $factory->define(Lib\Models\Waypoint::class, function(Faker\Generator $faker){
 $factory->define(Lib\Models\Run::class, function (Faker\Generator $faker){
 
     return [
-        "artist"=>$faker->name,
+        "name"=>$faker->name,
         "nb_passenger"=>$faker->numberBetween(1,3),
         "note"=>$faker->text,
-        "planned_at"=>$faker->dateTimeBetween("+13 days","+15 days"),
+        "planned_at"=>$faker->dateTimeBetween("+1 days","+5 days"),
     ];
 });
 $factory->define(Lib\Models\RunSubscription::class, function(Faker\Generator $faker){

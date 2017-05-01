@@ -4,6 +4,7 @@ import {ADD_RUN} from "./consts";
 import {DELETE_RUN} from "./consts";
 import {UPDATE_RUN} from "./consts";
 import {FETCHING_RUN_FAILED} from "./consts";
+import {EDIT_RUN} from "./consts";
 export const gotRuns = (runs) => {
     return {
         type:GOT_RUNS,
@@ -22,6 +23,12 @@ export const editRun = (run) => {
     return {
         type: EDIT_RUN,
         payload:run
+    }
+}
+export const gotRun = (run) => {
+    return {
+        type: ADD_RUN,
+        payload: run
     }
 }
 export const updateRun = (run) => {

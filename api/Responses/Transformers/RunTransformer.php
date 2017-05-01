@@ -23,6 +23,7 @@ class RunTransformer extends TransformerAbstract
       "id"=>$run->id,
       "status"=>$run->status,
       "nb_passenger"=>$run->nb_passenger,
+      "note"=>$run->note,
       "title"=>$run->name,
       "begin_at"=>(string)$run->planned_at,
       "start_at"=>(string)$run->started_at,
