@@ -1,5 +1,29 @@
 let scheduleFormat, schedules;
+
 function display(ntry, ctnr){
+        for(let vl in ntry){
+        let dv = document.createElement("div");
+        let h3 = document.createElement("h3");
+        h3.innerHTML = ntry[vl][0]["start_time"].split(" ")[0];
+        h3.innerHTML += " à ";
+        h3.innerHTML += ntry[vl][0]["start_time"].split(" ")[1];
+
+        dv.appendChild(h3);
+        for(crrnt in ntry[vl]){
+            dv.innerHTML += "GROUP N°"+ntry[vl][crrnt]["group_id"] + " ";
+        }
+        ctnr.appendChild(dv);
+    }
+    console.log()
+    let slder = tns({
+        container: ctnr,
+        // controlsText: []
+        // item: 1,
+    });
+
+    console.log(slder.getInfo())
+}
+function _display(ntry, ctnr){
     for(let key in ntry){
         if(!ntry.hasOwnProperty(key)){continue};
         // create table
@@ -14,7 +38,6 @@ function display(ntry, ctnr){
         rw.setAttribute("border", "1");
 
         let crrnt = ntry[key];
-
 
         for(let vl in crrnt){
             console.log(crrnt[vl]);
@@ -39,7 +62,7 @@ function init() {
         return new Date(d["start_time"]);
     });
 
-    display(srted, document.getElementsByClassName("kiela")[0]);
+    display(srted, document.getElementById("kiela"));
 
 }
 function getAllSchedules(callback){
