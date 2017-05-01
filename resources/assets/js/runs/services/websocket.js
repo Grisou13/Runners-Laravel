@@ -26,13 +26,27 @@ export default (dispatcher) => {
             dispatcher.dispatch(deleteRun(run))
         })
         .listen("created", (run)=>{
+            console.log("created")
             echo.channel(`runs.${run.id}`)
-                .listen("updated", run => dispatcher.dispatch(updateRun(run)))
+                .listen("updated", run => {
+                    console.log("updated")
+                    dispatcher.dispatch(updateRun(run))
+                })
 
             echo.channel(`runs.${run.id}.subscriptions`)
-                .listen("created", (run, sub) => dispatcher.dispatch(subCreated(run,sub)))
-                .listen("updated", (run,sub)=>dispatcher.dispatch(subUpdated(run,sub)))
-                .listen("deleted", (run,sub)=>dispatcher.dispatch(subDeleted(run,sub)))
+                .listen("created", (run, sub) => {
+                    console.log("created sub")
+                    dispatcher.dispatch(subCreated(run,sub))
+                })
+                .listen("updated", (run,sub)=>{
+                    console.log("updated sub")
+                    dispatcher.dispatch(subUpdated(run,sub))
+                })
+                .listen("deleted", (run,sub)=>{
+                    console.log("deleted sub")
+                    dispatcher.dispatch(subDeleted(run,sub))
+                })
+            dispatcher.dispatch(gotRun())
         })
 
 }
