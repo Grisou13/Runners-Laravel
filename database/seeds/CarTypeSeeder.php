@@ -20,5 +20,9 @@ class CarTypeSeeder extends Seeder
           "name"=>"LIMO",
           "description"=>"Description de la voiture LIMO !"
       ]);
+      Lib\Models\CarType::create([
+          "name"=>"MATOS",
+          "description"=>"Description de la voiture MATOS !"
+      ]);
     }
 }
