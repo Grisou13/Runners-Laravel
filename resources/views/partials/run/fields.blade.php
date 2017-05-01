@@ -31,30 +31,30 @@
      });
  @endphp
 <div id="waypoint-selection" class="waypoints">
-    @if(!$run->exists)
-        <div id="waypoint-first">
-            <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
-                <div class="col-md-4">
-                    {{ Form::label("Itinéraire", ucfirst("waypoint"), array('class' => 'control-label')) }}
-                    @if ($errors->has("waypoint"))
-                        <span class="help-block">
+    <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
+        <div class="col-md-4">
+            {{ Form::label("waypoint", "Itinéraire", array('class' => 'control-label col-md-12')) }}
+            @if ($errors->has("waypoint"))
+                <span class="help-block">
                         <strong>{{ $errors->first("waypoints") }}</strong>
                     </span>
-                    @endif
-                </div>
-
-
-                <div class="col-md-6">
+            @endif
+        </div>
+    </div>
+    @if(!$run->exists)
+        <div id="waypoint-first">
+            {{--{!! Form::bsSelect("waypoints[]", $waypoints) !!}--}}
+            <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
+                <div class="col-md-6 col-md-push-4">
                     {{ Form::select("waypoints[]",$waypoints,null, ['class' => 'form-control']) }}
                 </div>
             </div>
-            {{--{!! Form::bsSelect("waypoints[]", $waypoints) !!}--}}
-            <div class="form-group">
-                <div class="col-md-push-4 col-md-6">
-                    <button style="width:100%" class="btn btn-info" id="add-waypoint" data-points="{{ $waypoints }}">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-push-4 col-md-6">
+                <button style="width:100%" class="btn btn-info" id="add-waypoint" data-points="{{ $waypoints }}">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
             </div>
         </div>
         <div id="waypoint-last">
@@ -64,14 +64,12 @@
                 </div>
             </div>
         </div>
-
     @else
         @foreach($run->waypoints as $point)
             @if($loop->first)
                 <div id="waypoint-first">
                     <div class="form-group{{ $errors->has("waypoint") ? ' has-error' : '' }}">
-                        {{ Form::label("waypoints", "Itinéraire", array('class' => 'col-md-4 control-label')) }}
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-md-push-4">
                             {{ Form::select("waypoints[]",$waypoints,old("waypoints[".$point->id."]", $point->id), ['class' => 'form-control']) }}
                         </div>
                     </div>
@@ -121,42 +119,17 @@
                     </span>
             @endif
         </div>
-        <div class="col-md-6">
+
+    </div>
+    <div class="form-group">
+        <div class="col-md-6 col-md-push-4">
             <button style="width:100%" class="btn btn-info" id="add-sub" type="button">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
         </div>
     </div>
-    <div id="subs" class="subs" >
+    <div id="subs" class="subs" ></div>
 
-    </div>
-    {{--@if($run->exists)--}}
-        {{--@foreach($run->subscriptions as $sub)--}}
-            {{--<div class="col-md-push-4 col-md-5">--}}
-                {{--{{ dump($sub) }}--}}
-                {{--<div class="row">--}}
-                    {{--@if($sub->car_type_id != null)--}}
-                        {{--{!! Form::select("subscriptions[{$sub->id}][car_type]",$car_types, old("subscriptions[{$sub->id}][car_type]",$sub->car_type_id), ["placeholder"=>" ",'class' => 'col-md-2']) !!}--}}
-                        {{--{!! Form::select("subscriptions[{$sub->id}][car]",$cars, old("subscriptions[{$sub->id}][car]",$sub->car_id), ["placeholder"=>" ",'class' => 'col-md-2']) !!}--}}
-                    {{--@else--}}
-                        {{--{!! Form::select("subscriptions[{$sub->id}][car_type]",$car_types, old("subscriptions[{$sub->id}][car_type]",$sub->car_type_id), ["placeholder"=>" ",'class' => 'col-md-2']) !!}--}}
-                    {{--@endif--}}
-
-                    {{--{!! Form::select("subscriptions[{$sub->id}][user]",$users, old("subscriptions[{$sub->id}][user]",$sub->user_id), ["placeholder"=>" ",'class' => 'col-md-2']) !!}--}}
-                    {{--<div class="col-md-2">--}}
-                        {{--<button class="btn btn-danger" type="button">--}}
-                            {{--<span class="glyphicon glyphicon-minus"></span>--}}
-                        {{--</button>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-
-            {{--</div>--}}
-
-{{--first a user must select a car type to get list of all cars--}}
-{{--any user may be assigned to a run--}}
-{{--a minus button is available to delete the subscription--}}
-        {{--@endforeach--}}
-    {{--@endif--}}
 </div>
 
 
@@ -252,62 +225,68 @@ const generateSubscription = (sub) => {
     var ctype = sub.car_type
 
     var cars_input = document.createElement("select")
+    var cars_container = document.createElement("div")
+
     var runners_input = document.createElement("select")
+    var runners_container = document.createElement("div")
+
     var car_types_input = document.createElement("select")
+    var car_types_container = document.createElement("div")
 
     var emptyOption = document.createElement("option")
     emptyOption.value=-1
     emptyOption.text=" "
 
     var delete_btn = document.createElement("button")
-    delete_btn.innerHTML="<span class='glyphicon glyphicon-remove'></span>"
+    delete_btn.innerHTML="<span class='glyphicon glyphicon-minus'></span>"
     delete_btn.type = "button"
-    delete_btn.addEventListener("click",(e)=>{
-        e.preventDefault()
-        container.parentNode.removeChild(container)
-    })
+
     var reset_btn = document.createElement("button")
     reset_btn.innerHTML="<span class='glyphicon glyphicon-repeat'></span>"
     reset_btn.type = "button"
-    reset_btn.addEventListener("click", (e)=>{
-        e.preventDefault()
-        cars_input.innerHTML = ""
-        cars_input.add(emptyOption)
-        cars_input.value = -1
-        car_types_input.value = -1
-        runners_input.value = -1
 
+    var btn_container = document.createElement("div")
 
-
-        car_types_input.classList.add("col-md-5")
-        car_types_input.classList.add("col-md-push-4")
-        cars_input.classList.add("hidden")
-        runners_input.classList.add("hidden")
-        reset_btn.classList.add("hidden")
-        delete_btn.classList.add("hidden")
-        //TODO show only car_type input
-    })
-    //SET INVISBLE
-    car_types_input.classList.remove("col-md-1")
-    cars_input.classList.remove("col-md-1")
-    runners_input.classList.remove("col-md-1")
-    reset_btn.classList.remove("col-md-push-4")
-    reset_btn.classList.remove("col-md-1")
-    delete_btn.classList.remove("col-md-1")
-
-    car_types_input.classList.add("col-md-5")
-    car_types_input.classList.add("col-md-push-4")
-    cars_input.classList.add("hidden")
-    runners_input.classList.add("hidden")
-    delete_btn.classList.add("hidden")
+    btn_container.appendChild(delete_btn)
+    btn_container.appendChild(reset_btn)
+    //these classes with show only the cars_type_input
+    //- container stuff
+    container.classList.add("row")
+//    container.classList.add("col-md-6")
+//    container.classList.add("col-md-push-4")
+    //-inputs positioning
+    car_types_container.classList.add("col-md-5")
+    car_types_container.classList.add("col-md-push-4")
+    runners_container.classList.add("col-md-2")
+    runners_container.classList.add("col-md-push-4")
+    cars_container.classList.add("col-md-2")
+    cars_container.classList.add("col-md-push-4")
+    btn_container.classList.add("col-md-1")
+    btn_container.classList.add("col-md-push-4")
+    //car_types_container.classList.add("col-md-11")
+    //- hide elements that can't be visible at first
+    cars_container.classList.add("hidden")
+    runners_container.classList.add("hidden")
     reset_btn.classList.add("hidden")
 
+    reset_btn.classList.add("btn")
+    reset_btn.classList.add("btn-default")
+    delete_btn.classList.add("btn")
+    delete_btn.classList.add("btn-danger")
     car_types_input.classList.add("form-control")
     cars_input.classList.add("form-control")
     runners_input.classList.add("form-control")
-    delete_btn.classList.add("btn")
-    delete_btn.classList.add("btn-danger")
 
+    //reset some of the classes if the sub has a car type
+    if(hasCarType){
+        //set the other inputs visible
+        car_types_container.classList.toggle("col-md-5")
+        car_types_container.classList.toggle("col-md-2")
+        cars_container.classList.toggle("hidden")
+        runners_container.classList.toggle("hidden")
+        reset_btn.classList.toggle("hidden")
+    }
+    //add options
     cars_input.add(emptyOption.cloneNode())
     car_types_input.add(emptyOption.cloneNode())
     runners_input.add(emptyOption.cloneNode())
@@ -323,6 +302,8 @@ const generateSubscription = (sub) => {
         option.value = u.id
         runners_input.add(option)
     })
+
+    //set the cars
     if(hasCarType){
         car_types_input.value = ctype.id
         cars_input.innerHTML = ""
@@ -338,47 +319,36 @@ const generateSubscription = (sub) => {
         runners_input.value = user.id
     if(hasCar)
         cars_input.value = car.id
-
+    //set names for inputs
     cars_input.name="subscriptions[][car]"
     runners_input.name = "subscriptions[][user]"
     car_types_input.name = "subscriptions[][car_type]"
 
-    if(hasCarType){
-        //set the other inputs visible
-        cars_input.classList.toggle("hidden")
-        runners_input.classList.toggle("hidden")
-        delete_btn.classList.toggle("hidden")
+    //EVENT HANDLING
+    reset_btn.addEventListener("click", (e)=>{
+        e.preventDefault()
+        cars_input.innerHTML = ""
+        cars_input.add(emptyOption)
+        cars_input.value = -1
+        car_types_input.value = -1
+        runners_input.value = -1
+        //show only the car
+        car_types_container.classList.toggle("col-md-5")
+        car_types_container.classList.toggle("col-md-2")
+        cars_container.classList.toggle("hidden")
+        runners_container.classList.toggle("hidden")
+        //delete_btn.classList.toggle("hidden")
         reset_btn.classList.toggle("hidden")
-        car_types_input.classList.remove("col-md-5")
-        car_types_input.classList.remove("col-md-push-4")
-        delete_btn.classList.add("col-md-1")
-        reset_btn.classList.add("col-md-1")
-        reset_btn.classList.add("col-md-push-4")
-        car_types_input.classList.add("col-md-1")
-        cars_input.classList.add("col-md-1")
-        runners_input.classList.add("col-md-1")
-    }
-    else{
-        //set only car_type input to visible
-        car_types_input.classList.remove("col-md-1")
-        cars_input.classList.remove("col-md-1")
-        runners_input.classList.remove("col-md-1")
-        reset_btn.classList.remove("col-md-push-4")
-        reset_btn.classList.remove("col-md-1")
-        delete_btn.classList.remove("col-md-1")
+    })
 
-        car_types_input.classList.add("col-md-5")
-        car_types_input.classList.add("col-md-push-4")
-        cars_input.classList.add("hidden")
-        runners_input.classList.add("hidden")
-        delete_btn.classList.add("hidden")
-        reset_btn.classList.add("hidden")
-    }
+    delete_btn.addEventListener("click",(e)=>{
+        e.preventDefault()
+        container.parentNode.removeChild(container)
+    })
 
     car_types_input.addEventListener("change",(e) => {
         var type = e.target.value && e.target.value != -1 ? e.target.value : false
-        if(type != -1){
-
+        if(type != false){
             cars_input.innerHTML = "" //reset the cars
             cars_input.add(emptyOption)
             console.log(cars)
@@ -388,28 +358,32 @@ const generateSubscription = (sub) => {
                 option.value = c.id
                 cars_input.add(option)
             })
-        //SET VISIBLE
-        cars_input.classList.toggle("hidden")
-        runners_input.classList.toggle("hidden")
-        delete_btn.classList.toggle("hidden")
-        reset_btn.classList.toggle("hidden")
-        car_types_input.classList.remove("col-md-5")
-        car_types_input.classList.remove("col-md-push-4")
-        delete_btn.classList.add("col-md-1")
-        reset_btn.classList.add("col-md-1")
-        reset_btn.classList.add("col-md-push-4")
-        car_types_input.classList.add("col-md-1")
-        cars_input.classList.add("col-md-1")
-        runners_input.classList.add("col-md-1")
+            //SET VISIBLE
+            //maybe it's already visible
+            if(car_types_container.classList.contains("col-md-5")){
+                car_types_container.classList.toggle("col-md-5")
+                car_types_container.classList.toggle("col-md-2")
+                cars_container.classList.toggle("hidden")
+                runners_container.classList.toggle("hidden")
+                reset_btn.classList.toggle("hidden")
+            }
 
         //TODO set other inputs to show
         }
         else{
+            cars_input.innerHTML = ""
+            cars_input.add(emptyOption)
+            cars_input.value = -1
             //we can't do anything if there is a user
             if(runners_input.value == -1){
-                cars_input.value = -1
                 //reset the car_type input to full size
                 //set other inputs hidden
+                car_types_container.classList.toggle("col-md-5")
+                car_types_container.classList.toggle("col-md-2")
+                cars_container.classList.toggle("hidden")
+                runners_container.classList.toggle("hidden")
+                reset_btn.classList.toggle("hidden")
+
             }
         }
     })
@@ -421,29 +395,28 @@ const generateSubscription = (sub) => {
         else{
             if(car_types_input.value == -1){
                 cars_input.value = -1
-                //reset car_type input to full size
-                car_types_input.classList.remove("col-md-1")
-                cars_input.classList.remove("col-md-1")
-                runners_input.classList.remove("col-md-1")
-                reset_btn.classList.remove("col-md-push-4")
-                reset_btn.classList.remove("col-md-1")
-                delete_btn.classList.remove("col-md-1")
 
-                car_types_input.classList.add("col-md-5")
-                car_types_input.classList.add("col-md-push-4")
-                cars_input.classList.add("hidden")
-                runners_input.classList.add("hidden")
-                delete_btn.classList.add("hidden")
-                reset_btn.classList.add("hidden")
-                //TODO set only car_type to show
+                car_types_container.classList.toggle("col-md-5")
+                car_types_container.classList.toggle("col-md-2")
+                cars_container.classList.toggle("hidden")
+                runners_container.classList.toggle("hidden")
+                reset_btn.classList.toggle("hidden")
             }
         }
     })
-    container.appendChild(reset_btn)
-    container.appendChild(delete_btn)
-    container.appendChild(car_types_input)
-    container.appendChild(cars_input)
-    container.appendChild(runners_input)
+    car_types_container.appendChild(car_types_input)
+    runners_container.appendChild(runners_input)
+    cars_container.appendChild(cars_input)
+
+
+    container.appendChild(car_types_container)
+    container.appendChild(cars_container)
+    container.appendChild(runners_container)
+
+
+    container.appendChild(btn_container)
+
+
     return container
 
 }
@@ -466,3 +439,17 @@ data.forEach((s)=> subs.appendChild(generateSubscription(s)))
  });
 </script>
 @endpush
+
+ @push("styles")
+ <style>
+     .waypoints .form-group{
+         margin-bottom: 0px !important;
+     }
+     #waypoint-first{
+         margin-bottom: 15px;
+     }
+     #waypoint-last{
+         margin-top:15px;
+     }
+ </style>
+ @endpush

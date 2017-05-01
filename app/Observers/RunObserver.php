@@ -97,11 +97,9 @@ class RunObserver
 //            if($seats < $run->nb_passenger){
 //              $run->status="missing_cars";
 //            }
-            if(!$run->subscriptions->every(function($sub){
-                return $sub->car_id != null;
-            }))//check if all subs have a car
-              $run->status = "missing_car";
-            else
+//            if($run->subscriptions()->where("car_id","!=",null)->count())//check if all subs have a car
+//              $run->status = "missing_car";
+//            else
               $run->status="needs_filling"; //something's not right here
           }
         }
@@ -110,6 +108,12 @@ class RunObserver
       {
         $run->status="needs_filling";
       }
+    }
+    else{
+      if($run->subscriptions()->where("status","!=","finished")->count() && $run->subscriptions()->count() > 0)
+        $run->status = "finished";
+      else
+        $run->status = "error";
     }
     
   }

@@ -5,7 +5,7 @@ import {FILTER_STATUS} from "../actions/consts";
  * Created by thomas_2 on 29.04.2017.
  */
 
-const state = {
+const defaultState = {
     FILTER_STATUS:[],
     FILTER_NAME:"",
     FILTER_BETWEEN:[],
@@ -25,18 +25,17 @@ const state = {
  *  payload: ["Some point", "another"]
  * }
 */
-const filter = (state = state, action) => {
+const filter = (state = defaultState, action) => {
     switch (action.type) {
-        case FILTER_STATUS:
-            if(action.payload.value)
-             return [...state, {type:FILTER_STATUS, value:[]}]
-        case ADD_FILTER:
-            return [...state,action.payload]
-        case REMOVE_FILTER:
-            var filter_ = action.payload
-            return state.filter( f => f == filter_)
-        case UPDATE_FILTER:
-            break;
+        // case FILTER_STATUS:
+        //     if(action.payload.value)
+        //      return Object.assign({},state, {FILTER_STATUS: {type:FILTER_STATUS, value:[]}})
+        //     break;
+        // case ADD_FILTER:
+        //     return [...state,action.payload]
+        // case REMOVE_FILTER:
+        //     var filter_ = action.payload
+        //     return state.filter( f => f == filter_)
         default:
             return state
     }

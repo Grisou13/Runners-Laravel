@@ -39,7 +39,7 @@ class RunController extends Controller
      */
     public function create()
     {
-        return view("run.create")->with("run",new Run)->with("car_types",CarType::free()->get())->with("waypoints", Waypoint::all());
+        return view("run.create")->with("run",new Run)->with("car_types",CarType::all())->with("waypoints", Waypoint::all())->with("cars",Car::all())->with("users",User::all());
     }
 
     /**
@@ -50,9 +50,15 @@ class RunController extends Controller
      */
     public function store(CreateRunRequest $request)
     {
-        $run_data = $request->except(["car_type"]);
+        $run_data = $request->except(["subscriptions","waypoints"]);
+        
         $run = $this->api->be(Auth::user())->post("/runs",$run_data);
-        $sub = $this->api->be(Auth::user())->post("/runs/{$run->id}/runners",["car_type"=>$request->get("car_type")]);
+        foreach($request->get("subscriptions",[]) as $sub){
+          $this->api->be(Auth::user())->post("/runs/{$run->id}/runners",$sub);
+        }
+        foreach($request->get("waypoints",[]) as $point){
+          $this->api->be(Auth::user())->post("/runs/{$run->id}/waypoints",$point);
+        }
         return redirect()->route("runs.index");
     }
 
@@ -88,7 +94,18 @@ class RunController extends Controller
      */
     public function update(Request $request, Run $run)
     {
-        $this->api->put("/runs/{$run->id}",$request->all());
+        $run_data = $request->except(["subscriptions","waypoints"]);
+    
+        $run = $this->api->be(Auth::user())->put("/runs",$run_data);
+      $this->api->be(Auth::user())->delete("/runs/{$run->id}/runners");
+      $this->api->be(Auth::user())->delete("/runs/{$run->id}/waypoints");
+        foreach($request->get("subscriptions",[]) as $sub){
+          $this->api->be(Auth::user())->post("/runs/{$run->id}/runners",$sub);
+        }
+        foreach($request->get("waypoints",[]) as $point){
+          $this->api->be(Auth::user())->post("/runs/{$run->id}/waypoints",$point);
+        }
+        return redirect()->route("runs.index");
         return redirect()->back();
     }
 

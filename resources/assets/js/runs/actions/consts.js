@@ -13,6 +13,8 @@ export const UPDATE_RUN         =   "update_run"
 export const CREATING_RUN       =   "creating_run"
 export const EDIT_RUN           =   "edit_run"
 
+export const FETCHING_RUN_FAILED=   "fetching_run_failed"
+
 export const SUBSCRIPTION_CREATED   =   "sub_created"
 export const SUBSCRIPTION_UPDATED   =   "sub_updated"
 export const SUBSCRIPTION_DELETED   =   "sub_deleted"
@@ -51,8 +53,6 @@ export const REMOVE_FILTER          =   "filter_delete"
 export const RESET_FILTERS          =   "filter_reset"
 
 export const FILTER_STATUS          =   "status"
-export const FILTER_WAYPOINT_BETWEEN    =   "waypoint_between"
-export const FILTER_WAYPOINT_INCLUDES   =   "waypoint"
 
 export const FILTER_STATUS_GONE     =   "filter_status_gone"
 export const FILTER_STATUS_ERROR    =   "filter_status_error"

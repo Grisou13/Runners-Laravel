@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import App from './components/containers/RunEditableList'
+import App from './components/containers/RunList'
 import store from './reducers'
 import services from './services'
 

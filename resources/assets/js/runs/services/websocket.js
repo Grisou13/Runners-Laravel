@@ -3,11 +3,21 @@ import {updateRun} from "../actions/runs";
 import {subCreated} from "../actions/subscirptions";
 import {subUpdated} from "../actions/subscirptions";
 import {subDeleted} from "../actions/subscirptions";
+import io from 'socket.io-client'
+import Echo from "laravel-echo"
+
+
+
 /**
  * Created by thomas_2 on 29.04.2017.
  */
 export default (dispatcher) => {
-    echo = window.echo
+    window.io = typeof(window.io) == "undefined" ? io : window.io
+
+    var echo = new Echo({
+        broadcaster: 'socket.io',
+        host: window.location.hostname + ':6001'
+    });
     echo.channel("runs")
         // .listen("updated.status",(run)=>{
         //
