@@ -1,10 +1,46 @@
 let scheduleFormat, schedules;
+function display(ntry, ctnr){
+    for(let key in ntry){
+        if(!ntry.hasOwnProperty(key)){continue};
+        // create table
+        let tbl = document.createElement("table");
+        tbl.style.border = "1px solid";
+        tbl.style.width = "60%";
+        tbl.style.margin = "10px";
+        let rw = tbl.insertRow(0);
+        rw.insertCell(0).appendChild(document.createTextNode("G"));
 
-function display() {
+        rw.insertCell(0).appendChild(document.createTextNode("H"));
+        rw.setAttribute("border", "1");
+
+        let crrnt = ntry[key];
+
+
+        for(let vl in crrnt){
+            console.log(crrnt[vl]);
+            let tr = tbl.insertRow();
+            tr.insertCell(0).appendChild(document.createTextNode(crrnt[vl]["group_id"]));
+            tr.insertCell(0).appendChild(document.createTextNode(crrnt[vl]["start_time"].split(" ")[1]));
+            // tr.insertCell(crrnt[vl]["group_id"])
+        }
+
+
+        ctnr.appendChild(tbl);
+
+    }
+}
+
+function init() {
     // todo magic here
+    schedules.sort(function(a,b){
+        return new Date(a["start_time"]).getTime() - new Date(b["start_time"]).getTime();
+    });
+    let srted = _.groupBy(schedules, function(d){
+        return new Date(d["start_time"]);
+    });
 
-    console.log(schedules);
-    console.log(scheduleFormat);
+    display(srted, document.getElementsByClassName("kiela")[0]);
+
 }
 function getAllSchedules(callback){
     window.api.get("/schedules",{})
@@ -17,13 +53,12 @@ function getAllSchedules(callback){
             console.log(error);
         });
 }
-function getScheduleFormat(){
+function getScheduleFormat(callback){
     // get config from api
     let result = null;
     window.api.get("/settings", {})
         .then(function(r){
-            scheduleFormat = r;
-            if(!r["data"]){
+            if(!r["data"] || r["data"].length <= 0){
                 // if api can't get an answer, take the standard format
                 scheduleFormat = [ "08:00","08:30", "09:00","09:30",
                     "10:00","10:30", "11:00","11:30",
@@ -38,17 +73,17 @@ function getScheduleFormat(){
                     "04:00","04:30", "05:00","05:30",
                     "06:00","06:30", "07:00","07:30"
                 ];
-
-                getAllSchedules(display);
+            }else{
+                scheduleFormat = r["data"];
             }
+            callback(init);
+
         })
         .catch(function(error){
             console.log(error);
         });
 }
-function waitForIt(){
-    getScheduleFormat();
-}
 
-waitForIt();
+getScheduleFormat(getAllSchedules);
+
 
