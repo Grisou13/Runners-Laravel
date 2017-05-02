@@ -53,6 +53,11 @@ export const REMOVE_FILTER          =   "filter_delete"
 export const RESET_FILTERS          =   "filter_reset"
 
 export const FILTER_STATUS          =   "status"
+export const ADD_FILTER_STATUS              =   "add_status"
+export const REMOVE_FILTER_STATUS           =   "remove_status"
+export const RESET_FILTER_STATUS            =   "reset_status"
+
+export const FILTER_NAME                    =   "filter_name"
 
 export const FILTER_STATUS_GONE     =   "filter_status_gone"
 export const FILTER_STATUS_ERROR    =   "filter_status_error"

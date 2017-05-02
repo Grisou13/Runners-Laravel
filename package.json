@@ -26,15 +26,16 @@
   },
   "dependencies": {
     "dragula": "^3.7.2",
+    "laravel-echo": "^1.2.3",
     "lodash": "^4.16.2",
     "moment": "^2.18.1",
+    "prop-types": "^15.5.8",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "socket.io-client": "^1.7.3",
-    "laravel-echo":"^1.2.3",
     "typeahead.js-browserify": "^1.0.7"
   }
 }
