@@ -48,4 +48,12 @@ class RunSubscriptionUpdatedEvent implements ShouldBroadcast
     public function broadcastAs(){
         return "updated";
     }
+    public function broadcastWith()
+    {
+      return [
+        "run"=>json_decode((string)$this->run),
+        "subscription"=>json_decode((string)$this->run_subscription),
+        //"subscriptions"=>json_decode((string)$this->run->runners)
+      ];
+    }
 }

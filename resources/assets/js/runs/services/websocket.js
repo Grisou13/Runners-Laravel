@@ -3,50 +3,76 @@ import {updateRun} from "../actions/runs";
 import {subCreated} from "../actions/subscirptions";
 import {subUpdated} from "../actions/subscirptions";
 import {subDeleted} from "../actions/subscirptions";
-import io from 'socket.io-client'
-import Echo from "laravel-echo"
+// import io from 'socket.io-client'
+// import Echo from "laravel-echo"
+import {gotRun} from "../actions/runs";
 
 
-
+const tranformRun = (run) => {
+    return {
+        id: run.id,
+        status: run.status,
+        title: run.name,
+        begin_at: run.planned_at,
+        nb_passenger: run.nb_passenger
+    }
+}
 /**
  * Created by thomas_2 on 29.04.2017.
  */
 export default (dispatcher) => {
-    window.io = typeof(window.io) == "undefined" ? io : window.io
-
-    var echo = new Echo({
-        broadcaster: 'socket.io',
-        host: window.location.hostname + ':6001'
-    });
+    console.log("Starting websocket service");
+    var echo = window.LaravelEcho
+    // echo.channel("runs")
+    //     .on("deleted", (e)=>{
+    //         var run = e.run
+    //         console.log("deleted")
+    //         echo.channel(`runs.${run.id}`).leave();
+    //         dispatcher(deleteRun(run))
+    //     })
     echo.channel("runs")
-        // .listen("updated.status",(run)=>{
-        //
-        // })
-        .listen("deleted", (run)=>{
-            dispatcher.dispatch(deleteRun(run))
-        })
-        .listen("created", (run)=>{
+        .on("created", (e)=>{
+            console.log(e)
+            var run = e.run
             console.log("created")
+            console.log(run)
             echo.channel(`runs.${run.id}`)
-                .listen("updated", run => {
+                .on("updated", e => {
+                    var run = e.run
                     console.log("updated")
-                    dispatcher.dispatch(updateRun(run))
+                    dispatcher(updateRun(run))
                 })
-
+            echo.channel(`runs.${run.id}`)
+                .on("deleted", (e)=>{
+                    var run = e.run
+                    console.log("deleted")
+                    echo.channel(`runs.${run.id}`).unsubscribe();
+                    dispatcher(deleteRun(run))
+                })
             echo.channel(`runs.${run.id}.subscriptions`)
-                .listen("created", (run, sub) => {
+                .on("created", (e) => {
+                    var sub = e.subscription
+                    var run = e.run
+
                     console.log("created sub")
-                    dispatcher.dispatch(subCreated(run,sub))
+                    dispatcher(subCreated(run,sub))
                 })
-                .listen("updated", (run,sub)=>{
+            echo.channel(`runs.${run.id}.subscriptions`)
+                .on("updated", (e)=>{
+                    var sub = e.subscription
+                    var run = e.run
+
                     console.log("updated sub")
-                    dispatcher.dispatch(subUpdated(run,sub))
+                    dispatcher(subUpdated(run,sub))
                 })
-                .listen("deleted", (run,sub)=>{
+            echo.channel(`runs.${run.id}.subscriptions`)
+                .on("deleted", (e)=>{
+                    var sub = e.subscription
+                    var run = e.run
                     console.log("deleted sub")
-                    dispatcher.dispatch(subDeleted(run,sub))
+                    dispatcher(subDeleted(run,sub))
                 })
-            dispatcher.dispatch(gotRun())
+            dispatcher(gotRun(run))
         })
 
 }

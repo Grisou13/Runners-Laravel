@@ -19,8 +19,10 @@ use App\Helpers\Status as StatusHelper;
 
 class Run extends Model
 {
-    use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern;
-    public $rules = [
+    use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern, TransformableModel;
+
+  
+  public $rules = [
       "name"=>"required_if:artist,''",
     ];
     protected $fillable = [
