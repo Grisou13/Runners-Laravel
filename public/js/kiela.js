@@ -1,27 +1,45 @@
 let scheduleFormat, schedules;
 
 function display(ntry, ctnr){
-        for(let vl in ntry){
+    let ctrlerH = [];
+    let updateCtrlerTxt = function(slder){
+        // todo change info controlsText:[]
+        console.log("TSS TSS");
+
+        console.log();
+        let i;
+        slder.navCurrent == 0 ? i = (ctrlerH.length) - 1 : i = slder.navCurrent;
+        // ctrlerH[slder.navCurrent].
+
+        slder.controlsText = [ctrlerH[i-1], ctrlerH[i]];
+        console.log(slder.controlsText)
+    };
+    let whenDoesItStart = function(slder){
+        // todo change controlsText
+    }
+
+    for(let vl in ntry){
         let dv = document.createElement("div");
         let h3 = document.createElement("h3");
         h3.innerHTML = ntry[vl][0]["start_time"].split(" ")[0];
         h3.innerHTML += " à ";
         h3.innerHTML += ntry[vl][0]["start_time"].split(" ")[1];
-
         dv.appendChild(h3);
+        ctrlerH.push(ntry[vl][0]["start_time"].split(" ")[1]);
         for(crrnt in ntry[vl]){
             dv.innerHTML += "GROUP N°"+ntry[vl][crrnt]["group_id"] + " ";
+
         }
         ctnr.appendChild(dv);
+
     }
-    console.log()
+
     let slder = tns({
         container: ctnr,
-        // controlsText: []
         // item: 1,
     });
+    slder.events.on("indexChanged", updateCtrlerTxt);
 
-    console.log(slder.getInfo())
 }
 function _display(ntry, ctnr){
     for(let key in ntry){
@@ -46,8 +64,6 @@ function _display(ntry, ctnr){
             tr.insertCell(0).appendChild(document.createTextNode(crrnt[vl]["start_time"].split(" ")[1]));
             // tr.insertCell(crrnt[vl]["group_id"])
         }
-
-
         ctnr.appendChild(tbl);
 
     }
@@ -68,6 +84,7 @@ function init() {
 function getAllSchedules(callback){
     window.api.get("/schedules",{})
         .then(function(r){
+
             schedules = r["data"];
             callback();
         })
@@ -78,7 +95,6 @@ function getAllSchedules(callback){
 }
 function getScheduleFormat(callback){
     // get config from api
-    let result = null;
     window.api.get("/settings", {})
         .then(function(r){
             if(!r["data"] || r["data"].length <= 0){
@@ -103,7 +119,11 @@ function getScheduleFormat(callback){
 
         })
         .catch(function(error){
-            console.log(error);
+            switch(error.response.status){
+                case 401:
+                    window.location.replace("/login")
+            }
+
         });
 }
 
