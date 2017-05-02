@@ -36,4 +36,10 @@ class RunUpdatedEvent implements ShouldBroadcast
     {
         return new Channel('runs.'.$this->run->id);
     }
+    public function broadcastWith()
+    {
+      return [
+        "run"=>json_decode((string)$this->run),
+      ];
+    }
 }

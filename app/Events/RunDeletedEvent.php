@@ -26,7 +26,6 @@ class RunDeletedEvent implements ShouldBroadcast
      */
     public function __construct(Run $run)
     {
-        //
         $this->run = $run;
     }
 
@@ -37,6 +36,15 @@ class RunDeletedEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('deleted');
+        return new Channel('runs.'.$this->run->id);
+    }
+    public function broadcastAs(){
+      return "deleted";
+    }
+    public function broadcastWith()
+    {
+      return [
+        "run"=>json_decode((string)$this->run),
+      ];
     }
 }

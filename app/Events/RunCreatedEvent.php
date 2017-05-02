@@ -38,4 +38,11 @@ class RunCreatedEvent implements ShouldBroadcast
     public function broadcastAs(){
         return "created";
     }
+    public function broadcastWith()
+    {
+      //json_decode is a buit stupid, but can't do better for now
+      return [
+        "run"=>json_decode((string)$this->run),
+      ];
+    }
 }
