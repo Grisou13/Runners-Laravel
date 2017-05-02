@@ -39,7 +39,6 @@ class SubscriptionController extends BaseController
   public function deleteAll(Run $run)
   {
     $run->subscriptions()->each->delete();
-    //$run->subscriptions()->detach();
     
     return $run;
   }

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types';
 import moment from 'moment'
 class Time extends React.Component{
     setTime(){
@@ -32,12 +33,12 @@ class Time extends React.Component{
     componentDidMount(){
         window.setInterval(function () {
             this.setTime();
-        }.bind(this), 1000);
+        }.bind(this), 60*1000);
     }
     render() {
         return(
             <div className="time-row" ref="cityRow">
-                <span className="time">{this.state.date.format("DD/MM/YY mm:HH:ss")}</span>
+                <span className="time">{this.state.date.format("DD/MM/YY mm:HH")}</span>
             </div>
         )
     }

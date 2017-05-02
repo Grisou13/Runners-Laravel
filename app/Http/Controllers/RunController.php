@@ -24,7 +24,7 @@ class RunController extends Controller
     public function index()
     {
         //$runs = Run::withCount("waypoints")->with(["waypoints","users","subscriptions","subscriptions.car","subscriptions.user","subscriptions.car_type"])->orderBy("status")->orderBy("planned_at")->actif()->get();
-        return view("run.index",compact("runs"));
+        return view("run.index");
     }
     public function display()
     {
@@ -97,8 +97,8 @@ class RunController extends Controller
         $run_data = $request->except(["subscriptions","waypoints"]);
     
         $run = $this->api->be(Auth::user())->put("/runs",$run_data);
-      $this->api->be(Auth::user())->delete("/runs/{$run->id}/runners");
-      $this->api->be(Auth::user())->delete("/runs/{$run->id}/waypoints");
+        $this->api->be(Auth::user())->delete("/runs/{$run->id}/runners");
+        $this->api->be(Auth::user())->delete("/runs/{$run->id}/waypoints");
         foreach($request->get("subscriptions",[]) as $sub){
           $this->api->be(Auth::user())->post("/runs/{$run->id}/runners",$sub);
         }
