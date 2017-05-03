@@ -14,12 +14,13 @@ return [
     "free"=>"Disponible"
   ],
   "run"=>[
-    "active"=>"actif",
+    //"active"=>"actif",
     "gone"=>"Démarré",
+    "error"=>"Il manque des information pour démarrer le run", //not used
+    "finished"=>"le run est terminé",
+    "needs_filling"=>"Il manque des information ud convoi",
+    "missing_cars"=>"Il manque des voiture pour démarrer le run",
     "ready"=>"Pret",
-    "error"=>"Il manque des information pour démarrer le run",
-    "needs_filling"=>"Il n'y a actuellement aucun conoie prévu pour le run",
-    "missing_cars"=>"Il manque des voiture pour démarrer le run"
   ],
   "run_subscription"=>[
     "ready_to_go"=>"Pret",
@@ -27,7 +28,8 @@ return [
     "missing_car"=>"Il manque une voiture",
     "needs_filling"=>"Il faut encore remplir les imformations pour l'utilisateur, la voiture, ou le type de voiture",
     "gone"=>"Le run est parti",
-    "error"=>"Quelque chose c'est vraiment mal passé"
+    "error"=>"Quelque chose c'est vraiment mal passé",
+    "finished"=>"Ce convoi est terminé"
   ],
   "car"=>[
     "active"=>"Actif",

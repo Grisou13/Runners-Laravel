@@ -31,15 +31,17 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->resource("groups",'GroupController');
   
     $api->get("/cars/search",["as"=>"cars.search","uses"=>"CarController@search"]);
+    $api->get("/cars/{car}/type",["as"=>"cars.type","uses"=>"CarController@type"]);
     $api->resource("cars",'CarController', ["except"=>["delete"]]);
     $api->get("/vehicles/search",["as"=>"vehicles.search","uses"=>"CarController@search"]);
     $api->resource("vehicles",'CarController', ["except"=>["delete"]]);
     
     $api->get("/car_types/search",["as"=>"car_types.search","uses"=>"CarTypeController@search"]);
+    $api->get("/car_types/{car_type}/cars",["as"=>"car_types.cars","uses"=>"CarTypeController@carList"]);
     $api->resource("car_types","CarTypeController");
   
     $api->get("/waypoints/search",["as"=>"waypoints.search","uses"=>"WaypointController@search"]);
-    $api->resource("waypoints","WaypointController");
+    $api->resource("waypoints","WaypointController", ["except"=>"update"]);
   
     $api->get("/search/{model}","SearchController@fullText");
     $api->get("/search","SearchController@globalSearch");
@@ -58,7 +60,10 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       $api->delete("/runs/{run}/waypoints",["as"=>"runs.waypoints.destroy_all","uses"=>"WaypointController@deleteAll"]);
       $api->delete("/runs/{run}/subscriptions",["as"=>"runs.subscriptions.destroy_all","uses"=>"SubscriptionController@deleteAll"]);
       $api->delete("/runs/{run}/runners",["as"=>"runs.runners.destroy_all","uses"=>"SubscriptionController@deleteAll"]);
-
+      
+      $api->post("/runs/{run}/subscriptions/stop",["as"=>"runs.subscriptions.stop","uses"=>"SubscriptionController@stop"]);
+      $api->post("/runs/{run}/runners/stop",["as"=>"runs.runners.stop","uses"=>"SubscriptionController@stop"]);
+      
       $api->resource("runs","RunController");
       $api->resource("runs.waypoints","WaypointController");
       $api->resource("runs.subscriptions","SubscriptionController");

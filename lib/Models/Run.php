@@ -2,11 +2,13 @@
 
 namespace Lib\Models;
 use App\Concerns\StatusConcern;
+use App\Events\RunCreatedEvent;
 use App\Events\RunDeletedEvent;
 use App\Events\RunDeletingEvent;
 use App\Events\RunFinishedEvent;
 use App\Events\RunSavedEvent;
 use App\Events\RunSavingEvent;
+use App\Events\RunUpdatedEvent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +19,10 @@ use App\Helpers\Status as StatusHelper;
 
 class Run extends Model
 {
-    use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern;
-    public $rules = [
+    use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern, TransformableModel;
+
+  
+  public $rules = [
       "name"=>"required_if:artist,''",
     ];
     protected $fillable = [
@@ -46,8 +50,10 @@ class Run extends Model
     protected $events = [
       'saving' => RunSavingEvent::class,
       "saved" => RunSavedEvent::class,
+      'created'=>RunCreatedEvent::class,
       'deleting' => RunDeletingEvent::class,
-      'deleted' => RunDeletedEvent::class
+      'deleted' => RunDeletedEvent::class,
+      'updated' => RunUpdatedEvent::class
     ];
 
     public function setArtistAttribute($value)

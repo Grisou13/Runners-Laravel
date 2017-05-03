@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers\Status as StatusHelper;
 class RunSubscription extends Model
 {
-    use StatusConcern, SoftDeletes, StatusConcern;
+    use StatusConcern, SoftDeletes, StatusConcern, TransformableModel;
     public $table = "run_drivers";
     public $fillable = ["car_id","run_id","car_type_id","user_id"];
     public $hidden = ["id"];
@@ -20,7 +20,6 @@ class RunSubscription extends Model
       "deleting"=>"App\\Events\\RunSubscriptionDeletingEvent",
       "deleted"=>"App\\Events\\RunSubscriptionDeletedEvent"
     ];
-    
   
     public function user()
     {

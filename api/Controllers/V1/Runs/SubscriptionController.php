@@ -23,6 +23,7 @@ use Lib\Models\Run;
 use Lib\Models\RunSubscription;
 use Lib\Models\User;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class SubscriptionController extends BaseController
@@ -37,8 +38,25 @@ class SubscriptionController extends BaseController
   }
   public function deleteAll(Run $run)
   {
-    $run->subscriptions()->detach();
+    $run->subscriptions()->each->delete();
+    
     return $run;
+  }
+  public function join(Request $request, RunSubscription $sub)
+  {
+    if($sub->user_id == null)
+      $sub->user()->associate($this->user()->id);
+    else
+      throw new UnauthorizedHttpException("Hey you can't go into a run if there already is someone there");
+    return $sub;
+  }
+  public function unjoin(Request $request, RunSubscription $sub)
+  {
+    if($sub->user_id != null && $sub->user_id == $this->user()->id)
+      $sub->user()->dissociate();
+    else
+      throw new UnauthorizedHttpException("Hey you can't leave a run for somebody else you little prick");
+    return $sub;
   }
   public function store(CreateSubscriptionRequest $request, Run $run)
   {
@@ -110,7 +128,12 @@ class SubscriptionController extends BaseController
   }
   public function delete(RunSubscription $sub)
   {
-    
     $sub->delete();
+  }
+  public function stop(RunSubscription $sub)
+  {
+    $sub->status="finished";
+    $sub->save();
+    return $sub;
   }
 }

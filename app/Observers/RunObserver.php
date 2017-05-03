@@ -13,6 +13,7 @@ use App\Events\RunDeletedEvent;
 use App\Events\RunDeletingEvent;
 use App\Events\RunFinishedEvent;
 use App\Events\RunSavingEvent;
+use App\Events\RunStatusUpdatedEvent;
 use App\Events\RunSubscriptionSavedEvent;
 use Carbon\Carbon;
 use Lib\Models\Run;
@@ -61,6 +62,7 @@ class RunObserver
   {
     
     $run = $event->run;
+    $status = $run->status;
     $this->adaptRunStatus($run);
 //    if($run->subscriptions()->ofStatus("ready_to_go")->count() == $run->subscriptions()->count())
 //      $run->status = "ready";
@@ -68,6 +70,8 @@ class RunObserver
 //      $run->status="error";
     $run->save();
     //$this->adaptRunStatus($event->run);
+    if($status == $run->fresh()->status)//if the status changed, we update it
+      broadcast(new RunStatusUpdatedEvent($run));
   }
   public function runWasDeleted(RunDeletedEvent $event)
   {
@@ -86,14 +90,17 @@ class RunObserver
           if($run->subscriptions()->ofStatus("ready_to_go")->count() == $run->subscriptions()->count())
             $run->status = "ready";
           else{
-            $seats = $run->subscriptions->map(function($sub){
-              return $sub->car_id != null ? $sub->car->nb_place:0;
-            })->sum();
-            if($seats < $run->nb_passenger){
-              $run->status="missing_cars";
-            }
-            else
-              $run->status="error"; //something's not right here
+            //TODO retalk to product manager if implemented?
+//            $seats = $run->subscriptions->map(function($sub){
+//              return $sub->car_id != null ? $sub->car->nb_place:0;
+//            })->sum();
+//            if($seats < $run->nb_passenger){
+//              $run->status="missing_cars";
+//            }
+//            if($run->subscriptions()->where("car_id","!=",null)->count())//check if all subs have a car
+//              $run->status = "missing_car";
+//            else
+              $run->status="needs_filling"; //something's not right here
           }
         }
       }
@@ -101,6 +108,12 @@ class RunObserver
       {
         $run->status="needs_filling";
       }
+    }
+    else{
+      if($run->subscriptions()->where("status","!=","finished")->count() && $run->subscriptions()->count() > 0)
+        $run->status = "finished";
+      else
+        $run->status = "error";
     }
     
   }

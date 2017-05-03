@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Api\Responses\Transformers\RunTransformer;
 use Lib\Models\Waypoint;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class RunController extends BaseController
 {
@@ -32,10 +33,22 @@ class RunController extends BaseController
         $dates = explode(",",$request->get("between"));
         $query->whereBetween("planned_at", $dates);
       }
-      else
-      $query->actif();//retrive all active runs @see Lib\Models\Run::scopeActif
+      if($request->has("actif"))
+        $query->actif();//retrive all active runs @see Lib\Models\Run::scopeActif
       if($request->has("status"))
         $query->ofStatus($request->get("status"));
+      if($request->has("sortBy")){
+          $sorts = explode(",",$request->get("sortBy"));
+          foreach($sorts as $sort){
+              $t = explode(":",$sort);
+              $column = trim($t[0]);
+              if(count($t)==2)
+                  $sorting = trim($t[1]);
+              else
+                  $sorting = "ASC";//default sorting
+              $query->orderBy($column,$sorting);
+          }
+      }
       return $this->response()->collection($query->get(), new RunTransformer);
     }
     public function search(SearchRequest $request)
@@ -141,11 +154,38 @@ class RunController extends BaseController
         return $run;
 
     }
+    protected function terminateRun(Run $run){
+      $run->ended_at = Carbon::now();
+      $run->status="finished";
+      $run->subscriptions->each(function($sub){
+        $sub->status = "finished";
+        $sub->save();
+        $sub->delete();
+      });
+      $run->save();
+      $run->delete();
+    }
     public function stop(Request $request, Run $run)
     {
-      $run->ended_at = Carbon::now();
-      $run->save();
-      $run->delete();//deleting the model will populate ended_at field, and archive it
+      $user = $this->user();
+      if(!$user->can("end",$run))
+        throw new UnauthorizedHttpException("You are not allowed to finish a run");
+      
+      $run->subscriptions->each(function($sub) use ($user){
+        if($user->id = $sub->user_id){
+          $sub->status = "finished";
+          $sub->save();
+          return false;//terminate the loop
+        }
+      });
+      if($user->car("forceEnd",Run::class))
+        $this->terminateRun($run);
+      else{
+        if($run->subscriptions->every(function($sub){
+          return $sub->status == "finished";
+        }))
+          $this->terminateRun($run);
+      }
       return $run;
     }
 }

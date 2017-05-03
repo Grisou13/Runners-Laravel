@@ -11,14 +11,14 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Lib\Models\Run;
 
-class RunDeletedEvent
+class RunDeletedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-  
     /**
      * @var Run
      */
     public $run;
+
     /**
      * Create a new event instance.
      *
@@ -26,7 +26,7 @@ class RunDeletedEvent
      */
     public function __construct(Run $run)
     {
-      $this->run = $run;
+        $this->run = $run;
     }
 
     /**
@@ -36,6 +36,15 @@ class RunDeletedEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('runs.'.$this->run->id);
+    }
+    public function broadcastAs(){
+      return "deleted";
+    }
+    public function broadcastWith()
+    {
+      return [
+        "run"=>json_decode((string)$this->run),
+      ];
     }
 }

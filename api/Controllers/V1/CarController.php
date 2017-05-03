@@ -24,6 +24,10 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CarController extends BaseController
 {
+    public function type(Car $car)
+    {
+      return $car->car_type;
+    }
     public function search(SearchRequest $request)
     {
       $query = $request->get("q","");

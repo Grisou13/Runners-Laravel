@@ -1979,17 +1979,17 @@ pre code {
   clear: both;
 }
 
-.row {
+.row, .run {
   margin-left: -15px;
   margin-right: -15px;
 }
 
-.row:before, .row:after {
+.row:before, .run:before, .row:after, .run:after {
   content: " ";
   display: table;
 }
 
-.row:after {
+.row:after, .run:after {
   clear: both;
 }
 
@@ -7693,9 +7693,16 @@ button.close {
   padding-left: 15px;
 }
 
+.run-container {
+  margin-right: 34px;
+  margin-left: 23px;
+}
+
 .run {
   margin-bottom: 5px;
   margin-top: 10px;
+  margin-left: 15px;
+  padding-right: -10px;
 }
 
 .run .run-details .date {
@@ -7777,7 +7784,7 @@ button.close {
 }
 
 .run .run-details .date {
-  font-size: 1.1rem;
+  font-size: 1.4rem;
 }
 
 .run .run-details .title {
@@ -7786,11 +7793,15 @@ button.close {
 }
 
 .run .run-details .passengers {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+}
+
+.run .time {
+  font-size: 1.8rem;
 }
 
 .run .subscription {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 }
 
 .run .waypoint-list {
@@ -7821,6 +7832,10 @@ button.close {
 }
 
 .display .run .run-details .passengers {
+  font-size: 2.5rem;
+}
+
+.display .run .time {
   font-size: 2.5rem;
 }
 
