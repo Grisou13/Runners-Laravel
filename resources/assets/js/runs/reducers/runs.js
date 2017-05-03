@@ -41,8 +41,9 @@ const runs = (state = [], action) => {
             var sub = action.payload;
             return state.map((r)=>{
                 if(r.id == run.id){
-                    r.runners.filter((s)=> s.id != sub.id)
+                    r.runners = r.runners.filter((s) => s.id != sub.id)
                 }
+
                 return r
             })
         case SUBSCRIPTION_UPDATED:

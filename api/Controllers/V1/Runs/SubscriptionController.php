@@ -38,8 +38,7 @@ class SubscriptionController extends BaseController
   }
   public function deleteAll(Run $run)
   {
-    $run->subscriptions()->each->delete();
-    
+    $run->subscriptions->each(function($s){$s->delete();});
     return $run;
   }
   public function join(Request $request, RunSubscription $sub)

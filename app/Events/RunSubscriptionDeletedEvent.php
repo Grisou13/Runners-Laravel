@@ -43,7 +43,7 @@ class RunSubscriptionDeletedEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('runs.'.$this->run->id.'.subscriptions');
+        return new Channel('runs.'.$this->run->id.'.subscriptions.'.$this->run_subscription->id);
     }
     public function broadcastAs(){
         return "deleted";

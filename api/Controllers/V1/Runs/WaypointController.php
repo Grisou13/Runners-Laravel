@@ -27,6 +27,7 @@ class WaypointController extends BaseController
     }
     public function deleteAll(Run $run)
     {
+      //TODO implement broadcasting for waypoints
       $run->waypoints()->detach();
       return $run;
     }

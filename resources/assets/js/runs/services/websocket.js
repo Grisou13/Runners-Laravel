@@ -17,6 +17,55 @@ const tranformRun = (run) => {
         nb_passenger: run.nb_passenger
     }
 }
+export const subscribeRun = (run, dispatcher) => {
+    var echo = window.LaravelEcho
+    echo.channel(`runs.${run.id}`)
+        .on("updated", e => {
+            var run = e.run
+            console.log("updated")
+            dispatcher(updateRun(run))
+        })
+    echo.channel(`runs.${run.id}`)
+        .on("deleted", (e)=>{
+            var run = e.run
+            console.log("deleted")
+            echo.channel(`runs.${run.id}`).unsubscribe();
+            dispatcher(deleteRun(run))
+        })
+    echo.channel(`runs.${run.id}.subscriptions`)
+        .on("created", (e) => {
+            var sub = e.subscription
+            var run = e.run
+            echo.channel(`runs.${run.id}.subscriptions.${sub.id}`)
+                .on("updated", (e)=>{
+                    var sub = e.subscription
+                    var run = e.run
+                    console.log("===================")
+                    console.log(e)
+                    console.log("updated sub")
+                    dispatcher(subUpdated(run,sub))
+                })
+            echo.channel(`runs.${run.id}.subscriptions.${sub.id}`)
+                .on("deleted", (e)=>{
+                    var sub = e.subscription
+                    var run = e.run
+                    console.log("deleted sub")
+                    dispatcher(subDeleted(run,sub))
+                })
+            console.log("created sub")
+            dispatcher(subCreated(run,sub))
+        })
+
+    echo.channel(`runs.${run.id}.subscriptions`)
+        .on("deleted", (e)=>{
+            console.log("===================")
+            console.log(e)
+            var sub = e.subscription
+            var run = e.run
+            console.log("deleted sub")
+            dispatcher(subDeleted(run,sub))
+        })
+}
 /**
  * Created by thomas_2 on 29.04.2017.
  */
@@ -35,43 +84,7 @@ export default (dispatcher) => {
             console.log(e)
             var run = e.run
             console.log("created")
-            console.log(run)
-            echo.channel(`runs.${run.id}`)
-                .on("updated", e => {
-                    var run = e.run
-                    console.log("updated")
-                    dispatcher(updateRun(run))
-                })
-            echo.channel(`runs.${run.id}`)
-                .on("deleted", (e)=>{
-                    var run = e.run
-                    console.log("deleted")
-                    echo.channel(`runs.${run.id}`).unsubscribe();
-                    dispatcher(deleteRun(run))
-                })
-            echo.channel(`runs.${run.id}.subscriptions`)
-                .on("created", (e) => {
-                    var sub = e.subscription
-                    var run = e.run
-
-                    console.log("created sub")
-                    dispatcher(subCreated(run,sub))
-                })
-            echo.channel(`runs.${run.id}.subscriptions`)
-                .on("updated", (e)=>{
-                    var sub = e.subscription
-                    var run = e.run
-
-                    console.log("updated sub")
-                    dispatcher(subUpdated(run,sub))
-                })
-            echo.channel(`runs.${run.id}.subscriptions`)
-                .on("deleted", (e)=>{
-                    var sub = e.subscription
-                    var run = e.run
-                    console.log("deleted sub")
-                    dispatcher(subDeleted(run,sub))
-                })
+            subscribeRun(run, dispatcher)
             dispatcher(gotRun(run))
         })
 

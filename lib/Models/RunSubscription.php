@@ -17,6 +17,8 @@ class RunSubscription extends Model
     protected $events = [
       "saving"=>"App\\Events\\RunSubscriptionSavingEvent",
       "saved"=>"App\\Events\\RunSubscriptionSavedEvent",
+      "created"=>"App\\Events\\RunSubscriptionCreatedEvent",
+      "updated"=>"App\\Events\\RunSubscriptionUpdatedEvent",
       "deleting"=>"App\\Events\\RunSubscriptionDeletingEvent",
       "deleted"=>"App\\Events\\RunSubscriptionDeletedEvent"
     ];

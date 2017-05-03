@@ -5,17 +5,14 @@ import {DELETE_RUN} from "./consts";
 import {UPDATE_RUN} from "./consts";
 import {FETCHING_RUN_FAILED} from "./consts";
 import {EDIT_RUN} from "./consts";
+import {subscribeRun} from "../services/websocket";
 export const gotRuns = (runs) => {
-    return {
-        type:GOT_RUNS,
-        payload:runs
-    }
     return (dispatch) => {
+        runs.forEach(r => subscribeRun(r, dispatch))//TODO maybe put this somewhere else? dunno
         dispatch({
             type:GOT_RUNS,
             payload:runs
         })
-        dispatch(uiLoaded())
     }
 
 }
@@ -26,9 +23,12 @@ export const editRun = (run) => {
     }
 }
 export const gotRun = (run) => {
-    return {
-        type: ADD_RUN,
-        payload: run
+    return (dispatch)=> {
+        subscribeRun(run, dispatch)
+        dispatch({
+            type: ADD_RUN,
+            payload: run
+        })
     }
 }
 export const updateRun = (run) => {

@@ -38,7 +38,7 @@ class Time extends React.Component{
     render() {
         return(
             <div className="time-row" ref="cityRow">
-                <span className="time">{this.state.date.format("DD/MM/YY mm:HH")}</span>
+                <span className="time">{this.state.date.format("DD/MM/YY HH:mm")}</span>
             </div>
         )
     }
