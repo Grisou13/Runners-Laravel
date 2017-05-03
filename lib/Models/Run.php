@@ -111,20 +111,39 @@ class Run extends Model
   /**
    * Retrieves all the runs planned today
    * @param Builder $query
-   * @return $this
+   * @return Builder
    */
     public function scopeActif(Builder $query)
     {
       return $query->where( \DB::raw('DAY(planned_at)'), '>=', date('d'));
     }
+
+  /**
+   * @param $query
+   * param $date string|Carbon
+   * @return mixed
+   *
+   */
     public function scopeWhen($query, $date)
     {
-      return $query->where( \DB::raw('DAY(planned_at)'), '==', $date);// + the run must be actif
+      if(! ($date instanceof Carbon) )
+        $date = new Carbon($date);
+      return $query->where( \DB::raw('DATE(planned_at)'), '==', $date->toDateString());// + the run must be actif
     }
+  /**
+   * @param $query
+   * param $dates array<string|Carbon>
+   * @return mixed
+   *
+   */
   public function scopeWhenBetween($query, $dates)
   {
-    $d1 = new Carbon($dates[0]);//d1 is the first day
-    $d2 = new Carbon($dates[1]);//d2 is the last day
-    return $query->where( \DB::raw('DAY(planned_at)'), '>=', $d1->day)->where(\DB::raw('DAY(planned_at)'), '<=', $d2->day);// + the run must be actif
+    list($d1,$d2) = $dates;
+    if(is_string($d1))
+      $d1 = new Carbon($d1);//d1 is the first day
+    if(is_string($d2))
+      $d2 = new Carbon($d2);//d2 is the last day
+    
+    return $query->where( \DB::raw('DATE(planned_at)'), '>=', $d1->toDateString())->where(\DB::raw('DATE(planned_at)'), '<=', $d2->toDateString());// + the run must be actif
   }
 }
