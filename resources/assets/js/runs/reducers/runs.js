@@ -51,9 +51,9 @@ const runs = (state = [], action) => {
             var sub = action.payload;
             return state.map((r)=>{
                 if(r.id == run.id)
-                    r.runners.map((s)=>{
+                    r.runners = r.runners.map((s)=>{
                         if(s.id == sub.id)
-                            return sub
+                            return Object.assign({},s,sub)
                         return s
                     })
                 return r

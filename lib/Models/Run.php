@@ -119,12 +119,12 @@ class Run extends Model
     }
     public function scopeWhen($query, $date)
     {
-      return $query->where( \DB::raw('DAY(planned_at)'), '>=', $date)->actif();// + the run must be actif
+      return $query->where( \DB::raw('DAY(planned_at)'), '==', $date);// + the run must be actif
     }
   public function scopeWhenBetween($query, $dates)
   {
     $d1 = new Carbon($dates[0]);//d1 is the first day
     $d2 = new Carbon($dates[1]);//d2 is the last day
-    return $query->where( \DB::raw('DAY(planned_at)'), '>=', $d1->day)->where(\DB::raw('DAY(planned_at)'), '<=', $d2->day)->actif();// + the run must be actif
+    return $query->where( \DB::raw('DAY(planned_at)'), '>=', $d1->day)->where(\DB::raw('DAY(planned_at)'), '<=', $d2->day);// + the run must be actif
   }
 }

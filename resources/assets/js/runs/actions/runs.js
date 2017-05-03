@@ -6,9 +6,11 @@ import {UPDATE_RUN} from "./consts";
 import {FETCHING_RUN_FAILED} from "./consts";
 import {EDIT_RUN} from "./consts";
 import {subscribeRun} from "../services/websocket";
+import {subscribeSubscription} from "../services/websocket";
 export const gotRuns = (runs) => {
     return (dispatch) => {
         runs.forEach(r => subscribeRun(r, dispatch))//TODO maybe put this somewhere else? dunno
+        runs.map(r => r.runners.map( s => subscribeSubscription(r,s,dispatch)))
         dispatch({
             type:GOT_RUNS,
             payload:runs
@@ -25,6 +27,7 @@ export const editRun = (run) => {
 export const gotRun = (run) => {
     return (dispatch)=> {
         subscribeRun(run, dispatch)
+        run.runners.map( s => subscribeSubscription(run,s,dispatch))
         dispatch({
             type: ADD_RUN,
             payload: run

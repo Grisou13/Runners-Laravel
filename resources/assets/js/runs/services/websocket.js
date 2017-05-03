@@ -17,6 +17,26 @@ const tranformRun = (run) => {
         nb_passenger: run.nb_passenger
     }
 }
+export const subscribeSubscription = (run,sub,dispatcher) => {
+    var echo = window.LaravelEcho
+    echo.channel(`runs.${run.id}.subscriptions.${sub.id}`)
+        .on("updated", (e)=>{
+            var sub = e.subscription
+            var run = e.run
+            console.log("===================")
+            console.log(e)
+            console.log("updated sub")
+            dispatcher(subUpdated(run,sub))
+        })
+    echo.channel(`runs.${run.id}.subscriptions.${sub.id}`)
+        .on("deleted", (e)=>{
+            var sub = e.subscription
+            var run = e.run
+            console.log("deleted sub")
+            echo.channel(`runs.${run.id}.subscriptions.${sub.id}`).unsubscribe();
+            dispatcher(subDeleted(run,sub))
+        })
+}
 export const subscribeRun = (run, dispatcher) => {
     var echo = window.LaravelEcho
     echo.channel(`runs.${run.id}`)
@@ -36,30 +56,13 @@ export const subscribeRun = (run, dispatcher) => {
         .on("created", (e) => {
             var sub = e.subscription
             var run = e.run
-            echo.channel(`runs.${run.id}.subscriptions.${sub.id}`)
-                .on("updated", (e)=>{
-                    var sub = e.subscription
-                    var run = e.run
-                    console.log("===================")
-                    console.log(e)
-                    console.log("updated sub")
-                    dispatcher(subUpdated(run,sub))
-                })
-            echo.channel(`runs.${run.id}.subscriptions.${sub.id}`)
-                .on("deleted", (e)=>{
-                    var sub = e.subscription
-                    var run = e.run
-                    console.log("deleted sub")
-                    dispatcher(subDeleted(run,sub))
-                })
+            subscribeSubscription(run,sub,dispatcher)
             console.log("created sub")
             dispatcher(subCreated(run,sub))
         })
 
     echo.channel(`runs.${run.id}.subscriptions`)
         .on("deleted", (e)=>{
-            console.log("===================")
-            console.log(e)
             var sub = e.subscription
             var run = e.run
             console.log("deleted sub")

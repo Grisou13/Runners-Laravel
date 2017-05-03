@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CheckRunsBeforePlanned;
 use App\Console\Commands\DeleteDatabase;
 use App\Console\Commands\EchoTest;
 use App\Console\Commands\OverideRunDatesToToday;
@@ -39,6 +40,7 @@ class Kernel extends ConsoleKernel
         $schedule->command("runs:update_date")->hourly();
         // $schedule->command('inspire')
         //          ->hourly();
+      $schedule->command(CheckRunsBeforePlanned::class)->evenInMaintenanceMode();
     }
 
     /**

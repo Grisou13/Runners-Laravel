@@ -10,6 +10,7 @@ namespace Api\Controllers\V1\Runs;
 
 
 use Api\Controllers\BaseController;
+use App\Events\RunSubscriptionUpdatedEvent;
 use App\Http\Requests\CreateRunSubscription;
 use App\Http\Requests\UpdateRunSubscriptionRequest;
 use Dingo\Api\Exception\ValidationHttpException;
@@ -99,35 +100,38 @@ class SubscriptionController extends BaseController
     $sub->save();
     return $sub;
   }
-  public function update(UpdateRunSubscriptionRequest $request, RunSubscription $sub)
+  public function update(UpdateRunSubscriptionRequest $request, Run $run, RunSubscription $sub)
   {
     //runners / users
-    if($request->has("user"))
-      if($request->get("user") == null)
+    if($request->has("user")) {
+      if ($request->get("user") == null)
         $sub->user()->dissociate();
       else
         $sub->user()->associate($request->get("user"));
+    }
     //cars
-    if($request->has("car"))
-      if($request->get("car") == null)
+    if($request->has("car")) {
+      if ($request->get("car") == null)
         $sub->car()->dissociate();
       else
         $sub->car()->associate($request->get("car"));
+    }
     //car types
-    if($request->has("car_type"))
-      if($request->get("car_type") == null)
+    if($request->has("car_type")) {
+      if ($request->get("car_type") == null)
         $sub->car_type()->dissociate();
       else
         $sub->car_type()->associate($request->get("car_type"));
-    
+    }
     $data = $request->except(["token","_token","user","car_type","car"]);
-    
     $sub->update($data);
+    broadcast(new RunSubscriptionUpdatedEvent($sub));
     return $sub;
   }
   public function delete(RunSubscription $sub)
   {
     $sub->delete();
+    return $sub;
   }
   public function stop(RunSubscription $sub)
   {
