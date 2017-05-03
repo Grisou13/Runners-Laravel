@@ -151,8 +151,8 @@ $factory->define(Lib\Models\Waypoint::class, function(Faker\Generator $faker){
                     ]
 
                   }"));
-  
-  
+
+
   return [
     "name"=>collect(["Nyon centre","Lausanne Gare","Paleo grande scène","Genève aéroport", "Chavannes", "lake geneva hotel"])->random(),
     "geo"=>function($waypoint) use ($geo){

@@ -1,4 +1,4 @@
-<tr class="run">
+<tr class="run" id="{{$run->id}}">
     <td class="status {{ $run->status }}"></td>
     <!-- Run name and people -->
     <td class="col-md-2 text-center">
@@ -135,3 +135,6 @@
         </div>
     </td>
 </tr>
+<script type="text/javascript">
+  alert('bonjour');
+</script>

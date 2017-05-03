@@ -10,4 +10,3 @@
         @each("partials.run.item",$runs,"run")
     </tbody>
 </table>
-

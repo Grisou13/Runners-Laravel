@@ -44,12 +44,12 @@ class User extends Authenticatable implements StatusableContract
         'password', 'remember_token', "accesstoken"
     ];
 
-    
+
     protected $events = [
       "creating"=>UserCreatingEvent::class
     ];
-  
-  public function role()
+
+    public function role()
     {
         return $this->belongsTo(Role::class);
     }
