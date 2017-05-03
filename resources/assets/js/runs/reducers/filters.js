@@ -32,11 +32,7 @@ const filter = (state = defaultState, action) => {
         case ADD_FILTER_STATUS:
             return Object.assign({},state, {status: [...state.status, action.payload]})
         case REMOVE_FILTER_STATUS:
-            var index = false;
-            if(index = state.status.indexOf(action.payload) > -1)
-                return Object.assign({},state, {status: state.status.splice(index,1)})
-            else
-                return state
+            return Object.assign({}, state, {status: state.status.filter(s => s != action.payload)})
         case RESET_FILTER_STATUS:
             return Object.assign({},state, {status: []})
         case FILTER_NAME:

@@ -9,7 +9,7 @@ class Filters extends React.Component{
     render(){
         return (
         <div>
-            <StatusFilter status={this.props.status} addFilter={()=>this.props.dispatch(addStatusFilter())} removeFilter={()=>this.props.dispatch(removeStatusFilter())} />
+            <StatusFilter status={this.props.status} addFilter={(s)=>this.props.dispatch(addStatusFilter(s))} removeFilter={(s)=>this.props.dispatch(removeStatusFilter(s))} />
         </div>
         )
     }
