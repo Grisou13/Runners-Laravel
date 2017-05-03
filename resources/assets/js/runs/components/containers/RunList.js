@@ -117,7 +117,12 @@ const getVisibleRuns = (runs, filters) => {
     }).orderBy(function(r){
         return r.status
     }).value()
-    runs.filter(r=>filters.status.indexOf(r.status) > -1)
+    console.log(filters)
+    runs.forEach(r => console.log(r.status))
+    if(filters.status.length)
+        runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
+    if(filters.name.length)
+        runs = runs.filter(r => r.title.startsWith(filters.name))
     // filters.forEach((f, key)=>{
     //     switch(key){
     //         case FILTER_STATUS:
