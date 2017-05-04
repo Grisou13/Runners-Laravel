@@ -4,11 +4,13 @@
 import React from 'react'
 import Filters from './containers/Filters'
 import RunList from './containers/RunList'
+import DevTools from './containers/DevTools'
 
 const App = () => (
     <div>
         <Filters />
         <RunList />
+        <DevTools />
     </div>
 )
 

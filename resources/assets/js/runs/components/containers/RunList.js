@@ -12,7 +12,10 @@ import Time from './../views/Time'
 import {FILTER_STATUS} from "../../actions/consts";
 import {FILTER_WAYPOINT_BETWEEN} from "../../actions/consts";
 import ui from 'redux-ui';
+import {startRun} from "../../actions/runs";
+import {deleteRun} from "../../actions/runs";
 @ui({
+    key:"run-list",
     state:{
         hoverRun:null
     }
@@ -30,12 +33,19 @@ class RunList extends React.Component
                 </div>
                 <div className="row">
                     {runs.map(run => {
+                        console.log(this.props.ui)
                         var date = moment(run.begin_at)
                         var d = run.begin_at ? `${date.format("DD/MM")}` : null
                         var t = run.begin_at ? `${date.format("HH:mm")}` : null
                         return (
-                            <div key={"run-"+run.id} id={"run-"+run.id} className={run.status + ' run-container'} onMouseLeave={(e)=>this.props.ui.updateUI({hoverRun:null})} onMouseOver={(e)=>this.props.ui.updateUI({hoverRun:run.id})} >
-                                <div className="run" style={this.props.ui.hoverRun != null && this.props.ui.hoverRun==run.id? transform:"translateX(50px)"}>
+                            <div key={"run-"+run.id} id={"run-"+run.id} className={run.status + ' run-container'} /*onMouseLeave={(e)=>this.props.updateUI({hoverRun:null})} onMouseOver={(e)=>this.props.updateUI({hoverRun:run.id})}*/ >
+                                <div className="btn-container">
+                                    <a href={window.Laravel.basePath + `/runs/${run.id}/edit`} className="control"><span className="glyphicon glyphicon-edit"></span></a>
+                                    <a href="#" onClick={()=>this.props.dispatch(startRun(run))} className="control"><span className="glyphicon glyphicon-play"></span></a>
+                                    <a href="#" onClick={()=>this.props.dispatch(deleteRun(run))} className="control"><span className="glyphicon glyphicon-minus"></span></a>
+                                </div>
+
+                                <div className="run" /*style={{transform: (this.props.ui.hoverRun != null && this.props.ui.hoverRun==run.id )? "translateX(50px)": "" }}*/>
                                     <div className="col-md-3 col-xs-6 col-sm-2">
                                         <RunDetails title={run.title} nb_passenger={run.nb_passenger} note={run.note ? run.note : ""} date={d} />
                                     </div>
@@ -97,10 +107,8 @@ class RunList extends React.Component
         )
     }
     render(){
-        if(this.props.error != false){
-            return this.renderError()
-        }
-        else if(this.props.loaded){
+
+        if(this.props.loaded){
             if(this.props.runs.length){
                 //let runs = _.sortBy(this.props.runs,["status","begin_at"])
                 return this.renderList(this.props.runs)
@@ -108,6 +116,9 @@ class RunList extends React.Component
             else{
                 return this.renderEmpty()
             }
+        }
+        else if(this.props.error != false){
+            return this.renderError()
         }
         else
             return this.renderLoading()
@@ -152,9 +163,9 @@ const getVisibleRuns = (runs, filters) => {
 
 const mapStateToProps = (state) => {
     return {
-        runs: getVisibleRuns(state.runs, state.filters),
-        loaded: state.ui.loaded,
-        error: state.ui.error
+        runs: getVisibleRuns(state.runs.items, state.filters),
+        loaded: state.runs.loaded,
+        error: state.runs.error
     }
 }
 

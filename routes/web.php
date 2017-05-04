@@ -24,9 +24,9 @@ Route::get('/home', ["as"=>"home","uses"=>'HomeController@index']);
 
 Route::resource("groups", "GroupController");
 Route::resource("schedule", "ScheduleController");
-Route::resource('cars', 'CarController'); // Joël.DE-SOUSA
-
 $router->post("cars/{car}/comment",["as"=>"cars.comments.store","uses"=>"CarController@addComment"]);
+Route::resource('cars', 'CarController');
+
 
 $router->get("/runs/display","RunController@display");
 $router->resource("runs","RunController");

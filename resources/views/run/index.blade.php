@@ -44,6 +44,6 @@
     {{--@include("partials.run.list",compact("runs"))--}}
 @stop
 @push("scripts")
-<script src="{{ asset("/js/typeahead.bundle.min.js") }}"></script>
+{{--<script src="{{ asset("/js/typeahead.bundle.min.js") }}"></script>--}}
 <script src="{{ asset("/js/runs.js") }}"></script>
 @endpush

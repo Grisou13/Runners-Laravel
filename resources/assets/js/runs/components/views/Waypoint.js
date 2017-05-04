@@ -9,7 +9,7 @@ Waypoint.propTypes = {
     point: PropTypes.shape({
         id: PropTypes.number.isRequired,
         nickname: PropTypes.string.isRequired,
-        geocoder: PropTypes.any.isRequired
+        geocoder: PropTypes.any
     }).isRequired,
     icon: PropTypes.node
 }

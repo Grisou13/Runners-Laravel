@@ -94,18 +94,22 @@ class RunController extends Controller
      */
     public function update(Request $request, Run $run)
     {
+        //dd($request->all());
         $run_data = $request->except(["subscriptions","waypoints"]);
-    
-        $run = $this->api->be(Auth::user())->put("/runs",$run_data);
+        $run = $this->api->be(Auth::user())->patch("/runs/{$run->id}",[],json_encode($run_data));
         $this->api->be(Auth::user())->delete("/runs/{$run->id}/runners");
         $this->api->be(Auth::user())->delete("/runs/{$run->id}/waypoints");
         foreach($request->get("subscriptions",[]) as $sub){
-          $this->api->be(Auth::user())->post("/runs/{$run->id}/runners",$sub);
+          $data = [
+            "car_type"=>$sub["car_type"] == "-1" ? null : $sub["car_type"],
+            "car"=>$sub["car"] == "-1" ? null : $sub["car"],
+            "user"=>$sub["car_type"] == "-1" ? null : $sub["user"],
+          ];
+          $this->api->be(Auth::user())->post("/runs/{$run->id}/runners",[],json_encode($data));
         }
-        foreach($request->get("waypoints",[]) as $point){
-          $this->api->be(Auth::user())->post("/runs/{$run->id}/waypoints",$point);
-        }
-        return redirect()->route("runs.index");
+        $this->api->be(Auth::user())->post("/runs/{$run->id}/waypoints",[],json_encode($request->get("waypoints",[])));
+
+//        return redirect()->route("runs.index");
         return redirect()->back();
     }
 

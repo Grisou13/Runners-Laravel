@@ -1,5 +1,15 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css?family=Droid+Serif");
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Droid Serif"), url("/fonts/DroidSerif.ttf") format("ttf");
+}
+
+html {
+  font-family: 'Droid Serif', serif;
+}
+
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -7693,9 +7703,55 @@ button.close {
   padding-left: 15px;
 }
 
+.btn-container {
+  position: absolute;
+  margin-bottom: auto;
+  height: auto;
+  vertical-align: middle;
+  margin-left: -103px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-direction: row;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  display: none;
+  margin-top: 15px;
+  -webkit-transition: display .2s;
+  transition: display .2s;
+}
+
+.btn-container .control {
+  vertical-align: middle;
+  display: block;
+  width: 15px;
+  height: 100%;
+  margin-left: 15px;
+  font-size: 20px;
+}
+
 .run-container {
   margin-right: 34px;
   margin-left: 23px;
+  padding-left: auto;
+  -webkit-transition: padding-left .2s ease-in-out;
+  transition: padding-left .2s ease-in-out;
+}
+
+.run-container:hover {
+  padding-left: 120px;
+}
+
+.run-container:hover .btn-container {
+  display: -webkit-box;
+  display: flex;
+}
+
+.subscription .sub {
+  border-bottom: solid 1px;
+}
+
+.subscription .sub::last-child {
+  border-bottom: hidden;
 }
 
 .run {
@@ -7703,6 +7759,7 @@ button.close {
   margin-top: 10px;
   margin-left: 15px;
   padding-right: -10px;
+  background-color: #ECEFF1;
 }
 
 .run .run-details .date {
@@ -7727,7 +7784,7 @@ button.close {
 }
 
 .run:nth-child(odd) {
-  background-color: #ECEFF1;
+  background-color: #cfd6db;
 }
 
 .run::before {

@@ -1,7 +1,7 @@
-const elixir = require('laravel-elixir');
+var elixir = require('laravel-elixir');
 
 require('laravel-elixir-vue-2');
-//require('laravel-elixir-webpack-react');
+// require('laravel-elixir-webpack-react');
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -37,7 +37,8 @@ elixir.ready(function() {
 elixir((mix) => {
     mix.sass('app.scss')
        .webpack('app.js');
-    mix.webpack("resources/assets/js/runs/app.js","public/runs.js")
+    mix.webpack("resources/assets/js/runs/app.js","public/js/runs.js")
+    console.log("KAHSJGDJKGAHSD")
     // mix.webpack("runs.js");
     // mix.webpack('runs/app.js', 'public/js/runs.js');
     // mix.webpack('runs/display.jsx', 'public/js/run-display.js');

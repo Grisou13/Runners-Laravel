@@ -320,9 +320,10 @@ const generateSubscription = (sub) => {
     if(hasCar)
         cars_input.value = car.id
     //set names for inputs
-    cars_input.name="subscriptions[][car]"
-    runners_input.name = "subscriptions[][user]"
-    car_types_input.name = "subscriptions[][car_type]"
+    let count = document.querySelector("#subs").children.length
+    cars_input.name="subscriptions["+count+"][car]"
+    runners_input.name = "subscriptions["+count+"][user]"
+    car_types_input.name = "subscriptions["+count+"][car_type]"
 
     //EVENT HANDLING
     reset_btn.addEventListener("click", (e)=>{
@@ -333,6 +334,7 @@ const generateSubscription = (sub) => {
         car_types_input.value = -1
         runners_input.value = -1
         //show only the car
+
         car_types_container.classList.toggle("col-md-5")
         car_types_container.classList.toggle("col-md-2")
         cars_container.classList.toggle("hidden")

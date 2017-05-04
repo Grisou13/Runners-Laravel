@@ -8,8 +8,15 @@ import AddUserButton from './subs/AddUserButton'
 
 const SubscriptionList = ({subs = []}) =>(
     <div className="subscription" style={{height:"100%", minHeight:"100px"}}>
-        {subs.map( sub =>
-            (<Subscription key={sub.id}  sub={sub} user={sub.user} car={sub.car} car_type={sub.vehicule_category} />)
+        {subs.map( (sub, i, all) => {
+             return   (
+                    <div key={"sub-"+sub.id}>
+                        <Subscription  sub={sub} user={sub.user} car={sub.car}
+                                      car_type={sub.vehicule_category}/>
+                        {i != all.length-1 ? <hr/> : null}
+                    </div>
+                )
+            }
         )}
     </div>
 )

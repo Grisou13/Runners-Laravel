@@ -60,13 +60,14 @@ class SubscriptionController extends BaseController
   }
   public function store(CreateSubscriptionRequest $request, Run $run)
   {
+    Log::debug("CREATING SUB => ".print_r($request->all(),true));
     $sub = new RunSubscription;
     //try and find the run in request or passed in path
     $sub->run()->associate($run);
     $sub->fill($request->except(["_token","token"]));
     if($request->has("user"))
     {
-      $sub->user()->associate($request->get("user",$this->user()));
+      $sub->user()->associate($request->get("user"));
 //      if($this->user()->can("addOthersToSub",RunSubscription::class))
 //        $sub->user()->associate($request->get("user"));
 //      else

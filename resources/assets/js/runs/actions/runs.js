@@ -40,10 +40,29 @@ export const updateRun = (run) => {
         payload: run
     }
 }
+export const startRun = (run) => {
+    return dispatch => {
+        api.post("/runs/"+run.id+"/start")
+            .then((res)=>updateRun(res))
+            .catch((res)=> {
+                console.log(res)
+                dispatch(fetchingFailed(res))
+            })
+    }
+}
 export const deleteRun = (run) => {
-    return {
-        type: DELETE_RUN,
-        payload: run
+    return dispatch => {
+        api.delete("/runs/"+run.id)
+            .then((res)=>{
+                dispatch({
+                    type: DELETE_RUN,
+                    payload: run
+                })
+            })
+            .catch((res)=>{
+                console.log(res)
+                dispatch(fetchingFailed(res))
+            })
     }
 }
 export const addRun = (run) => {
