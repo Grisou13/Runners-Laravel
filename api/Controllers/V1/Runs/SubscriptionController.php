@@ -66,14 +66,19 @@ class SubscriptionController extends BaseController
     $sub->fill($request->except(["_token","token"]));
     if($request->has("user"))
     {
-      $user = User::find($request->get("user"));
-      if($user->status == "free"){
-        $sub->user()->associate($user);
-      }
-      else{
-        Log::debug("trying to associate to run ({$run->id} {$run->status}) user ({$user->id} {$user->status}) that isn't free.");
-        throw new BadRequestHttpException("The user is ".$user->status. ", therefor you are not allowed to assign him");
-      }
+      $sub->user()->associate($request->get("user",$this->user()));
+//      if($this->user()->can("addOthersToSub",RunSubscription::class))
+//        $sub->user()->associate($request->get("user"));
+//      else
+//        $sub->user()->associate($this->user());
+//      $user = User::find($request->get("user"));
+//      if($user->status == "free"){
+//        $sub->user()->associate($user);
+//      }
+//      else{
+//        Log::debug("trying to associate to run ({$run->id} {$run->status}) user ({$user->id} {$user->status}) that isn't free.");
+//        throw new BadRequestHttpException("The user is ".$user->status. ", therefor you are not allowed to assign him");
+//      }
     }
 //    else
 //    {
@@ -85,16 +90,16 @@ class SubscriptionController extends BaseController
 //    }
     if($request->has("car"))
     {
-      $car = Car::find($request->get("car"));
-      if($car->status == "free")
-        $sub->car()->associate($request->get("car"));
-      else{
-        Log::debug("trying to associate to run ({$run->id} {$run->status}) car ({$car->id} {$car->status}) that isn't free");
-        throw new BadRequestHttpException("The car is ".$car->status. ", therefor, you are not allowed to use it");
-      }
-        
+      $sub->car()->associate($request->get("car"));
+//      $car = Car::find($request->get("car"));
+//      if($car->status == "free")
+//        $sub->car()->associate($request->get("car"));
+//      else{
+//        Log::debug("trying to associate to run ({$run->id} {$run->status}) car ({$car->id} {$car->status}) that isn't free");
+//        throw new BadRequestHttpException("The car is ".$car->status. ", therefor, you are not allowed to use it");
+//      }
     }
-    elseif($request->has("car_type"))
+    if($request->has("car_type"))
       $sub->car_type()->associate($request->get("car_type"));
     
     $sub->save();

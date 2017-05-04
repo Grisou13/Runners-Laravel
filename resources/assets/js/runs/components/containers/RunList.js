@@ -11,7 +11,12 @@ import SubscriptionList from './../views/SubscriptionList'
 import Time from './../views/Time'
 import {FILTER_STATUS} from "../../actions/consts";
 import {FILTER_WAYPOINT_BETWEEN} from "../../actions/consts";
-
+import ui from 'redux-ui';
+@ui({
+    state:{
+        hoverRun:null
+    }
+})
 class RunList extends React.Component
 {
     componentDidMount(){
@@ -29,10 +34,10 @@ class RunList extends React.Component
                         var d = run.begin_at ? `${date.format("DD/MM")}` : null
                         var t = run.begin_at ? `${date.format("HH:mm")}` : null
                         return (
-                            <div key={run.id} id={run.id} className={run.status + ' run-container'} >
-                                <div className="run">
+                            <div key={"run-"+run.id} id={"run-"+run.id} className={run.status + ' run-container'} onMouseLeave={(e)=>this.props.ui.updateUI({hoverRun:null})} onMouseOver={(e)=>this.props.ui.updateUI({hoverRun:run.id})} >
+                                <div className="run" style={this.props.ui.hoverRun != null && this.props.ui.hoverRun==run.id? transform:"translateX(50px)"}>
                                     <div className="col-md-3 col-xs-6 col-sm-2">
-                                        <RunDetails title={run.title} nb_passenger={run.nb_passenger} date={d} />
+                                        <RunDetails title={run.title} nb_passenger={run.nb_passenger} note={run.note ? run.note : ""} date={d} />
                                     </div>
                                     <div className="col-md-5 col-xs-6 col-sm-7">
                                         <div className="row">

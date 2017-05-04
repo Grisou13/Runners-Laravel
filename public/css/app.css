@@ -7718,6 +7718,14 @@ button.close {
   top: 50px;
 }
 
+.run .notes {
+  margin-top: 15px;
+  margin-bottom: -15px;
+  max-height: 40px;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+}
+
 .run:nth-child(odd) {
   background-color: #ECEFF1;
 }
@@ -7794,6 +7802,10 @@ button.close {
 
 .run .run-details .passengers {
   font-size: 1.4rem;
+}
+
+.run .run-details .notes {
+  font-size: 1.2rem;
 }
 
 .run .time {
