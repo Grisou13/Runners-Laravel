@@ -1,69 +1,55 @@
 let scheduleFormat, schedules;
 
-function display(ntry, ctnr){
+function display(entries, container){
+    for (let day in entries){
+        let hourListed = [];
+        let currentContainer = document.createElement("div");
+        let sliderContainer = document.createElement("div");
+        currentContainer.className = "kiela";
+        sliderContainer.className = "slider";
+        container.parentNode.appendChild(sliderContainer);
+        container.parentNode.appendChild(currentContainer);
 
-    let ctrlerH = [];
-    console.log(ntry)
-
-    console.log(ntry)
-
-    for (let vl in ntry) {
-        let dv = document.createElement("div");
-        let h3 = document.createElement("h3");
-
-        h3.innerHTML = ntry[vl][0]["start_time"].split(" ")[0];
-
-        h3.innerHTML += " à ";
-        h3.innerHTML += ntry[vl][0]["start_time"].split(" ")[1];
-        dv.appendChild(h3);
-        ctrlerH.push(ntry[vl][0]["start_time"].split(" ")[1]);
-        for (crrnt in ntry[vl]) {
-            dv.innerHTML += "GROUP N°" + ntry[vl][crrnt]["group_id"] + " ";
+        for (let hour in entries[day]){
+            let entryDiv = document.createElement("div");
+            let entryHeader = document.createElement("h3");
+            entryHeader.innerHTML = entries[day][hour][0]["start_time"].split(" ")[0];
+            entryHeader.innerHTML += " à ";
+            entryHeader.innerHTML += entries[day][hour][0]["start_time"].split(" ")[1];
+            // keep a list of all the different hours for this day
+            hourListed.push(entries[day][hour][0]["start_time"].split(" ")[1]);
+            for (let current in entries[day][hour]){
+                entryDiv.innerHTML += "GROUP N° " + entries[day][hour][current]["group_id"] + " ";
+            }
+            entryDiv.appendChild(entryHeader);
+            currentContainer.appendChild(entryDiv);
         }
-        ctnr.appendChild(dv);
-        //todo group by date (day, not only hour)
+        console.log(hourListed);
+        let slider = tns({
+            container: currentContainer,
+            controls: false
+        });
 
+        // add button control
+        let ctrlNextBtn = document.createElement("button");
+        let i = 1;
+        // index starts at 0, but we want the next one...
+        ctrlNextBtn.innerHTML = hourListed[i];
+        container.parentNode.appendChild(ctrlNextBtn);
+        ctrlNextBtn.onclick = function(){
+            let info = slider.getInfo();
+            let indexPrev = info.indexCached;
+            let indexCurrent = info.index;
+            // restart at the beginning when we reach the end of the day
+            if(i+1 == hourListed.length){ i= -1 }
+            // update style based on index
+            info.slideItems[indexPrev].classList.remove('active');
+            info.slideItems[indexCurrent].classList.add('active');
+            i += 1;
+            ctrlNextBtn.innerHTML = hourListed[i];
+            slider.goTo("next");
+        }
     }
-
-    // console.log(ctrlerH);
-    let ctrlerDv = document.createElement("div");
-
-    // document.body.appendChild(ctrlerDv);
-
-    let slder = tns({
-        container: ctnr,
-        controls:false,
-        // item: 1,
-    });
-    console.log(slder.getInfo().navCurrent)
-    let nextBtn = document.createElement("button");
-    let i = 1;
-    nextBtn.innerHTML = ctrlerH[i];
-
-    //slder.events.on("indexChanged", updateCtrlerTxt);
-    ctnr.parentNode.appendChild(nextBtn);
-    nextBtn.onclick = function(){
-        // get slider info
-        let info = slder.getInfo(),
-            indexPrev = info.indexCached,
-            indexCurrent = info.index;
-
-
-        console.log(info.navCurrent);
-        if(i+1>=ctrlerH.length){
-            i = -1;
-        }
-
-        // info.navCurrent == 0 ? i = (ctrlerH.length) - 1 : i = info.navCurrent;
-        console.log(ctrlerH[i]);
-
-        // update style based on index
-        info.slideItems[indexPrev].classList.remove('active');
-        info.slideItems[indexCurrent].classList.add('active');
-        nextBtn.innerHTML = ctrlerH[i+1];
-        i += 1;
-        slder.goTo("next");
-    };
 }
 function _display(ntry, ctnr){
     for(let key in ntry){
@@ -98,15 +84,17 @@ function init() {
     schedules.sort(function(a,b){
         return new Date(a["start_time"]).getTime() - new Date(b["start_time"]).getTime();
     });
-    let srted = _.groupBy(schedules, function(d){
+    let sortedByHour = _.groupBy(schedules, function(d){
         return new Date(d["start_time"]);
     });
-    display(srted, document.getElementById("kiela"));
+    let sortedByHourAndByDay = _.groupBy(sortedByHour, function(d){
+        return new Date(d[0]["start_time"].split(" ")[0])
+    });
+    display(sortedByHourAndByDay, document.getElementById("kiela"));
 }
 function getAllSchedules(callback){
     window.api.get("/schedules",{})
         .then(function(r){
-
             schedules = r["data"];
             callback();
         })
@@ -138,7 +126,6 @@ function getScheduleFormat(callback){
                 scheduleFormat = r["data"];
             }
             callback(init);
-
         })
         .catch(function(error){
             switch(error.response.status){
