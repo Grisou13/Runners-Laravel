@@ -1,45 +1,69 @@
 let scheduleFormat, schedules;
 
 function display(ntry, ctnr){
+
     let ctrlerH = [];
-    let updateCtrlerTxt = function(slder){
-        // todo change info controlsText:[]
-        console.log("TSS TSS");
+    console.log(ntry)
 
-        console.log();
-        let i;
-        slder.navCurrent == 0 ? i = (ctrlerH.length) - 1 : i = slder.navCurrent;
-        // ctrlerH[slder.navCurrent].
+    console.log(ntry)
 
-        slder.controlsText = [ctrlerH[i-1], ctrlerH[i]];
-        console.log(slder.controlsText)
-    };
-    let whenDoesItStart = function(slder){
-        // todo change controlsText
-    }
-
-    for(let vl in ntry){
+    for (let vl in ntry) {
         let dv = document.createElement("div");
         let h3 = document.createElement("h3");
+
         h3.innerHTML = ntry[vl][0]["start_time"].split(" ")[0];
+
         h3.innerHTML += " à ";
         h3.innerHTML += ntry[vl][0]["start_time"].split(" ")[1];
         dv.appendChild(h3);
         ctrlerH.push(ntry[vl][0]["start_time"].split(" ")[1]);
-        for(crrnt in ntry[vl]){
-            dv.innerHTML += "GROUP N°"+ntry[vl][crrnt]["group_id"] + " ";
-
+        for (crrnt in ntry[vl]) {
+            dv.innerHTML += "GROUP N°" + ntry[vl][crrnt]["group_id"] + " ";
         }
         ctnr.appendChild(dv);
+        //todo group by date (day, not only hour)
 
     }
 
+    // console.log(ctrlerH);
+    let ctrlerDv = document.createElement("div");
+
+    // document.body.appendChild(ctrlerDv);
+
     let slder = tns({
         container: ctnr,
+        controls:false,
         // item: 1,
     });
-    slder.events.on("indexChanged", updateCtrlerTxt);
+    console.log(slder.getInfo().navCurrent)
+    let nextBtn = document.createElement("button");
+    let i = 1;
+    nextBtn.innerHTML = ctrlerH[i];
 
+    //slder.events.on("indexChanged", updateCtrlerTxt);
+    ctnr.parentNode.appendChild(nextBtn);
+    nextBtn.onclick = function(){
+        // get slider info
+        let info = slder.getInfo(),
+            indexPrev = info.indexCached,
+            indexCurrent = info.index;
+
+
+        console.log(info.navCurrent);
+        if(i+1>=ctrlerH.length){
+            i = -1;
+        }
+
+        // info.navCurrent == 0 ? i = (ctrlerH.length) - 1 : i = info.navCurrent;
+        console.log(ctrlerH[i]);
+
+        // update style based on index
+        info.slideItems[indexPrev].classList.remove('active');
+        info.slideItems[indexCurrent].classList.add('active');
+        nextBtn.innerHTML = ctrlerH[i+1];
+        i += 1;
+        slder.goTo("next");
+    };
 }
 function _display(ntry, ctnr){
     for(let key in ntry){
@@ -77,9 +101,7 @@ function init() {
     let srted = _.groupBy(schedules, function(d){
         return new Date(d["start_time"]);
     });
-
     display(srted, document.getElementById("kiela"));
-
 }
 function getAllSchedules(callback){
     window.api.get("/schedules",{})
