@@ -24,57 +24,56 @@ function display(entries, container){
             entryDiv.appendChild(entryHeader);
             currentContainer.appendChild(entryDiv);
         }
-        console.log(hourListed);
         let slider = tns({
             container: currentContainer,
             controls: false
         });
 
-        // add button control
+        // add next button control
         let ctrlNextBtn = document.createElement("button");
-        let i = 1;
+        let ctrlPrevBtn = document.createElement("button");
         // index starts at 0, but we want the next one...
-        ctrlNextBtn.innerHTML = hourListed[i];
+        let i = 0;
+        ctrlPrevBtn.innerHTML = hourListed[(hourListed.length)-1];
+        ctrlNextBtn.innerHTML = hourListed[i+1];
+        container.parentNode.appendChild(ctrlPrevBtn);
         container.parentNode.appendChild(ctrlNextBtn);
+        console.log(hourListed)
         ctrlNextBtn.onclick = function(){
+            i += 1;
+            if(i == hourListed.length){ i = 0 }
+            console.log(i);
+            console.log(hourListed[i]);
             let info = slider.getInfo();
             let indexPrev = info.indexCached;
             let indexCurrent = info.index;
-            // restart at the beginning when we reach the end of the day
-            if(i+1 == hourListed.length){ i= -1 }
+
+            // update style based on index
+            ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1 ];
+            ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
+            // ctrlPrevBtn.innerHTML = hourListed[];
+            // ctrlNextBtn.innerHTML = hourListed[i];
+            slider.goTo("next");
+        };
+
+
+        ctrlPrevBtn.onclick = function(){
+            i -= 1;
+            if(i < 0){ i = hourListed.length -1 }
+            console.log(i);
+            console.log(hourListed[i]);
+            let info = slider.getInfo();
+            let indexPrev = info.indexCached;
+            let indexCurrent = info.index;
+
             // update style based on index
             info.slideItems[indexPrev].classList.remove('active');
             info.slideItems[indexCurrent].classList.add('active');
-            i += 1;
-            ctrlNextBtn.innerHTML = hourListed[i];
-            slider.goTo("next");
+
+            ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1];
+            ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
+            slider.goTo("prev");
         }
-    }
-}
-function _display(ntry, ctnr){
-    for(let key in ntry){
-        if(!ntry.hasOwnProperty(key)){continue};
-        // create table
-        let tbl = document.createElement("table");
-        tbl.style.border = "1px solid";
-        tbl.style.width = "60%";
-        tbl.style.margin = "10px";
-        let rw = tbl.insertRow(0);
-        rw.insertCell(0).appendChild(document.createTextNode("G"));
-
-        rw.insertCell(0).appendChild(document.createTextNode("H"));
-        rw.setAttribute("border", "1");
-
-        let crrnt = ntry[key];
-
-        for(let vl in crrnt){
-            console.log(crrnt[vl]);
-            let tr = tbl.insertRow();
-            tr.insertCell(0).appendChild(document.createTextNode(crrnt[vl]["group_id"]));
-            tr.insertCell(0).appendChild(document.createTextNode(crrnt[vl]["start_time"].split(" ")[1]));
-            // tr.insertCell(crrnt[vl]["group_id"])
-        }
-        ctnr.appendChild(tbl);
 
     }
 }
