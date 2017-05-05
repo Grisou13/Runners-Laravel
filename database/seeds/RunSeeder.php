@@ -94,6 +94,11 @@ class RunSeeder extends Seeder
         if(rand(0,100) % 2){
           $run->waypoints()->attach(1);
           $run->waypoints()->attach(2);
+          $sub = new Lib\Models\RunSubscription();
+          $sub->run()->associate($run);
+          $sub->user()->associate(2);
+          $sub->car_type()->associate(1);
+          $sub->save();
         }
       }
       /*factory(Lib\Models\Waypoint::class,10)->create();

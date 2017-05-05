@@ -70,10 +70,10 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       $api->post("/runs/{run}/stop",["as"=>"run.stop","uses"=>"RunController@stop"]);
       
       //adding cars to run
-      $api->post("/runs/{run}/cars/{car}/join","CarController@join");
-      $api->delete("/runs/{run}/cars/{car}/unjoin","CarController@unjoin");//deletes a user from a car
-      //adding a user to a run
-      $api->post("/runs/{run}/users/{user}/join","UserController@join");
-      $api->delete("/runs/{run}/users/{user}/unjoin","UserController@unjoin"); //deletes a car from a user
+//      $api->post("/runs/{run}/cars/{car}/join","CarController@join");
+//      $api->delete("/runs/{run}/cars/{car}/unjoin","CarController@unjoin");//deletes a user from a car
+//      //adding a user to a run
+//      $api->post("/runs/{run}/users/{user}/join","UserController@join");
+//      $api->delete("/runs/{run}/users/{user}/unjoin","UserController@unjoin"); //deletes a car from a user
     });
 });
