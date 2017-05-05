@@ -74,7 +74,6 @@ function display(entries, container){
             ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
             slider.goTo("prev");
         }
-
     }
 }
 
@@ -89,6 +88,13 @@ function init() {
     let sortedByHourAndByDay = _.groupBy(sortedByHour, function(d){
         return new Date(d[0]["start_time"].split(" ")[0])
     });
+    
+    for(let property in sortedByHourAndByDay){
+        if(sortedByHourAndByDay.hasOwnProperty(property)){
+            console.log(sortedByHourAndByDay[property])
+        }
+    }
+    throw new Error("Work in progress, please step aside.");
     display(sortedByHourAndByDay, document.getElementById("kiela"));
 }
 function getAllSchedules(callback){
