@@ -443,7 +443,7 @@ add_sub.addEventListener("click",(e)=>{
     e.preventDefault()
     subs.appendChild(generateSubscription({car_type:null,car:null,user:null}))
 })
-var data = window.resource_cache.subscriptions ? window.resource_cache.subscriptions : []
+var data = window.resource_cache.subscriptions
 data.forEach((s)=> subs.appendChild(generateSubscription(s)))
 
 </script>
