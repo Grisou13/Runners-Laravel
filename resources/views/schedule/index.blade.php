@@ -19,4 +19,3 @@
     </div>
     {{--<div class="groups"></div>--}}
 @endsection
-
