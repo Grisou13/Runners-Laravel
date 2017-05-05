@@ -11,8 +11,8 @@ namespace Lib\Models;
 
 trait TransformableModel
 {
-  public function jsonSerialize()
-  {
-    return app('Dingo\Api\Transformer\Factory')->transform($this);
-  }
+//  public function jsonSerialize()
+//  {
+//    return app('Dingo\Api\Transformer\Factory')->transform($this);
+//  }
 }

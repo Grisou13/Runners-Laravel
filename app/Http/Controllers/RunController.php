@@ -6,6 +6,7 @@ use App\Http\Requests\CreateRunRequest;
 use Auth;
 use Dingo\Api\Exception\ValidationHttpException;
 use Illuminate\Contracts\View\View;
+use Illuminate\Validation\ValidationException;
 use Lib\Models\Car;
 use Lib\Models\CarType;
 use Lib\Models\Run;
@@ -50,14 +51,23 @@ class RunController extends Controller
      */
     public function store(CreateRunRequest $request)
     {
-        $run_data = $request->except(["subscriptions","waypoints"]);
-        
-        $run = $this->api->be(Auth::user())->post("/runs",$run_data);
-        foreach($request->get("subscriptions",[]) as $sub){
-          $this->api->be(Auth::user())->post("/runs/{$run->id}/runners",$sub);
+        $run_data = $request->except(["subscriptions","_token"]);
+        try{
+          $subs = [];
+          foreach($request->get("subscriptions",[]) as $sub){
+            $data = [
+              "car_type"=>$sub["car_type"] == "-1" ? null : $sub["car_type"],
+              "car"=>$sub["car"] == "-1" ? null : $sub["car"],
+              "user"=>$sub["user"] == "-1" ? null : $sub["user"],
+            ];
+            $subs[] = $data;
+          }
+          $data = array_merge($run_data,["subscriptions"=>$subs]);
+          //dd($data);
+          $run = $this->api->be(Auth::user())->post("/runs",$data);
         }
-        foreach($request->get("waypoints",[]) as $point){
-          $this->api->be(Auth::user())->post("/runs/{$run->id}/waypoints",$point);
+        catch (ValidationException $e){
+          redirect()->back()->withErrors($e)->withInput($request->all());
         }
         return redirect()->route("runs.index");
     }
@@ -95,19 +105,20 @@ class RunController extends Controller
     public function update(Request $request, Run $run)
     {
         //dd($request->all());
-        $run_data = $request->except(["subscriptions","waypoints"]);
-        $run = $this->api->be(Auth::user())->patch("/runs/{$run->id}",[],json_encode($run_data));
-        $this->api->be(Auth::user())->delete("/runs/{$run->id}/runners");
-        $this->api->be(Auth::user())->delete("/runs/{$run->id}/waypoints");
-        foreach($request->get("subscriptions",[]) as $sub){
-          $data = [
-            "car_type"=>$sub["car_type"] == "-1" ? null : $sub["car_type"],
-            "car"=>$sub["car"] == "-1" ? null : $sub["car"],
-            "user"=>$sub["car_type"] == "-1" ? null : $sub["user"],
+        $run_data = $request->except(["subscriptions","_token"]);
+        $subs = [];
+        foreach($request->get("subscriptions",[]) as $sub) {
+          $d = [
+            "car_type" => $sub["car_type"] == "-1" ? null : $sub["car_type"],
+            "car" => $sub["car"] == "-1" ? null : $sub["car"],
+            "user" => $sub["user"] == "-1" ? null : $sub["user"],
           ];
-          $this->api->be(Auth::user())->post("/runs/{$run->id}/runners",[],json_encode($data));
+          if(array_key_exists("id", $sub) && !empty($sub["id"]))
+            $d["id"] = $sub["id"];
+          $subs[] = $d;
         }
-        $this->api->be(Auth::user())->post("/runs/{$run->id}/waypoints",[],json_encode($request->get("waypoints",[])));
+        $data = array_merge($run_data, ["subscriptions"=>$subs]);
+        $run = $this->api->be(Auth::user())->patch("/runs/{$run->id}",$data);
 
 //        return redirect()->route("runs.index");
         return redirect()->back();

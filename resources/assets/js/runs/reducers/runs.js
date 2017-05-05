@@ -53,7 +53,7 @@ const runs = (state = defaultState, action) => {
         case SUBSCRIPTION_UPDATED:
             var run = action.run;
             var sub = action.payload;
-            return Object.assign({},state, {items: [state.items.map((r)=>{
+            return Object.assign({},state, {items: state.items.map((r)=>{
                 if(r.id == run.id)
                     r.runners = r.runners.map((s)=>{
                         if(s.id == sub.id)
@@ -62,7 +62,7 @@ const runs = (state = defaultState, action) => {
                     })
                 return r
             })
-            ]})
+            })
 
         default:
             return state;

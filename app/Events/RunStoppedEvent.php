@@ -43,4 +43,10 @@ class RunStoppedEvent implements ShouldBroadcast
     {
         return "stopped";
     }
+    public function broadcastWith()
+    {
+      return [
+        "run"=>$this->run,
+      ];
+    }
 }

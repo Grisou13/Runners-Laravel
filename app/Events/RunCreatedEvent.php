@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Support\Facades\Log;
 use Lib\Models\Run;
 
 class RunCreatedEvent implements ShouldBroadcast
@@ -41,8 +42,13 @@ class RunCreatedEvent implements ShouldBroadcast
     public function broadcastWith()
     {
       //json_decode is a buit stupid, but can't do better for now
+      \Log::debug("RUN CREATED");
+      \Log::debug($this->run);
+      \Log::debug($this->run->subscriptions);
       return [
-        "run"=>json_decode((string)$this->run),
+        "run"=>$this->run,
+        "waypoints"=>$this->run->waypoints()->get(),
+        "subscriptions"=>$this->run->runners()->with(["car_type","user","car","car.car_type"])->get()
       ];
     }
 }

@@ -1,4 +1,12 @@
- {{ Form::bsText("name",$run->name) }}
+{{--@if($errors)--}}
+    {{--{{ dump($errors) }}--}}
+    {{--{{ dump(old("waypoints")) }}--}}
+    {{--{{ dump(old("subscriptions")) }}--}}
+    {{--{{ dump($run) }}--}}
+    {{--{{ dump($run->subscriptions()->with(["user","car_type","car"])->get()) }}--}}
+{{--@endif--}}
+
+{{ Form::bsText("name",$run->name) }}
  {{ Form::bsText("nb_passenger",$run->nb_passenger) }}
  <script>
      window.resource_cache = <?php echo json_encode([
@@ -6,7 +14,7 @@
          "car_types"=>$car_types,
          "cars"=>$cars,
          "users"=>$users,
-         "subscriptions"=> $run->exists ? $run->subscriptions : false
+         "subscriptions"=> $run->exists ? $run->subscriptions()->with(["user","car_type","car"])->get() : []
      ]) ?>
  </script>
  <div class="form-group">
@@ -30,6 +38,7 @@
              return [(string)$c->id => $c->name];
      });
  @endphp
+
 <div id="waypoint-selection" class="waypoints">
     <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
         <div class="col-md-4">
@@ -148,7 +157,7 @@
 $( function() {
   $( "#planned_at" ).datetimepicker({
       altField: "#input_planned_at",
-      timeFormat:"hh:mm",
+      timeFormat:"hh:mm:ss",
       dateFormat: 'yy-mm-dd',
       altFieldTimeOnly: false
   });
@@ -211,6 +220,7 @@ $( function() {
 
 
 const generateSubscription = (sub) => {
+    console.log(sub)
     var cars = window.resource_cache.cars
     var car_types = window.resource_cache.car_types
     var runners = window.resource_cache.users
@@ -232,6 +242,10 @@ const generateSubscription = (sub) => {
 
     var car_types_input = document.createElement("select")
     var car_types_container = document.createElement("div")
+
+    var id_input = document.createElement("input")
+    id_input.type = "hidden"
+    id_input.value = sub.id ? sub.id : null
 
     var emptyOption = document.createElement("option")
     emptyOption.value=-1
@@ -310,7 +324,7 @@ const generateSubscription = (sub) => {
         cars_input.add(emptyOption)
         cars.filter( c => c.car_type_id == ctype.id).forEach( (c) => {
             var option = document.createElement("option")
-            option.text = c.name
+            option.text = c.name + " (" + c.nb_place + ")"
             option.value = c.id
             cars_input.add(option)
         })
@@ -324,6 +338,7 @@ const generateSubscription = (sub) => {
     cars_input.name="subscriptions["+count+"][car]"
     runners_input.name = "subscriptions["+count+"][user]"
     car_types_input.name = "subscriptions["+count+"][car_type]"
+    id_input.name = "subscriptions["+count+"][id]"
 
     //EVENT HANDLING
     reset_btn.addEventListener("click", (e)=>{
@@ -356,7 +371,7 @@ const generateSubscription = (sub) => {
             console.log(cars)
             cars.filter( c => c.car_type_id == type).forEach( (c) => {
                 var option = document.createElement("option")
-                option.text = c.name
+                option.text = c.name + " (" + c.nb_place + ")"
                 option.value = c.id
                 cars_input.add(option)
             })
@@ -415,7 +430,7 @@ const generateSubscription = (sub) => {
     container.appendChild(cars_container)
     container.appendChild(runners_container)
 
-
+    container.appendChild(id_input)
     container.appendChild(btn_container)
 
 

@@ -94,6 +94,10 @@ class Run extends Model
     {
         return $this->belongsToMany(CarType::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_id"]);
     }
+  
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
     public function subscriptions()
     {
         return $this->hasMany(RunSubscription::class);

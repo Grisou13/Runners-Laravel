@@ -44,7 +44,7 @@ class RunDeletedEvent implements ShouldBroadcast
     public function broadcastWith()
     {
       return [
-        "run"=>json_decode((string)$this->run),
+        "run"=>$this->run,
       ];
     }
 }

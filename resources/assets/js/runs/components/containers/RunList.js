@@ -33,7 +33,6 @@ class RunList extends React.Component
                 </div>
                 <div className="row">
                     {runs.map(run => {
-                        console.log(this.props.ui)
                         var date = moment(run.begin_at)
                         var d = run.begin_at ? `${date.format("DD/MM")}` : null
                         var t = run.begin_at ? `${date.format("HH:mm")}` : null
@@ -133,7 +132,6 @@ const getVisibleRuns = (runs, filters) => {
     }).orderBy(function(r){
         return r.status
     }).value()
-    console.log(filters)
     runs.forEach(r => console.log(r.status))
     if(filters.status.length)
         runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)

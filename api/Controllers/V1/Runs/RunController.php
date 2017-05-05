@@ -65,15 +65,43 @@ class RunController extends BaseController
 
     public function update(Request $request, Run $run)
     {
-
-        $run->update($request->all());
-        if($request->has("waypoints"))
-        {
-          $run->waypoints()->detach();//remove all waypoints and reassign them
-          $run->waypoints()->attach($request->get("waypoints"));
+        $run->fill($request->all());
+        $subs = [];
+        if($request->has("subscriptions")) {
+          $t = collect($request->get("subscriptions", []));
+          $run->subscriptions->each(function(RunSubscription $sub) use ($t){
+            if(!$t->contains("id",$sub->id))
+              $sub->forceDelete();
+          });//empty the shit out of the runners
+          
+          foreach ($request->get("subscriptions", []) as $convoy) {
+            $userId = array_key_exists("user", $convoy) ? $convoy["user"] : null;
+            $carId = array_key_exists("car", $convoy) ? $convoy["car"] : null;
+            $carTypeId = array_key_exists("car_type", $convoy) ? $convoy["car_type"] : null;
+            $sub = array_key_exists("id", $convoy) ? RunSubscription::findOrFail($convoy["id"]) : new RunSubscription;
+            $sub->user()->associate($userId);
+            $sub->car()->associate($carId);
+            $sub->car_type()->associate($carTypeId);
+            if($sub->exists)
+              $sub->save();
+            else{
+              $sub->run()->associate($run);
+              $subs[] = $sub;
+            }
+          }
+          
         }
-
+        if($request->has("waypoints")) {
+          $run->waypoints()->sync([]);//remove all waypoints and reassign them
+          foreach($request->get("waypoints") as $point)
+            $run->waypoints()->attach($point);
+        }
+        
         $run->save();
+        foreach($subs as $s){
+          $s->save();
+        }
+        broadcast(new RunUpdatedEvent($run));
         return $run;
     }
     public function store(CreateRunRequest $request)
@@ -81,7 +109,7 @@ class RunController extends BaseController
         $run = new Run;
         $subs = [];
         
-        foreach($request->get("convoys",[]) as $convoy)
+        foreach($request->get("subscriptions",[]) as $convoy)
         {
           $userId = array_key_exists("user",$convoy) ? $convoy["user"] : null;
           $carId = array_key_exists("car",$convoy) ? $convoy["car"] : null;
@@ -94,30 +122,16 @@ class RunController extends BaseController
         }
         
         $run->fill($request->except(["_token","token"]));
-        $run->name =  $request->get("title",$request->get("artist"));
-
+        if($run->name == null)
+          $run->name =  $request->get("title",$request->get("artist"));
+      
         $run->save();
         //save relationships
         if(count($subs))
           $run->subscriptions()->saveMany($subs);
-
+  
         foreach($request->get("waypoints") as $point){
-          $point = Waypoint::firstOrNew(["id"=>$point],["name"=>$point]);
-          if($point->exists())
-            $run->waypoints()->attach($request->get("waypoints"));
-          else{
-            $url = "https://maps.googleapis.com/maps/api/geocode/json?key=".env("GOOGLE_API_KEY")."&region=CH&address=".urlencode($point->name);
-            $client = new \GuzzleHttp\Client();
-            $res = $client->request('GET', $url);
-            if($res->getStatusCode() == 200)
-            {
-              $body = json_decode($res->getBody(),true);
-              $point->geo = $body["results"][0];
-            }
-            $point->save();
-            $run->waypoints()->attach($point);
-
-          }
+          $run->waypoints()->attach($point);//need to attach 1 by 1 to calculate order
         }
 
         

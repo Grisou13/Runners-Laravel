@@ -34,16 +34,9 @@ class WaypointController extends BaseController
     
     public function store(Request $request, Run $run)
     {
-        // TODO: create run if runners are provided for car_type, and/or cars
-        // For now this is not taken car of
+        
 
-        /**
-        * Waypoint is an array containing a waypoint id, and the order
-        * [
-        *   ["id"=>WaypointId,"order"=>integer]
-        * ]
-        * @var $waypoints Array
-        */
+        
         $waypoints = $request->get("waypoints");
         foreach($waypoints as $point)
         {
