@@ -1,5 +1,32 @@
 let scheduleFormat, schedules;
 
+// attach the .equals method to Array's prototype to call it on any array
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    // compare lengths - can save a lot of time
+    if (this.length != array.length)
+        return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;
+        }
+        else if (this[i] != array[i]) {
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;
+        }
+    }
+    return true;
+};
+// Hide method from for-in loops
+Object.defineProperty(Array.prototype, "equals", {enumerable: false});
+
 function display(entries, container){
     for (let day in entries){
         let hourListed = [];
@@ -38,7 +65,7 @@ function display(entries, container){
         ctrlNextBtn.innerHTML = hourListed[i+1];
         container.parentNode.appendChild(ctrlPrevBtn);
         container.parentNode.appendChild(ctrlNextBtn);
-        console.log(hourListed)
+        console.log(hourListed);
         ctrlNextBtn.onclick = function(){
             i += 1;
             if(i == hourListed.length){ i = 0 }
@@ -88,11 +115,45 @@ function init() {
     let sortedByHourAndByDay = _.groupBy(sortedByHour, function(d){
         return new Date(d[0]["start_time"].split(" ")[0])
     });
-    
-    for(let property in sortedByHourAndByDay){
+
+
+    for(let property in sortedByHourAndByDay){ // foreach day
+        let currentGroup = [];
+        let lastGroup = [];
+        let finalSort = []; finalSort[0] = []; // no ragrets
+        let index = 0;
+        let firstIter = true;
         if(sortedByHourAndByDay.hasOwnProperty(property)){
-            console.log(sortedByHourAndByDay[property])
+            for(let times in sortedByHourAndByDay[property]){
+                for(let grp in sortedByHourAndByDay[property][times]){
+                    currentGroup.push(sortedByHourAndByDay[property][times][grp]["group_id"]);
+
+                }
+                // "Talk is cheap. Show me the code." - Linus Torvalds
+                if(firstIter){ // if empty
+                    lastGroup = currentGroup;
+                    firstIter = false;
+                    console.log("RENRE")
+                }else{
+                    if(currentGroup.equals(lastGroup)){
+
+                        // same, so we keep the same index
+                        lastGroup = [];
+
+                        finalSort[index].push(currentGroup);
+                    }else{ // if we have a different group set
+                        index += 1;
+                        finalSort[index] = currentGroup;
+                    }
+
+                }
+                currentGroup = [];
+
+            }
+
         }
+        console.log(finalSort);
+        throw new Error("dam ")
     }
     throw new Error("Work in progress, please step aside.");
     display(sortedByHourAndByDay, document.getElementById("kiela"));
