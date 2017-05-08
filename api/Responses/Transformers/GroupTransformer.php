@@ -14,7 +14,8 @@ use League\Fractal\TransformerAbstract;
 class GroupTransformer extends TransformerAbstract
 {
   public $availableIncludes = [
-    "schedules"
+    "schedules",
+    "users"
   ];
   public function transform(Group $group)
   {
@@ -23,5 +24,9 @@ class GroupTransformer extends TransformerAbstract
   public function includeSchedules(Group $group)
   {
     return $this->collection($group->schedules, new ScheduleTransformer);
+  }
+  public function includeUsers(Group $group)
+  {
+    return $this->collection($group->users, new UserTransformer);
   }
 }
