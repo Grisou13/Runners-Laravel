@@ -13,8 +13,30 @@ let mix = require('laravel-mix');
 mix
     .js('resources/assets/js/app.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
-    .babel("resources/assets/js/runs/app.jsx","public/js/run-app.js")
-
+    .react("resources/assets/js/runs/app.js","public/js/runs.js")
+    // .webpackConfig({
+    //     module: {
+    //         rules: [
+    //             {
+    //                 test: /\.jsx?$/,
+    //                 loader: 'babel-loader',
+    //                 query: {
+    //                     presets: ["es2017",
+    //                         "es2015",
+    //                         "react",
+    //                         "stage-0",
+    //                         "stage-1"],
+    //                     plugins: [
+    //                         "transform-decorators-legacy"
+    //                     ]
+    //                 },
+    //             },
+    //         ],
+    //     },
+    // })
+    .then(()=>{
+        console.log("HAGSDHSD");
+    })
 // Full API
 // mix.js(src, output);
 // mix.react(src, output); <-- Identical to mix.js(), but registers React Babel compilation.
@@ -34,7 +56,7 @@ mix
 // mix.setPublicPath('path/to/public');
 // mix.setResourceRoot('prefix/for/resource/locators');
 // mix.autoload({}); <-- Will be passed to Webpack's ProvidePlugin.
-// mix.webpackConfig({}); <-- Override webpack.config.js, without editing the file directly.
+// mix.webpackConfig({}); <-- Override _webpack.config.js, without editing the file directly.
 // mix.then(function () {}) <-- Will be triggered each time Webpack finishes building.
 // mix.options({
 //   extractVueStyles: false, // Extract .vue component styling to file, rather than inline.

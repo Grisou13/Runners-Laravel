@@ -23,17 +23,20 @@ class CarSeeder extends Seeder
           "brand"=>collect(["BMW","Suzuki","Renault","Hyundai"])->random(),
           "model"=>collect(["Serie 4", "Monospace", "Truc"])->random(),
           "color" => 'noir',
-          "nb_place" => rand(3, 7),
+          "nb_place" => rand(3, 6),
           "car_type_id" => rand(1,2)
         ]);
       }
-      Car::create([
-        "plate_number"=>"VD ".rand(1000000,200000),
-        "brand"=>"Renault",
-        "model"=>"Monospace",
-        "color" => 'noir',
-        "nb_place" => 6,
-        "car_type_id" => 3
-      ]);
+      for($i = 0; $i < 10; $i++){
+    
+        Car::create([
+          "plate_number"=>"VD ".rand(1000000,200000),
+          "brand"=>collect(["Suzuki","Renault","Hyundai"])->random(),
+          "model"=>collect(["Monospace", "Camion"])->random(),
+          "color" => 'noir',
+          "nb_place" => rand(5, 12),
+          "car_type_id" => rand(3,5)
+        ]);
+      }
     }
 }

@@ -5,5 +5,5 @@
 @endpush
 
 @section("content")
-    <div id="run-display-app"></div>
+    <div id="run-display-app" class="display"></div>
 @stop

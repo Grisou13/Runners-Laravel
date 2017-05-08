@@ -19,7 +19,9 @@ class RunSeeder extends Seeder
 
       if(!User::all()->count())
         $this->call(UserSeeder::class);
-
+      collect(["Nyon centre","Lausanne Gare","Paleo grande scène","Genève aéroport", "Chavannes", "lake geneva hotel"])->each(function($n){
+        Waypoint::create(["name"=>$n]);
+      });
       $notes = collect([
         'Band départ 11 Pax',
         'Crew départ 1 Pax, 1 VALISE + 1 SAC',
@@ -45,7 +47,7 @@ class RunSeeder extends Seeder
 
       // seeds creation ========================
 
-      Run::create([ // run started
+      $run = Run::create([ // run started
         'started_at' => '2017-07-12 08:00:00',
         'ended_at' => null,
         'planned_at' => '2017-07-12 00:00:00',
@@ -56,8 +58,10 @@ class RunSeeder extends Seeder
         'updated_at' => date('Y-m-d h:m:s'),
         'deleted_at' => null,
       ]);
+      $run->waypoints()->attach(3);
+      $run->waypoints()->attach(1);
 
-      Run::create([ // run ended and 0 passengers
+      $run = Run::create([ // run ended and 0 passengers
         'started_at' => '2017-07-13 08:00:00',
         'ended_at' => '2017-07-13 12:00:00',
         'planned_at' => '2017-07-13 00:00:00',
@@ -68,9 +72,12 @@ class RunSeeder extends Seeder
         'updated_at' => date('Y-m-d h:m:s'),
         'deleted_at' => null,
       ]);
+      $run->waypoints()->attach(3);
+      $run->waypoints()->attach(4);
+      $run->waypoints()->attach(1);
 
       foreach($artists as $artist){
-        Run::create([
+        $run = Run::create([
           'started_at' => null,
           'ended_at' => null,
           'planned_at' => '2017-07-13 20:49:18',
@@ -81,6 +88,18 @@ class RunSeeder extends Seeder
           'updated_at' => date('Y-m-d h:m:s'),
           'deleted_at' => null,
         ]);
+        $run->waypoints()->attach(3);
+        $run->waypoints()->attach(5);
+
+        if(rand(0,100) % 2){
+          $run->waypoints()->attach(1);
+          $run->waypoints()->attach(2);
+          $sub = new Lib\Models\RunSubscription();
+          $sub->run()->associate($run);
+          $sub->user()->associate(2);
+          $sub->car_type()->associate(1);
+          $sub->save();
+        }
       }
       /*factory(Lib\Models\Waypoint::class,10)->create();
       factory(Lib\Models\Run::class,3)->create()->each(function(\Lib\Models\Run $run){

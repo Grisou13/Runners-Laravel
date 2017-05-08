@@ -2,11 +2,13 @@
 
 namespace Lib\Models;
 use App\Concerns\StatusConcern;
+use App\Events\RunCreatedEvent;
 use App\Events\RunDeletedEvent;
 use App\Events\RunDeletingEvent;
 use App\Events\RunFinishedEvent;
 use App\Events\RunSavedEvent;
 use App\Events\RunSavingEvent;
+use App\Events\RunUpdatedEvent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +19,10 @@ use App\Helpers\Status as StatusHelper;
 
 class Run extends Model
 {
-    use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern;
-    public $rules = [
+    use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern, TransformableModel;
+
+  
+  public $rules = [
       "name"=>"required_if:artist,''",
     ];
     protected $fillable = [
@@ -46,8 +50,10 @@ class Run extends Model
     protected $events = [
       'saving' => RunSavingEvent::class,
       "saved" => RunSavedEvent::class,
+      'created'=>RunCreatedEvent::class,
       'deleting' => RunDeletingEvent::class,
-      'deleted' => RunDeletedEvent::class
+      'deleted' => RunDeletedEvent::class,
+      'updated' => RunUpdatedEvent::class
     ];
 
     public function setArtistAttribute($value)
@@ -88,6 +94,10 @@ class Run extends Model
     {
         return $this->belongsToMany(CarType::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_id"]);
     }
+  
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
     public function subscriptions()
     {
         return $this->hasMany(RunSubscription::class);
@@ -101,18 +111,43 @@ class Run extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-    public function scopeActif($query)
+  
+  /**
+   * Retrieves all the runs planned today
+   * @param Builder $query
+   * @return Builder
+   */
+    public function scopeActif(Builder $query)
     {
       return $query->where( \DB::raw('DAY(planned_at)'), '>=', date('d'));
     }
+
+  /**
+   * @param $query
+   * param $date string|Carbon
+   * @return mixed
+   *
+   */
     public function scopeWhen($query, $date)
     {
-      return $query->where( \DB::raw('DAY(planned_at)'), '>=', $date)->actif();// + the run must be actif
+      if(! ($date instanceof Carbon) )
+        $date = new Carbon($date);
+      return $query->where( \DB::raw('DATE(planned_at)'), '==', $date->toDateString());// + the run must be actif
     }
+  /**
+   * @param $query
+   * param $dates array<string|Carbon>
+   * @return mixed
+   *
+   */
   public function scopeWhenBetween($query, $dates)
   {
-    $d1 = new Carbon($dates[0]);//d1 is the first day
-    $d2 = new Carbon($dates[1]);//d2 is the last day
-    return $query->where( \DB::raw('DAY(planned_at)'), '>=', $d1->day)->where(\DB::raw('DAY(planned_at)'), '<=', $d2->day)->actif();// + the run must be actif
+    list($d1,$d2) = $dates;
+    if(is_string($d1))
+      $d1 = new Carbon($d1);//d1 is the first day
+    if(is_string($d2))
+      $d2 = new Carbon($d2);//d2 is the last day
+    
+    return $query->where( \DB::raw('DATE(planned_at)'), '>=', $d1->toDateString())->where(\DB::raw('DATE(planned_at)'), '<=', $d2->toDateString());// + the run must be actif
   }
 }

@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react'
-
-const RunDetails = ({title, nb_passenger, date}) => (
-    <div className="col-md-3 col-xs-11 text-center run-details">
+import React from 'react'
+import PropTypes from 'prop-types';
+const RunDetails = ({title, nb_passenger, date, note}) => (
+    <div className=" text-center run-details">
         <div className="container-fluid">
             <div className="row">
                 <div className="col-md-12">
@@ -14,6 +14,9 @@ const RunDetails = ({title, nb_passenger, date}) => (
                     <div className="passengers">
                         { nb_passenger } personnes
                     </div>
+                    <div className="notes">
+                        {note}
+                    </div>
 
                 </div>
             </div>
@@ -23,7 +26,8 @@ const RunDetails = ({title, nb_passenger, date}) => (
 RunDetails.propTypes = {
     title:PropTypes.string.isRequired,
     nb_passenger:PropTypes.number.isRequired,
-    date:PropTypes.string.isRequired
+    date:PropTypes.string.isRequired,
+    note:PropTypes.string.isRequired,
 }
 
 export default RunDetails

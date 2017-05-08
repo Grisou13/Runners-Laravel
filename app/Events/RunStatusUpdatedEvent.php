@@ -11,11 +11,11 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Lib\Models\Run;
 
-class RunStatusUpdatedEvent
+class RunStatusUpdatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
   
-    protected $run;
+    public $run;
     /**
      * Create a new event instance.
      *
@@ -33,6 +33,10 @@ class RunStatusUpdatedEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('runs');
+    }
+    public function broadcastAs()
+    {
+        return "update.status";
     }
 }

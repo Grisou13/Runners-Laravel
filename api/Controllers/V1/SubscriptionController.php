@@ -10,6 +10,7 @@ namespace Api\Controllers\V1;
 
 
 use Api\Controllers\BaseController;
+use App\Events\RunSubscriptionUpdatedEvent;
 use App\Http\Requests\CreateRunSubscription;
 use App\Http\Requests\UpdateRunSubscriptionRequest;
 use Dingo\Api\Exception\ValidationHttpException;
@@ -117,6 +118,7 @@ class SubscriptionController extends BaseController
     $data = $request->except(["token","_token","user","car_type","car"]);
     
     $sub->update($data);
+    broadcast(new RunSubscriptionUpdatedEvent($sub));
     return $sub;
   }
   public function delete(RunSubscription $sub)

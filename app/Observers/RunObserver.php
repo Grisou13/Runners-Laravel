@@ -13,6 +13,7 @@ use App\Events\RunDeletedEvent;
 use App\Events\RunDeletingEvent;
 use App\Events\RunFinishedEvent;
 use App\Events\RunSavingEvent;
+use App\Events\RunStatusUpdatedEvent;
 use App\Events\RunSubscriptionSavedEvent;
 use Carbon\Carbon;
 use Lib\Models\Run;
@@ -61,46 +62,55 @@ class RunObserver
   {
     
     $run = $event->run;
+    $status = $run->status;
     $this->adaptRunStatus($run);
-//    if($run->subscriptions()->ofStatus("ready_to_go")->count() == $run->subscriptions()->count())
-//      $run->status = "ready";
-//    else
-//      $run->status="error";
     $run->save();
-    //$this->adaptRunStatus($event->run);
+    if($status == $run->fresh()->status)//if the status changed, we update it
+      broadcast(new RunStatusUpdatedEvent($run));
   }
   public function runWasDeleted(RunDeletedEvent $event)
   {
     event(new RunFinishedEvent($event->run));
   }
   
-  
+  protected function runNotReady(Run $run){
+    //TODO retalk to product manager if implemented?
+//    $seats = $run->subscriptions->map(function($sub){
+//              return $sub->car_id != null ? $sub->car->nb_place:0;
+//            })->sum();
+//            if($seats < $run->nb_passenger){
+//              $run->status="missing_cars";
+//            }
+//            if($run->subscriptions()->where("car_id","!=",null)->count())//check if all subs have a car
+//              $run->status = "missing_car";
+//            else
+      if(Carbon::now("+1h")->lte($run->planned_at))
+        $run->status = "error";
+      else
+        $run->status="needs_filling";
+  }
   protected function adaptRunStatus(Run $run)
   {
+    $sub_count = $run->subscriptions()->count();
     if($run->status != "gone")
     {
-      if($run->subscriptions()->count() > 0 )
+      if($sub_count > 0 )
       {
-        if($run->started_at==null && $run->ended_at == null && $run->status != "gone") //the run hasn't started
+        if($run->started_at==null && $run->ended_at == null) //the run hasn't started
         {
-          if($run->subscriptions()->ofStatus("ready_to_go")->count() == $run->subscriptions()->count())
+          if($run->subscriptions()->ofStatus("ready_to_go")->count() == $sub_count)
             $run->status = "ready";
-          else{
-            $seats = $run->subscriptions->map(function($sub){
-              return $sub->car_id != null ? $sub->car->nb_place:0;
-            })->sum();
-            if($seats < $run->nb_passenger){
-              $run->status="missing_cars";
-            }
-            else
-              $run->status="error"; //something's not right here
-          }
+          else
+            $this->runNotReady($run);
         }
       }
-      else
-      {
-        $run->status="needs_filling";
+      else{
+        $this->runNotReady($run);
       }
+    }
+    else{
+      if($run->subscriptions()->ofStatus("finished")->count() == $sub_count)
+        $run->status = "finished";
     }
     
   }

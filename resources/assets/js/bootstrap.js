@@ -44,9 +44,12 @@ var echo = new Echo({
     broadcaster: 'socket.io',
     host: window.location.hostname + ':6001'
 });
+echo.registerAxiosRequestInterceptor()
+window.LaravelEcho = echo
 
-echo.channel("test")
-    .on("event", (data)=>{
-        console.log("WAZA")
-        console.log(data)
-    })
+//
+// echo.channel("test")
+//     .on("event", (data)=>{
+//         console.log("WAZA")
+//         console.log(data)
+//     })

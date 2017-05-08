@@ -134,6 +134,7 @@ class CarController extends Controller
         $comment = new Comment;
         $comment->fill($request->except("_token"));
         $comment->commentable()->associate($car);
+        //TODO refactor this to authorize only coordinators and up to add a user to a comment
         if($request->has("user"))
             $user = User::find($request->get("user"));
         else
