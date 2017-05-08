@@ -4,7 +4,7 @@ User: Joel.DE-SOUSA
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
-          <div class="panel-heading">Create a car</div>
+          <div class="panel-heading">Création d'une voiture</div>
             <div class="panel-body">
               <form class="form-horizontal" role="form" method="POST" action="{{ route('car.store') }}">
                 <div class="form-group{{ $errors->has('plate_number') ? ' has-error' : '' }}">

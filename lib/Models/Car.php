@@ -18,7 +18,8 @@ class Car extends Model
     ];
     public $events = [
       "saving"=>"App\\Events\\CarSavingEvent",
-      "creating"=>"App\\Events\\CarCreatingEvent"
+      "creating"=>"App\\Events\\CarCreatingEvent",
+      "created"=>"App\\Events\\CarCreatedEvent"
     ];
     public function subscriptions()
     {
@@ -52,8 +53,8 @@ class Car extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-    public function setNameAttribute($value)
-    {
-      $this->attributes["name"] = $this->car_type->name . " " . $value;
-    }
+    // public function setNameAttribute($value)
+    // {
+    //   $this->attributes["name"] = $this->car_type->name . " " . $value;
+    // }
 }

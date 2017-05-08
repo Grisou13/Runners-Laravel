@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types';
 
 import AddUserButton from './subs/AddUserButton'
 import AddCarTypeButton from './subs/AddCarTypeButton'
@@ -27,7 +28,7 @@ const Subscription = ({sub,user=null,car=null,car_type=null}) => {
         carTypeBtn = (<AddCarTypeButton sub={sub} />)
 
      return (
-         <div className="row" style={{ height:"100%", minHeight:"100px" }}>
+         <div className="row sub" style={{ height:"100%", minHeight:"100px" }}>
              <div className="col-md-6 col-xs-6 car">
                  <span className="">{car ? car.name: (car_type ? car_type.type: " ")}</span>
              </div>

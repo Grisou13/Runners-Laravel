@@ -29,13 +29,13 @@ class CreateRunRequest extends FormRequest
     public function rules()
     {
         return [
-            "title"=>"required|min:1",
-            "artist"=>"sometimes|required_without:title|min:1",
+            "name"=>"required|min:1",
             "nb_passenger"=>"required|numeric|max:50",
+//            "note"=>"sometimes|min:1",
             "planned_at"=>"required|date",
             "waypoints"=>"required|min:2",
-            "waypoints.*"=>Rule::in(Waypoint::all()->pluck("id")->toArray()),
-            "car_type"=>"sometimes|exists:car_types,id",
+            "subscriptions"=>"sometimes|required|min:1"
+            //"waypoints.*"=>Rule::in(Waypoint::all()->pluck("id")->toArray()),
         ];
     }
     public function messages()

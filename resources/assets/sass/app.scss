@@ -1,7 +1,17 @@
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Droid+Serif');
-
+//@import url('https://fonts.googleapis.com/css?family=Droid+Serif');
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: 400;
+  src:
+          local('Droid Serif'),
+          url("/fonts/DroidSerif.ttf") format('ttf');
+}
+html {
+  font-family: 'Droid Serif', serif;
+}
 // Variables
 @import "variables";
 

@@ -15,6 +15,7 @@ use App\Events\RunDeletingEvent;
 use App\Events\RunStartedEvent;
 use App\Events\RunSubscriptionDeletingEvent;
 use App\Events\RunSubscriptionSavingEvent;
+use App\Events\CarCreatedEvent;
 
 class CarObserver
 {
@@ -24,7 +25,7 @@ class CarObserver
       'App\Events\RunDeletingEvent',
       [$this,'runIsDeleting']
     );
-    
+
     $events->listen(
       "App\\Events\\RunSubscriptionDeletingEvent",
       [$this,"makeCarAvailable"]
@@ -38,19 +39,35 @@ class CarObserver
       [$this,"carIsCreating"]
     );
     $events->listen(
+      "App\\Events\\CarCreatedEvent",
+      [$this,"carWasCreated"]
+    );
+    $events->listen(
       "App\\Events\\RunStartedEvent",
       [$this,"makeCarGone"]
     );
   }
+  public function carWasCreated(CarCreatedEvent $event)
+  {
+    //$car = $event->car;
+
+  }
   public function makeCarGone(RunStartedEvent $event)
   {
     $event->run->subscriptions->map(function($sub){
-      $sub->car->status = "gone";
-      $sub->car->save();
+      $car = $sub->car;
+      $car->status = "gone";
+      $car->save();
     });
   }
   public function carIsCreating(CarCreatingEvent $event)
   {
+    $car = $event->car;
+    if(empty($car->name)){
+      $count = $car->car_type->cars()->count() + 1;
+      $car->name = $car->car_type->name . " ". $count;
+    }
+
     $event->car->status="free";
   }
   public function makeCarAvailable(RunSubscriptionDeletingEvent $event)

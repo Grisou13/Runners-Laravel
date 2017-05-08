@@ -31,8 +31,7 @@ class UpdateUserRequest extends FormRequest
           'phone' => 'required|max:255',
           'sex' => 'required|max:255',
           'stat' => 'required|max:255',
-          'accesstoken' => 'required|max:255',
-          'password' => 'required|min:6|confirmed'
+          'accesstoken' => 'required|max:255'
         ];
     }
 }

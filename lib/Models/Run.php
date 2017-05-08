@@ -2,11 +2,13 @@
 
 namespace Lib\Models;
 use App\Concerns\StatusConcern;
+use App\Events\RunCreatedEvent;
 use App\Events\RunDeletedEvent;
 use App\Events\RunDeletingEvent;
 use App\Events\RunFinishedEvent;
 use App\Events\RunSavedEvent;
 use App\Events\RunSavingEvent;
+use App\Events\RunUpdatedEvent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -17,15 +19,17 @@ use App\Helpers\Status as StatusHelper;
 
 class Run extends Model
 {
-    use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern;
-    public $rules = [
+    use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern, TransformableModel;
+
+  
+  public $rules = [
       "name"=>"required_if:artist,''",
     ];
     protected $fillable = [
-        "name","planned_at","note","ended_at", "nb_passenger", "artist"
+        "name","planned_at","nb_passenger"
     ];
     protected $guarded = [
-      "started_at"
+      "started_at","ended_at"
     ];
     protected $attributes = [
       "status"=>"free"
@@ -46,14 +50,11 @@ class Run extends Model
     protected $events = [
       'saving' => RunSavingEvent::class,
       "saved" => RunSavedEvent::class,
+      'created'=>RunCreatedEvent::class,
       'deleting' => RunDeletingEvent::class,
-      'deleted' => RunDeletedEvent::class
+      'deleted' => RunDeletedEvent::class,
+      'updated' => RunUpdatedEvent::class
     ];
-   
-    public function waypoints(){
-      //all fields selected in pivot table are prefixed with pivot_*
-      return $this->sortableBelongsToMany(Waypoint::class,"order")->withPivot("order");
-    }
 
     public function setArtistAttribute($value)
     {
@@ -64,21 +65,9 @@ class Run extends Model
       return $this->attributes["name"] = $val;
     }
 
-    public function getEndLocationAttribute(){
-      return $this->waypoints->last();
-    }
-    public function getStartLocationAttribute(){
-      return $this->waypoints->first();
-    }
-    public function defaultRunName(){
-      //try getting the name from the artist
-      if(array_key_exists("artist",$this->attributes))
-        return $this->attributes["artist"];
-      //or maybe the starting point name
-      return self::resolveGeoLocationName($this->waypoints->first()->geo);
-    }
-    public static function resolveGeoLocationName($geo){
-      return $geo["address_components"][0]["short_name"];//force first element of result
+    public function waypoints(){
+      //all fields selected in pivot table are prefixed with pivot_*
+      return $this->sortableBelongsToMany(Waypoint::class,"order")->withPivot("order");
     }
   /**
    * Should be readonly
@@ -105,6 +94,10 @@ class Run extends Model
     {
         return $this->belongsToMany(CarType::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_id"]);
     }
+  
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
     public function subscriptions()
     {
         return $this->hasMany(RunSubscription::class);
@@ -118,8 +111,43 @@ class Run extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-    public function scopeActif($query)
+  
+  /**
+   * Retrieves all the runs planned today
+   * @param Builder $query
+   * @return Builder
+   */
+    public function scopeActif(Builder $query)
     {
       return $query->where( \DB::raw('DAY(planned_at)'), '>=', date('d'));
     }
+
+  /**
+   * @param $query
+   * param $date string|Carbon
+   * @return mixed
+   *
+   */
+    public function scopeWhen($query, $date)
+    {
+      if(! ($date instanceof Carbon) )
+        $date = new Carbon($date);
+      return $query->where( \DB::raw('DATE(planned_at)'), '==', $date->toDateString());// + the run must be actif
+    }
+  /**
+   * @param $query
+   * param $dates array<string|Carbon>
+   * @return mixed
+   *
+   */
+  public function scopeWhenBetween($query, $dates)
+  {
+    list($d1,$d2) = $dates;
+    if(is_string($d1))
+      $d1 = new Carbon($d1);//d1 is the first day
+    if(is_string($d2))
+      $d2 = new Carbon($d2);//d2 is the last day
+    
+    return $query->where( \DB::raw('DATE(planned_at)'), '>=', $d1->toDateString())->where(\DB::raw('DATE(planned_at)'), '<=', $d2->toDateString());// + the run must be actif
+  }
 }

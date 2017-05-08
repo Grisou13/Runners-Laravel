@@ -25,7 +25,7 @@ Mix.initialize();
  |--------------------------------------------------------------------------
  |
  | This prop will determine the appropriate context, when running Webpack.
- | Since you have the option of publishing this webpack.config.js file
+ | Since you have the option of publishing this _webpack.config.js file
  | to your project root, we will dynamically set the path for you.
  |
  */

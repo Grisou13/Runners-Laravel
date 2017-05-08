@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Lib\Models\Run;
 use Lib\Models\RunSubscription;
 
-class RunSubscriptionCreatedEvent
+class RunSubscriptionCreatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     /**
@@ -42,6 +42,20 @@ class RunSubscriptionCreatedEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('runs.'.$this->run->id.'.subscriptions');
     }
+    public function broadcastAs(){
+        return "created";
+    }
+  public function broadcastWith()
+  {
+    return [
+      "run"=>($this->run),
+      "subscription"=>$this->run_subscription,
+      "user"=>$this->run_subscription->user,
+      "car"=>$this->run_subscription->car()->with(["car_type"])->get()->first(),
+      "car_type"=>$this->run_subscription->car_type
+      //"subscriptions"=>json_decode((string)$this->run->runners)
+    ];
+  }
 }

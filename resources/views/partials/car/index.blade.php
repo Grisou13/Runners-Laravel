@@ -5,9 +5,9 @@ User: Joel.DE-SOUSA
   <thead>
       <tr>
           <td>Licence</td>
-          <td>Brand</td>
-          <td>Model</td>
-          <td>seats</td>
+          <td>Marque</td>
+          <td>Modèle</td>
+          <td>Places</td>
       </tr>
   </thead>
   <tbody>

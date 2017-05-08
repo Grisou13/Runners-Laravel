@@ -35,6 +35,10 @@ class RunFinishedEvent implements ShouldQueue
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('runs.'.$this->run->id);
+    }
+    public function broadcastAs()
+    {
+      return "finished";
     }
 }

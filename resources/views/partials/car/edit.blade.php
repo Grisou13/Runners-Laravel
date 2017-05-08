@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
-          <div class="panel-heading">{{ $mode !== null && $mode === "edit" ? "Edit the car " : "Create a car" }}</div>
+          <div class="panel-heading">{{ $mode !== null && $mode === "edit" ? "Edition de la voiture " : "Création d'une voiture" }}</div>
             <div class="panel-body">
                 <!-- si la voiture existe -->
                 @if($car->exists)
@@ -53,13 +53,13 @@
                     <div class="form-group">
                       <div class="col-md-6 col-md-offset-4">
                           <div class="col-md-3">
-                            <input type="submit" class="btn btn-primary" {{ $car->exists?"disabled":"" }} name="" value="{{ $car->exists ? "Edit" : "Create" }} the car">
+                            <input type="submit" class="btn btn-primary" {{ $car->exists?"disabled":"" }} name="" value="{{ $car->exists ? "Editer" : "Créer" }} la voiture">
                               <!-- <button {{ $mode !== null && $mode === "edit" ? 'disabled' : ''}} type="submit" class="btn btn-primary">
                                   <span>{{ $mode == "edit" ? "Edit" : "Create" }} the car</span>
                               </button> -->
                           </div>
                           <div class="col-md-3 col-md-push-1">
-                              <a href="{{ route("cars.index") }}" class="btn btn-danger">Cancel</a>
+                              <a href="{{ route("cars.index") }}" class="btn btn-danger">Annuler</a>
                           </div>
                       </div>
                     </div>
@@ -69,7 +69,7 @@
                 <form method="post" action="{{ route("cars.destroy",$car) }}"  class="pull-right">
                     <input type="hidden" value="DELETE" name="_method">
                     <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                    <input disabled type="submit" id="delete" value="Delete this car" class="btn btn-warning">
+                    <input disabled type="submit" id="delete" value="Supprimer la voiture" class="btn btn-warning">
                 </form>
               @endif
                 @if($car->exists)

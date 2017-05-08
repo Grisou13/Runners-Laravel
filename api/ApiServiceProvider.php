@@ -7,9 +7,11 @@ namespace Api;
 use Api\ApiAuthProvider;
 use Api\Responses\Transformers\CarTransformer;
 use Api\Responses\Transformers\CarTypeTransformer;
+use Api\Responses\Transformers\GroupTransformer;
 use Api\Responses\Transformers\RunSubscriptionTransformer;
 use Api\Responses\Transformers\RunTransformer;
 use Api\Responses\Transformers\UserTransformer;
+use Api\Responses\Transformers\WaypointTransformer;
 use App\Providers\RouteServiceProvider;
 use Dingo\Api\Exception\ValidationHttpException;
 use Dingo\Api\Transformer\Adapter\Fractal;
@@ -21,9 +23,11 @@ use League\Fractal\Manager;
 use League\Fractal\Serializer\ArraySerializer;
 use Lib\Models\Car;
 use Lib\Models\CarType;
+use Lib\Models\Group;
 use Lib\Models\Run;
 use Lib\Models\RunSubscription;
 use Lib\Models\User;
+use Lib\Models\Waypoint;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApiServiceProvider extends RouteServiceProvider
@@ -88,11 +92,13 @@ class ApiServiceProvider extends RouteServiceProvider
     protected function registerModelBindings()
     {
       app('Dingo\Api\Transformer\Factory')->register(User::class, UserTransformer::class);
+      app('Dingo\Api\Transformer\Factory')->register(Group::class, GroupTransformer::class);
       app('Dingo\Api\Transformer\Factory')->register(Run::class, RunTransformer::class);
       app('Dingo\Api\Transformer\Factory')->register(RunSubscription::class, RunSubscriptionTransformer::class);
       app('Dingo\Api\Transformer\Factory')->register(Car::class, CarTransformer::class);
       app('Dingo\Api\Transformer\Factory')->register(CarType::class, CarTypeTransformer::class);
-  
+      app('Dingo\Api\Transformer\Factory')->register(Waypoint::class, WaypointTransformer::class);
+
     }
 
     /**

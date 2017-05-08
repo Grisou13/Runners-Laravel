@@ -1,10 +1,48 @@
 #run-app
   padding-right: 7px
   padding-left: 15px
+.btn-container
+  position: absolute
+  margin-bottom: auto
+  height: auto
+  vertical-align: middle
+  margin-left: -103px
+  flex-direction: row
+  align-items: stretch
+  display: none
+  margin-top: 15px
+  transition: display .2s
+  & .control
+    vertical-align: middle
+    display: block
+    width: 15px
+    height: 100%
+    margin-left: 15px
+    font-size: 20px
+    //margin: 0 auto
+
+.run-container
+  margin-right: 34px
+  margin-left: 23px
+  padding-left: auto
+  transition: padding-left .2s ease-in-out
+  &:hover
+    padding-left: 120px
+    .btn-container
+      display: flex
+
+.subscription .sub
+  border-bottom: solid 1px
+.subscription .sub::last-child
+  border-bottom: hidden
 
 .run
+  @extend .row
   margin-bottom: 5px
   margin-top: 10px
+  margin-left: 15px
+  padding-right: -10px
+  background-color: $run-bg
   & .run-details
     & .date
       width: 50px
@@ -15,8 +53,14 @@
       left: -25px
       position: absolute
       top: 50px
+  & .notes
+    margin-top: 15px
+    margin-bottom: -15px
+    max-height: 40px
+    overflow-y: hidden
+    text-overflow: ellipsis
   &:nth-child(odd)
-    background-color: $run-bg
+    background-color: darken($run-bg, 10%)
   &::before
     content: ' '
     height: 100%
