@@ -4,6 +4,7 @@
 */
 namespace Lib\Models;
 
+use App\Concerns\StatusConcern;
 use App\Helpers\Status;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,14 +12,15 @@ use Znck\Eloquent\Traits\BelongsToThrough;
 
 class Car extends Model
 {
-    use SoftDeletes, BelongsToThrough;
+    use SoftDeletes, BelongsToThrough, StatusConcern;
     protected $fillable = [
         "plate_number","brand","model","color","nb_place","comment","name"
     ];
-    protected $attributes = [
-      "status"=>"free"
+    public $events = [
+      "saving"=>"App\\Events\\CarSavingEvent",
+      "creating"=>"App\\Events\\CarCreatingEvent",
+      "created"=>"App\\Events\\CarCreatedEvent"
     ];
-
     public function subscriptions()
     {
       return $this->hasMany(RunSubscription::class);
@@ -51,8 +53,8 @@ class Car extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-    public function setNameAttribute($value)
-    {
-      return $this->attributes["name"] = $this->car_type->name . " " . $value;
-    }
+    // public function setNameAttribute($value)
+    // {
+    //   $this->attributes["name"] = $this->car_type->name . " " . $value;
+    // }
 }

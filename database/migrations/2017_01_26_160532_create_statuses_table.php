@@ -16,17 +16,13 @@ class CreateStatusesTable extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
             //$table->morphs("statable");
-            $table->string("type");
-            $table->string("name");
-            $table->string("displayname");
+            $table->string("type")->nullable();
+            $table->string("key")->unique();
+            $table->string("value",2048);
+            $table->integer("weight")->default(1);
         });
-        
-        Schema::create("statusables",function(Blueprint $table){
-            $table->morphs("statusable");
-          $table->integer("status_id")->references("id")->on("statuses");
-        });
-      Schema::dropIfExists('statuses');
-      Schema::dropIfExists('statusables');
+
+        Schema::dropIfExists('statuses');
     }
 
     /**

@@ -29,7 +29,7 @@ class CreateCarRequest extends FormRequest
           'plate_number'   => 'required|unique:cars,plate_number',
           'brand'            => 'required',
           'model'            => 'required',
-          'type'     => 'required',
+          'type'     => 'required|exists:car_types,id',
           'nb_place'=>"required|numeric"
         ];
     }

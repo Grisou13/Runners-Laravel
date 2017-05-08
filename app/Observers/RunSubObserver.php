@@ -39,7 +39,10 @@ class RunSubObserver
       $sub->status="needs_filling";
     
     if($sub->car_id != null)
-      $sub->car->status="taken";
+      $sub->car_type()->associate($sub->car()->getResults()->car_type_id);
+    
+    if($sub->status == null)
+      $sub->status="error";
   }
   public function deleteSubsForRun(RunDeletingEvent $event)
   {

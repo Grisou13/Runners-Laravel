@@ -23,4 +23,8 @@ class StatusController extends BaseController
   {
       return Status::getStatusForRessource($model);
   }
+  public function vehicle()
+  {
+    return Status::getStatusForRessource("car");
+  }
 }

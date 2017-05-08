@@ -10,7 +10,11 @@ namespace App\Observers;
 
 
 use App\Events\RunDeletingEvent;
+use App\Events\RunStartedEvent;
 use App\Events\RunSubscriptionDeletedEvent;
+use App\Events\RunSubscriptionDeletingEvent;
+use App\Events\RunSubscriptionSavingEvent;
+use App\Events\UserCreatingEvent;
 
 class UserObserver
 {
@@ -21,28 +25,68 @@ class UserObserver
       'App\Events\RunDeletingEvent',
       [$this,'runIsDeleting']
     );
+//    $events->listen(
+//      "App\\Events\\RunStartedEvent",
+//      [$this,"makeUsersUnavailable"]
+//    );
     $events->listen(
-      "App\\Events\\RunStartedEvent",
-      [$this,"makeUsersUnavailable"]
-    );
-    $events->listen(
-      "App\\Events\\RunSubscriptionDeletedEvent",
+      "App\\Events\\RunSubscriptionDeletingEvent",
       [$this,"makeUserAvailable"]
     );
+    $events->listen(
+      "App\\Events\\RunSubscriptionSavingEvent",
+      [$this,"makeUserUnavailable"]
+    );
+  
+    $events->listen(
+      "App\\Events\\UserCreatingEvent",
+      [$this,"userCreating"]
+    );
+    
+    $events->listen(
+      "App\\Events\\RunStartedEvent",
+      [$this,"makeUserGone"]
+    );
+  }
+  public function makeUserGone(RunStartedEvent $event)
+  {
+    $event->run->subscriptions->map(function($sub){
+      $sub->user->status = "gone";
+      $sub->user->save();
+    });
+  }
+  public function makeUserUnavailable(RunSubscriptionSavingEvent $event)
+  {
+    if($event->run_subscription->user_id != null)
+    {
+      $user = $event->run_subscription->user;
+      $user->status="taken";
+      $user->save();
+    }
+  }
+  public function makeUserAvailable(RunSubscriptionDeletingEvent $event)
+  {
+    if($event->run_subscription->user_id != null)
+    {
+      $user = $event->run_subscription->user;
+      $user->status="free";
+      $user->save();
+    }
     
   }
-  public function makeUserAvailable(RunSubscriptionDeletedEvent $event)
+  public function userCreating(UserCreatingEvent $event)
   {
-    //this will freee the user.
-    // TODO check if the user isn't already in runs, or run_subs
-    $event->run_subscription->user->status="free";
-    $event->run_subscription->user->save();
+    $user = $event->user;
+    $user->status="free";//when creating a user, we set his status to free
+    //$user->save();
   }
+
   public function runIsDeleting(RunDeletingEvent $event)
   {
     $run = $event->run;
     $run->subscriptions->map(function($sub){//FREE ALL THE USERS
-      $sub->user->status="free";
+      if($sub->user_id != null)
+        $sub->user->status="free";
     });
   }
 }

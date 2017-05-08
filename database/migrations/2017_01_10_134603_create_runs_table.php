@@ -18,8 +18,8 @@ class CreateRunsTable extends Migration
             $table->dateTime('started_at')->nullable();
             $table->dateTime('ended_at')->nullable();
             $table->dateTime("planned_at")->nullable();
-            $table->integer("nb_passenger");
-            $table->string("artist")->nullable();
+            $table->integer("nb_passenger")->default(0);
+            //$table->string("artist")->nullable();
             $table->string('name');
             $table->string("note")->nullable();
             $table->timestamps();

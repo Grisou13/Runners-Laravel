@@ -1,5 +1,15 @@
 @charset "UTF-8";
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Droid Serif"), url("/fonts/DroidSerif.ttf") format("ttf");
+}
+
+html {
+  font-family: 'Droid Serif', serif;
+}
+
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -1979,17 +1989,17 @@ pre code {
   clear: both;
 }
 
-.row {
+.row, .run {
   margin-left: -15px;
   margin-right: -15px;
 }
 
-.row:before, .row:after {
+.row:before, .run:before, .row:after, .run:after {
   content: " ";
   display: table;
 }
 
-.row:after {
+.row:after, .run:after {
   clear: both;
 }
 
@@ -7686,6 +7696,340 @@ button.close {
   .hidden-print {
     display: none !important;
   }
+}
+
+#run-app {
+  padding-right: 7px;
+  padding-left: 15px;
+}
+
+.btn-container {
+  position: absolute;
+  margin-bottom: auto;
+  height: auto;
+  vertical-align: middle;
+  margin-left: -103px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-direction: row;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  display: none;
+  margin-top: 15px;
+  -webkit-transition: display .2s;
+  transition: display .2s;
+}
+
+.btn-container .control {
+  vertical-align: middle;
+  display: block;
+  width: 15px;
+  height: 100%;
+  margin-left: 15px;
+  font-size: 20px;
+}
+
+.run-container {
+  margin-right: 34px;
+  margin-left: 23px;
+  padding-left: auto;
+  -webkit-transition: padding-left .2s ease-in-out;
+  transition: padding-left .2s ease-in-out;
+}
+
+.run-container:hover {
+  padding-left: 120px;
+}
+
+.run-container:hover .btn-container {
+  display: -webkit-box;
+  display: flex;
+}
+
+.subscription .sub {
+  border-bottom: solid 1px;
+}
+
+.subscription .sub::last-child {
+  border-bottom: hidden;
+}
+
+.run {
+  margin-bottom: 5px;
+  margin-top: 10px;
+  margin-left: 15px;
+  padding-right: -10px;
+  background-color: #ECEFF1;
+}
+
+.run .run-details .date {
+  width: 50px;
+  height: 15px;
+  margin-right: 5px;
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  left: -25px;
+  position: absolute;
+  top: 50px;
+}
+
+.run .notes {
+  margin-top: 15px;
+  margin-bottom: -15px;
+  max-height: 40px;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+}
+
+.run:nth-child(odd) {
+  background-color: #cfd6db;
+}
+
+.run::before {
+  content: ' ';
+  height: 100%;
+  width: 15px;
+  margin-right: 5px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.ready {
+  background-color: #00E676;
+}
+
+.error {
+  background-color: #F44336;
+}
+
+.needs_filling {
+  background-color: #FF9800;
+}
+
+.missing_cars {
+  background-color: #FF9800;
+}
+
+.gone {
+  background-color: #1B5E20;
+}
+
+.waypoint-list {
+  padding-bottom: 10px;
+  list-style-type: none;
+  padding-left: 0;
+  margin: 2px;
+}
+
+.waypoint-list .glyphicon {
+  margin-right: 5px;
+  font-weight: lighter;
+  vertical-align: text-top;
+  margin-top: 2px;
+  width: 18px;
+  -webkit-transform: scaleX(1.8);
+  transform: scaleX(1.8);
+  margin-left: 11px;
+}
+
+.waypoint-list li {
+  display: inline-block;
+}
+
+.waypoint-list li:not(:first-child)::before {
+  width: 5px;
+  margin-right: 2px;
+}
+
+.run {
+  font-size: 1rem;
+}
+
+.run .run-details .date {
+  font-size: 1.4rem;
+}
+
+.run .run-details .title {
+  font-size: 1.5rem;
+  padding-left: 20px;
+}
+
+.run .run-details .passengers {
+  font-size: 1.4rem;
+}
+
+.run .run-details .notes {
+  font-size: 1.2rem;
+}
+
+.run .time {
+  font-size: 1.8rem;
+}
+
+.run .subscription {
+  font-size: 1.6rem;
+}
+
+.run .waypoint-list {
+  font-size: 1.5rem;
+}
+
+.run .waypoint-list .glyphicon {
+  font-size: 0.8rem;
+}
+
+.display {
+  font-size: 2rem;
+}
+
+.display .run {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.display .run .run-details .date {
+  font-size: 3rem;
+}
+
+.display .run .run-details .title {
+  font-size: 2.8rem;
+  padding-left: 20px;
+}
+
+.display .run .run-details .passengers {
+  font-size: 2.5rem;
+}
+
+.display .run .time {
+  font-size: 2.5rem;
+}
+
+.display .run .subscription {
+  font-size: 3rem;
+}
+
+.display .run .waypoint-list {
+  font-size: 1.8rem;
+}
+
+.display .run .waypoint-list li:first-of-type, .display .run .waypoint-list li:last-of-type {
+  font-size: 2rem;
+}
+
+.display .run .waypoint-list .glyphicon {
+  font-size: 1.2rem;
+}
+
+.display .title {
+  font-weight: bold;
+}
+
+.display .subscription {
+  min-height: 200px;
+  display: table;
+  margin-left: 30px;
+}
+
+.display .user, .display .car_type, .display .car {
+  height: auto;
+  min-height: 50px;
+  padding: auto;
+  vertical-align: middle;
+  font-weight: bold;
+  border-radius: 0;
+  margin: 0;
+  overflow: hidden;
+  display: table-cell;
+}
+
+@media (min-width: 1200px) {
+  .display .user {
+    border-left: 2px solid #b1bec6;
+    border-bottom: 2px solid #b1bec6;
+  }
+  .display .car {
+    border-bottom: 2px solid #b1bec6;
+    border-left: 2px solid #b1bec6;
+  }
+}
+
+@media (max-width: 1199px) {
+  .display .user {
+    border-top: 2px solid #b1bec6;
+    border-bottom: 2px solid #b1bec6;
+    border-left: 2px solid #b1bec6;
+  }
+  .display .car {
+    border-top: 2px solid #b1bec6;
+    border-bottom: 2px solid #b1bec6;
+  }
+}
+
+.display .user > span, .display .car_type > span, .display .car > span {
+  min-width: 100%;
+}
+
+.display .run-details {
+  padding-top: 8px;
+  padding-bottom: 9px;
+}
+
+.display .waypoint-list {
+  padding-bottom: 10px;
+  padding-left: 0;
+  margin: 2px;
+}
+
+.display .waypoint-list .glyphicon {
+  margin-right: 5px;
+  margin-top: 2px;
+  -webkit-transform: scaleX(1.8);
+  transform: scaleX(1.8);
+  margin-left: 11px;
+}
+
+.panel-heading {
+  background-color: #d5d5d5 !important;
+  height: 45px;
+  font-size: 16px;
+  color: #fff !important;
+}
+
+.filters {
+  height: 100px;
+}
+
+.input-filter {
+  display: inline-block;
+  width: 150px;
+  margin-right: 10px;
+  margin-top: 33px;
+}
+
+.input-hour {
+  width: 65px;
+}
+
+.input-radio {
+  list-style-type: none;
+  position: relative;
+  float: right;
+  margin-top: 15px;
+}
+
+.filter-race {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+.btn-run {
+  margin-bottom: 5px;
+  width: 110px;
 }
 
 /*# sourceMappingURL=app.css.map */

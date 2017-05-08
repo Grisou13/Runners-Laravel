@@ -1,0 +1,71 @@
+.display
+  font-size: 2rem
+  & .run
+    padding-top: 20px
+    padding-bottom: 10px
+    font-size: 1.2rem
+    & .run-details
+      & .date
+        font-size: 3rem
+      & .title
+        font-size: 2.8rem
+        padding-left: 20px
+      & .passengers
+        font-size: 2.5rem
+    & .time
+      font-size: 2.5rem
+    & .subscription
+      font-size: 3rem
+    & .waypoint-list
+      font-size: 1.8rem
+      & li:first-of-type, & li:last-of-type
+        font-size: 2rem
+      & .glyphicon
+        font-size: 1.2rem
+  & .title
+    font-weight: bold
+  & .subscription
+    min-height: 200px
+    display: table
+    margin-left: 30px
+  & .user, & .car_type, & .car
+    height: auto
+    min-height: 50px
+    padding: auto
+    vertical-align: middle
+    font-weight: bold
+    border-radius: 0
+    margin: 0
+    overflow: hidden
+    display: table-cell
+
+  @media (min-width: $screen-lg-min)
+    & .user
+      border-left: 2px solid darken($run-bg, 20%)
+      border-bottom: 2px solid darken($run-bg, 20%)
+    & .car
+      border-bottom: 2px solid darken($run-bg, 20%)
+      border-left: 2px solid darken($run-bg, 20%)
+  @media (max-width: $screen-md-max)
+    & .user
+      border-top: 2px solid darken($run-bg, 20%)
+      border-bottom: 2px solid darken($run-bg, 20%)
+      border-left: 2px solid darken($run-bg, 20%)
+    & .car
+      border-top: 2px solid darken($run-bg, 20%)
+      border-bottom: 2px solid darken($run-bg, 20%)
+
+  & .user > span, & .car_type > span, & .car > span
+    min-width: 100%
+  & .run-details
+    padding-top: 8px
+    padding-bottom: 9px
+  & .waypoint-list
+    padding-bottom: 10px
+    padding-left: 0
+    margin: 2px
+    & .glyphicon
+      margin-right: 5px
+      margin-top: 2px
+      transform: scaleX(1.8)
+      margin-left: 11px

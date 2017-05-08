@@ -2,12 +2,15 @@
 
 namespace Lib\Models;
 use App\Concerns\StatusConcern;
+use App\Events\RunCreatedEvent;
 use App\Events\RunDeletedEvent;
 use App\Events\RunDeletingEvent;
 use App\Events\RunFinishedEvent;
 use App\Events\RunSavedEvent;
 use App\Events\RunSavingEvent;
+use App\Events\RunUpdatedEvent;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
@@ -16,15 +19,17 @@ use App\Helpers\Status as StatusHelper;
 
 class Run extends Model
 {
-    use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern;
-    public $rules = [
+    use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern, TransformableModel;
+
+  
+  public $rules = [
       "name"=>"required_if:artist,''",
     ];
     protected $fillable = [
-        "name","planned_at","note","ended_at", "nb_passenger", "artist"
+        "name","planned_at","nb_passenger"
     ];
     protected $guarded = [
-      "started_at"
+      "started_at","ended_at"
     ];
     protected $attributes = [
       "status"=>"free"
@@ -45,49 +50,54 @@ class Run extends Model
     protected $events = [
       'saving' => RunSavingEvent::class,
       "saved" => RunSavedEvent::class,
+      'created'=>RunCreatedEvent::class,
       'deleting' => RunDeletingEvent::class,
-      'deleted' => RunDeletedEvent::class
+      'deleted' => RunDeletedEvent::class,
+      'updated' => RunUpdatedEvent::class
     ];
+
+    public function setArtistAttribute($value)
+    {
+      return $this->attributes["name"]=$value; //instead set the run name prop
+    }
+    public function setTitleAttribute($val)
+    {
+      return $this->attributes["name"] = $val;
+    }
 
     public function waypoints(){
       //all fields selected in pivot table are prefixed with pivot_*
       return $this->sortableBelongsToMany(Waypoint::class,"order")->withPivot("order");
     }
-
-    public function setArtistAttribute($value)
-    {
-      $this->attributes["name"]=$value;
-      $this->attributes["artist"]=$value;
-    }
-
-    public function getEndLocationAttribute(){
-      return $this->waypoints->last();
-    }
-    public function getStartLocationAttribute(){
-      return $this->waypoints->first();
-    }
-    public function defaultRunName(){
-      //try getting the name from the artist
-      if(array_key_exists("artist",$this->attributes))
-        return $this->attributes["artist"];
-      //or maybe the starting point name
-      return self::resolveGeoLocationName($this->waypoints->first()->geo);
-    }
-    public static function resolveGeoLocationName($geo){
-      return $geo["address_components"][0]["short_name"];//force first element of result
-    }
+  /**
+   * Should be readonly
+   * @return
+   */
     public function users()
     {
         return $this->belongsToMany(User::class,"run_drivers")->using(RunDriver::class)->withPivot(["car_type_id","car_id"]);
     }
+  /**
+   * Should be readonly
+   * @return
+   */
     public function cars()
     {
         return $this->belongsToMany(Car::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_type_id"]);
     }
+  
+  /**
+   * Should be readonly
+   * @return
+   */
     public function car_types()
     {
         return $this->belongsToMany(CarType::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_id"]);
     }
+  
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
     public function subscriptions()
     {
         return $this->hasMany(RunSubscription::class);
@@ -102,62 +112,42 @@ class Run extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
   
-  
-//  public function associateUser(User $user)
-//  {
-//    $user->status = "taken";
-//    return $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"user_id"=>$user->id])->user()->associate($user)->save();
-//  }
-//  public function associateCar(Car $car)
-//  {
-//    $car->status = "taken";
-//    return $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_id"=>$car->id])->car()->associate($car)->save();
-//  }
-//  public function associateCarType(CarType $car_type)
-//  {
-//    $this->status ="missing_car";
-//    $this->save();
-//    //$car->status = StatusHelper::getStatusKey($car_type,"taken");
-//    return $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_type_id"=>$car_type->id])->car_type()->associate($car_type)->save();
-//  }
-//  public function dissociateUser(User $user)
-//  {
-//
-//  }
-//  public function associateUserAndCar(User $user, Car $car)
-//  {
-//    if(!$this->exists)
-//      return false;
-//    //the number of subscriptions matches the number of full subscriptions for this run
-//    if($this->subscriptions()->where("run_id",$this->id)->whereNotNull("user_id")->whereNotNull("car_id")->count() == $this->subscriptions()->count()) {
-//      $this->status = "ready_to_go";
-//      $this->save();
-//    }
-//    //$car->status = StatusHelper::getStatusKey($car_type,"taken");
-//    $sub = $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_id"=>$car->id, "user_id"=>$user->id]);
-//    $sub->car()->associate($car);
-//    $sub->user()->associate($user);
-//    $sub->save();
-//    return $sub;
-//  }
-//  public function associateUserAndCarType(User $user, CarType $car_type)
-//  {
-//    $this->status ="missing_car";
-//    $this->save();
-//    //$car->status = StatusHelper::getStatusKey($car_type,"taken");
-//    $sub = $this->subscriptions()->firstOrNew(["run_id"=>$this->id,"car_type_id"=>$car_type->id, "user_id"=>$user->id]);
-//    $sub->car_type()->associate($car_type);
-//    $sub->user()->associate($user);
-//    $sub->save();
-//    return $sub;
-//
-//  }
-//
-//  public function dissociateCarType(CarType $car_type)
-//  {
-//  }
-//
-//  public function dissociateCar(Car $car)
-//  {
-//  }
+  /**
+   * Retrieves all the runs planned today
+   * @param Builder $query
+   * @return Builder
+   */
+    public function scopeActif(Builder $query)
+    {
+      return $query->where( \DB::raw('DAY(planned_at)'), '>=', date('d'));
+    }
+
+  /**
+   * @param $query
+   * param $date string|Carbon
+   * @return mixed
+   *
+   */
+    public function scopeWhen($query, $date)
+    {
+      if(! ($date instanceof Carbon) )
+        $date = new Carbon($date);
+      return $query->where( \DB::raw('DATE(planned_at)'), '==', $date->toDateString());// + the run must be actif
+    }
+  /**
+   * @param $query
+   * param $dates array<string|Carbon>
+   * @return mixed
+   *
+   */
+  public function scopeWhenBetween($query, $dates)
+  {
+    list($d1,$d2) = $dates;
+    if(is_string($d1))
+      $d1 = new Carbon($d1);//d1 is the first day
+    if(is_string($d2))
+      $d2 = new Carbon($d2);//d2 is the last day
+    
+    return $query->where( \DB::raw('DATE(planned_at)'), '>=', $d1->toDateString())->where(\DB::raw('DATE(planned_at)'), '<=', $d2->toDateString());// + the run must be actif
+  }
 }

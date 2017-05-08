@@ -8,10 +8,12 @@
 
 namespace Api\Controllers\V1;
 
+use Api\Requests\SearchRequest;
 use App\Helpers\Status;
 use App\Http\Requests\CreateCommentRequest;
 use Api\Requests\ListCarRequest;
 use Lib\Models\Car;
+use Lib\Models\Run;
 use Lib\Models\User;
 use Lib\Models\Comment;
 use Api\Controllers\BaseController;
@@ -22,20 +24,58 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CarController extends BaseController
 {
+    public function type(Car $car)
+    {
+      return $car->car_type;
+    }
+    public function search(SearchRequest $request)
+    {
+      $query = $request->get("q","");
+      return Car::where("name","like","%$query%")->get();
+    }
     public function index(ListCarRequest $request)
     {
-      $cars = Car::with("car_type");
+      $query = Car::with("car_type");
       if($request->has("type"))
       {
-        $cars->whereHas("car_type",function($q) use ($request){
+        $query->whereHas("car_type",function($q) use ($request){
           $q->whereIn("name",explode(",",$request->get("type")));
         });
       }
       if($request->has("status"))
       {
-        $cars->ofStatus("status",$request->get("status"));
+        $query->ofStatus($request->get("status"));
       }
-      return $cars->get();
+      /*
+       * In the following requests we use id's instead of retrieving the object.
+       * This allows us to be much more efficient when filtering query like this
+       */
+      if($request->has("between"))
+      {
+        $runs = Run::whenBetween(explode(",",$request->get("between")))->has("cars")->get();
+        $cars = $runs->map(function($r){
+          return $r->subscriptions->map(function($s){
+            return $s->car_id ? $s->car_id : null;
+          });
+        })->filter(function($c){
+          return $c != null;
+        });
+        $query->whereIn("id",$cars->all());
+      }
+      if($request->has("after"))
+      {
+        $runs = Run::when($request->get("after"))->has("cars")->get();
+        $cars = $runs->map(function($r){
+          return $r->subscriptions->map(function($s){
+            return $s->car_id ? $s->car_id : null;
+          });
+        })->filter(function($c){
+          return $c != null;
+        });
+        $query->whereIn("id",$cars->all());
+      }
+      
+      return $query->get();
       
     }
     public function show(Request $request, Car $car)
@@ -46,6 +86,10 @@ class CarController extends BaseController
     public function update(UpdateCarRequest $request, Car $car)
     {
         $car->update($request->all());
+        if($request->has("car_type"))
+        {
+          $car->car_type()->associate($request->get("car_type"));
+        }
         $car->save();
         return $this->response()->accepted();
     }

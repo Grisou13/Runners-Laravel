@@ -15,6 +15,10 @@ class Waypoint extends Model
   protected $dates = [];
   protected $fillable = ["geo","latlng","name"];
   protected $casts = ["latlng"=>"json"];
+  public $events = [
+    "saving"=>"App\\Events\\WaypointSavingEvent",
+    "creating"=>"App\\Events\\WaypointCreatingEvent"
+  ];
   public function runs()
   {
     return $this->belongsToMany(Run::class);
@@ -34,9 +38,7 @@ class Waypoint extends Model
     protected static function boot(){
       parent::boot();
       static::creating(function($self){
-        \Log::debug($self->geo);
-        \Log::debug($self->geo["geometry"]["location"]);
-        $self->latlng = $self->geo["geometry"]["location"];
+
       });
     }
     public function setNameAttribute($value){

@@ -17,6 +17,7 @@ function _hexToRgb(hex){
             b: parseInt(result[3], 16)
         } : null;
 }
+
 function _getDates(startDate, stopDate) {
     // https://momentjs.com/
     // credits to http://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates
@@ -29,6 +30,8 @@ function _getDates(startDate, stopDate) {
     }
     return dateArray;
 }
+
+
 function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
     // refer to https://kangax.github.io/compat-table/es6/#webkit for compatibility
@@ -44,48 +47,41 @@ function ajaxRequest(method, url, data, callback) {
     });
     return returnedData;
 }
-var cellListener = function(){
-    var cell = this.id.split("-");
-    var groupId = cell[0];
-    var startHour = schedule[cell[1]];
 
-    var endHour = cell[1] == schedule.length - 1 ? schedule[0] : schedule[parseInt(cell[1]) + 1];
-    console.log(endHour);
-
-    //var endHour = schedule[parseInt(cell[1]) + 1];
-    var date = cell.splice(2,3).join("-");
-    console.log(this);
-
+function updateCell(cellID){
+    let cell = document.getElementById(cellID);
+    cellID = cellID.split("-");
+    let groupID = cellID[0];
+    let startHour = schedule[cellID[1]];
+    let endHour = schedule[cellID[1]];
+    let date = cellID.splice(2,3).join("-");
     let selGrp = groups.filter(function(x){
-        return x.id == groupId;
+        return x.id == groupID;
     })[0];
 
-    if(this.dataset.assigned === "true"){
-        let url = window.Laravel.basePath + "/api/schedules/" + this.dataset.scheduleId + "?token=root";
-        this.dataset.assigned = "false";
-        this.style.backgroundColor = "white";
+    if(cell.dataset.assigned === "true"){
+        let url = window.Laravel.basePath + "/api/schedules/" + cell.dataset.scheduleId + "?token=root";
+        cell.dataset.assigned = "false";
         ajaxRequest("delete", url, "", console.log);
     }else{
-        this.dataset.assigned = "true";
-        this.style.backgroundColor = "#" + selGrp.color;
-        let url = window.Laravel.basePath + "/api/groups/"+groupId+"/schedules?token=root";
+        cell.dataset.assigned = "true";
+        cell.style.backgroundColor = "#" + selGrp.color;
+        let url = window.Laravel.basePath + "/api/groups/"+groupID+"/schedules?token=root";
         let data = {
             "start_time": date + " " + startHour,
             "end_time": date + " " + endHour,
-            "group": groupId
+            "group": groupID
         };
-        var cell = this
         let assignDataId = function(scheduleCreated){
-
             cell.dataset.scheduleId = scheduleCreated.id;
+            console.log("Sucess ! Assigned...")
         };
+
         ajaxRequest("post", url, data, assignDataId);
-
-
     }
+}
 
-};
-function createTable(schedule, groups, day){
+function createTable(schedule, groups, day, gridID){
     var grid = document.createElement("table");
     grid.style.width  = "80%";
     grid.setAttribute("border", "1");
@@ -97,6 +93,7 @@ function createTable(schedule, groups, day){
     // table header
     var headerTR = document.createElement("tr");
     var th = document.createElement("th");
+    th.style.width = "25%";
     th.innerHTML = "Groupes";
     headerTR.appendChild(th);
 
@@ -106,23 +103,34 @@ function createTable(schedule, groups, day){
         headerTR.appendChild(th);
     });
     theader.appendChild(headerTR);
+    var bgColor;
 
-    // table body
+    // listener vars
+    var isdown = false;
+    var modified = [];
+    var lin = 0;
+
     groups.forEach(function(group){
         var bodyTR = document.createElement("tr");
         var td = document.createElement("td");
-        td.innerHTML = "Group n° " + group.id;
-        var rgb = _hexToRgb(group.color);
-        td.style.backgroundColor = "rgba("+ [rgb["r"], rgb["g"], rgb["b"], 0.7].join(",") + ")";
+        td.style.cursor = "none";
+        td.innerHTML = "G°" + group.id;
         td.style.color = "white";
+        var rgb = _hexToRgb(group.color);
+        td.style.backgroundColor = "rgba("+ [rgb["r"], rgb["g"], rgb["b"], 0.9].join(",") + ")";
 
         bodyTR.appendChild(td);
         schedule.forEach(function(hour){
+
+            schedule.indexOf(hour) % 2 == 0 ? bgColor = "white" : bgColor = "#ECEFF1";
+            // if(hour == "08")
             var td = document.createElement("td");
             td.setAttribute("id", group.id + "-" + schedule.indexOf(hour) + "-" + day);
-
-            // is our row assigned ?
+            td.dataset.bgColor = bgColor;
+            td.dataset.gridID = gridID;
+            td.style.backgroundColor = bgColor;
             td.dataset.assigned = "false";
+            // is our cell assigned ?
             if(typeof group.schedules !== 'undefined' && group.schedules.length > 0){
                 group.schedules.forEach(function(p){
                     let datetime = p.start_time.split(" ");
@@ -131,9 +139,49 @@ function createTable(schedule, groups, day){
                         td.dataset.scheduleId = p.id;
                         td.dataset.assigned = "true";
                     }
-                })
+                });
             }
-            td.onclick = cellListener;
+
+            // change color of the given cell (based on the group, or return to bgColor)
+            var changeColor = function(td){
+                if(td.dataset.assigned == "false"){
+                    td.style.backgroundColor = "#" + group.color;
+                }else{
+                    td.style.backgroundColor = td.dataset.bgColor;
+                }
+            };
+            td.addEventListener("mousedown", function(e){
+                isdown = true;
+                lin = group.id;
+                modified.push(td.id);
+                changeColor(td);
+                return false;
+            });
+
+            td.addEventListener("mouseover", function(e){
+                if(isdown){
+                    if(lin == group.id){
+                        modified.push(td.id);
+                        changeColor(td);
+                    }
+                }
+                return false;
+            });
+            td.addEventListener("mouseup",function(e){
+
+
+                // update the state of each selected div
+                // TODO use time-slot instead of using each cell independently
+                modified.forEach(function(cellID){
+                    // console.log(td.parentElement.parentElement.parentElement);
+                    updateCell(cellID);
+                });
+
+                modified = [];
+                isdown = false;
+            });
+
+            // td.onclick = cellListener;
             // td.addEventListener("click", cellListener, false);
             bodyTR.appendChild(td);
         });
@@ -148,23 +196,24 @@ function createTable(schedule, groups, day){
 
 function createGrid(schedule, days, groups){
     var container = document.getElementsByClassName('schedule-container')[0];
-
+    let i=1;
     days.forEach(function(day){
-        var dayTable = createTable(schedule, groups, day);
-        moment.lang("fr");
+        var dayTable = createTable(schedule, groups, day, i);
+        dayTable.id = i;
+        moment.locale("fr");
         let div = document.createElement("div");
         div.innerHTML = moment(day).format("LL");
         div.className = "dayDiv";
         div.style.fontSize = "25px";
         container.appendChild(div);
         container.appendChild(dayTable);
+        i++;
     });
 }
 
 function getAllGroups(){
     var url = window.Laravel.basePath + "/api/groups?token=root&include=schedules";
-    return ajaxRequest("get", url, "", false);
-    // console.log(res);
+    return ajaxRequest("get", url, "", null);
 }
 
 /*
@@ -177,19 +226,27 @@ function getAllDays(){
     return _getDates(moment().format(), moment().add(1, "week").format());
 }
 
-/*
-* Contains all the day that have been changed in te grid.
-* We only read and update the days in this array
-* */
-var dayChanged = [];
+
 var days = getAllDays();
-var schedule = ["08:00", "10:00",
-                "12:00", "14:00",
-                "16:00", "18:00",
-                "20:00", "22:00",
-                "00:00", "02:00",
-                "04:00", "06:00"];
+
+schedule = ["08:00","08:30", "09:00","09:30",
+    "10:00","10:30", "11:00","11:30",
+    "12:00","12:30", "13:00","13:30",
+    "14:00","14:30", "15:00","15:30",
+    "16:00","16:30", "17:00","17:30",
+    "18:00","18:30", "19:00","19:30",
+    "20:00","20:30", "21:00","21:30",
+    "22:00","22:30", "23:00","23:30",
+    "00:00","00:30", "01:00","01:30",
+    "02:00","02:30", "03:00","03:30",
+    "04:00","04:30", "05:00","05:30",
+    "06:00","06:30", "07:00","07:30"
+];
 
 var groups = getAllGroups();
-// console.log(groups);
+
 createGrid(schedule, days, groups);
+
+//TODO https://laravel.com/docs/5.4/dusk#waiting-for-elements
+//TODO visual division of hours and day&night
+//TODO 'waiting' icon (or disable table)

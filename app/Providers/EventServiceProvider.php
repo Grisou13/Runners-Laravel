@@ -30,6 +30,8 @@ class EventServiceProvider extends ServiceProvider
     protected $subscribe = [
       'App\Observers\RunObserver',
       'App\Observers\RunSubObserver',
+      'App\Observers\UserObserver',
+      'App\Observers\CarObserver'
     ];
     /**
      * Register any events for your application.

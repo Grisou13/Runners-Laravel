@@ -168,3 +168,79 @@ Most of the api routes are protected, don't forget it, or you may have alooot of
 |        | DELETE    | users/{user}                         | users.destroy          | App\Http\Controllers\UserController@destroy                            | web,auth   |
 |        | GET|HEAD  | users/{user}/edit                    | users.edit             | App\Http\Controllers\UserController@edit                               | web        |
 +--------+-----------+--------------------------------------+------------------------+------------------------------------------------------------------------+------------+
++--------+-----------+--------------------------------------+------------------------+------------------------------------------------------------------------+------------+
+| Domain | Method    | URI                                  | Name                   | Action                                                                 | Middleware |
++--------+-----------+--------------------------------------+------------------------+------------------------------------------------------------------------+------------+
+|        | GET|HEAD  | /                                    | index                  | App\Http\Controllers\HomeController@welcome                            | web        |
+|        | GET|HEAD  | _debugbar/assets/javascript          | debugbar.assets.js     | Barryvdh\Debugbar\Controllers\AssetController@js                       |            |
+|        | GET|HEAD  | _debugbar/assets/stylesheets         | debugbar.assets.css    | Barryvdh\Debugbar\Controllers\AssetController@css                      |            |
+|        | GET|HEAD  | _debugbar/clockwork/{id}             | debugbar.clockwork     | Barryvdh\Debugbar\Controllers\OpenHandlerController@clockwork          |            |
+|        | GET|HEAD  | _debugbar/open                       | debugbar.openhandler   | Barryvdh\Debugbar\Controllers\OpenHandlerController@handle             |            |
+|        | POST      | broadcasting/auth                    |                        | Illuminate\Broadcasting\BroadcastController@authenticate               | web        |
+|        | GET|HEAD  | cars                                 | cars.index             | App\Http\Controllers\CarController@index                               | web        |
+|        | POST      | cars                                 | cars.store             | App\Http\Controllers\CarController@store                               | web,auth   |
+|        | GET|HEAD  | cars/create                          | cars.create            | App\Http\Controllers\CarController@create                              | web,auth   |
+|        | DELETE    | cars/{car}                           | cars.destroy           | App\Http\Controllers\CarController@destroy                             | web        |
+|        | GET|HEAD  | cars/{car}                           | cars.show              | App\Http\Controllers\CarController@show                                | web        |
+|        | PUT|PATCH | cars/{car}                           | cars.update            | App\Http\Controllers\CarController@update                              | web,auth   |
+|        | POST      | cars/{car}/comment                   | cars.comments.store    | App\Http\Controllers\CarController@addComment                          | web        |
+|        | GET|HEAD  | cars/{car}/edit                      | cars.edit              | App\Http\Controllers\CarController@edit                                | web,auth   |
+|        | GET|HEAD  | groups                               | groups.index           | App\Http\Controllers\GroupController@index                             | web        |
+|        | POST      | groups                               | groups.store           | App\Http\Controllers\GroupController@store                             | web        |
+|        | GET|HEAD  | groups/create                        | groups.create          | App\Http\Controllers\GroupController@create                            | web        |
+|        | GET|HEAD  | groups/{group}                       | groups.show            | App\Http\Controllers\GroupController@show                              | web        |
+|        | PUT|PATCH | groups/{group}                       | groups.update          | App\Http\Controllers\GroupController@update                            | web        |
+|        | DELETE    | groups/{group}                       | groups.destroy         | App\Http\Controllers\GroupController@destroy                           | web        |
+|        | GET|HEAD  | groups/{group}/edit                  | groups.edit            | App\Http\Controllers\GroupController@edit                              | web        |
+|        | GET|HEAD  | home                                 | home                   | App\Http\Controllers\HomeController@index                              | web,auth   |
+|        | GET|HEAD  | login                                | login                  | App\Http\Controllers\Auth\LoginController@showLoginForm                | web,guest  |
+|        | POST      | login                                |                        | App\Http\Controllers\Auth\LoginController@login                        | web,guest  |
+|        | POST      | logout                               | logout                 | App\Http\Controllers\Auth\LoginController@logout                       | web        |
+|        | POST      | password/email                       | password.email         | App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail  | web,guest  |
+|        | POST      | password/reset                       |                        | App\Http\Controllers\Auth\ResetPasswordController@reset                | web,guest  |
+|        | GET|HEAD  | password/reset                       | password.request       | App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm | web,guest  |
+|        | GET|HEAD  | password/reset/{token}               | password.reset         | App\Http\Controllers\Auth\ResetPasswordController@showResetForm        | web,guest  |
+|        | POST      | register                             |                        | App\Http\Controllers\Auth\RegisterController@register                  | web,auth   |
+|        | GET|HEAD  | register                             | register               | App\Http\Controllers\Auth\RegisterController@showRegistrationForm      | web,auth   |
+|        | POST      | runs                                 | runs.store             | App\Http\Controllers\RunController@store                               | web        |
+|        | GET|HEAD  | runs                                 | runs.index             | App\Http\Controllers\RunController@index                               | web        |
+|        | GET|HEAD  | runs/create                          | runs.create            | App\Http\Controllers\RunController@create                              | web        |
+|        | DELETE    | runs/{run}                           | runs.destroy           | App\Http\Controllers\RunController@destroy                             | web        |
+|        | PUT|PATCH | runs/{run}                           | runs.update            | App\Http\Controllers\RunController@update                              | web        |
+|        | GET|HEAD  | runs/{run}                           | runs.show              | App\Http\Controllers\RunController@show                                | web        |
+|        | GET|HEAD  | runs/{run}/car_types                 | runs.car_types.index   | App\Http\Controllers\Run\CarTypeController@index                       | web        |
+|        | POST      | runs/{run}/car_types                 | runs.car_types.store   | App\Http\Controllers\Run\CarTypeController@store                       | web        |
+|        | DELETE    | runs/{run}/car_types/{car_type}      | runs.car_types.destroy | App\Http\Controllers\Run\CarTypeController@destroy                     | web        |
+|        | PUT|PATCH | runs/{run}/car_types/{car_type}      | runs.car_types.update  | App\Http\Controllers\Run\CarTypeController@update                      | web        |
+|        | GET|HEAD  | runs/{run}/car_types/{car_type}      | runs.car_types.show    | App\Http\Controllers\Run\CarTypeController@show                        | web        |
+|        | GET|HEAD  | runs/{run}/car_types/{car_type}/edit | runs.car_types.edit    | App\Http\Controllers\Run\CarTypeController@edit                        | web        |
+|        | POST      | runs/{run}/cars                      | runs.cars.store        | App\Http\Controllers\Run\CarController@store                           | web        |
+|        | GET|HEAD  | runs/{run}/cars                      | runs.cars.index        | App\Http\Controllers\Run\CarController@index                           | web        |
+|        | DELETE    | runs/{run}/cars/{car}                | runs.cars.destroy      | App\Http\Controllers\Run\CarController@destroy                         | web        |
+|        | PUT|PATCH | runs/{run}/cars/{car}                | runs.cars.update       | App\Http\Controllers\Run\CarController@update                          | web        |
+|        | GET|HEAD  | runs/{run}/cars/{car}                | runs.cars.show         | App\Http\Controllers\Run\CarController@show                            | web        |
+|        | GET|HEAD  | runs/{run}/cars/{car}/edit           | runs.cars.edit         | App\Http\Controllers\Run\CarController@edit                            | web        |
+|        | GET|HEAD  | runs/{run}/edit                      | runs.edit              | App\Http\Controllers\RunController@edit                                | web        |
+|        | GET|HEAD  | runs/{run}/runners                   | runs.runners.index     | App\Http\Controllers\Run\RunnerController@index                        | web        |
+|        | POST      | runs/{run}/runners                   | runs.runners.store     | App\Http\Controllers\Run\RunnerController@store                        | web        |
+|        | PUT|PATCH | runs/{run}/runners/{runner}          | runs.runners.update    | App\Http\Controllers\Run\RunnerController@update                       | web        |
+|        | DELETE    | runs/{run}/runners/{runner}          | runs.runners.destroy   | App\Http\Controllers\Run\RunnerController@destroy                      | web        |
+|        | GET|HEAD  | runs/{run}/runners/{runner}          | runs.runners.show      | App\Http\Controllers\Run\RunnerController@show                         | web        |
+|        | GET|HEAD  | runs/{run}/runners/{runner}/edit     | runs.runners.edit      | App\Http\Controllers\Run\RunnerController@edit                         | web        |
+|        | GET|HEAD  | schedule                             | schedule.index         | App\Http\Controllers\ScheduleController@index                          | web        |
+|        | POST      | schedule                             | schedule.store         | App\Http\Controllers\ScheduleController@store                          | web        |
+|        | GET|HEAD  | schedule/create                      | schedule.create        | App\Http\Controllers\ScheduleController@create                         | web        |
+|        | DELETE    | schedule/{schedule}                  | schedule.destroy       | App\Http\Controllers\ScheduleController@destroy                        | web        |
+|        | PUT|PATCH | schedule/{schedule}                  | schedule.update        | App\Http\Controllers\ScheduleController@update                         | web        |
+|        | GET|HEAD  | schedule/{schedule}                  | schedule.show          | App\Http\Controllers\ScheduleController@show                           | web        |
+|        | GET|HEAD  | schedule/{schedule}/edit             | schedule.edit          | App\Http\Controllers\ScheduleController@edit                           | web        |
+|        | GET|HEAD  | test/{user?}                         |                        | Closure                                                                | web        |
+|        | POST      | upload/image                         | image.upload           | App\Http\Controllers\ImageController@upload                            | web        |
+|        | GET|HEAD  | users                                | users.index            | App\Http\Controllers\UserController@index                              | web        |
+|        | POST      | users                                | users.store            | App\Http\Controllers\UserController@store                              | web        |
+|        | GET|HEAD  | users/create                         | users.create           | App\Http\Controllers\UserController@create                             | web,auth   |
+|        | GET|HEAD  | users/{user}                         | users.show             | App\Http\Controllers\UserController@show                               | web        |
+|        | PUT|PATCH | users/{user}                         | users.update           | App\Http\Controllers\UserController@update                             | web,auth   |
+|        | DELETE    | users/{user}                         | users.destroy          | App\Http\Controllers\UserController@destroy                            | web,auth   |
+|        | GET|HEAD  | users/{user}/edit                    | users.edit             | App\Http\Controllers\UserController@edit                               | web        |
++--------+-----------+--------------------------------------+------------------------+------------------------------------------------------------------------+------------+

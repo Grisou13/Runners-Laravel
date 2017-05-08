@@ -15,6 +15,7 @@
     <link href="{{ asset("/css/style.css") }}" rel="stylesheet">
     {{--<link href="{{ asset("/css/theme.css") }}" rel="stylesheet">--}}
 
+
     @stack("styles")
 
     <!-- Scripts -->
@@ -28,7 +29,7 @@
 
         var api  = window.api = axios.create({
             baseURL: "{!! url("/api") !!}",
-            timeout: 1000,
+            timeout: 5000,
             contentType:"application/json",
             headers: {'X-Access-Token': window.Laravel.token}
         });
@@ -103,7 +104,7 @@
     <!-- Scripts -->
     <script src="{{ asset("/js/app.js") }}"></script>
     <script src="{{ asset("/js/padlock.js") }}"></script>
-    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
+{{--    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>--}}
     @stack("scripts")
 </body>
 </html>
