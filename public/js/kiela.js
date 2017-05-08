@@ -1,5 +1,4 @@
 let scheduleFormat, schedules;
-
 // attach the .equals method to Array's prototype to call it on any array
 Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return
@@ -28,7 +27,7 @@ Array.prototype.equals = function (array) {
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
 function display(entries, container){
-    for (let day in entries){
+    for(let day in entries){
         let hourListed = [];
         let currentContainer = document.createElement("div");
         let sliderContainer = document.createElement("div");
@@ -37,20 +36,21 @@ function display(entries, container){
         container.parentNode.appendChild(sliderContainer);
         container.parentNode.appendChild(currentContainer);
 
-        for (let hour in entries[day]){
+        for(let shift in entries[day]){
             let entryDiv = document.createElement("div");
             let entryHeader = document.createElement("h3");
-            entryHeader.innerHTML = entries[day][hour][0]["start_time"].split(" ")[0];
+            console.log(entries[day][shift]);
+            entryHeader.innerHTML = entries[day][shift][0]["start_time"].split(" ")[0];
             entryHeader.innerHTML += " à ";
-            entryHeader.innerHTML += entries[day][hour][0]["start_time"].split(" ")[1];
-            // keep a list of all the different hours for this day
-            hourListed.push(entries[day][hour][0]["start_time"].split(" ")[1]);
-            for (let current in entries[day][hour]){
-                entryDiv.innerHTML += "GROUP N° " + entries[day][hour][current]["group_id"] + " ";
+            entryHeader.innerHTML += entries[day][shift][0]["start_time"].split(" ")[1];
+            hourListed.push(entries[day][shift][0]["start_time"].split(" ")[1]);
+            for(let obj in entries[day][shift]){
+                entryDiv.innerHTML += "GROUP N° " + entries[day][shift][obj]["group_id"] + " ";
             }
             entryDiv.appendChild(entryHeader);
             currentContainer.appendChild(entryDiv);
         }
+
         let slider = tns({
             container: currentContainer,
             controls: false
@@ -66,6 +66,7 @@ function display(entries, container){
         container.parentNode.appendChild(ctrlPrevBtn);
         container.parentNode.appendChild(ctrlNextBtn);
         console.log(hourListed);
+
         ctrlNextBtn.onclick = function(){
             i += 1;
             if(i == hourListed.length){ i = 0 }
@@ -82,8 +83,6 @@ function display(entries, container){
             // ctrlNextBtn.innerHTML = hourListed[i];
             slider.goTo("next");
         };
-
-
         ctrlPrevBtn.onclick = function(){
             i -= 1;
             if(i < 0){ i = hourListed.length -1 }
@@ -116,47 +115,37 @@ function init() {
         return new Date(d[0]["start_time"].split(" ")[0])
     });
 
-
+    var finalSort = []; finalSort[0] = []; // no ragrets
+    let index = 0;
+    let bigO = 0;
     for(let property in sortedByHourAndByDay){ // foreach day
-        let currentGroup = [];
-        let lastGroup = [];
-        let finalSort = []; finalSort[0] = []; // no ragrets
-        let index = 0;
-        let firstIter = true;
         if(sortedByHourAndByDay.hasOwnProperty(property)){
-            for(let times in sortedByHourAndByDay[property]){
+            let currentGroup = [];
+            let lastGroup = [];
+            finalSort[bigO] = [];
+            for(var times in sortedByHourAndByDay[property]){
                 for(let grp in sortedByHourAndByDay[property][times]){
                     currentGroup.push(sortedByHourAndByDay[property][times][grp]["group_id"]);
 
                 }
                 // "Talk is cheap. Show me the code." - Linus Torvalds
-                if(firstIter){ // if empty
-                    lastGroup = currentGroup;
-                    firstIter = false;
-                    console.log("RENRE")
-                }else{
-                    if(currentGroup.equals(lastGroup)){
-
-                        // same, so we keep the same index
-                        lastGroup = [];
-
-                        finalSort[index].push(currentGroup);
-                    }else{ // if we have a different group set
-                        index += 1;
-                        finalSort[index] = currentGroup;
-                    }
-
+                if(!currentGroup.sort().equals(lastGroup.sort())){ // do we have a different group set
+                    // we only keep the first element of the shift (when the shift begins)
+                    finalSort[bigO][index] = sortedByHourAndByDay[property][times];
                 }
-                currentGroup = [];
-
+                index += 1;
+                lastGroup = currentGroup;
+                currentGroup = []; //reset current
             }
-
+            // we keep the last group, so we know when the shift ends...
+            finalSort[bigO][index] = sortedByHourAndByDay[property][times];
         }
-        console.log(finalSort);
-        throw new Error("dam ")
+        bigO += 1;
+
     }
-    throw new Error("Work in progress, please step aside.");
-    display(sortedByHourAndByDay, document.getElementById("kiela"));
+
+    // todo wtf with end_time
+    display(finalSort, document.getElementById("kiela"));
 }
 function getAllSchedules(callback){
     window.api.get("/schedules",{})
