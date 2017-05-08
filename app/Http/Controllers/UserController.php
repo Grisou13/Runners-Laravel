@@ -79,9 +79,9 @@ class UserController extends Controller
       'brand'            => 'required',
       'model'            => 'required'
     ]);*/
-    $input = $request->all();
+    $input = $request->except(["_token"]);
     $user->update($input);
-    return redirect('user');
+    return redirect()->route("users.index");
   }
 
   /**

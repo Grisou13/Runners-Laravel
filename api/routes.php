@@ -28,7 +28,14 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->resource("groups.schedules", "GroupScheduleController");
 
     $api->resource("schedules","ScheduleController");
-    $api->resource("groups",'GroupController');
+    $api->group(["namespace"=>"Groups"],function($api){
+      /**
+       * @var $api Dingo\Api\Routing\Router
+       */
+      $api->resource("groups",'GroupController');
+      $api->resource("groups.users",'GroupController',["except"=>"uppdate"]);
+    });
+    
 
     //$api->resource("kiela", "KielaController");
     $api->resource("settings", "SettingController");
