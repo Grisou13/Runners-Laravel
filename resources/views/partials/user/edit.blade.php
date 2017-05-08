@@ -4,7 +4,7 @@ User: Joel.DE-SOUSA
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
-            <div class="panel-heading">Edit {{$user->firstname . " " . $user->lastname}}</div>
+            <div class="panel-heading">Edition de {{$user->firstname . " " . $user->lastname}}</div>
             <div class="panel-body">
               <!-- si l'utilisateur existe -->
               @if($user->exists)
@@ -24,10 +24,10 @@ User: Joel.DE-SOUSA
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
                         <div class="col-md-3">
-                          <input type="submit" class="btn btn-primary" value="Edit the user" disabled>
+                          <input type="submit" class="btn btn-primary" value="Editer l'utilisateur" disabled>
                         </div>
                         <div class="col-md-3 col-md-push-1">
-                            <a href="{{ route("users.index") }}" class="btn btn-danger">Cancel</a>
+                            <a href="{{ route("users.index") }}" class="btn btn-danger">Annuler</a>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -41,7 +41,7 @@ User: Joel.DE-SOUSA
                 <form method="post" action="{{ route("users.destroy",$user) }}"  class="pull-right">
                     <input type="hidden" value="DELETE" name="_method">
                     <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                    <input disabled type="submit" id="delete" value="Delete this User" class="btn btn-warning">
+                    <input disabled type="submit" id="delete" value="Supprimer l'utilisateur" class="btn btn-warning">
                 </form>
               @endif
               <div class="row">
