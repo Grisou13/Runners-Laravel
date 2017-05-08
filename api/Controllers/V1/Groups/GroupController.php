@@ -6,7 +6,7 @@
  * Time: 13:44
  */
 
-namespace Api\Controllers\V1;
+namespace Api\Controllers\V1\Groups;
 
 use Api\Responses\Transformers\GroupTransformer;
 use Lib\Models\Group;
