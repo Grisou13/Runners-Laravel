@@ -8031,5 +8031,23 @@ button.close {
   margin-bottom: 5px;
   width: 110px;
 }
-
+.comments{
+  background-color: #f5f8fa;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+  box-shadow: 3px 3px 2px #838383;
+  position:absolute;
+  z-index: 1;
+  width: 25%;
+  visibility: hidden;
+  padding: 20px;
+}
+.comment-info{
+  font-size: 8pt;
+  margin-top: 5px;
+}
+.comment-hover:hover{
+  text-decoration: none;
+}
 /*# sourceMappingURL=app.css.map */

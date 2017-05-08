@@ -104,6 +104,7 @@
     <!-- Scripts -->
     <script src="{{ asset("/js/app.js") }}"></script>
     <script src="{{ asset("/js/padlock.js") }}"></script>
+    <script src="{{ asset("/js/display-comments.js") }}"></script>
 {{--    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>--}}
     @stack("scripts")
 </body>

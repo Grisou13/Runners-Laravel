@@ -74,9 +74,9 @@ class CarController extends BaseController
         });
         $query->whereIn("id",$cars->all());
       }
-      
+
       return $query->get();
-      
+
     }
     public function show(Request $request, Car $car)
     {
@@ -103,6 +103,9 @@ class CarController extends BaseController
     public function delete(Car $car)
     {
         return $car->delete();
+    }
+    public function showAllComments(Request $request, Car $car){
+      return $car->comments;
     }
     public function addComment(CreateCommentRequest $request, Car $car){
         $comment = new Comment;

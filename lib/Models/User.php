@@ -32,7 +32,7 @@ class User extends Authenticatable implements StatusableContract
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',"firstname","lastname","phone_number","sex","accesstoken","status"
+        'name', 'email', 'password',"firstname","lastname","phone_number","sex","accesstoken","status", "role_id"
     ];
 
     /**
