@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Lib\Models\User;
+use Lib\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -24,6 +25,21 @@ class UserSeeder extends Seeder
             "lastname"=>"toor",
             "password"=>bcrypt("root"),
             "status"=>$sta
+        ]);
+
+        // création d'un utilisateur driver
+        Lib\Models\User::create([
+          "email" => "runner@localhost",
+          "phone_number" => "",
+          "sex"=>true,
+          "accesstoken" => "runner",
+          "firstname" => "runner",
+          "name" => "runnsey",
+          "lastname" => "rennur",
+          "password"=>bcrypt("runner"),
+          "role_id" => Lib\Models\Role::where("role", "=", "runner")->first()->id,
+          "status"=>$sta
+
         ]);
         /*factory(Lib\Models\User::class,10)->create()->each(function($user){
           $img = factory(Lib\Models\Image::class)->states("profile")->make(["user_id"=>$user->id]);
