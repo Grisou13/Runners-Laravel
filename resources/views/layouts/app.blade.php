@@ -13,6 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset("/css/app.css") }}" rel="stylesheet">
     <link href="{{ asset("/css/style.css") }}" rel="stylesheet">
+    <link href="{{ asset("/css/sweetalert.css") }}" rel="stylesheet">
     {{--<link href="{{ asset("/css/theme.css") }}" rel="stylesheet">--}}
 
 
@@ -102,8 +103,10 @@
     </div>
 
     <!-- Scripts -->
+    <script src="{{ asset("/js/sweetalert.js") }}"></script>
     <script src="{{ asset("/js/app.js") }}"></script>
     <script src="{{ asset("/js/padlock.js") }}"></script>
+
 {{--    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>--}}
     @stack("scripts")
 </body>
