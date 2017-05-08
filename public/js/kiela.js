@@ -27,6 +27,14 @@ Array.prototype.equals = function (array) {
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
 function display(entries, container){
+    var groupUsers = [];
+    function getUserPerGroups(groupID){
+        window.api.get("/groups/"+groupID+"/users", {})
+            .then(function(r){
+                console.log("DONE FOR GROUP " + groupID);
+                groupUsers[groupID] = r["data"];
+            });
+    }
     for(let day in entries){
         let hourListed = [];
         let currentContainer = document.createElement("div");
@@ -39,13 +47,20 @@ function display(entries, container){
         for(let shift in entries[day]){
             let entryDiv = document.createElement("div");
             let entryHeader = document.createElement("h3");
-            console.log(entries[day][shift]);
             entryHeader.innerHTML = entries[day][shift][0]["start_time"].split(" ")[0];
             entryHeader.innerHTML += " à ";
             entryHeader.innerHTML += entries[day][shift][0]["start_time"].split(" ")[1];
             hourListed.push(entries[day][shift][0]["start_time"].split(" ")[1]);
             for(let obj in entries[day][shift]){
+                let p = document.createElement("p");
+                p.innerHTML = "GROUP N° " + entries[day][shift][obj]["group_id"];
                 entryDiv.innerHTML += "GROUP N° " + entries[day][shift][obj]["group_id"] + " ";
+
+                if(typeof groupUsers[entries[day][shift][obj]["group_id"]] === 'undefined'){
+                    getUserPerGroups(entries[day][shift][obj]["group_id"]);
+                    // groupUsers[entries[day][shift][obj]["group_id"]] = todo here
+                    groupUsers[entries[day][shift][obj]["group_id"]] = "Waiting....";
+                }
             }
             entryDiv.appendChild(entryHeader);
             currentContainer.appendChild(entryDiv);
@@ -126,7 +141,6 @@ function init() {
             for(var times in sortedByHourAndByDay[property]){
                 for(let grp in sortedByHourAndByDay[property][times]){
                     currentGroup.push(sortedByHourAndByDay[property][times][grp]["group_id"]);
-
                 }
                 // "Talk is cheap. Show me the code." - Linus Torvalds
                 if(!currentGroup.sort().equals(lastGroup.sort())){ // do we have a different group set
@@ -141,7 +155,6 @@ function init() {
             finalSort[bigO][index] = sortedByHourAndByDay[property][times];
         }
         bigO += 1;
-
     }
 
     // todo wtf with end_time
@@ -154,7 +167,6 @@ function getAllSchedules(callback){
             callback();
         })
         .catch(function(error){
-            // todo manage if user not logged in...
             console.log(error);
         });
 }
