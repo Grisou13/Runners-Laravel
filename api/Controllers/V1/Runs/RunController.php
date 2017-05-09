@@ -93,8 +93,13 @@ class RunController extends BaseController
         }
         if($request->has("waypoints")) {
           $run->waypoints()->sync([]);//remove all waypoints and reassign them
-          foreach($request->get("waypoints") as $point)
-            $run->waypoints()->attach($point);
+          foreach($request->get("waypoints") as $point){
+            if(is_integer($point))
+              $run->waypoints()->attach($point);
+            else
+              $run->waypoints()->attach(Waypoint::create(["name"=>$point]));
+          }
+            
         }
         
         $run->save();

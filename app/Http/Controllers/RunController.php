@@ -92,7 +92,7 @@ class RunController extends Controller
      */
     public function edit(Request $request,Run $run)
     {
-      return view("run.create")->with("run",$run)->with("car_types",CarType::all())->with("waypoints", Waypoint::all())->with("cars",Car::all())->with("users",User::all());
+      return view("run.edit")->with("run",$run)->with("car_types",CarType::all())->with("waypoints", Waypoint::all())->with("cars",Car::all())->with("users",User::all());
     }
 
     /**

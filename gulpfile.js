@@ -1,5 +1,5 @@
 var elixir = require('laravel-elixir');
-
+var webpack = require("webpack")
 require('laravel-elixir-vue-2');
 // require('laravel-elixir-webpack-react');
 /*
@@ -30,18 +30,25 @@ elixir.ready(function() {
         },
         resolve: {
             extensions: ['', '.js', '.json', '.jsx' ]
-        }
+        },
+        plugins: [
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': JSON.stringify(elixir.config.production ? "production":"dev")
+            })
+        ]
     });
+    // console.log(elixir.webpack)
+
 });
 
 elixir((mix) => {
+
     mix.sass('app.scss')
        .webpack('app.js');
     mix.copy("./node_modules/sweetalert/dist/sweetalert.min.js","public/js/sweetalert.js")
     mix.copy("./node_modules/sweetalert/dist/sweetalert.css","public/css/sweetalert.css")
 
     mix.webpack("resources/assets/js/runs/app.js","public/js/runs.js")
-    console.log("KAHSJGDJKGAHSD")
     // mix.webpack("runs.js");
     // mix.webpack('runs/app.js', 'public/js/runs.js');
     // mix.webpack('runs/display.jsx', 'public/js/run-display.js');

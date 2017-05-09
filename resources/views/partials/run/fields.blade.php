@@ -9,13 +9,13 @@
 {{ Form::bsText("name",$run->name) }}
  {{ Form::bsText("nb_passenger",$run->nb_passenger) }}
  <script>
-     window.resource_cache = <?php echo json_encode([
+     window.resource_cache = {!! collect([
          "waypoints"=>$waypoints,
          "car_types"=>$car_types,
          "cars"=>$cars,
          "users"=>$users,
          "subscriptions"=> $run->exists ? $run->subscriptions()->with(["user","car_type","car"])->get() : []
-     ]) ?>
+     ]) !!}
  </script>
  <div class="form-group">
      <label for="planned_at" class="col-md-4 control-label">Planifé à</label>
@@ -158,6 +158,8 @@ $( function() {
   $( "#planned_at" ).datetimepicker({
       altField: "#input_planned_at",
       timeFormat:"hh:mm:ss",
+      secondSlider:false,
+      showSecond:false,
       dateFormat: 'yy-mm-dd',
       altFieldTimeOnly: false
   });
@@ -324,7 +326,7 @@ const generateSubscription = (sub) => {
         cars_input.add(emptyOption)
         cars.filter( c => c.car_type_id == ctype.id).forEach( (c) => {
             var option = document.createElement("option")
-            option.text = c.name + " (" + c.nb_place + ")"
+            option.text = c.name //+ " (" + c.nb_place + ")"
             option.value = c.id
             cars_input.add(option)
         })
@@ -371,7 +373,7 @@ const generateSubscription = (sub) => {
             console.log(cars)
             cars.filter( c => c.car_type_id == type).forEach( (c) => {
                 var option = document.createElement("option")
-                option.text = c.name + " (" + c.nb_place + ")"
+                option.text = c.name //+ " (" + c.nb_place + ")"
                 option.value = c.id
                 cars_input.add(option)
             })

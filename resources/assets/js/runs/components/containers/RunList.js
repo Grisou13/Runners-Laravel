@@ -41,7 +41,7 @@ class RunList extends React.Component
                                 <div className="btn-container">
                                     <a href={window.Laravel.basePath + `/runs/${run.id}/edit`} className="control"><span className="glyphicon glyphicon-edit"></span></a>
                                     <a href="#" onClick={()=>this.props.dispatch(startRun(run))} className="control"><span className="glyphicon glyphicon-play"></span></a>
-                                    <a href="#" onClick={()=>this.props.dispatch(deleteRun(run))} className="control"><span className="glyphicon glyphicon-minus"></span></a>
+                                    {/*<a href="#" onClick={()=>this.props.dispatch(deleteRun(run))} className="control"><span className="glyphicon glyphicon-minus"></span></a>*/}
                                 </div>
 
                                 <div className="run" /*style={{transform: (this.props.ui.hoverRun != null && this.props.ui.hoverRun==run.id )? "translateX(50px)": "" }}*/>
@@ -113,6 +113,8 @@ class RunList extends React.Component
                 return this.renderList(this.props.runs)
             }
             else{
+                if(this.props.error != false)
+                    return this.renderError()
                 return this.renderEmpty()
             }
         }

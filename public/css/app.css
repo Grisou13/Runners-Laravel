@@ -8032,4 +8032,50 @@ button.close {
   width: 110px;
 }
 
+@media print {
+  nav, .navbar, .filters, .no-print, .alert, .display-toggle, .run-container {
+    display: none;
+  }
+  .run-list {
+    width: 100vw;
+  }
+  .run-container {
+    padding-left: 0;
+  }
+  .run-container .btn-container {
+    display: none;
+  }
+  .run-container.print {
+    display: block;
+  }
+  .run::after {
+    display: block;
+    content: " ";
+    width: 100%;
+    height: 1px;
+    background-color: black;
+  }
+}
+
+.dropdown-input.dropdown-menu > li > a:hover, .dropdown-input.dropdown-menu > li > a:focus {
+  color: #333333;
+  background-color: #fff;
+}
+
+.dropdown-input.dropdown-menu {
+  width: 100%;
+}
+
+.dropdown-input.dropdown-menu > .active > a:hover, .dropdown-input.dropdown-menu > .active > a:focus {
+  text-decoration: none;
+  color: #262626;
+  background-color: #f5f5f5;
+}
+
+.dropdown-input.dropdown-menu > .active.disabled > a {
+  text-decoration: none;
+  color: #777777;
+  background-color: #fff;
+}
+
 /*# sourceMappingURL=app.css.map */

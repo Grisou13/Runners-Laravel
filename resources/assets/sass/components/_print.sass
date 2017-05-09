@@ -1,0 +1,17 @@
+@media print
+  nav, .navbar, .filters, .no-print, .alert, .display-toggle, .run-container
+    display: none
+  .run-list
+    width: 100vw
+  .run-container
+    padding-left: 0
+    & .btn-container
+      display: none
+  .run-container.print
+    display: block
+  .run::after
+    display: block
+    content: " "
+    width: 100%
+    height: 1px
+    background-color: black
