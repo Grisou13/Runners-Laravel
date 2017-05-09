@@ -53,7 +53,7 @@
                     <div class="form-group">
                       <div class="col-md-6 col-md-offset-4">
                           <div class="col-md-3">
-                            <input type="submit" class="btn btn-primary" {{ $car->exists?"disabled":"" }} name="" value="{{ $car->exists ? "Editer" : "Créer" }} la voiture">
+                            <input type="submit" class="btn btn-primary" name="" value="{{ $car->exists ? "Editer" : "Créer" }} la voiture">
                               <!-- <button {{ $mode !== null && $mode === "edit" ? 'disabled' : ''}} type="submit" class="btn btn-primary">
                                   <span>{{ $mode == "edit" ? "Edit" : "Create" }} the car</span>
                               </button> -->
@@ -69,7 +69,7 @@
                 <form method="post" action="{{ route("cars.destroy",$car) }}"  class="pull-right">
                     <input type="hidden" value="DELETE" name="_method">
                     <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                    <input disabled type="submit" id="delete" value="Supprimer la voiture" class="btn btn-warning">
+                    <input type="submit" id="delete" value="Supprimer la voiture" class="btn btn-warning">
                 </form>
               @endif
                 @if($car->exists)

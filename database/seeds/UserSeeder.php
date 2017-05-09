@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $sta = \App\Helpers\Status::getUserStatus("actif");
+        $id_role = Lib\Models\Role::where("role", "runner")->first()->id;
 
         Lib\Models\User::create([
             "email"=>"root@localhost",
@@ -24,7 +25,8 @@ class UserSeeder extends Seeder
             "name"=>"rootsey",
             "lastname"=>"toor",
             "password"=>bcrypt("root"),
-            "status"=>$sta
+            "status"=>$sta,
+            "role_id"=>Lib\Models\Role::where("role", "admin")->first()->id
         ]);
 
         // création d'un utilisateur driver
@@ -37,7 +39,7 @@ class UserSeeder extends Seeder
           "name" => "runnsey",
           "lastname" => "rennur",
           "password"=>bcrypt("runner"),
-          "role_id" => Lib\Models\Role::where("role", "=", "runner")->first()->id,
+          "role_id" => $id_role,
           "status"=>$sta
 
         ]);
@@ -58,7 +60,7 @@ class UserSeeder extends Seeder
           ["Julien", "Borel", 1]
         ]);
 
-        $users->each(function($user){
+        $users->each(function($user) use($id_role){
           User::create([
             "firstname" => $user[0],
             "lastname" => $user[1],
@@ -67,6 +69,7 @@ class UserSeeder extends Seeder
             "password" => bcrypt('secret'),
             "phone_number" => "07" . rand(7,9) . " " . rand(100,999) . " " . rand(10, 99) . " " . rand(10, 99),
             "sex" => $user[2],
+            "role_id" => $id_role,
             "remember_token" => str_random(10),
             "accesstoken"=>str_random(255)
           ]);

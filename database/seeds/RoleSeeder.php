@@ -14,5 +14,8 @@ class RoleSeeder extends Seeder
         Lib\Models\Role::create([
             "role" => "runner"
         ]);
+        Lib\Models\Role::create([
+            "role" => "admin"
+        ]);
     }
 }
