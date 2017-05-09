@@ -33,6 +33,8 @@ function display(entries, container){
             .then(function(r){
                 console.log("DONE FOR GROUP " + groupID);
                 groupUsers[groupID] = r["data"];
+                console.log(r)
+                console.log(groupUsers[groupID])
             });
     }
     for(let day in entries){
@@ -54,7 +56,8 @@ function display(entries, container){
             for(let obj in entries[day][shift]){
                 let p = document.createElement("p");
                 p.innerHTML = "GROUP N° " + entries[day][shift][obj]["group_id"];
-                entryDiv.innerHTML += "GROUP N° " + entries[day][shift][obj]["group_id"] + " ";
+                entryDiv.appendChild(p);
+                // entryDiv.innerHTML += "GROUP N° " + entries[day][shift][obj]["group_id"] + " ";
 
                 if(typeof groupUsers[entries[day][shift][obj]["group_id"]] === 'undefined'){
                     getUserPerGroups(entries[day][shift][obj]["group_id"]);
@@ -152,7 +155,7 @@ function init() {
                 currentGroup = []; //reset current
             }
             // we keep the last group, so we know when the shift ends...
-            finalSort[bigO][index] = sortedByHourAndByDay[property][times];
+            //finalSort[bigO][index] = sortedByHourAndByDay[property][times];
         }
         bigO += 1;
     }
