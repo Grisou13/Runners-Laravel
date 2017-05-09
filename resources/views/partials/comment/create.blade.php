@@ -3,7 +3,7 @@
     <div class="col-md-6 col-md-offset-4">
         <div class="row">
             <div class="row col-md-12">
-                <textarea name="content" disabled></textarea>
+                <textarea name="content"></textarea>
                 @if ($errors->has('content'))
                     <span class="help-block">
                             <strong>{{ $errors->first('content') }}</strong>
@@ -11,7 +11,7 @@
                 @endif
             </div>
             <div class="row col-md-12">
-                <select name="user" class="col-md-4" id="" disabled>
+                <select name="user" class="col-md-4" id="">
                     @foreach(Lib\Models\User::all() as $user)
                         <option value="{{ $user->id }}" {{ auth()->check() && auth()->user()->id == $user->id ? "selected" : "" }}>{{ $user->name }}</option>
                     @endforeach
@@ -21,7 +21,7 @@
                             <strong>{{ $errors->first('user') }}</strong>
                         </span>
                 @endif
-                <input type="submit" disabled class="btn btn-default col-md-7" value="Add Comment" />
+                <input type="submit" class="btn btn-default col-md-7" value="Add Comment" />
             </div>
             {{ csrf_field() }}
         </div>

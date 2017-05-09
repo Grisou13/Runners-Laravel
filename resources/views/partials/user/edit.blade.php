@@ -24,7 +24,7 @@ User: Joel.DE-SOUSA
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
                         <div class="col-md-3">
-                          <input type="submit" class="btn btn-primary" value="Editer l'utilisateur" disabled>
+                          <input type="submit" class="btn btn-primary" value="Editer l'utilisateur">
                         </div>
                         <div class="col-md-3 col-md-push-1">
                             <a href="{{ route("users.index") }}" class="btn btn-danger">Annuler</a>
@@ -41,11 +41,13 @@ User: Joel.DE-SOUSA
                 <form method="post" action="{{ route("users.destroy",$user) }}"  class="pull-right">
                     <input type="hidden" value="DELETE" name="_method">
                     <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                    <input disabled type="submit" id="delete" value="Supprimer l'utilisateur" class="btn btn-warning">
+                    <input type="submit" id="delete" value="Supprimer l'utilisateur" class="btn btn-warning">
                 </form>
               @endif
               <div class="row">
                 <div class="col-xs-6 col-md-3">
+
+
                     <div class="thumbnail">
 
                       @if($user->profileImage() != null)
@@ -63,7 +65,7 @@ User: Joel.DE-SOUSA
                             <input type="file" name="image" id="image" accept="image/*">
                           </div>
                           <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                          <input type="submit" class="btn btn-success" value="Changer" disabled>
+                          <input type="submit" class="btn btn-success" value="Changer">
                         </form>
                       </div>
                     </div>
@@ -86,7 +88,7 @@ User: Joel.DE-SOUSA
                             <input type="file" name="image" id="image" accept="image/*">
                           </div>
                           <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                          <input type="submit" class="btn btn-success" value="Changer" disabled>
+                          <input type="submit" class="btn btn-success" value="Changer">
                         </form>
                       </div>
                     </div>
