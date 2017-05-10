@@ -19,6 +19,8 @@ export const gotRuns = (runs) => {
 
 }
 export const editRun = (run) => {
+    window.location = window.Laravel.basePath + `/runs/${run.id}/edit`
+
     return {
         type: EDIT_RUN,
         payload:run

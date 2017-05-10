@@ -17,7 +17,8 @@ class Waypoint extends Model
   protected $casts = ["latlng"=>"json"];
   public $events = [
     "saving"=>"App\\Events\\WaypointSavingEvent",
-    "creating"=>"App\\Events\\WaypointCreatingEvent"
+    "creating"=>"App\\Events\\WaypointCreatingEvent",
+    "saved"=>"App\\Events\\WaypointSavedEvent"
   ];
   public function runs()
   {
@@ -29,18 +30,9 @@ class Waypoint extends Model
   }
   public function setGeoAttribute($value)
   {
-    $this->attributes["geo"] = str_replace(["\n","\r","\t"],"",$value);//just remove uneccessary spaces in the geocode result... takes less space huh
+    $this->attributes["geo"] = json_encode(json_decode(str_replace(["\n","\r","\t"],"",$value)));//just remove uneccessary spaces in the geocode result... takes less space huh
   }
-  /**
-   * Use the booting method to access eloquent Events, without using them in a seperate provider, or observer
-   * The observer would be overkill, and putting in a provider not concise enough
-   */
-    protected static function boot(){
-      parent::boot();
-      static::creating(function($self){
 
-      });
-    }
     public function setNameAttribute($value){
       if(array_key_exists("geo",$this->attributes) && !empty($this->attributes["geo"]) && empty($value)){
         $this->attributes["name"]=$this->geo["address_components"][0]["short_name"];
