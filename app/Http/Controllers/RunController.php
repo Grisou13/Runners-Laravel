@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRunRequest;
+use App\Http\Requests\RunPdfRequest;
 use Auth;
+use PDF;
 use Dingo\Api\Exception\ValidationHttpException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Validation\ValidationException;
@@ -134,5 +136,13 @@ class RunController extends Controller
     {
         $this->api->delete(app(UrlGenerator::class)->version("v1")->route("runs.destroy",$run));
         return redirect()->back();
+    }
+    public function pdf(RunPdfRequest $request){
+      if($request->has("runs"))
+        $runs = Run::find($request->get("runs",[]));
+      else
+        $runs = Run::all();
+      $pdf = PDF::loadView('run.pdf', compact("runs"));
+      return $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("runs.pdf");
     }
 }

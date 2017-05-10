@@ -1,17 +1,37 @@
 @media print
-  nav, .navbar, .filters, .no-print, .alert, .display-toggle, .run-container
+  .page-break
+    page-break-after: always
+  nav, .navbar, .filters, .no-print, .alert, .display-toggle, .time, .print-controls
     display: none
   .run-list
     width: 100vw
+  .run-container:nth-of-type(6)
+    page-break-after: always
   .run-container
+    & .time
+      display: inline-block
+      margin-top: -30px
+      padding-top: -30px
+    display: block
     padding-left: 0
-    & .btn-container
-      display: none
-  .run-container.print
-    display: block
-  .run::after
-    display: block
-    content: " "
-    width: 100%
-    height: 1px
-    background-color: black
+    border-bottom: 2px solid black
+    border-top: 2px solid #888a85
+    height: 150px
+    margin-bottom: 0
+    &:hover
+      padding-left: 0
+    & .subscription
+      margin-left: 52px
+      & .sub
+        display: list-item
+  //@media (min-height: 266mm) and (max-height: 288mm) and (min-width: 179mm) and (max-width: 201mm)
+  //  height: 15vh
+  .btn-container
+    display: none
+  .run .run-details .date
+    left: -56px
+  .waypoints
+    margin-top: 10px
+    margin-bottom: 10px
+  .waypoint-list .glyphicon
+    padding-top: -10px

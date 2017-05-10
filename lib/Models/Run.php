@@ -26,7 +26,7 @@ class Run extends Model
       "name"=>"required_if:artist,''",
     ];
     protected $fillable = [
-        "name","planned_at","nb_passenger"
+        "name","planned_at","nb_passenger","note"
     ];
     protected $guarded = [
       "started_at","ended_at"

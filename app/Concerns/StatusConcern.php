@@ -27,7 +27,7 @@ trait StatusConcern{
   protected function getPublishedStatusName($statusName){
     return Status::getStatusName($this,$statusName);
   }
-  protected function prepareStatusForQuery($status)
+  protected function prepareStatusForQuery($type)
   {
     $status = [];
     if($type instanceof Collection || is_array($type))

@@ -1,19 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-
 import {connect} from 'react-redux'
-import moment from 'moment'
-import {getRuns} from './../../actions/runs'
-import Run from './../views/Run'
-
-
-import Time from './../views/Time'
-import {FILTER_STATUS} from "../../actions/consts";
-import {FILTER_WAYPOINT_BETWEEN} from "../../actions/consts";
 import ui from 'redux-ui';
+
+import moment from 'moment'
+
+import Run from './../views/Run'
+import Time from './../views/Time'
 import {startRun} from "../../actions/runs";
-import {deleteRun} from "../../actions/runs";
 import {editRun} from "../../actions/runs";
+import {getRuns} from './../../actions/runs'
+
 @ui({
     key:"run-list",
     state:{
@@ -28,6 +25,11 @@ class RunList extends React.Component
     renderList(runs){
         return (
             <div className="container-fluid">
+                <div className="row print-controls">
+                    <button className="btn btn-default">
+                        <span className="glyphicon glyphicon-print" />
+                    </button>
+                </div>
                 <div className="row text-center">
                     <Time UTCOffset={2} />
                 </div>

@@ -30,6 +30,7 @@ Route::resource('cars', 'CarController');
 
 
 $router->get("/runs/display","RunController@display");
+$router->get("/runs/pdf","RunController@pdf");
 $router->resource("runs","RunController");
 
 

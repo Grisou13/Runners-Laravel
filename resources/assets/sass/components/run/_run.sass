@@ -43,6 +43,8 @@
   margin-left: 15px
   padding-right: -10px
   background-color: $run-bg
+  & .sub
+    border-bottom: 1px solid black
   & .run-details
     & .date
       width: 50px
@@ -50,9 +52,9 @@
       margin-right: 5px
       transform: rotate(-90deg)
       transform-origin: 50% 50%
-      left: -25px
+      left: -16px
       position: absolute
-      top: 50px
+      top: 48px
   & .notes
     margin-top: 15px
     margin-bottom: -15px
@@ -61,14 +63,14 @@
     text-overflow: ellipsis
   &:nth-child(odd)
     background-color: darken($run-bg, 10%)
-  &::before
-    content: ' '
-    height: 100%
-    width: 15px
-    margin-right: 5px
-    position: absolute
-    left: 0
-    top: 0
+  //&::before
+  //  content: ' '
+  //  height: 100%
+  //  width: 15px
+  //  margin-right: 5px
+  //  position: absolute
+  //  left: 0
+  //  top: 0
 
 .ready
   background-color: $ready
