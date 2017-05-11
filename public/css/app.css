@@ -7999,16 +7999,17 @@ button.close {
   .run-list {
     width: 100vw;
   }
-  .run-container:nth-of-type(6) {
-    page-break-after: always;
-  }
   .run-container {
     display: block;
     padding-left: 0;
     border-bottom: 2px solid black;
     border-top: 2px solid #888a85;
-    height: 150px;
-    margin-bottom: 0;
+    height: auto;
+    min-height: 15vh;
+    margin-bottom: 10px;
+  }
+  .run-container .passengers, .run-container .notes {
+    margin-left: 10px;
   }
   .run-container .time {
     display: inline-block;
@@ -8019,10 +8020,24 @@ button.close {
     padding-left: 0;
   }
   .run-container .subscription {
-    margin-left: 52px;
+    padding-left: 120px;
+    width: 100%;
   }
   .run-container .subscription .sub {
-    display: list-item;
+    height: 50px;
+    width: 100%;
+    display: block;
+    position: relative;
+  }
+  .run-container .subscription .sub .user, .run-container .subscription .sub .car {
+    width: 25%;
+    padding-top: 15px;
+    margin-bottom: 5px;
+    padding-bottom: 3px;
+    display: inline-block;
+  }
+  .run-container .subscription .sub .car {
+    padding-right: 65px;
   }
   .btn-container {
     display: none;
@@ -8033,6 +8048,9 @@ button.close {
   .waypoints {
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+  .waypoint-list {
+    margin-right: 20px;
   }
   .waypoint-list .glyphicon {
     padding-top: -10px;

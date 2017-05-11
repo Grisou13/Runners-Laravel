@@ -139,9 +139,9 @@ class RunController extends Controller
     }
     public function pdf(RunPdfRequest $request){
       if($request->has("runs"))
-        $runs = Run::find($request->get("runs",[]));
+        $runs = Run::find($request->get("runs",[]))->withCount(["runners"])->get();
       else
-        $runs = Run::all();
+        $runs = Run::withCount(["runners"])->get();
       $pdf = PDF::loadView('run.pdf', compact("runs"));
       return $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("runs.pdf");
     }
