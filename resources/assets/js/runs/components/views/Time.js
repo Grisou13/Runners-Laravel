@@ -2,6 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import moment from 'moment'
 class Time extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {date: moment()}
+    }
     setTime(){
 
         // var currentdate = new Date();
@@ -28,9 +32,10 @@ class Time extends React.Component{
         });
     }
     componentWillMount(){
-        this.setTime();
+
     }
     componentDidMount(){
+        this.setTime();
         window.setInterval(function () {
             this.setTime();
         }.bind(this), 60*1000);

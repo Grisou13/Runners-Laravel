@@ -5,55 +5,80 @@
     display: none
   .run-list
     width: 100vw
+    display: block
+    position: absolute
+    top: 0
+    left: 0
   //.run-container:nth-of-type(5)
   //  page-break-after: always
   .run-container
+    & .run
+      margin-top: 10px
+      min-height: 150px
+      margin-bottom: auto
+      display: block
+      -ms-word-wrap: break-word
+      word-wrap: break-word
+      text-overflow: ellipsis
     display: block
     padding-left: 0
-    border-bottom: 2px solid black
-    border-top: 2px solid #888a85
-    height: auto
-    min-height: 15vh
+    border-top: 2px solid black
+    //border-top: 2px solid #888a85
     margin-bottom: 10px
+    padding-bottom: 22px
+    width: 98vw
     & .passengers, & .notes
       margin-left: 10px
+      overflow-y: visible
+    & .run-details
+      & .title
+        font-weight: bold
+        padding-bottom: 5px
+        margin-left: 10px
     & .time
       display: inline-block
-      margin-top: -30px
-      padding-top: -30px
-
+      color: red
     &:hover
       padding-left: 0
     & .subscription
-      padding-left: 120px
+      //padding-left: 120px
       width: 100%
       & .sub
-        height: 50px
+        height: 70px
         width: 100%
         display: block
         position: relative
+        //padding-top: 3px
+        //margin-bottom: 5px
+        //padding-bottom: 3px
         & .user, & .car
-          width: 25%
-          padding-top: 15px
-          margin-bottom: 5px
-          padding-bottom: 3px
-          display: inline-block
-        & .car
-          padding-right: 65px
-
+          display: inline
+          height: 100%
+          padding: auto
+          text-align: center
+          vertical-align: middle
+          margin: 0 auto
   //@media (min-height: 266mm) and (max-height: 288mm) and (min-width: 179mm) and (max-width: 201mm)
   //  height: 15vh
   .btn-container
     display: none
   .run .run-details .date
-    left: -56px
+    left: -86px
+    top: 110px
+    width: 120px
+    height: 50px
   .waypoints
     margin-top: 10px
     margin-bottom: 10px
   .waypoint-list
     margin-right: 20px
   .waypoint-list .glyphicon
-    padding-top: -10px
+    padding-top: -5px
+    font-weight: lighter
+    font-size: 12px
+    padding-left: 5px
+    padding-right: 5px
+
 
 
 

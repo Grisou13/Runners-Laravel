@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateRunRequest;
 use App\Http\Requests\RunPdfRequest;
 use Auth;
+use Lib\Models\RunSubscription;
 use PDF;
 use Dingo\Api\Exception\ValidationHttpException;
 use Illuminate\Contracts\View\View;
@@ -142,7 +143,17 @@ class RunController extends Controller
         $runs = Run::find($request->get("runs",[]))->withCount(["runners"])->get();
       else
         $runs = Run::withCount(["runners"])->get();
+//      return view("run.pdf",compact("runs"));
       $pdf = PDF::loadView('run.pdf', compact("runs"));
-      return $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("runs.pdf");
+      return $pdf->setPaper('a3', 'landscape')->setWarnings(true)->download("runs.pdf");
+    }
+    public function pdfTemplate(Request $request)
+    {
+      $run = new Run;
+      $sub = new RunSubscription();
+      //$sub->run()->associate($run);
+      return view("run.pdf-item",compact("run"));
+      $pdf = PDF::loadView('run.pdf-item', compact("run"));
+      return $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("run-template.pdf");
     }
 }
