@@ -1,4 +1,4 @@
-FROM node:7.10.10
+FROM node:latest
 
 RUN npm install laravel-echo-server -g
 

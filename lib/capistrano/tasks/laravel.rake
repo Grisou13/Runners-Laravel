@@ -8,13 +8,20 @@
 
   namespace :runner do
     desc "Reload docker"
+    task :start do
+      on roles(:all) do
+        within current_path do
+          execute ""
+          next if test("[ docker-compose exec app echo 'hi' &> /dev/null && $? -eq 0 ]")
+          execute "docker-compose up -d"
+        end
+      end
+    end
     task :reload do
       on roles(:all) do
-        within previous_release do
+        within current_path do
           execute "docker-compose down"
-        end
-        within current_release do
-          execute "docker-compose up"
+          execute "docker-compose up -d"
         end
       end
     end
@@ -52,7 +59,7 @@
 
       on roles fetch(:all) do
         within release_path do
-          execute "docker-compose exec app php artisan ", *args.extras
+          execute "docker-compose run --rm app php artisan ", *args.extras
         end
       end
 
@@ -145,8 +152,8 @@
       end
     end
   end
-  before "deploy:starting", "runner:set_maintenance_mode_on"
-  after "deploy:finished", "runner:set_maintenance_mode_on"
+  after "deploy:updating", "runner:start"
+  # after "deploy:finished", "runner:set_maintenance_mode_on"
   after  "deploy:finishing",  "runner:composer"
   after  "deploy:finishing",  "runner:npm"
   after "deploy:finished", "runner:reload"
@@ -155,5 +162,5 @@
   before "runner:composer", "runner:copy_env"
   before "runner:composer", "runner:app_key"
   after  "runner:composer", "runner:storage_link"
-  after  "runner:composer", "runner:storage_acl"
+  # after  "runner:composer", "runner:storage_acl"
   after  "runner:composer",  "runner:optimize"

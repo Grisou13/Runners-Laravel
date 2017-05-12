@@ -292,3 +292,1397 @@
  DEBUG [4a3c64f6] 	mv: 
  DEBUG [4a3c64f6] 	cannot overwrite directory '/var/www/runners-laravel/current' with non-directory
  DEBUG [4a3c64f6] 	
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:27:57 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+ DEBUG [438607ae] Running if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [438607ae] Command: if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi
+ DEBUG [438607ae] Finished in 0.684 seconds with exit status 0 (successful).
+  INFO [269fbbef] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [269fbbef] Command: /usr/bin/env mkdir -p /tmp
+  INFO [269fbbef] Finished in 0.075 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [4d3ccee7] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [4d3ccee7] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [4d3ccee7] Finished in 0.085 seconds with exit status 0 (successful).
+  INFO [69b4c16c] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [69b4c16c] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [69b4c16c] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [69b4c16c] Finished in 3.439 seconds with exit status 0 (successful).
+  INFO [4e9a1a4a] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [4e9a1a4a] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [4e9a1a4a] Finished in 0.112 seconds with exit status 0 (successful).
+  INFO [9806e3e0] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [9806e3e0] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage
+  INFO [9806e3e0] Finished in 0.085 seconds with exit status 0 (successful).
+ DEBUG [fb426c55] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [fb426c55] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+ DEBUG [fb426c55] Finished in 0.077 seconds with exit status 1 (failed).
+ DEBUG [e102f725] Running [ -f /var/www/runners-laravel/repo/HEAD ] as deploy@46.101.24.93
+ DEBUG [e102f725] Command: [ -f /var/www/runners-laravel/repo/HEAD ]
+ DEBUG [e102f725] Finished in 0.076 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/runners-laravel/repo
+ DEBUG [15c31bfb] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [15c31bfb] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [15c31bfb] Finished in 0.096 seconds with exit status 0 (successful).
+  INFO [10618a26] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git as deploy@46.101.24.93
+ DEBUG [10618a26] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git )
+  INFO [10618a26] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [03ff9abb] Running /usr/bin/env git remote update --prune as deploy@46.101.24.93
+ DEBUG [03ff9abb] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [03ff9abb] 	Fetching origin
+ DEBUG [03ff9abb] 	From github.com:CPNV-ES/Runners-Laravel
+   516ded7..4b74fb0  develop    -> develop
+   aff28c0..ea30418  feature/run-list-fix -> feature/run-list-fix
+  INFO [03ff9abb] Finished in 5.995 seconds with exit status 0 (successful).
+ DEBUG [e42ada81] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [e42ada81] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [e42ada81] Finished in 0.110 seconds with exit status 0 (successful).
+  INFO [ef3d75ed] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512202802 as deploy@46.101.24.93
+ DEBUG [ef3d75ed] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512202802 )
+  INFO [ef3d75ed] Finished in 0.085 seconds with exit status 0 (successful).
+  INFO [ced1abc5] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512202802 as deploy@46.101.24.93
+ DEBUG [ced1abc5] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512202802 )
+  INFO [ced1abc5] Finished in 1.787 seconds with exit status 0 (successful).
+ DEBUG [678d14f0] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [678d14f0] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [678d14f0] Finished in 0.078 seconds with exit status 0 (successful).
+ DEBUG [45e37c71] Running /usr/bin/env git rev-list --max-count=1 master as deploy@46.101.24.93
+ DEBUG [45e37c71] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [45e37c71] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [45e37c71] Finished in 0.083 seconds with exit status 0 (successful).
+ DEBUG [1ec0483e] Running if test ! -d /var/www/runners-laravel/releases/20170512202802; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512202802'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [1ec0483e] Command: if test ! -d /var/www/runners-laravel/releases/20170512202802; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512202802'" 1>&2; false; fi
+ DEBUG [1ec0483e] Finished in 0.084 seconds with exit status 0 (successful).
+  INFO [e9731045] Running /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION as deploy@46.101.24.93
+ DEBUG [e9731045] Command: cd /var/www/runners-laravel/releases/20170512202802 && /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION
+  INFO [e9731045] Finished in 0.090 seconds with exit status 0 (successful).
+  INFO [649f0d3c] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512202802 as deploy@46.101.24.93
+ DEBUG [649f0d3c] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512202802
+  INFO [649f0d3c] Finished in 0.075 seconds with exit status 0 (successful).
+ DEBUG [452b1128] Running [ -L /var/www/runners-laravel/releases/20170512202802/storage ] as deploy@46.101.24.93
+ DEBUG [452b1128] Command: [ -L /var/www/runners-laravel/releases/20170512202802/storage ]
+ DEBUG [452b1128] Finished in 0.074 seconds with exit status 1 (failed).
+ DEBUG [aa493d53] Running [ -d /var/www/runners-laravel/releases/20170512202802/storage ] as deploy@46.101.24.93
+ DEBUG [aa493d53] Command: [ -d /var/www/runners-laravel/releases/20170512202802/storage ]
+ DEBUG [aa493d53] Finished in 0.076 seconds with exit status 0 (successful).
+  INFO [03b4e4d3] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512202802/storage as deploy@46.101.24.93
+ DEBUG [03b4e4d3] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512202802/storage
+  INFO [03b4e4d3] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [c71fad64] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512202802/storage as deploy@46.101.24.93
+ DEBUG [c71fad64] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512202802/storage
+  INFO [c71fad64] Finished in 0.082 seconds with exit status 0 (successful).
+  INFO [046f6bac] Running /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512202802 /var/www/runners-laravel/releases/current as deploy@46.101.24.93
+ DEBUG [046f6bac] Command: /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512202802 /var/www/runners-laravel/releases/current
+  INFO [046f6bac] Finished in 0.073 seconds with exit status 0 (successful).
+  INFO [24c1f814] Running /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel as deploy@46.101.24.93
+ DEBUG [24c1f814] Command: /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel
+ DEBUG [24c1f814] 	mv: 
+ DEBUG [24c1f814] 	cannot overwrite directory '/var/www/runners-laravel/current' with non-directory
+ DEBUG [24c1f814] 	
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:32:07 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+ DEBUG [b971459a] Running if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [b971459a] Command: if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi
+ DEBUG [b971459a] Finished in 0.652 seconds with exit status 0 (successful).
+  INFO [6d7b6aaf] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [6d7b6aaf] Command: /usr/bin/env mkdir -p /tmp
+  INFO [6d7b6aaf] Finished in 0.089 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [0e74f10f] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [0e74f10f] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [0e74f10f] Finished in 0.083 seconds with exit status 0 (successful).
+  INFO [2b032980] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [2b032980] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [2b032980] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [2b032980] Finished in 1.798 seconds with exit status 0 (successful).
+  INFO [1a2b301e] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [1a2b301e] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [1a2b301e] Finished in 0.125 seconds with exit status 0 (successful).
+  INFO [bf48edab] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [bf48edab] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage
+  INFO [bf48edab] Finished in 0.084 seconds with exit status 0 (successful).
+ DEBUG [453d58f8] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [453d58f8] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+ DEBUG [453d58f8] Finished in 0.084 seconds with exit status 1 (failed).
+ DEBUG [9102f12e] Running [ -f /var/www/runners-laravel/repo/HEAD ] as deploy@46.101.24.93
+ DEBUG [9102f12e] Command: [ -f /var/www/runners-laravel/repo/HEAD ]
+ DEBUG [9102f12e] Finished in 0.088 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/runners-laravel/repo
+ DEBUG [61c7a640] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [61c7a640] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [61c7a640] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [bc68a761] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git as deploy@46.101.24.93
+ DEBUG [bc68a761] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git )
+  INFO [bc68a761] Finished in 0.083 seconds with exit status 0 (successful).
+  INFO [076ffd89] Running /usr/bin/env git remote update --prune as deploy@46.101.24.93
+ DEBUG [076ffd89] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [076ffd89] 	Fetching origin
+  INFO [076ffd89] Finished in 1.252 seconds with exit status 0 (successful).
+ DEBUG [dfea2cfb] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [dfea2cfb] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [dfea2cfb] Finished in 0.127 seconds with exit status 0 (successful).
+  INFO [f9a9c81c] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512203210 as deploy@46.101.24.93
+ DEBUG [f9a9c81c] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512203210 )
+  INFO [f9a9c81c] Finished in 0.092 seconds with exit status 0 (successful).
+  INFO [5fb1514c] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512203210 as deploy@46.101.24.93
+ DEBUG [5fb1514c] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512203210 )
+  INFO [5fb1514c] Finished in 0.267 seconds with exit status 0 (successful).
+ DEBUG [29275d71] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [29275d71] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [29275d71] Finished in 0.086 seconds with exit status 0 (successful).
+ DEBUG [1c45b320] Running /usr/bin/env git rev-list --max-count=1 master as deploy@46.101.24.93
+ DEBUG [1c45b320] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [1c45b320] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [1c45b320] Finished in 0.084 seconds with exit status 0 (successful).
+ DEBUG [11fa6a87] Running if test ! -d /var/www/runners-laravel/releases/20170512203210; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512203210'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [11fa6a87] Command: if test ! -d /var/www/runners-laravel/releases/20170512203210; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512203210'" 1>&2; false; fi
+ DEBUG [11fa6a87] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [9faec3bd] Running /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION as deploy@46.101.24.93
+ DEBUG [9faec3bd] Command: cd /var/www/runners-laravel/releases/20170512203210 && /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION
+  INFO [9faec3bd] Finished in 0.095 seconds with exit status 0 (successful).
+  INFO [66a9e206] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512203210 as deploy@46.101.24.93
+ DEBUG [66a9e206] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512203210
+  INFO [66a9e206] Finished in 0.078 seconds with exit status 0 (successful).
+ DEBUG [6e27d0b4] Running [ -L /var/www/runners-laravel/releases/20170512203210/storage ] as deploy@46.101.24.93
+ DEBUG [6e27d0b4] Command: [ -L /var/www/runners-laravel/releases/20170512203210/storage ]
+ DEBUG [6e27d0b4] Finished in 0.084 seconds with exit status 1 (failed).
+ DEBUG [7ffdc21e] Running [ -d /var/www/runners-laravel/releases/20170512203210/storage ] as deploy@46.101.24.93
+ DEBUG [7ffdc21e] Command: [ -d /var/www/runners-laravel/releases/20170512203210/storage ]
+ DEBUG [7ffdc21e] Finished in 0.084 seconds with exit status 0 (successful).
+  INFO [d02f6c10] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512203210/storage as deploy@46.101.24.93
+ DEBUG [d02f6c10] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512203210/storage
+  INFO [d02f6c10] Finished in 0.105 seconds with exit status 0 (successful).
+  INFO [cd16dfca] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512203210/storage as deploy@46.101.24.93
+ DEBUG [cd16dfca] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512203210/storage
+  INFO [cd16dfca] Finished in 0.084 seconds with exit status 0 (successful).
+  INFO [a88b4523] Running /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512203210 /var/www/runners-laravel/releases/current as deploy@46.101.24.93
+ DEBUG [a88b4523] Command: /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512203210 /var/www/runners-laravel/releases/current
+  INFO [a88b4523] Finished in 0.087 seconds with exit status 0 (successful).
+  INFO [cd5e7351] Running /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel as deploy@46.101.24.93
+ DEBUG [cd5e7351] Command: /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel
+ DEBUG [cd5e7351] 	mv: 
+ DEBUG [cd5e7351] 	cannot overwrite directory '/var/www/runners-laravel/current' with non-directory
+ DEBUG [cd5e7351] 	
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:34:11 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+ DEBUG [170744f4] Running if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [170744f4] Command: if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi
+ DEBUG [170744f4] Finished in 0.652 seconds with exit status 0 (successful).
+  INFO [bf42fb94] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [bf42fb94] Command: /usr/bin/env mkdir -p /tmp
+  INFO [bf42fb94] Finished in 0.087 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [7bdc216f] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [7bdc216f] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [7bdc216f] Finished in 0.085 seconds with exit status 0 (successful).
+  INFO [75e404c8] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [75e404c8] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [75e404c8] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [75e404c8] Finished in 2.169 seconds with exit status 0 (successful).
+  INFO [46aa37cb] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [46aa37cb] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [46aa37cb] Finished in 0.110 seconds with exit status 0 (successful).
+  INFO [165e7ec0] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [165e7ec0] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage
+  INFO [165e7ec0] Finished in 0.091 seconds with exit status 0 (successful).
+ DEBUG [afb528ce] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [afb528ce] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+ DEBUG [afb528ce] Finished in 0.067 seconds with exit status 1 (failed).
+ DEBUG [7d73a33c] Running [ -f /var/www/runners-laravel/repo/HEAD ] as deploy@46.101.24.93
+ DEBUG [7d73a33c] Command: [ -f /var/www/runners-laravel/repo/HEAD ]
+ DEBUG [7d73a33c] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/runners-laravel/repo
+ DEBUG [1950b980] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [1950b980] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [1950b980] Finished in 0.082 seconds with exit status 0 (successful).
+  INFO [91f3cfcd] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git as deploy@46.101.24.93
+ DEBUG [91f3cfcd] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git )
+  INFO [91f3cfcd] Finished in 0.087 seconds with exit status 0 (successful).
+  INFO [43d94ab5] Running /usr/bin/env git remote update --prune as deploy@46.101.24.93
+ DEBUG [43d94ab5] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [43d94ab5] 	Fetching origin
+  INFO [43d94ab5] Finished in 2.480 seconds with exit status 0 (successful).
+ DEBUG [d7aeebd9] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [d7aeebd9] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [d7aeebd9] Finished in 0.101 seconds with exit status 0 (successful).
+  INFO [74d19a43] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512203414 as deploy@46.101.24.93
+ DEBUG [74d19a43] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512203414 )
+  INFO [74d19a43] Finished in 0.082 seconds with exit status 0 (successful).
+  INFO [d276dc6b] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512203414 as deploy@46.101.24.93
+ DEBUG [d276dc6b] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512203414 )
+  INFO [d276dc6b] Finished in 0.269 seconds with exit status 0 (successful).
+ DEBUG [2645e9d7] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [2645e9d7] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [2645e9d7] Finished in 0.077 seconds with exit status 0 (successful).
+ DEBUG [5cc2fa70] Running /usr/bin/env git rev-list --max-count=1 master as deploy@46.101.24.93
+ DEBUG [5cc2fa70] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [5cc2fa70] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [5cc2fa70] Finished in 0.091 seconds with exit status 0 (successful).
+ DEBUG [bc851339] Running if test ! -d /var/www/runners-laravel/releases/20170512203414; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512203414'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [bc851339] Command: if test ! -d /var/www/runners-laravel/releases/20170512203414; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512203414'" 1>&2; false; fi
+ DEBUG [bc851339] Finished in 0.088 seconds with exit status 0 (successful).
+  INFO [52b20d93] Running /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION as deploy@46.101.24.93
+ DEBUG [52b20d93] Command: cd /var/www/runners-laravel/releases/20170512203414 && /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION
+  INFO [52b20d93] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [faa76c4b] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512203414 as deploy@46.101.24.93
+ DEBUG [faa76c4b] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512203414
+  INFO [faa76c4b] Finished in 0.108 seconds with exit status 0 (successful).
+ DEBUG [1d313a00] Running [ -L /var/www/runners-laravel/releases/20170512203414/storage ] as deploy@46.101.24.93
+ DEBUG [1d313a00] Command: [ -L /var/www/runners-laravel/releases/20170512203414/storage ]
+ DEBUG [1d313a00] Finished in 0.079 seconds with exit status 1 (failed).
+ DEBUG [e9ee5519] Running [ -d /var/www/runners-laravel/releases/20170512203414/storage ] as deploy@46.101.24.93
+ DEBUG [e9ee5519] Command: [ -d /var/www/runners-laravel/releases/20170512203414/storage ]
+ DEBUG [e9ee5519] Finished in 0.083 seconds with exit status 0 (successful).
+  INFO [b374764d] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512203414/storage as deploy@46.101.24.93
+ DEBUG [b374764d] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512203414/storage
+  INFO [b374764d] Finished in 0.076 seconds with exit status 0 (successful).
+  INFO [01d07312] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512203414/storage as deploy@46.101.24.93
+ DEBUG [01d07312] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512203414/storage
+  INFO [01d07312] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [66601cfd] Running /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512203414 /var/www/runners-laravel/releases/current as deploy@46.101.24.93
+ DEBUG [66601cfd] Command: /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512203414 /var/www/runners-laravel/releases/current
+  INFO [66601cfd] Finished in 0.078 seconds with exit status 0 (successful).
+  INFO [ab89d5da] Running /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel as deploy@46.101.24.93
+ DEBUG [ab89d5da] Command: /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel
+ DEBUG [ab89d5da] 	mv: 
+ DEBUG [ab89d5da] 	cannot overwrite directory '/var/www/runners-laravel/current' with non-directory
+ DEBUG [ab89d5da] 	
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:39:58 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+ DEBUG [2bb9297a] Running if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [2bb9297a] Command: if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi
+ DEBUG [2bb9297a] Finished in 0.711 seconds with exit status 0 (successful).
+  INFO [2843cc10] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [2843cc10] Command: /usr/bin/env mkdir -p /tmp
+  INFO [2843cc10] Finished in 0.083 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [de36b603] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [de36b603] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [de36b603] Finished in 0.092 seconds with exit status 0 (successful).
+  INFO [66a1c30e] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [66a1c30e] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [66a1c30e] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [66a1c30e] Finished in 2.291 seconds with exit status 0 (successful).
+  INFO [b78be611] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [b78be611] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [b78be611] Finished in 0.124 seconds with exit status 0 (successful).
+  INFO [f82c3d51] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [f82c3d51] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage
+  INFO [f82c3d51] Finished in 0.077 seconds with exit status 0 (successful).
+ DEBUG [385dc249] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [385dc249] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:40:16 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+ DEBUG [70575630] Running if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [70575630] Command: if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi
+ DEBUG [70575630] 	Directory does not exist '/var/www/runners-laravel/current'
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:42:24 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [1a5c59cb] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [1a5c59cb] Command: /usr/bin/env mkdir -p /tmp
+  INFO [1a5c59cb] Finished in 0.658 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [14d5b61e] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [14d5b61e] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [14d5b61e] Finished in 0.074 seconds with exit status 0 (successful).
+  INFO [b7d6ad18] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [b7d6ad18] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [b7d6ad18] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [b7d6ad18] Finished in 3.623 seconds with exit status 0 (successful).
+  INFO [666e0a7c] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [666e0a7c] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [666e0a7c] Finished in 0.129 seconds with exit status 0 (successful).
+  INFO [b175173c] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [b175173c] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage
+  INFO [b175173c] Finished in 0.083 seconds with exit status 0 (successful).
+ DEBUG [62d0a2c4] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [62d0a2c4] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+ DEBUG [62d0a2c4] Finished in 0.087 seconds with exit status 1 (failed).
+ DEBUG [f34aacfe] Running [ -f /var/www/runners-laravel/repo/HEAD ] as deploy@46.101.24.93
+ DEBUG [f34aacfe] Command: [ -f /var/www/runners-laravel/repo/HEAD ]
+ DEBUG [f34aacfe] Finished in 0.074 seconds with exit status 1 (failed).
+ DEBUG [90ebd98a] Running if test ! -d /var/www/runners-laravel; then echo "Directory does not exist '/var/www/runners-laravel'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [90ebd98a] Command: if test ! -d /var/www/runners-laravel; then echo "Directory does not exist '/var/www/runners-laravel'" 1>&2; false; fi
+ DEBUG [90ebd98a] Finished in 0.083 seconds with exit status 0 (successful).
+  INFO [95e71435] Running /usr/bin/env git clone --mirror git@github.com:CPNV-ES/Runners-Laravel.git /var/www/runners-laravel/repo as deploy@46.101.24.93
+ DEBUG [95e71435] Command: cd /var/www/runners-laravel && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git clone --mirror git@github.com:CPNV-ES/Runners-Laravel.git /var/www/runners-laravel/repo )
+ DEBUG [95e71435] 	Cloning into bare repository '/var/www/runners-laravel/repo'...
+  INFO [95e71435] Finished in 6.543 seconds with exit status 0 (successful).
+ DEBUG [848585d8] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [848585d8] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [848585d8] Finished in 0.117 seconds with exit status 0 (successful).
+  INFO [cd5cfa51] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git as deploy@46.101.24.93
+ DEBUG [cd5cfa51] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git )
+  INFO [cd5cfa51] Finished in 0.087 seconds with exit status 0 (successful).
+  INFO [b1ec3adf] Running /usr/bin/env git remote update --prune as deploy@46.101.24.93
+ DEBUG [b1ec3adf] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [b1ec3adf] 	Fetching origin
+  INFO [b1ec3adf] Finished in 2.969 seconds with exit status 0 (successful).
+ DEBUG [1f38391e] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [1f38391e] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [1f38391e] Finished in 0.117 seconds with exit status 0 (successful).
+  INFO [65ad812f] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204229 as deploy@46.101.24.93
+ DEBUG [65ad812f] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204229 )
+  INFO [65ad812f] Finished in 0.085 seconds with exit status 0 (successful).
+  INFO [1535b704] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512204229 as deploy@46.101.24.93
+ DEBUG [1535b704] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512204229 )
+  INFO [1535b704] Finished in 1.642 seconds with exit status 0 (successful).
+ DEBUG [e77e89ed] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [e77e89ed] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [e77e89ed] Finished in 0.080 seconds with exit status 0 (successful).
+ DEBUG [c177f6e0] Running /usr/bin/env git rev-list --max-count=1 master as deploy@46.101.24.93
+ DEBUG [c177f6e0] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [c177f6e0] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [c177f6e0] Finished in 0.083 seconds with exit status 0 (successful).
+ DEBUG [90ba895f] Running if test ! -d /var/www/runners-laravel/releases/20170512204229; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512204229'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [90ba895f] Command: if test ! -d /var/www/runners-laravel/releases/20170512204229; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512204229'" 1>&2; false; fi
+ DEBUG [90ba895f] Finished in 0.077 seconds with exit status 0 (successful).
+  INFO [d3ce1666] Running /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION as deploy@46.101.24.93
+ DEBUG [d3ce1666] Command: cd /var/www/runners-laravel/releases/20170512204229 && /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION
+  INFO [d3ce1666] Finished in 0.078 seconds with exit status 0 (successful).
+  INFO [30767a51] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204229 as deploy@46.101.24.93
+ DEBUG [30767a51] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204229
+  INFO [30767a51] Finished in 0.079 seconds with exit status 0 (successful).
+ DEBUG [efbc6191] Running [ -L /var/www/runners-laravel/releases/20170512204229/storage ] as deploy@46.101.24.93
+ DEBUG [efbc6191] Command: [ -L /var/www/runners-laravel/releases/20170512204229/storage ]
+ DEBUG [efbc6191] Finished in 0.078 seconds with exit status 1 (failed).
+ DEBUG [af0e8b1e] Running [ -d /var/www/runners-laravel/releases/20170512204229/storage ] as deploy@46.101.24.93
+ DEBUG [af0e8b1e] Command: [ -d /var/www/runners-laravel/releases/20170512204229/storage ]
+ DEBUG [af0e8b1e] Finished in 0.090 seconds with exit status 0 (successful).
+  INFO [140af61e] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512204229/storage as deploy@46.101.24.93
+ DEBUG [140af61e] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512204229/storage
+  INFO [140af61e] Finished in 0.084 seconds with exit status 0 (successful).
+  INFO [152d1d02] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512204229/storage as deploy@46.101.24.93
+ DEBUG [152d1d02] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512204229/storage
+  INFO [152d1d02] Finished in 0.084 seconds with exit status 0 (successful).
+ DEBUG [eae02876] Running [ -d /var/www/runners-laravel/releases/20170512204229/bootstrap/cache ] as deploy@46.101.24.93
+ DEBUG [eae02876] Command: [ -d /var/www/runners-laravel/releases/20170512204229/bootstrap/cache ]
+ DEBUG [eae02876] Finished in 0.089 seconds with exit status 0 (successful).
+ DEBUG [4cb4c5ee] Running [ -d /var/www/runners-laravel/shared/storage ] as deploy@46.101.24.93
+ DEBUG [4cb4c5ee] Command: [ -d /var/www/runners-laravel/shared/storage ]
+ DEBUG [4cb4c5ee] Finished in 0.080 seconds with exit status 0 (successful).
+ DEBUG [54cdee91] Running [ -d /var/www/runners-laravel/releases/20170512204229/storage/app ] as deploy@46.101.24.93
+ DEBUG [54cdee91] Command: [ -d /var/www/runners-laravel/releases/20170512204229/storage/app ]
+ DEBUG [54cdee91] Finished in 0.075 seconds with exit status 1 (failed).
+ DEBUG [e77dcea8] Running [ -e /var/www/runners-laravel/releases/20170512204229/storage/app ] as deploy@46.101.24.93
+ DEBUG [e77dcea8] Command: [ -e /var/www/runners-laravel/releases/20170512204229/storage/app ]
+ DEBUG [e77dcea8] Finished in 0.089 seconds with exit status 1 (failed).
+ ERROR Cannot change permissions: /var/www/runners-laravel/releases/20170512204229/storage/app is not a file or directory
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:45:46 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [d4b92aad] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [d4b92aad] Command: /usr/bin/env mkdir -p /tmp
+  INFO [d4b92aad] Finished in 0.623 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [547c9845] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [547c9845] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [547c9845] Finished in 0.078 seconds with exit status 0 (successful).
+  INFO [e9880408] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [e9880408] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [e9880408] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [e9880408] Finished in 3.184 seconds with exit status 0 (successful).
+  INFO [1ec73192] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [1ec73192] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [1ec73192] Finished in 0.113 seconds with exit status 0 (successful).
+  INFO [b24a2121] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [b24a2121] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage
+  INFO [b24a2121] Finished in 0.082 seconds with exit status 0 (successful).
+ DEBUG [4f0077f5] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [4f0077f5] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+ DEBUG [4f0077f5] Finished in 0.075 seconds with exit status 1 (failed).
+ DEBUG [bf517399] Running [ -f /var/www/runners-laravel/repo/HEAD ] as deploy@46.101.24.93
+ DEBUG [bf517399] Command: [ -f /var/www/runners-laravel/repo/HEAD ]
+ DEBUG [bf517399] Finished in 0.093 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/runners-laravel/repo
+ DEBUG [e26deb28] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [e26deb28] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [e26deb28] Finished in 0.089 seconds with exit status 0 (successful).
+  INFO [812a3924] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git as deploy@46.101.24.93
+ DEBUG [812a3924] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git )
+  INFO [812a3924] Finished in 0.092 seconds with exit status 0 (successful).
+  INFO [0f485636] Running /usr/bin/env git remote update --prune as deploy@46.101.24.93
+ DEBUG [0f485636] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [0f485636] 	Fetching origin
+  INFO [0f485636] Finished in 3.866 seconds with exit status 0 (successful).
+ DEBUG [649af68a] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [649af68a] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [649af68a] Finished in 0.114 seconds with exit status 0 (successful).
+  INFO [a06b30bb] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204551 as deploy@46.101.24.93
+ DEBUG [a06b30bb] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204551 )
+  INFO [a06b30bb] Finished in 0.080 seconds with exit status 0 (successful).
+  INFO [d5c1d389] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512204551 as deploy@46.101.24.93
+ DEBUG [d5c1d389] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512204551 )
+  INFO [d5c1d389] Finished in 2.116 seconds with exit status 0 (successful).
+ DEBUG [3b1feae1] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [3b1feae1] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [3b1feae1] Finished in 0.077 seconds with exit status 0 (successful).
+ DEBUG [f6abf9bd] Running /usr/bin/env git rev-list --max-count=1 master as deploy@46.101.24.93
+ DEBUG [f6abf9bd] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [f6abf9bd] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [f6abf9bd] Finished in 0.083 seconds with exit status 0 (successful).
+ DEBUG [78f82a0b] Running if test ! -d /var/www/runners-laravel/releases/20170512204551; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512204551'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [78f82a0b] Command: if test ! -d /var/www/runners-laravel/releases/20170512204551; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512204551'" 1>&2; false; fi
+ DEBUG [78f82a0b] Finished in 0.076 seconds with exit status 0 (successful).
+  INFO [e8f536af] Running /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION as deploy@46.101.24.93
+ DEBUG [e8f536af] Command: cd /var/www/runners-laravel/releases/20170512204551 && /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION
+  INFO [e8f536af] Finished in 0.084 seconds with exit status 0 (successful).
+  INFO [21386348] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204551 as deploy@46.101.24.93
+ DEBUG [21386348] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204551
+  INFO [21386348] Finished in 0.073 seconds with exit status 0 (successful).
+ DEBUG [3111f913] Running [ -L /var/www/runners-laravel/releases/20170512204551/storage ] as deploy@46.101.24.93
+ DEBUG [3111f913] Command: [ -L /var/www/runners-laravel/releases/20170512204551/storage ]
+ DEBUG [3111f913] Finished in 0.088 seconds with exit status 1 (failed).
+ DEBUG [cc8c880e] Running [ -d /var/www/runners-laravel/releases/20170512204551/storage ] as deploy@46.101.24.93
+ DEBUG [cc8c880e] Command: [ -d /var/www/runners-laravel/releases/20170512204551/storage ]
+ DEBUG [cc8c880e] Finished in 0.076 seconds with exit status 0 (successful).
+  INFO [df4d845b] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512204551/storage as deploy@46.101.24.93
+ DEBUG [df4d845b] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512204551/storage
+  INFO [df4d845b] Finished in 0.072 seconds with exit status 0 (successful).
+  INFO [8ec92f22] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512204551/storage as deploy@46.101.24.93
+ DEBUG [8ec92f22] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512204551/storage
+  INFO [8ec92f22] Finished in 0.077 seconds with exit status 0 (successful).
+ DEBUG [259786b3] Running [ -d /var/www/runners-laravel/releases/20170512204551/bootstrap/cache ] as deploy@46.101.24.93
+ DEBUG [259786b3] Command: [ -d /var/www/runners-laravel/releases/20170512204551/bootstrap/cache ]
+ DEBUG [259786b3] Finished in 0.084 seconds with exit status 0 (successful).
+ DEBUG [62d1c002] Running [ -d /var/www/runners-laravel/shared/storage ] as deploy@46.101.24.93
+ DEBUG [62d1c002] Command: [ -d /var/www/runners-laravel/shared/storage ]
+ DEBUG [62d1c002] Finished in 0.078 seconds with exit status 0 (successful).
+ DEBUG [cb5fe66a] Running [ -d /var/www/runners-laravel/releases/20170512204551/storage/app ] as deploy@46.101.24.93
+ DEBUG [cb5fe66a] Command: [ -d /var/www/runners-laravel/releases/20170512204551/storage/app ]
+ DEBUG [cb5fe66a] Finished in 0.087 seconds with exit status 1 (failed).
+ DEBUG [a0064150] Running [ -e /var/www/runners-laravel/releases/20170512204551/storage/app ] as deploy@46.101.24.93
+ DEBUG [a0064150] Command: [ -e /var/www/runners-laravel/releases/20170512204551/storage/app ]
+ DEBUG [a0064150] Finished in 0.083 seconds with exit status 1 (failed).
+ ERROR Cannot change permissions: /var/www/runners-laravel/releases/20170512204551/storage/app is not a file or directory
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:47:49 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [09f16b02] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [09f16b02] Command: /usr/bin/env mkdir -p /tmp
+  INFO [09f16b02] Finished in 0.693 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [1d8aed07] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [1d8aed07] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [1d8aed07] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [bb074aa6] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [bb074aa6] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [bb074aa6] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [bb074aa6] Finished in 2.706 seconds with exit status 0 (successful).
+  INFO [91b81aaf] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [91b81aaf] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [91b81aaf] Finished in 0.112 seconds with exit status 0 (successful).
+  INFO [0880725e] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [0880725e] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage
+  INFO [0880725e] Finished in 0.093 seconds with exit status 0 (successful).
+ DEBUG [b3c8933f] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [b3c8933f] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+ DEBUG [b3c8933f] Finished in 0.072 seconds with exit status 1 (failed).
+ DEBUG [d1fdace2] Running [ -f /var/www/runners-laravel/repo/HEAD ] as deploy@46.101.24.93
+ DEBUG [d1fdace2] Command: [ -f /var/www/runners-laravel/repo/HEAD ]
+ DEBUG [d1fdace2] Finished in 0.070 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/runners-laravel/repo
+ DEBUG [c113803d] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [c113803d] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [c113803d] Finished in 0.080 seconds with exit status 0 (successful).
+  INFO [a3c91541] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git as deploy@46.101.24.93
+ DEBUG [a3c91541] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git )
+  INFO [a3c91541] Finished in 0.080 seconds with exit status 0 (successful).
+  INFO [f573c5e0] Running /usr/bin/env git remote update --prune as deploy@46.101.24.93
+ DEBUG [f573c5e0] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [f573c5e0] 	Fetching origin
+  INFO [f573c5e0] Finished in 2.494 seconds with exit status 0 (successful).
+ DEBUG [ed69669f] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [ed69669f] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [ed69669f] Finished in 0.117 seconds with exit status 0 (successful).
+  INFO [3e575118] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204753 as deploy@46.101.24.93
+ DEBUG [3e575118] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204753 )
+  INFO [3e575118] Finished in 0.073 seconds with exit status 0 (successful).
+  INFO [d2b3ba9f] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512204753 as deploy@46.101.24.93
+ DEBUG [d2b3ba9f] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512204753 )
+  INFO [d2b3ba9f] Finished in 1.821 seconds with exit status 0 (successful).
+ DEBUG [e9d90b68] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [e9d90b68] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [e9d90b68] Finished in 0.089 seconds with exit status 0 (successful).
+ DEBUG [85e50079] Running /usr/bin/env git rev-list --max-count=1 master as deploy@46.101.24.93
+ DEBUG [85e50079] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [85e50079] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [85e50079] Finished in 0.083 seconds with exit status 0 (successful).
+ DEBUG [395e8f8b] Running if test ! -d /var/www/runners-laravel/releases/20170512204753; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512204753'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [395e8f8b] Command: if test ! -d /var/www/runners-laravel/releases/20170512204753; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512204753'" 1>&2; false; fi
+ DEBUG [395e8f8b] Finished in 0.076 seconds with exit status 0 (successful).
+  INFO [b6fd82a0] Running /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION as deploy@46.101.24.93
+ DEBUG [b6fd82a0] Command: cd /var/www/runners-laravel/releases/20170512204753 && /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION
+  INFO [b6fd82a0] Finished in 0.073 seconds with exit status 0 (successful).
+  INFO [4d9d3932] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204753 as deploy@46.101.24.93
+ DEBUG [4d9d3932] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204753
+  INFO [4d9d3932] Finished in 0.075 seconds with exit status 0 (successful).
+ DEBUG [8b1fc695] Running [ -L /var/www/runners-laravel/releases/20170512204753/storage ] as deploy@46.101.24.93
+ DEBUG [8b1fc695] Command: [ -L /var/www/runners-laravel/releases/20170512204753/storage ]
+ DEBUG [8b1fc695] Finished in 0.075 seconds with exit status 1 (failed).
+ DEBUG [77b8c443] Running [ -d /var/www/runners-laravel/releases/20170512204753/storage ] as deploy@46.101.24.93
+ DEBUG [77b8c443] Command: [ -d /var/www/runners-laravel/releases/20170512204753/storage ]
+ DEBUG [77b8c443] Finished in 0.084 seconds with exit status 0 (successful).
+  INFO [436f2c93] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512204753/storage as deploy@46.101.24.93
+ DEBUG [436f2c93] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512204753/storage
+  INFO [436f2c93] Finished in 0.073 seconds with exit status 0 (successful).
+  INFO [9858f816] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512204753/storage as deploy@46.101.24.93
+ DEBUG [9858f816] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512204753/storage
+  INFO [9858f816] Finished in 0.076 seconds with exit status 0 (successful).
+  INFO [ed74301f] Running /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512204753 /var/www/runners-laravel/releases/current as deploy@46.101.24.93
+ DEBUG [ed74301f] Command: /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512204753 /var/www/runners-laravel/releases/current
+  INFO [ed74301f] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [264d8c57] Running /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel as deploy@46.101.24.93
+ DEBUG [264d8c57] Command: /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel
+  INFO [264d8c57] Finished in 0.079 seconds with exit status 0 (successful).
+ DEBUG [248a32fd] Running [ -d /var/www/runners-laravel/releases/20170512204753/bootstrap/cache ] as deploy@46.101.24.93
+ DEBUG [248a32fd] Command: [ -d /var/www/runners-laravel/releases/20170512204753/bootstrap/cache ]
+ DEBUG [248a32fd] Finished in 0.077 seconds with exit status 0 (successful).
+ DEBUG [05c5b35a] Running [ -d /var/www/runners-laravel/shared/storage ] as deploy@46.101.24.93
+ DEBUG [05c5b35a] Command: [ -d /var/www/runners-laravel/shared/storage ]
+ DEBUG [05c5b35a] Finished in 0.070 seconds with exit status 0 (successful).
+ DEBUG [bc5fa2e1] Running [ -d /var/www/runners-laravel/releases/20170512204753/storage/app ] as deploy@46.101.24.93
+ DEBUG [bc5fa2e1] Command: [ -d /var/www/runners-laravel/releases/20170512204753/storage/app ]
+ DEBUG [bc5fa2e1] Finished in 0.075 seconds with exit status 1 (failed).
+ DEBUG [d4e05471] Running [ -e /var/www/runners-laravel/releases/20170512204753/storage/app ] as deploy@46.101.24.93
+ DEBUG [d4e05471] Command: [ -e /var/www/runners-laravel/releases/20170512204753/storage/app ]
+ DEBUG [d4e05471] Finished in 0.079 seconds with exit status 1 (failed).
+ ERROR Cannot change permissions: /var/www/runners-laravel/releases/20170512204753/storage/app is not a file or directory
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:48:54 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [c2cab192] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [c2cab192] Command: /usr/bin/env mkdir -p /tmp
+  INFO [c2cab192] Finished in 0.630 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [ba6934fe] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [ba6934fe] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [ba6934fe] Finished in 0.077 seconds with exit status 0 (successful).
+  INFO [34355c37] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [34355c37] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [34355c37] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [34355c37] Finished in 3.076 seconds with exit status 0 (successful).
+  INFO [eb31f30d] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [eb31f30d] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [eb31f30d] Finished in 0.137 seconds with exit status 0 (successful).
+  INFO [bb371155] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [bb371155] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage
+  INFO [bb371155] Finished in 0.083 seconds with exit status 0 (successful).
+ DEBUG [73407f66] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [73407f66] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+ DEBUG [73407f66] Finished in 0.073 seconds with exit status 0 (successful).
+ DEBUG [533b6e19] Running /usr/bin/env cat /var/www/runners-laravel/current/REVISION 2>/dev/null as deploy@46.101.24.93
+ DEBUG [533b6e19] Command: /usr/bin/env cat /var/www/runners-laravel/current/REVISION 2>/dev/null
+ DEBUG [533b6e19] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [533b6e19] Finished in 0.075 seconds with exit status 0 (successful).
+ DEBUG [49937ecf] Running [ -f /var/www/runners-laravel/repo/HEAD ] as deploy@46.101.24.93
+ DEBUG [49937ecf] Command: [ -f /var/www/runners-laravel/repo/HEAD ]
+ DEBUG [49937ecf] Finished in 0.083 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/runners-laravel/repo
+ DEBUG [caf15cf6] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [caf15cf6] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [caf15cf6] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [08d95ad4] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git as deploy@46.101.24.93
+ DEBUG [08d95ad4] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git )
+  INFO [08d95ad4] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [69b4b382] Running /usr/bin/env git remote update --prune as deploy@46.101.24.93
+ DEBUG [69b4b382] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [69b4b382] 	Fetching origin
+  INFO [69b4b382] Finished in 2.340 seconds with exit status 0 (successful).
+ DEBUG [01c6bf3f] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [01c6bf3f] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [01c6bf3f] Finished in 0.122 seconds with exit status 0 (successful).
+  INFO [ee9ed7e5] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204858 as deploy@46.101.24.93
+ DEBUG [ee9ed7e5] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204858 )
+  INFO [ee9ed7e5] Finished in 0.071 seconds with exit status 0 (successful).
+  INFO [2d3725c9] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512204858 as deploy@46.101.24.93
+ DEBUG [2d3725c9] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512204858 )
+  INFO [2d3725c9] Finished in 0.269 seconds with exit status 0 (successful).
+ DEBUG [9b2040e9] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [9b2040e9] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [9b2040e9] Finished in 0.072 seconds with exit status 0 (successful).
+ DEBUG [c83ba774] Running /usr/bin/env git rev-list --max-count=1 master as deploy@46.101.24.93
+ DEBUG [c83ba774] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [c83ba774] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [c83ba774] Finished in 0.085 seconds with exit status 0 (successful).
+ DEBUG [6b135930] Running if test ! -d /var/www/runners-laravel/releases/20170512204858; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512204858'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [6b135930] Command: if test ! -d /var/www/runners-laravel/releases/20170512204858; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512204858'" 1>&2; false; fi
+ DEBUG [6b135930] Finished in 0.084 seconds with exit status 0 (successful).
+  INFO [b1314c24] Running /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION as deploy@46.101.24.93
+ DEBUG [b1314c24] Command: cd /var/www/runners-laravel/releases/20170512204858 && /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION
+  INFO [b1314c24] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [059d4f00] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204858 as deploy@46.101.24.93
+ DEBUG [059d4f00] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512204858
+  INFO [059d4f00] Finished in 0.089 seconds with exit status 0 (successful).
+ DEBUG [f87ea3fa] Running [ -L /var/www/runners-laravel/releases/20170512204858/storage ] as deploy@46.101.24.93
+ DEBUG [f87ea3fa] Command: [ -L /var/www/runners-laravel/releases/20170512204858/storage ]
+ DEBUG [f87ea3fa] Finished in 0.083 seconds with exit status 1 (failed).
+ DEBUG [82769237] Running [ -d /var/www/runners-laravel/releases/20170512204858/storage ] as deploy@46.101.24.93
+ DEBUG [82769237] Command: [ -d /var/www/runners-laravel/releases/20170512204858/storage ]
+ DEBUG [82769237] Finished in 0.088 seconds with exit status 0 (successful).
+  INFO [82066339] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512204858/storage as deploy@46.101.24.93
+ DEBUG [82066339] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512204858/storage
+  INFO [82066339] Finished in 0.089 seconds with exit status 0 (successful).
+  INFO [81f5b01e] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512204858/storage as deploy@46.101.24.93
+ DEBUG [81f5b01e] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512204858/storage
+  INFO [81f5b01e] Finished in 0.086 seconds with exit status 0 (successful).
+  INFO [4e881587] Running /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512204858 /var/www/runners-laravel/releases/current as deploy@46.101.24.93
+ DEBUG [4e881587] Command: /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512204858 /var/www/runners-laravel/releases/current
+  INFO [4e881587] Finished in 0.077 seconds with exit status 0 (successful).
+  INFO [ea7e18a1] Running /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel as deploy@46.101.24.93
+ DEBUG [ea7e18a1] Command: /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel
+  INFO [ea7e18a1] Finished in 0.076 seconds with exit status 0 (successful).
+ DEBUG [4eb6923b] Running [ -d /var/www/runners-laravel/releases/20170512204858/bootstrap/cache ] as deploy@46.101.24.93
+ DEBUG [4eb6923b] Command: [ -d /var/www/runners-laravel/releases/20170512204858/bootstrap/cache ]
+ DEBUG [4eb6923b] Finished in 0.082 seconds with exit status 0 (successful).
+ DEBUG [086edeac] Running [ -d /var/www/runners-laravel/shared/storage ] as deploy@46.101.24.93
+ DEBUG [086edeac] Command: [ -d /var/www/runners-laravel/shared/storage ]
+ DEBUG [086edeac] Finished in 0.076 seconds with exit status 0 (successful).
+ DEBUG [d3abbf3b] Running [ -d /var/www/runners-laravel/releases/20170512204858/storage/app ] as deploy@46.101.24.93
+ DEBUG [d3abbf3b] Command: [ -d /var/www/runners-laravel/releases/20170512204858/storage/app ]
+ DEBUG [d3abbf3b] Finished in 0.078 seconds with exit status 1 (failed).
+ DEBUG [2226c852] Running [ -e /var/www/runners-laravel/releases/20170512204858/storage/app ] as deploy@46.101.24.93
+ DEBUG [2226c852] Command: [ -e /var/www/runners-laravel/releases/20170512204858/storage/app ]
+ DEBUG [2226c852] Finished in 0.071 seconds with exit status 1 (failed).
+ ERROR Cannot change permissions: /var/www/runners-laravel/releases/20170512204858/storage/app is not a file or directory
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:52:42 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [40577ad1] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [40577ad1] Command: /usr/bin/env mkdir -p /tmp
+  INFO [40577ad1] Finished in 0.675 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [2c9b4144] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [2c9b4144] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [2c9b4144] Finished in 0.074 seconds with exit status 0 (successful).
+  INFO [0ec94402] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [0ec94402] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [0ec94402] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [0ec94402] Finished in 2.385 seconds with exit status 0 (successful).
+  INFO [5d224998] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [5d224998] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [5d224998] Finished in 0.112 seconds with exit status 0 (successful).
+  INFO [b5918a4f] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [b5918a4f] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage
+  INFO [b5918a4f] Finished in 0.096 seconds with exit status 0 (successful).
+ DEBUG [ff63c9b9] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [ff63c9b9] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+ DEBUG [ff63c9b9] Finished in 0.089 seconds with exit status 0 (successful).
+ DEBUG [b413c945] Running /usr/bin/env cat /var/www/runners-laravel/current/REVISION 2>/dev/null as deploy@46.101.24.93
+ DEBUG [b413c945] Command: /usr/bin/env cat /var/www/runners-laravel/current/REVISION 2>/dev/null
+ DEBUG [b413c945] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [b413c945] Finished in 0.080 seconds with exit status 0 (successful).
+ DEBUG [cfb8e160] Running [ -f /var/www/runners-laravel/repo/HEAD ] as deploy@46.101.24.93
+ DEBUG [cfb8e160] Command: [ -f /var/www/runners-laravel/repo/HEAD ]
+ DEBUG [cfb8e160] Finished in 0.087 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/runners-laravel/repo
+ DEBUG [26e611e1] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [26e611e1] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [26e611e1] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [4e9a4d3e] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git as deploy@46.101.24.93
+ DEBUG [4e9a4d3e] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git )
+  INFO [4e9a4d3e] Finished in 0.088 seconds with exit status 0 (successful).
+  INFO [e18a2353] Running /usr/bin/env git remote update --prune as deploy@46.101.24.93
+ DEBUG [e18a2353] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [e18a2353] 	Fetching origin
+  INFO [e18a2353] Finished in 3.682 seconds with exit status 0 (successful).
+ DEBUG [56f876ca] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [56f876ca] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [56f876ca] Finished in 0.110 seconds with exit status 0 (successful).
+  INFO [5aa33635] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205246 as deploy@46.101.24.93
+ DEBUG [5aa33635] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205246 )
+  INFO [5aa33635] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [943f76b5] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512205246 as deploy@46.101.24.93
+ DEBUG [943f76b5] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512205246 )
+  INFO [943f76b5] Finished in 0.273 seconds with exit status 0 (successful).
+ DEBUG [6047268a] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [6047268a] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [6047268a] Finished in 0.085 seconds with exit status 0 (successful).
+ DEBUG [7c93382c] Running /usr/bin/env git rev-list --max-count=1 master as deploy@46.101.24.93
+ DEBUG [7c93382c] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [7c93382c] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [7c93382c] Finished in 0.077 seconds with exit status 0 (successful).
+ DEBUG [0d87f8af] Running if test ! -d /var/www/runners-laravel/releases/20170512205246; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512205246'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [0d87f8af] Command: if test ! -d /var/www/runners-laravel/releases/20170512205246; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512205246'" 1>&2; false; fi
+ DEBUG [0d87f8af] Finished in 0.086 seconds with exit status 0 (successful).
+  INFO [f55a7da7] Running /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION as deploy@46.101.24.93
+ DEBUG [f55a7da7] Command: cd /var/www/runners-laravel/releases/20170512205246 && /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION
+  INFO [f55a7da7] Finished in 0.080 seconds with exit status 0 (successful).
+  INFO [6c1a1855] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205246 as deploy@46.101.24.93
+ DEBUG [6c1a1855] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205246
+  INFO [6c1a1855] Finished in 0.074 seconds with exit status 0 (successful).
+ DEBUG [27aedcf0] Running [ -L /var/www/runners-laravel/releases/20170512205246/storage ] as deploy@46.101.24.93
+ DEBUG [27aedcf0] Command: [ -L /var/www/runners-laravel/releases/20170512205246/storage ]
+ DEBUG [27aedcf0] Finished in 0.076 seconds with exit status 1 (failed).
+ DEBUG [9c72e8fc] Running [ -d /var/www/runners-laravel/releases/20170512205246/storage ] as deploy@46.101.24.93
+ DEBUG [9c72e8fc] Command: [ -d /var/www/runners-laravel/releases/20170512205246/storage ]
+ DEBUG [9c72e8fc] Finished in 0.083 seconds with exit status 0 (successful).
+  INFO [8a61ac5b] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205246/storage as deploy@46.101.24.93
+ DEBUG [8a61ac5b] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205246/storage
+  INFO [8a61ac5b] Finished in 0.080 seconds with exit status 0 (successful).
+  INFO [f200a070] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512205246/storage as deploy@46.101.24.93
+ DEBUG [f200a070] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512205246/storage
+  INFO [f200a070] Finished in 0.073 seconds with exit status 0 (successful).
+  INFO [e9ded42b] Running /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512205246 /var/www/runners-laravel/releases/current as deploy@46.101.24.93
+ DEBUG [e9ded42b] Command: /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512205246 /var/www/runners-laravel/releases/current
+  INFO [e9ded42b] Finished in 0.088 seconds with exit status 0 (successful).
+  INFO [12912885] Running /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel as deploy@46.101.24.93
+ DEBUG [12912885] Command: /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel
+  INFO [12912885] Finished in 0.075 seconds with exit status 0 (successful).
+ DEBUG [556d4490] Running [ -d /var/www/runners-laravel/releases/20170512205246/bootstrap/cache ] as deploy@46.101.24.93
+ DEBUG [556d4490] Command: [ -d /var/www/runners-laravel/releases/20170512205246/bootstrap/cache ]
+ DEBUG [556d4490] Finished in 0.083 seconds with exit status 0 (successful).
+ DEBUG [75184364] Running [ -d /var/www/runners-laravel/shared/storage ] as deploy@46.101.24.93
+ DEBUG [75184364] Command: [ -d /var/www/runners-laravel/shared/storage ]
+ DEBUG [75184364] Finished in 0.074 seconds with exit status 0 (successful).
+ DEBUG [77c5f79f] Running [ -d /var/www/runners-laravel/releases/20170512205246/storage/app ] as deploy@46.101.24.93
+ DEBUG [77c5f79f] Command: [ -d /var/www/runners-laravel/releases/20170512205246/storage/app ]
+ DEBUG [77c5f79f] Finished in 0.070 seconds with exit status 1 (failed).
+ DEBUG [10730ebc] Running [ -e /var/www/runners-laravel/releases/20170512205246/storage/app ] as deploy@46.101.24.93
+ DEBUG [10730ebc] Command: [ -e /var/www/runners-laravel/releases/20170512205246/storage/app ]
+ DEBUG [10730ebc] Finished in 0.076 seconds with exit status 1 (failed).
+ ERROR Cannot change permissions: /var/www/runners-laravel/releases/20170512205246/storage/app is not a file or directory
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:55:34 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [76207f5e] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [76207f5e] Command: /usr/bin/env mkdir -p /tmp
+  INFO [76207f5e] Finished in 0.691 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [457c3d4d] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [457c3d4d] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [457c3d4d] Finished in 0.075 seconds with exit status 0 (successful).
+  INFO [887d9ee1] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [887d9ee1] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [887d9ee1] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [887d9ee1] Finished in 3.909 seconds with exit status 0 (successful).
+  INFO [c8130aab] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [c8130aab] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [c8130aab] Finished in 0.304 seconds with exit status 0 (successful).
+  INFO [abafbafb] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [abafbafb] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/shared/storage
+  INFO [abafbafb] Finished in 0.262 seconds with exit status 0 (successful).
+ DEBUG [1c7b5848] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [1c7b5848] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+ DEBUG [1c7b5848] Finished in 0.270 seconds with exit status 0 (successful).
+ DEBUG [00d1bd36] Running /usr/bin/env cat /var/www/runners-laravel/current/REVISION 2>/dev/null as deploy@46.101.24.93
+ DEBUG [00d1bd36] Command: /usr/bin/env cat /var/www/runners-laravel/current/REVISION 2>/dev/null
+ DEBUG [00d1bd36] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [00d1bd36] Finished in 0.078 seconds with exit status 0 (successful).
+ DEBUG [cb76b9f8] Running [ -f /var/www/runners-laravel/repo/HEAD ] as deploy@46.101.24.93
+ DEBUG [cb76b9f8] Command: [ -f /var/www/runners-laravel/repo/HEAD ]
+ DEBUG [cb76b9f8] Finished in 0.272 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/runners-laravel/repo
+ DEBUG [6b070be8] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [6b070be8] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [6b070be8] Finished in 0.270 seconds with exit status 0 (successful).
+  INFO [6e98539b] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git as deploy@46.101.24.93
+ DEBUG [6e98539b] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git )
+  INFO [6e98539b] Finished in 0.074 seconds with exit status 0 (successful).
+  INFO [2b004b26] Running /usr/bin/env git remote update --prune as deploy@46.101.24.93
+ DEBUG [2b004b26] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [2b004b26] 	Fetching origin
+  INFO [2b004b26] Finished in 1.584 seconds with exit status 0 (successful).
+ DEBUG [837a85f5] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [837a85f5] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [837a85f5] Finished in 0.210 seconds with exit status 0 (successful).
+  INFO [dc294eda] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205540 as deploy@46.101.24.93
+ DEBUG [dc294eda] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205540 )
+  INFO [dc294eda] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [b8829417] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512205540 as deploy@46.101.24.93
+ DEBUG [b8829417] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512205540 )
+  INFO [b8829417] Finished in 0.906 seconds with exit status 0 (successful).
+ DEBUG [2eeace80] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [2eeace80] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [2eeace80] Finished in 0.074 seconds with exit status 0 (successful).
+ DEBUG [dc07c1d1] Running /usr/bin/env git rev-list --max-count=1 master as deploy@46.101.24.93
+ DEBUG [dc07c1d1] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [dc07c1d1] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [dc07c1d1] Finished in 0.092 seconds with exit status 0 (successful).
+ DEBUG [f2e7419d] Running if test ! -d /var/www/runners-laravel/releases/20170512205540; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512205540'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [f2e7419d] Command: if test ! -d /var/www/runners-laravel/releases/20170512205540; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512205540'" 1>&2; false; fi
+ DEBUG [f2e7419d] Finished in 0.094 seconds with exit status 0 (successful).
+  INFO [eca17c75] Running /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION as deploy@46.101.24.93
+ DEBUG [eca17c75] Command: cd /var/www/runners-laravel/releases/20170512205540 && /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION
+  INFO [eca17c75] Finished in 0.077 seconds with exit status 0 (successful).
+  INFO [b6a46b00] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205540/storage /var/www/runners-laravel/releases/20170512205540/storage/framework /var/www/runners-laravel/releases/20170512205540 as deploy@46.101.24.93
+ DEBUG [b6a46b00] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205540/storage /var/www/runners-laravel/releases/20170512205540/storage/framework /var/www/runners-laravel/releases/20170512205540
+  INFO [b6a46b00] Finished in 0.080 seconds with exit status 0 (successful).
+ DEBUG [59a2e9ce] Running [ -L /var/www/runners-laravel/releases/20170512205540/storage/app ] as deploy@46.101.24.93
+ DEBUG [59a2e9ce] Command: [ -L /var/www/runners-laravel/releases/20170512205540/storage/app ]
+ DEBUG [59a2e9ce] Finished in 0.078 seconds with exit status 1 (failed).
+ DEBUG [7445c05c] Running [ -d /var/www/runners-laravel/releases/20170512205540/storage/app ] as deploy@46.101.24.93
+ DEBUG [7445c05c] Command: [ -d /var/www/runners-laravel/releases/20170512205540/storage/app ]
+ DEBUG [7445c05c] Finished in 0.075 seconds with exit status 0 (successful).
+  INFO [1a2e7af2] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage/app as deploy@46.101.24.93
+ DEBUG [1a2e7af2] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage/app
+  INFO [1a2e7af2] Finished in 0.071 seconds with exit status 0 (successful).
+  INFO [6b4f0cee] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/releases/20170512205540/storage/app as deploy@46.101.24.93
+ DEBUG [6b4f0cee] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/releases/20170512205540/storage/app
+  INFO [6b4f0cee] Finished in 0.070 seconds with exit status 0 (successful).
+ DEBUG [0a785c66] Running [ -L /var/www/runners-laravel/releases/20170512205540/storage/framework/cache ] as deploy@46.101.24.93
+ DEBUG [0a785c66] Command: [ -L /var/www/runners-laravel/releases/20170512205540/storage/framework/cache ]
+ DEBUG [0a785c66] Finished in 0.082 seconds with exit status 1 (failed).
+ DEBUG [dc0b93a3] Running [ -d /var/www/runners-laravel/releases/20170512205540/storage/framework/cache ] as deploy@46.101.24.93
+ DEBUG [dc0b93a3] Command: [ -d /var/www/runners-laravel/releases/20170512205540/storage/framework/cache ]
+ DEBUG [dc0b93a3] Finished in 0.071 seconds with exit status 0 (successful).
+  INFO [405c93a4] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage/framework/cache as deploy@46.101.24.93
+ DEBUG [405c93a4] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage/framework/cache
+  INFO [405c93a4] Finished in 0.078 seconds with exit status 0 (successful).
+  INFO [3d7a970f] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/releases/20170512205540/storage/framework/cache as deploy@46.101.24.93
+ DEBUG [3d7a970f] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/releases/20170512205540/storage/framework/cache
+  INFO [3d7a970f] Finished in 0.076 seconds with exit status 0 (successful).
+ DEBUG [6f8cdd34] Running [ -L /var/www/runners-laravel/releases/20170512205540/storage/framework/sessions ] as deploy@46.101.24.93
+ DEBUG [6f8cdd34] Command: [ -L /var/www/runners-laravel/releases/20170512205540/storage/framework/sessions ]
+ DEBUG [6f8cdd34] Finished in 0.069 seconds with exit status 1 (failed).
+ DEBUG [278aa95f] Running [ -d /var/www/runners-laravel/releases/20170512205540/storage/framework/sessions ] as deploy@46.101.24.93
+ DEBUG [278aa95f] Command: [ -d /var/www/runners-laravel/releases/20170512205540/storage/framework/sessions ]
+ DEBUG [278aa95f] Finished in 0.084 seconds with exit status 0 (successful).
+  INFO [c529a1ad] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage/framework/sessions as deploy@46.101.24.93
+ DEBUG [c529a1ad] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage/framework/sessions
+  INFO [c529a1ad] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [c68bbe4b] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/releases/20170512205540/storage/framework/sessions as deploy@46.101.24.93
+ DEBUG [c68bbe4b] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/releases/20170512205540/storage/framework/sessions
+  INFO [c68bbe4b] Finished in 0.078 seconds with exit status 0 (successful).
+ DEBUG [1aecc5aa] Running [ -L /var/www/runners-laravel/releases/20170512205540/storage/framework/views ] as deploy@46.101.24.93
+ DEBUG [1aecc5aa] Command: [ -L /var/www/runners-laravel/releases/20170512205540/storage/framework/views ]
+ DEBUG [1aecc5aa] Finished in 0.077 seconds with exit status 1 (failed).
+ DEBUG [d5dada0b] Running [ -d /var/www/runners-laravel/releases/20170512205540/storage/framework/views ] as deploy@46.101.24.93
+ DEBUG [d5dada0b] Command: [ -d /var/www/runners-laravel/releases/20170512205540/storage/framework/views ]
+ DEBUG [d5dada0b] Finished in 0.071 seconds with exit status 0 (successful).
+  INFO [421c4f07] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage/framework/views as deploy@46.101.24.93
+ DEBUG [421c4f07] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage/framework/views
+  INFO [421c4f07] Finished in 0.091 seconds with exit status 0 (successful).
+  INFO [6ddd7350] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/releases/20170512205540/storage/framework/views as deploy@46.101.24.93
+ DEBUG [6ddd7350] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/releases/20170512205540/storage/framework/views
+  INFO [6ddd7350] Finished in 0.078 seconds with exit status 0 (successful).
+ DEBUG [e151d211] Running [ -L /var/www/runners-laravel/releases/20170512205540/storage/logs ] as deploy@46.101.24.93
+ DEBUG [e151d211] Command: [ -L /var/www/runners-laravel/releases/20170512205540/storage/logs ]
+ DEBUG [e151d211] Finished in 0.083 seconds with exit status 1 (failed).
+ DEBUG [10c4363b] Running [ -d /var/www/runners-laravel/releases/20170512205540/storage/logs ] as deploy@46.101.24.93
+ DEBUG [10c4363b] Command: [ -d /var/www/runners-laravel/releases/20170512205540/storage/logs ]
+ DEBUG [10c4363b] Finished in 0.070 seconds with exit status 0 (successful).
+  INFO [b053ae34] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage/logs as deploy@46.101.24.93
+ DEBUG [b053ae34] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage/logs
+  INFO [b053ae34] Finished in 0.075 seconds with exit status 0 (successful).
+  INFO [ebe77b0f] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/releases/20170512205540/storage/logs as deploy@46.101.24.93
+ DEBUG [ebe77b0f] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/releases/20170512205540/storage/logs
+  INFO [ebe77b0f] Finished in 0.079 seconds with exit status 0 (successful).
+ DEBUG [77f228f5] Running [ -L /var/www/runners-laravel/releases/20170512205540/storage ] as deploy@46.101.24.93
+ DEBUG [77f228f5] Command: [ -L /var/www/runners-laravel/releases/20170512205540/storage ]
+ DEBUG [77f228f5] Finished in 0.079 seconds with exit status 1 (failed).
+ DEBUG [84e67f93] Running [ -d /var/www/runners-laravel/releases/20170512205540/storage ] as deploy@46.101.24.93
+ DEBUG [84e67f93] Command: [ -d /var/www/runners-laravel/releases/20170512205540/storage ]
+ DEBUG [84e67f93] Finished in 0.075 seconds with exit status 0 (successful).
+  INFO [45e85b98] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage as deploy@46.101.24.93
+ DEBUG [45e85b98] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205540/storage
+  INFO [45e85b98] Finished in 0.075 seconds with exit status 0 (successful).
+  INFO [c23ba88c] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512205540/storage as deploy@46.101.24.93
+ DEBUG [c23ba88c] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512205540/storage
+  INFO [c23ba88c] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [3ca91d31] Running /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512205540 /var/www/runners-laravel/releases/current as deploy@46.101.24.93
+ DEBUG [3ca91d31] Command: /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512205540 /var/www/runners-laravel/releases/current
+  INFO [3ca91d31] Finished in 0.080 seconds with exit status 0 (successful).
+  INFO [a35ace72] Running /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel as deploy@46.101.24.93
+ DEBUG [a35ace72] Command: /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel
+  INFO [a35ace72] Finished in 0.079 seconds with exit status 0 (successful).
+ DEBUG [e94fcd69] Running [ -d /var/www/runners-laravel/releases/20170512205540/bootstrap/cache ] as deploy@46.101.24.93
+ DEBUG [e94fcd69] Command: [ -d /var/www/runners-laravel/releases/20170512205540/bootstrap/cache ]
+ DEBUG [e94fcd69] Finished in 0.078 seconds with exit status 0 (successful).
+ DEBUG [b023b20c] Running [ -d /var/www/runners-laravel/shared/storage ] as deploy@46.101.24.93
+ DEBUG [b023b20c] Command: [ -d /var/www/runners-laravel/shared/storage ]
+ DEBUG [b023b20c] Finished in 0.074 seconds with exit status 0 (successful).
+ DEBUG [5f8e73ac] Running [ -d /var/www/runners-laravel/shared/storage/app ] as deploy@46.101.24.93
+ DEBUG [5f8e73ac] Command: [ -d /var/www/runners-laravel/shared/storage/app ]
+ DEBUG [5f8e73ac] Finished in 0.076 seconds with exit status 0 (successful).
+ DEBUG [3d79d7e5] Running [ -d /var/www/runners-laravel/releases/20170512205540/storage/app/public ] as deploy@46.101.24.93
+ DEBUG [3d79d7e5] Command: [ -d /var/www/runners-laravel/releases/20170512205540/storage/app/public ]
+ DEBUG [3d79d7e5] Finished in 0.078 seconds with exit status 1 (failed).
+ DEBUG [a4bf261d] Running [ -e /var/www/runners-laravel/releases/20170512205540/storage/app/public ] as deploy@46.101.24.93
+ DEBUG [a4bf261d] Command: [ -e /var/www/runners-laravel/releases/20170512205540/storage/app/public ]
+ DEBUG [a4bf261d] Finished in 0.083 seconds with exit status 1 (failed).
+ ERROR Cannot change permissions: /var/www/runners-laravel/releases/20170512205540/storage/app/public is not a file or directory
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 22:58:07 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [73d683fc] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [73d683fc] Command: /usr/bin/env mkdir -p /tmp
+  INFO [73d683fc] Finished in 0.661 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [3b26b078] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [3b26b078] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [3b26b078] Finished in 0.083 seconds with exit status 0 (successful).
+  INFO [03239815] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [03239815] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [03239815] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [03239815] Finished in 2.928 seconds with exit status 0 (successful).
+  INFO [3ac5d924] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [3ac5d924] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [3ac5d924] Finished in 0.116 seconds with exit status 0 (successful).
+  INFO [1c402b67] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [1c402b67] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/shared/storage
+  INFO [1c402b67] Finished in 0.077 seconds with exit status 0 (successful).
+ DEBUG [8f7424d4] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [8f7424d4] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+ DEBUG [8f7424d4] Finished in 0.080 seconds with exit status 0 (successful).
+ DEBUG [7c0fc7d9] Running /usr/bin/env cat /var/www/runners-laravel/current/REVISION 2>/dev/null as deploy@46.101.24.93
+ DEBUG [7c0fc7d9] Command: /usr/bin/env cat /var/www/runners-laravel/current/REVISION 2>/dev/null
+ DEBUG [7c0fc7d9] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [7c0fc7d9] Finished in 0.092 seconds with exit status 0 (successful).
+ DEBUG [60907b56] Running [ -f /var/www/runners-laravel/repo/HEAD ] as deploy@46.101.24.93
+ DEBUG [60907b56] Command: [ -f /var/www/runners-laravel/repo/HEAD ]
+ DEBUG [60907b56] Finished in 0.087 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/runners-laravel/repo
+ DEBUG [e8745e32] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [e8745e32] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [e8745e32] Finished in 0.074 seconds with exit status 0 (successful).
+  INFO [f64441b1] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git as deploy@46.101.24.93
+ DEBUG [f64441b1] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git )
+  INFO [f64441b1] Finished in 0.084 seconds with exit status 0 (successful).
+  INFO [f12b8c2e] Running /usr/bin/env git remote update --prune as deploy@46.101.24.93
+ DEBUG [f12b8c2e] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [f12b8c2e] 	Fetching origin
+  INFO [f12b8c2e] Finished in 2.543 seconds with exit status 0 (successful).
+ DEBUG [6027588f] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [6027588f] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [6027588f] Finished in 0.116 seconds with exit status 0 (successful).
+  INFO [03ad1bd6] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205811 as deploy@46.101.24.93
+ DEBUG [03ad1bd6] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205811 )
+  INFO [03ad1bd6] Finished in 0.082 seconds with exit status 0 (successful).
+  INFO [10beb426] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512205811 as deploy@46.101.24.93
+ DEBUG [10beb426] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512205811 )
+  INFO [10beb426] Finished in 1.623 seconds with exit status 0 (successful).
+ DEBUG [d68b8d96] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [d68b8d96] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [d68b8d96] Finished in 0.071 seconds with exit status 0 (successful).
+ DEBUG [f7fb76a9] Running /usr/bin/env git rev-list --max-count=1 master as deploy@46.101.24.93
+ DEBUG [f7fb76a9] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [f7fb76a9] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [f7fb76a9] Finished in 0.087 seconds with exit status 0 (successful).
+ DEBUG [d175ff0b] Running if test ! -d /var/www/runners-laravel/releases/20170512205811; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512205811'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [d175ff0b] Command: if test ! -d /var/www/runners-laravel/releases/20170512205811; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512205811'" 1>&2; false; fi
+ DEBUG [d175ff0b] Finished in 0.070 seconds with exit status 0 (successful).
+  INFO [47650360] Running /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION as deploy@46.101.24.93
+ DEBUG [47650360] Command: cd /var/www/runners-laravel/releases/20170512205811 && /usr/bin/env echo "b45d508719c545becd4b051a4faeb73591452680" >> REVISION
+  INFO [47650360] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [230d3254] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205811/storage /var/www/runners-laravel/releases/20170512205811/storage/framework /var/www/runners-laravel/releases/20170512205811 as deploy@46.101.24.93
+ DEBUG [230d3254] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512205811/storage /var/www/runners-laravel/releases/20170512205811/storage/framework /var/www/runners-laravel/releases/20170512205811
+  INFO [230d3254] Finished in 0.077 seconds with exit status 0 (successful).
+ DEBUG [138396a1] Running [ -L /var/www/runners-laravel/releases/20170512205811/storage/app ] as deploy@46.101.24.93
+ DEBUG [138396a1] Command: [ -L /var/www/runners-laravel/releases/20170512205811/storage/app ]
+ DEBUG [138396a1] Finished in 0.078 seconds with exit status 1 (failed).
+ DEBUG [72a5d438] Running [ -d /var/www/runners-laravel/releases/20170512205811/storage/app ] as deploy@46.101.24.93
+ DEBUG [72a5d438] Command: [ -d /var/www/runners-laravel/releases/20170512205811/storage/app ]
+ DEBUG [72a5d438] Finished in 0.070 seconds with exit status 0 (successful).
+  INFO [ee2893ea] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage/app as deploy@46.101.24.93
+ DEBUG [ee2893ea] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage/app
+  INFO [ee2893ea] Finished in 0.090 seconds with exit status 0 (successful).
+  INFO [313c1cb0] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/releases/20170512205811/storage/app as deploy@46.101.24.93
+ DEBUG [313c1cb0] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/releases/20170512205811/storage/app
+  INFO [313c1cb0] Finished in 0.081 seconds with exit status 0 (successful).
+ DEBUG [7f4eb3a2] Running [ -L /var/www/runners-laravel/releases/20170512205811/storage/framework/cache ] as deploy@46.101.24.93
+ DEBUG [7f4eb3a2] Command: [ -L /var/www/runners-laravel/releases/20170512205811/storage/framework/cache ]
+ DEBUG [7f4eb3a2] Finished in 0.090 seconds with exit status 1 (failed).
+ DEBUG [24751614] Running [ -d /var/www/runners-laravel/releases/20170512205811/storage/framework/cache ] as deploy@46.101.24.93
+ DEBUG [24751614] Command: [ -d /var/www/runners-laravel/releases/20170512205811/storage/framework/cache ]
+ DEBUG [24751614] Finished in 0.077 seconds with exit status 0 (successful).
+  INFO [e5be22bb] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage/framework/cache as deploy@46.101.24.93
+ DEBUG [e5be22bb] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage/framework/cache
+  INFO [e5be22bb] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [ecb4e2c7] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/releases/20170512205811/storage/framework/cache as deploy@46.101.24.93
+ DEBUG [ecb4e2c7] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/releases/20170512205811/storage/framework/cache
+  INFO [ecb4e2c7] Finished in 0.080 seconds with exit status 0 (successful).
+ DEBUG [2d990780] Running [ -L /var/www/runners-laravel/releases/20170512205811/storage/framework/sessions ] as deploy@46.101.24.93
+ DEBUG [2d990780] Command: [ -L /var/www/runners-laravel/releases/20170512205811/storage/framework/sessions ]
+ DEBUG [2d990780] Finished in 0.083 seconds with exit status 1 (failed).
+ DEBUG [750fb88f] Running [ -d /var/www/runners-laravel/releases/20170512205811/storage/framework/sessions ] as deploy@46.101.24.93
+ DEBUG [750fb88f] Command: [ -d /var/www/runners-laravel/releases/20170512205811/storage/framework/sessions ]
+ DEBUG [750fb88f] Finished in 0.078 seconds with exit status 0 (successful).
+  INFO [34c7f8a0] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage/framework/sessions as deploy@46.101.24.93
+ DEBUG [34c7f8a0] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage/framework/sessions
+  INFO [34c7f8a0] Finished in 0.089 seconds with exit status 0 (successful).
+  INFO [6fb87ad5] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/releases/20170512205811/storage/framework/sessions as deploy@46.101.24.93
+ DEBUG [6fb87ad5] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/releases/20170512205811/storage/framework/sessions
+  INFO [6fb87ad5] Finished in 0.078 seconds with exit status 0 (successful).
+ DEBUG [1c0d3306] Running [ -L /var/www/runners-laravel/releases/20170512205811/storage/framework/views ] as deploy@46.101.24.93
+ DEBUG [1c0d3306] Command: [ -L /var/www/runners-laravel/releases/20170512205811/storage/framework/views ]
+ DEBUG [1c0d3306] Finished in 0.080 seconds with exit status 1 (failed).
+ DEBUG [d5dc32dc] Running [ -d /var/www/runners-laravel/releases/20170512205811/storage/framework/views ] as deploy@46.101.24.93
+ DEBUG [d5dc32dc] Command: [ -d /var/www/runners-laravel/releases/20170512205811/storage/framework/views ]
+ DEBUG [d5dc32dc] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [d4e97ff1] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage/framework/views as deploy@46.101.24.93
+ DEBUG [d4e97ff1] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage/framework/views
+  INFO [d4e97ff1] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [165c18a4] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/releases/20170512205811/storage/framework/views as deploy@46.101.24.93
+ DEBUG [165c18a4] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/releases/20170512205811/storage/framework/views
+  INFO [165c18a4] Finished in 0.088 seconds with exit status 0 (successful).
+ DEBUG [75dd1d16] Running [ -L /var/www/runners-laravel/releases/20170512205811/storage/logs ] as deploy@46.101.24.93
+ DEBUG [75dd1d16] Command: [ -L /var/www/runners-laravel/releases/20170512205811/storage/logs ]
+ DEBUG [75dd1d16] Finished in 0.074 seconds with exit status 1 (failed).
+ DEBUG [42ca7da1] Running [ -d /var/www/runners-laravel/releases/20170512205811/storage/logs ] as deploy@46.101.24.93
+ DEBUG [42ca7da1] Command: [ -d /var/www/runners-laravel/releases/20170512205811/storage/logs ]
+ DEBUG [42ca7da1] Finished in 0.070 seconds with exit status 0 (successful).
+  INFO [5586d6db] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage/logs as deploy@46.101.24.93
+ DEBUG [5586d6db] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage/logs
+  INFO [5586d6db] Finished in 0.073 seconds with exit status 0 (successful).
+  INFO [6a657941] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/releases/20170512205811/storage/logs as deploy@46.101.24.93
+ DEBUG [6a657941] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/releases/20170512205811/storage/logs
+  INFO [6a657941] Finished in 0.077 seconds with exit status 0 (successful).
+ DEBUG [ce8fdb05] Running [ -L /var/www/runners-laravel/releases/20170512205811/storage ] as deploy@46.101.24.93
+ DEBUG [ce8fdb05] Command: [ -L /var/www/runners-laravel/releases/20170512205811/storage ]
+ DEBUG [ce8fdb05] Finished in 0.083 seconds with exit status 1 (failed).
+ DEBUG [069bb03a] Running [ -d /var/www/runners-laravel/releases/20170512205811/storage ] as deploy@46.101.24.93
+ DEBUG [069bb03a] Command: [ -d /var/www/runners-laravel/releases/20170512205811/storage ]
+ DEBUG [069bb03a] Finished in 0.076 seconds with exit status 0 (successful).
+  INFO [3be19c45] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage as deploy@46.101.24.93
+ DEBUG [3be19c45] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512205811/storage
+  INFO [3be19c45] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [f376483e] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512205811/storage as deploy@46.101.24.93
+ DEBUG [f376483e] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512205811/storage
+  INFO [f376483e] Finished in 0.091 seconds with exit status 0 (successful).
+  INFO [19010d32] Running /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512205811 /var/www/runners-laravel/releases/current as deploy@46.101.24.93
+ DEBUG [19010d32] Command: /usr/bin/env ln -s /var/www/runners-laravel/releases/20170512205811 /var/www/runners-laravel/releases/current
+  INFO [19010d32] Finished in 0.077 seconds with exit status 0 (successful).
+  INFO [6d840742] Running /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel as deploy@46.101.24.93
+ DEBUG [6d840742] Command: /usr/bin/env mv /var/www/runners-laravel/releases/current /var/www/runners-laravel
+  INFO [6d840742] Finished in 0.082 seconds with exit status 0 (successful).
+ DEBUG [3e3d4db9] Running [ -d /var/www/runners-laravel/releases/20170512205811/bootstrap/cache ] as deploy@46.101.24.93
+ DEBUG [3e3d4db9] Command: [ -d /var/www/runners-laravel/releases/20170512205811/bootstrap/cache ]
+ DEBUG [3e3d4db9] Finished in 0.076 seconds with exit status 0 (successful).
+ DEBUG [3b10cb78] Running [ -d /var/www/runners-laravel/shared/storage ] as deploy@46.101.24.93
+ DEBUG [3b10cb78] Command: [ -d /var/www/runners-laravel/shared/storage ]
+ DEBUG [3b10cb78] Finished in 0.092 seconds with exit status 0 (successful).
+ DEBUG [f61a6037] Running [ -d /var/www/runners-laravel/shared/storage/app ] as deploy@46.101.24.93
+ DEBUG [f61a6037] Command: [ -d /var/www/runners-laravel/shared/storage/app ]
+ DEBUG [f61a6037] Finished in 0.079 seconds with exit status 0 (successful).
+ DEBUG [3e348a15] Running [ -d /var/www/runners-laravel/releases/20170512205811/storage/app/public ] as deploy@46.101.24.93
+ DEBUG [3e348a15] Command: [ -d /var/www/runners-laravel/releases/20170512205811/storage/app/public ]
+ DEBUG [3e348a15] Finished in 0.076 seconds with exit status 1 (failed).
+ DEBUG [c54fc3a4] Running [ -e /var/www/runners-laravel/releases/20170512205811/storage/app/public ] as deploy@46.101.24.93
+ DEBUG [c54fc3a4] Command: [ -e /var/www/runners-laravel/releases/20170512205811/storage/app/public ]
+ DEBUG [c54fc3a4] Finished in 0.080 seconds with exit status 1 (failed).
+ ERROR Cannot change permissions: /var/www/runners-laravel/releases/20170512205811/storage/app/public is not a file or directory
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 23:05:16 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 23:05:50 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 23:05:53 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 23:06:35 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+ DEBUG [b784d8c3] Running if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [b784d8c3] Command: if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi
+ DEBUG [b784d8c3] Finished in 0.665 seconds with exit status 0 (successful).
+  INFO [e3022026] Running docker-compose exec app echo 'hi' as deploy@46.101.24.93
+ DEBUG [e3022026] Command: docker-compose exec app echo 'hi'
+ DEBUG [e3022026] 	
+        Can't find a suitable configuration file in this directory or any
+        parent. Are you in the right directory?
+
+        Supported filenames: docker-compose.yml, docker-compose.yaml
+        
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 23:07:20 +0200 cap staging deploy
+  INFO ---------------------------------------------------------------------------
+ DEBUG [0b39c490] Running if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [0b39c490] Command: if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi
+ DEBUG [0b39c490] Finished in 0.666 seconds with exit status 0 (successful).
+  INFO [3f2c3b0c] Running /usr/bin/env  as deploy@46.101.24.93
+ DEBUG [3f2c3b0c] Command: cd /var/www/runners-laravel/current && /usr/bin/env 
+ DEBUG [3f2c3b0c] 	LC_PAPER=de_CH.UTF-8
+XDG_SESSION_ID=52
+LC_ADDRESS=de_CH.UTF-8
+LC_MONETARY=de_CH.UTF-8
+SHELL=/bin/bash
+SSH_CLIENT=178.211.253.234 36570 22
+LC_NUMERIC=de_CH.UTF-8
+USER=deploy
+LC_TELEPHONE=de_CH.UTF-8
+SSH_AUTH_SOCK=/tmp/ssh-VDyVKMr12e/agent.8044
+MAIL=/var/mail/deploy
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+LC_IDENTIFICATION=de_CH.UTF-8
+PWD=/var/www/runners-laravel/current
+LANG=en_US.UTF-8
+LC_MEASUREMENT=de_CH.UTF-8
+SHLVL=1
+HOME=/home/deploy
+LOGNAME=deploy
+SSH_CONNECTION=178.211.253.234 36570 46.101.24.93 22
+XDG_RUNTIME_DIR=/run/user/1000
+LC_TIME=de_CH.UTF-8
+LC_NAME=de_CH.UTF-8
+OLDPWD=/home/deploy
+_=/usr/bin/env
+  INFO [3f2c3b0c] Finished in 0.080 seconds with exit status 0 (successful).
+ DEBUG [9377ed61] Running [ docker-compose exec app echo 'hi' &> /dev/null && $? -eq 0 ] as deploy@46.101.24.93
+ DEBUG [9377ed61] Command: [ docker-compose exec app echo 'hi' &> /dev/null && $? -eq 0 ]
+ DEBUG [9377ed61] Finished in 0.074 seconds with exit status 2 (failed).
+  INFO [9d33e071] Running docker-compose up -d as deploy@46.101.24.93
+ DEBUG [9d33e071] Command: docker-compose up -d
+ DEBUG [9d33e071] 	
+        Can't find a suitable configuration file in this directory or any
+        parent. Are you in the right directory?
+
+        Supported filenames: docker-compose.yml, docker-compose.yaml
+        
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 23:10:35 +0200 cap staging deploy BRANCH=feature/rn-list-fix
+  INFO ---------------------------------------------------------------------------
+ DEBUG [77d3ee4a] Running if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [77d3ee4a] Command: if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi
+ DEBUG [77d3ee4a] Finished in 0.734 seconds with exit status 0 (successful).
+  INFO [90cd7ea9] Running /usr/bin/env  as deploy@46.101.24.93
+ DEBUG [90cd7ea9] Command: cd /var/www/runners-laravel/current && /usr/bin/env 
+ DEBUG [90cd7ea9] 	LC_PAPER=de_CH.UTF-8
+XDG_SESSION_ID=53
+LC_ADDRESS=de_CH.UTF-8
+LC_MONETARY=de_CH.UTF-8
+SHELL=/bin/bash
+SSH_CLIENT=178.211.253.234 36790 22
+LC_NUMERIC=de_CH.UTF-8
+USER=deploy
+LC_TELEPHONE=de_CH.UTF-8
+SSH_AUTH_SOCK=/tmp/ssh-oF6qDmU9sy/agent.8241
+MAIL=/var/mail/deploy
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+LC_IDENTIFICATION=de_CH.UTF-8
+PWD=/var/www/runners-laravel/current
+LANG=en_US.UTF-8
+LC_MEASUREMENT=de_CH.UTF-8
+SHLVL=1
+HOME=/home/deploy
+LOGNAME=deploy
+SSH_CONNECTION=178.211.253.234 36790 46.101.24.93 22
+XDG_RUNTIME_DIR=/run/user/1000
+LC_TIME=de_CH.UTF-8
+LC_NAME=de_CH.UTF-8
+OLDPWD=/home/deploy
+_=/usr/bin/env
+  INFO [90cd7ea9] Finished in 0.100 seconds with exit status 0 (successful).
+ DEBUG [062a6f58] Running [ docker-compose exec app echo 'hi' &> /dev/null && $? -eq 0 ] as deploy@46.101.24.93
+ DEBUG [062a6f58] Command: [ docker-compose exec app echo 'hi' &> /dev/null && $? -eq 0 ]
+ DEBUG [062a6f58] Finished in 0.083 seconds with exit status 2 (failed).
+  INFO [b1ceef53] Running docker-compose up -d as deploy@46.101.24.93
+ DEBUG [b1ceef53] Command: docker-compose up -d
+ DEBUG [b1ceef53] 	
+        Can't find a suitable configuration file in this directory or any
+        parent. Are you in the right directory?
+
+        Supported filenames: docker-compose.yml, docker-compose.yaml
+        
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 23:12:23 +0200 cap staging deploy BRANCH=feature/rn-list-fix
+  INFO ---------------------------------------------------------------------------
+  INFO [59d0d5ea] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [59d0d5ea] Command: /usr/bin/env mkdir -p /tmp
+  INFO [59d0d5ea] Finished in 0.657 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [96491084] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [96491084] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [96491084] Finished in 0.074 seconds with exit status 0 (successful).
+  INFO [52431e56] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [52431e56] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-05-12 23:12:28 +0200 cap staging deploy BRANCH=feature/run-list-fix
+  INFO ---------------------------------------------------------------------------
+  INFO [8947e93f] Running /usr/bin/env mkdir -p /tmp as deploy@46.101.24.93
+ DEBUG [8947e93f] Command: /usr/bin/env mkdir -p /tmp
+  INFO [8947e93f] Finished in 0.718 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 0.0%
+  INFO Uploading /tmp/git-ssh-runners-laravel-staging-thomas.sh 100.0%
+  INFO [1f1eed25] Running /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh as deploy@46.101.24.93
+ DEBUG [1f1eed25] Command: /usr/bin/env chmod 700 /tmp/git-ssh-runners-laravel-staging-thomas.sh
+  INFO [1f1eed25] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [960a028b] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD as deploy@46.101.24.93
+ DEBUG [960a028b] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/Runners-Laravel.git HEAD )
+ DEBUG [960a028b] 	b45d508719c545becd4b051a4faeb73591452680	HEAD
+  INFO [960a028b] Finished in 2.979 seconds with exit status 0 (successful).
+  INFO [2f28bff6] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases as deploy@46.101.24.93
+ DEBUG [2f28bff6] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared /var/www/runners-laravel/releases
+  INFO [2f28bff6] Finished in 0.137 seconds with exit status 0 (successful).
+  INFO [ac840d9c] Running /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/shared/storage as deploy@46.101.24.93
+ DEBUG [ac840d9c] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/shared/storage
+  INFO [ac840d9c] Finished in 0.089 seconds with exit status 0 (successful).
+ DEBUG [a6d3bcfb] Running [ -f /var/www/runners-laravel/current/REVISION ] as deploy@46.101.24.93
+ DEBUG [a6d3bcfb] Command: [ -f /var/www/runners-laravel/current/REVISION ]
+ DEBUG [a6d3bcfb] Finished in 0.074 seconds with exit status 0 (successful).
+ DEBUG [75604226] Running /usr/bin/env cat /var/www/runners-laravel/current/REVISION 2>/dev/null as deploy@46.101.24.93
+ DEBUG [75604226] Command: /usr/bin/env cat /var/www/runners-laravel/current/REVISION 2>/dev/null
+ DEBUG [75604226] 	b45d508719c545becd4b051a4faeb73591452680
+ DEBUG [75604226] Finished in 0.085 seconds with exit status 0 (successful).
+ DEBUG [295561e9] Running [ -f /var/www/runners-laravel/repo/HEAD ] as deploy@46.101.24.93
+ DEBUG [295561e9] Command: [ -f /var/www/runners-laravel/repo/HEAD ]
+ DEBUG [295561e9] Finished in 0.088 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/runners-laravel/repo
+ DEBUG [69924de8] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [69924de8] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [69924de8] Finished in 0.072 seconds with exit status 0 (successful).
+  INFO [917e650d] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git as deploy@46.101.24.93
+ DEBUG [917e650d] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/Runners-Laravel.git )
+  INFO [917e650d] Finished in 0.086 seconds with exit status 0 (successful).
+  INFO [202bade6] Running /usr/bin/env git remote update --prune as deploy@46.101.24.93
+ DEBUG [202bade6] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [202bade6] 	Fetching origin
+  INFO [202bade6] Finished in 3.837 seconds with exit status 0 (successful).
+ DEBUG [7716cf26] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [7716cf26] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [7716cf26] Finished in 0.112 seconds with exit status 0 (successful).
+  INFO [0aec1427] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512211233 as deploy@46.101.24.93
+ DEBUG [0aec1427] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512211233 )
+  INFO [0aec1427] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [e42edc7a] Running /usr/bin/env git archive feature/run-list-fix | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512211233 as deploy@46.101.24.93
+ DEBUG [e42edc7a] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git archive feature/run-list-fix | /usr/bin/env tar -x -f - -C /var/www/runners-laravel/releases/20170512211233 )
+  INFO [e42edc7a] Finished in 0.540 seconds with exit status 0 (successful).
+ DEBUG [83d56c24] Running if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [83d56c24] Command: if test ! -d /var/www/runners-laravel/repo; then echo "Directory does not exist '/var/www/runners-laravel/repo'" 1>&2; false; fi
+ DEBUG [83d56c24] Finished in 0.078 seconds with exit status 0 (successful).
+ DEBUG [87ba537b] Running /usr/bin/env git rev-list --max-count=1 feature/run-list-fix as deploy@46.101.24.93
+ DEBUG [87ba537b] Command: cd /var/www/runners-laravel/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-runners-laravel-staging-thomas.sh" ; /usr/bin/env git rev-list --max-count=1 feature/run-list-fix )
+ DEBUG [87ba537b] 	ea304189213840a70497ccd566649278d64fafdc
+ DEBUG [87ba537b] Finished in 0.079 seconds with exit status 0 (successful).
+ DEBUG [4a27b7cb] Running if test ! -d /var/www/runners-laravel/releases/20170512211233; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512211233'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [4a27b7cb] Command: if test ! -d /var/www/runners-laravel/releases/20170512211233; then echo "Directory does not exist '/var/www/runners-laravel/releases/20170512211233'" 1>&2; false; fi
+ DEBUG [4a27b7cb] Finished in 0.087 seconds with exit status 0 (successful).
+  INFO [d3313869] Running /usr/bin/env echo "ea304189213840a70497ccd566649278d64fafdc" >> REVISION as deploy@46.101.24.93
+ DEBUG [d3313869] Command: cd /var/www/runners-laravel/releases/20170512211233 && /usr/bin/env echo "ea304189213840a70497ccd566649278d64fafdc" >> REVISION
+  INFO [d3313869] Finished in 0.092 seconds with exit status 0 (successful).
+  INFO [d33d12e6] Running /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512211233/storage /var/www/runners-laravel/releases/20170512211233/storage/framework /var/www/runners-laravel/releases/20170512211233 as deploy@46.101.24.93
+ DEBUG [d33d12e6] Command: /usr/bin/env mkdir -p /var/www/runners-laravel/releases/20170512211233/storage /var/www/runners-laravel/releases/20170512211233/storage/framework /var/www/runners-laravel/releases/20170512211233
+  INFO [d33d12e6] Finished in 0.081 seconds with exit status 0 (successful).
+ DEBUG [425a9b9f] Running [ -L /var/www/runners-laravel/releases/20170512211233/storage/app ] as deploy@46.101.24.93
+ DEBUG [425a9b9f] Command: [ -L /var/www/runners-laravel/releases/20170512211233/storage/app ]
+ DEBUG [425a9b9f] Finished in 0.075 seconds with exit status 1 (failed).
+ DEBUG [47320ab2] Running [ -d /var/www/runners-laravel/releases/20170512211233/storage/app ] as deploy@46.101.24.93
+ DEBUG [47320ab2] Command: [ -d /var/www/runners-laravel/releases/20170512211233/storage/app ]
+ DEBUG [47320ab2] Finished in 0.078 seconds with exit status 0 (successful).
+  INFO [d0032213] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage/app as deploy@46.101.24.93
+ DEBUG [d0032213] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage/app
+  INFO [d0032213] Finished in 0.082 seconds with exit status 0 (successful).
+  INFO [f4e653c3] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/releases/20170512211233/storage/app as deploy@46.101.24.93
+ DEBUG [f4e653c3] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/app /var/www/runners-laravel/releases/20170512211233/storage/app
+  INFO [f4e653c3] Finished in 0.087 seconds with exit status 0 (successful).
+ DEBUG [740680cc] Running [ -L /var/www/runners-laravel/releases/20170512211233/storage/framework/cache ] as deploy@46.101.24.93
+ DEBUG [740680cc] Command: [ -L /var/www/runners-laravel/releases/20170512211233/storage/framework/cache ]
+ DEBUG [740680cc] Finished in 0.076 seconds with exit status 1 (failed).
+ DEBUG [34cf5c0b] Running [ -d /var/www/runners-laravel/releases/20170512211233/storage/framework/cache ] as deploy@46.101.24.93
+ DEBUG [34cf5c0b] Command: [ -d /var/www/runners-laravel/releases/20170512211233/storage/framework/cache ]
+ DEBUG [34cf5c0b] Finished in 0.087 seconds with exit status 0 (successful).
+  INFO [638279c9] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage/framework/cache as deploy@46.101.24.93
+ DEBUG [638279c9] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage/framework/cache
+  INFO [638279c9] Finished in 0.087 seconds with exit status 0 (successful).
+  INFO [808c45d3] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/releases/20170512211233/storage/framework/cache as deploy@46.101.24.93
+ DEBUG [808c45d3] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/cache /var/www/runners-laravel/releases/20170512211233/storage/framework/cache
+  INFO [808c45d3] Finished in 0.074 seconds with exit status 0 (successful).
+ DEBUG [b3fd10b6] Running [ -L /var/www/runners-laravel/releases/20170512211233/storage/framework/sessions ] as deploy@46.101.24.93
+ DEBUG [b3fd10b6] Command: [ -L /var/www/runners-laravel/releases/20170512211233/storage/framework/sessions ]
+ DEBUG [b3fd10b6] Finished in 0.073 seconds with exit status 1 (failed).
+ DEBUG [2adc7148] Running [ -d /var/www/runners-laravel/releases/20170512211233/storage/framework/sessions ] as deploy@46.101.24.93
+ DEBUG [2adc7148] Command: [ -d /var/www/runners-laravel/releases/20170512211233/storage/framework/sessions ]
+ DEBUG [2adc7148] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [137a250c] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage/framework/sessions as deploy@46.101.24.93
+ DEBUG [137a250c] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage/framework/sessions
+  INFO [137a250c] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [400ffe3b] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/releases/20170512211233/storage/framework/sessions as deploy@46.101.24.93
+ DEBUG [400ffe3b] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/sessions /var/www/runners-laravel/releases/20170512211233/storage/framework/sessions
+  INFO [400ffe3b] Finished in 0.098 seconds with exit status 0 (successful).
+ DEBUG [ded49849] Running [ -L /var/www/runners-laravel/releases/20170512211233/storage/framework/views ] as deploy@46.101.24.93
+ DEBUG [ded49849] Command: [ -L /var/www/runners-laravel/releases/20170512211233/storage/framework/views ]
+ DEBUG [ded49849] Finished in 0.076 seconds with exit status 1 (failed).
+ DEBUG [77669b2b] Running [ -d /var/www/runners-laravel/releases/20170512211233/storage/framework/views ] as deploy@46.101.24.93
+ DEBUG [77669b2b] Command: [ -d /var/www/runners-laravel/releases/20170512211233/storage/framework/views ]
+ DEBUG [77669b2b] Finished in 0.073 seconds with exit status 0 (successful).
+  INFO [8a726c03] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage/framework/views as deploy@46.101.24.93
+ DEBUG [8a726c03] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage/framework/views
+  INFO [8a726c03] Finished in 0.078 seconds with exit status 0 (successful).
+  INFO [b3d8ed18] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/releases/20170512211233/storage/framework/views as deploy@46.101.24.93
+ DEBUG [b3d8ed18] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/framework/views /var/www/runners-laravel/releases/20170512211233/storage/framework/views
+  INFO [b3d8ed18] Finished in 0.076 seconds with exit status 0 (successful).
+ DEBUG [bd51297d] Running [ -L /var/www/runners-laravel/releases/20170512211233/storage/logs ] as deploy@46.101.24.93
+ DEBUG [bd51297d] Command: [ -L /var/www/runners-laravel/releases/20170512211233/storage/logs ]
+ DEBUG [bd51297d] Finished in 0.073 seconds with exit status 1 (failed).
+ DEBUG [6deefc6a] Running [ -d /var/www/runners-laravel/releases/20170512211233/storage/logs ] as deploy@46.101.24.93
+ DEBUG [6deefc6a] Command: [ -d /var/www/runners-laravel/releases/20170512211233/storage/logs ]
+ DEBUG [6deefc6a] Finished in 0.075 seconds with exit status 0 (successful).
+  INFO [dfeed158] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage/logs as deploy@46.101.24.93
+ DEBUG [dfeed158] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage/logs
+  INFO [dfeed158] Finished in 0.073 seconds with exit status 0 (successful).
+  INFO [5f1bb411] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/releases/20170512211233/storage/logs as deploy@46.101.24.93
+ DEBUG [5f1bb411] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage/logs /var/www/runners-laravel/releases/20170512211233/storage/logs
+  INFO [5f1bb411] Finished in 0.082 seconds with exit status 0 (successful).
+ DEBUG [71b0fa7d] Running [ -L /var/www/runners-laravel/releases/20170512211233/storage ] as deploy@46.101.24.93
+ DEBUG [71b0fa7d] Command: [ -L /var/www/runners-laravel/releases/20170512211233/storage ]
+ DEBUG [71b0fa7d] Finished in 0.080 seconds with exit status 1 (failed).
+ DEBUG [2e0cd4a6] Running [ -d /var/www/runners-laravel/releases/20170512211233/storage ] as deploy@46.101.24.93
+ DEBUG [2e0cd4a6] Command: [ -d /var/www/runners-laravel/releases/20170512211233/storage ]
+ DEBUG [2e0cd4a6] Finished in 0.077 seconds with exit status 0 (successful).
+  INFO [a0d69427] Running /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage as deploy@46.101.24.93
+ DEBUG [a0d69427] Command: /usr/bin/env rm -rf /var/www/runners-laravel/releases/20170512211233/storage
+  INFO [a0d69427] Finished in 0.083 seconds with exit status 0 (successful).
+  INFO [b9132c1d] Running /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512211233/storage as deploy@46.101.24.93
+ DEBUG [b9132c1d] Command: /usr/bin/env ln -s /var/www/runners-laravel/shared/storage /var/www/runners-laravel/releases/20170512211233/storage
+  INFO [b9132c1d] Finished in 0.073 seconds with exit status 0 (successful).
+ DEBUG [0bb2bc19] Running if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi as deploy@46.101.24.93
+ DEBUG [0bb2bc19] Command: if test ! -d /var/www/runners-laravel/current; then echo "Directory does not exist '/var/www/runners-laravel/current'" 1>&2; false; fi
+ DEBUG [0bb2bc19] Finished in 0.079 seconds with exit status 0 (successful).
+  INFO [6fa48b14] Running /usr/bin/env  as deploy@46.101.24.93
+ DEBUG [6fa48b14] Command: cd /var/www/runners-laravel/current && /usr/bin/env 
+ DEBUG [6fa48b14] 	LC_PAPER=de_CH.UTF-8
+XDG_SESSION_ID=55
+LC_ADDRESS=de_CH.UTF-8
+LC_MONETARY=de_CH.UTF-8
+SHELL=/bin/bash
+SSH_CLIENT=178.211.253.234 36968 22
+LC_NUMERIC=de_CH.UTF-8
+USER=deploy
+LC_TELEPHONE=de_CH.UTF-8
+SSH_AUTH_SOCK=/tmp/ssh-ZyQQ40iwyU/agent.8488
+MAIL=/var/mail/deploy
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+LC_IDENTIFICATION=de_CH.UTF-8
+PWD=/var/www/runners-laravel/current
+LANG=en_US.UTF-8
+LC_MEASUREMENT=de_CH.UTF-8
+SHLVL=1
+HOME=/home/deploy
+LOGNAME=deploy
+SSH_CONNECTION=178.211.253.234 36968 46.101.24.93 22
+XDG_RUNTIME_DIR=/run/user/1000
+LC_TIME=de_CH.UTF-8
+LC_NAME=de_CH.UTF-8
+OLDPWD=/home/deploy
+_=/usr/bin/env
+  INFO [6fa48b14] Finished in 0.084 seconds with exit status 0 (successful).
+ DEBUG [1acc8fc0] Running [ docker-compose exec app echo 'hi' &> /dev/null && $? -eq 0 ] as deploy@46.101.24.93
+ DEBUG [1acc8fc0] Command: [ docker-compose exec app echo 'hi' &> /dev/null && $? -eq 0 ]
+ DEBUG [1acc8fc0] Finished in 0.076 seconds with exit status 2 (failed).
+  INFO [37cd894f] Running docker-compose up -d as deploy@46.101.24.93
+ DEBUG [37cd894f] Command: docker-compose up -d
+ DEBUG [37cd894f] 	
+        Can't find a suitable configuration file in this directory or any
+        parent. Are you in the right directory?
+
+        Supported filenames: docker-compose.yml, docker-compose.yaml
+        

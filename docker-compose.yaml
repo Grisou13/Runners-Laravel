@@ -1,11 +1,15 @@
 version: "2"
 services:
   app:
-    working_dir: /var/www
     environment:
         - "DB_PORT=3306"
         - "DB_HOST=database"
+        - "MYSQL_DATABASE=homestead"
+        - "MYSQL_USER=homestead"
+        - "MYSQL_PASSWORD=secret"
+        - "MYSQL_ROOT_PASSWORD=secret"
         - "REDIS_HOST=cache"
+    working_dir: /var/www
     volumes:
       - ./:/var/www
     build:
@@ -14,7 +18,12 @@ services:
     links:
       - cache
       - database
-
+  composer:
+    restart: 'no'
+    image: composer/composer
+    volumes:
+      - ./:/app
+    command: install
   web:
     build:
       context: ./config/docker/
@@ -23,7 +32,9 @@ services:
     volumes_from:
       - app
     ports:
-      - "80:80"
+      - "8080:80"
+    links:
+      - app
 
   database:
     image: mysql:5.6
@@ -40,14 +51,14 @@ services:
   node:
     restart: 'no'
     build:
-      context: ./config/docker
-      dockerfile: node.dockerfile
+      context: ./
+      dockerfile: config/docker/node.dockerfile
     volumes:
       - ./:/app
 
   echo-server:
     volumes:
-      - ./config/broadcasting:/app
+      - ./:/app
     build:
       context: ./config/docker
       dockerfile: echo.dockerfile
