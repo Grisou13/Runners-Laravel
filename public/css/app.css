@@ -8012,6 +8012,7 @@ button.close {
     width: 98vw;
   }
   .run-container .run {
+    font-size: 30px;
     margin-top: 10px;
     min-height: 150px;
     margin-bottom: auto;
@@ -8030,6 +8031,7 @@ button.close {
     margin-left: 10px;
   }
   .run-container .time {
+    padding-top: 5px;
     display: inline-block;
     color: red;
   }
@@ -8037,30 +8039,35 @@ button.close {
     padding-left: 0;
   }
   .run-container .subscription {
-    width: 100%;
-  }
-  .run-container .subscription .sub {
-    height: 70px;
-    width: 100%;
-    display: block;
+    display: table;
+    border-collapse: collapse;
     position: relative;
   }
+  .run-container .subscription .sub {
+    margin-left: 350px;
+    padding-left: -500px;
+    height: 70px;
+    min-width: 100%;
+    display: table-row;
+    border: 2px solid black;
+    align-content: stretch;
+  }
   .run-container .subscription .sub .user, .run-container .subscription .sub .car {
-    display: inline;
-    height: 100%;
-    padding: auto;
-    text-align: center;
-    vertical-align: middle;
-    margin: 0 auto;
+    display: table-cell;
+    border: 2px solid black;
+    width: 150px;
+    font-size: 25px;
+    height: 50px;
   }
   .btn-container {
     display: none;
   }
   .run .run-details .date {
     left: -86px;
-    top: 110px;
-    width: 120px;
+    top: -5px;
+    width: 130px;
     height: 50px;
+    font-size: 36px;
   }
   .waypoints {
     margin-top: 10px;
@@ -8068,13 +8075,14 @@ button.close {
   }
   .waypoint-list {
     margin-right: 20px;
+    max-width: 800px;
   }
   .waypoint-list .glyphicon {
-    padding-top: -5px;
+    padding-top: -12px;
     font-weight: lighter;
-    font-size: 12px;
-    padding-left: 5px;
-    padding-right: 5px;
+    font-size: 16px;
+    padding-left: 0px;
+    padding-right: 10px;
   }
 }
 

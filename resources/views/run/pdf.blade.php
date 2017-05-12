@@ -14,10 +14,10 @@
 
             {{--Either we have already 5 runs on the page--}}
             {{--or we are almost at the end and of a page and the run has alot of subs (we need space--}}
-            @if((($i > 0 && $i % 5 == 0 && $run->runners_count > 3) && !$loop->last ) || $c >= 18)
+            @if((($i > 0 && $i % 5 == 0 && $run->runners_count < 3) && !$loop->last ) || $c >= 10)
                 <div class="page-break"></div>
                 @php
-                    $c = 0;
+                    $c = $run->runners_count;
                     $i = 0;
                 @endphp
             @endif

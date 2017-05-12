@@ -140,19 +140,19 @@ class RunController extends Controller
     }
     public function pdf(RunPdfRequest $request){
       if($request->has("runs"))
-        $runs = Run::find($request->get("runs",[]))->withCount(["runners"])->get();
+        $runs = Run::find($request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       else
-        $runs = Run::withCount(["runners"])->get();
+        $runs = Run::with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
 //      return view("run.pdf",compact("runs"));
       $pdf = PDF::loadView('run.pdf', compact("runs"));
-      return $pdf->setPaper('a3', 'landscape')->setWarnings(true)->download("runs.pdf");
+      return $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("runs.pdf");
     }
     public function pdfTemplate(Request $request)
     {
       $run = new Run;
       $sub = new RunSubscription();
       //$sub->run()->associate($run);
-      return view("run.pdf-item",compact("run"));
+//      return view("run.pdf-item",compact("run"));
       $pdf = PDF::loadView('run.pdf-item', compact("run"));
       return $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("run-template.pdf");
     }

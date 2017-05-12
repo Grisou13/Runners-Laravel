@@ -2564,80 +2564,6 @@ th {
   margin-right: 2px;
 }
 
-.display {
-  font-size: 2rem;
-}
-
-.display .run {
-  padding-top: 20px;
-  padding-bottom: 10px;
-  font-size: 1.2rem;
-}
-
-.display .run .run-details .notes {
-  font-size: 1.8rem;
-}
-
-.display .run .run-details .date {
-  font-size: 3rem;
-}
-
-.display .run .run-details .title {
-  font-size: 2.8rem;
-  padding-left: 20px;
-}
-
-.display .run .run-details .passengers {
-  font-size: 2.5rem;
-}
-
-.display .run .time {
-  font-size: 2.5rem;
-}
-
-.display .run .subscription {
-  font-size: 3rem;
-}
-
-.display .run .waypoint-list {
-  font-size: 1.8rem;
-}
-
-.display .run .waypoint-list li:first-of-type, .display .run .waypoint-list li:last-of-type {
-  font-size: 2rem;
-}
-
-.display .run .waypoint-list .glyphicon {
-  font-size: 1.2rem;
-}
-
-.display .title {
-  font-weight: bold;
-}
-
-.display .user > span, .display .car_type > span, .display .car > span {
-  min-width: 100%;
-}
-
-.display .run-details {
-  padding-top: 8px;
-  padding-bottom: 9px;
-}
-
-.display .waypoint-list {
-  padding-bottom: 10px;
-  padding-left: 0;
-  margin: 2px;
-}
-
-.display .waypoint-list .glyphicon {
-  margin-right: 5px;
-  margin-top: 2px;
-  -webkit-transform: scaleX(1.8);
-  transform: scaleX(1.8);
-  margin-left: 11px;
-}
-
 @media print {
   .page-break {
     page-break-after: always;
@@ -2661,6 +2587,7 @@ th {
     width: 98vw;
   }
   .run-container .run {
+    font-size: 30px;
     margin-top: 10px;
     min-height: 150px;
     margin-bottom: auto;
@@ -2679,6 +2606,7 @@ th {
     margin-left: 10px;
   }
   .run-container .time {
+    padding-top: 5px;
     display: inline-block;
     color: red;
   }
@@ -2686,30 +2614,35 @@ th {
     padding-left: 0;
   }
   .run-container .subscription {
-    width: 100%;
-  }
-  .run-container .subscription .sub {
-    height: 70px;
-    width: 100%;
-    display: block;
+    display: table;
+    border-collapse: collapse;
     position: relative;
   }
+  .run-container .subscription .sub {
+    margin-left: 350px;
+    padding-left: -500px;
+    height: 70px;
+    min-width: 100%;
+    display: table-row;
+    border: 2px solid black;
+    align-content: stretch;
+  }
   .run-container .subscription .sub .user, .run-container .subscription .sub .car {
-    display: inline;
-    height: 100%;
-    padding: auto;
-    text-align: center;
-    vertical-align: middle;
-    margin: 0 auto;
+    display: table-cell;
+    border: 2px solid black;
+    width: 150px;
+    font-size: 25px;
+    height: 50px;
   }
   .btn-container {
     display: none;
   }
   .run .run-details .date {
     left: -86px;
-    top: 110px;
-    width: 120px;
+    top: -5px;
+    width: 130px;
     height: 50px;
+    font-size: 36px;
   }
   .waypoints {
     margin-top: 10px;
@@ -2717,13 +2650,14 @@ th {
   }
   .waypoint-list {
     margin-right: 20px;
+    max-width: 800px;
   }
   .waypoint-list .glyphicon {
-    padding-top: -5px;
+    padding-top: -12px;
     font-weight: lighter;
-    font-size: 12px;
-    padding-left: 5px;
-    padding-right: 5px;
+    font-size: 16px;
+    padding-left: 0px;
+    padding-right: 10px;
   }
 }
 
