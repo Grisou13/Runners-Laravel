@@ -53,14 +53,13 @@ function updateCell(cellID){
     let cell = document.getElementById(cellID);
     cellID = cellID.split("-");
     let groupID = cellID[0];
-    console.log(startHour);
     let startHour = schedule[cellID[1]];
-    //let endHour = schedule[cellID[1]];
-    let endHour = moment(startHour);
-    endHour.add(1, "h").format("hh:mm")
-    console.log(startHour);
-    console.log(endHour);
-    throw new Error("KKKKKKIKK S HERE");
+    let endHour = moment.duration(startHour).add("00:30", "minutes");
+    let minutes = null;
+    // turn 18:00 to 18:30 and 18:30 to 19:00
+    endHour.minutes().toString().length == 1 ? minutes = endHour.minutes().toString() + "0" : minutes = endHour.minutes().toString();
+    endHour = endHour.hours().toString() + ":" + minutes;
+
     let date = cellID.splice(2,3).join("-");
     let selGrp = groups.filter(function(x){
         return x.id == groupID;
@@ -175,7 +174,6 @@ function createTable(schedule, groups, day, gridID){
                 return false;
             });
             td.addEventListener("mouseup",function(e){
-
 
                 // update the state of each selected div
                 // TODO use time-slot instead of using each cell independently
