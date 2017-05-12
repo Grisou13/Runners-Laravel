@@ -49,11 +49,18 @@ function ajaxRequest(method, url, data, callback) {
 }
 
 function updateCell(cellID){
+    console.log("UPDATE UPDATE UPDATE");
     let cell = document.getElementById(cellID);
     cellID = cellID.split("-");
     let groupID = cellID[0];
+    console.log(startHour);
     let startHour = schedule[cellID[1]];
-    let endHour = schedule[cellID[1]];
+    //let endHour = schedule[cellID[1]];
+    let endHour = moment(startHour);
+    endHour.add(1, "h").format("hh:mm")
+    console.log(startHour);
+    console.log(endHour);
+    throw new Error("KKKKKKIKK S HERE");
     let date = cellID.splice(2,3).join("-");
     let selGrp = groups.filter(function(x){
         return x.id == groupID;
@@ -66,7 +73,7 @@ function updateCell(cellID){
     }else{
         cell.dataset.assigned = "true";
         cell.style.backgroundColor = "#" + selGrp.color;
-        let url = window.Laravel.basePath + "/api/groups/"+groupID+"/schedules?token=root";
+        let url = window.Laravel.basePath + "/api/groups/"+groupID+"/schedules?token=root"
         let data = {
             "start_time": date + " " + startHour,
             "end_time": date + " " + endHour,
@@ -121,7 +128,6 @@ function createTable(schedule, groups, day, gridID){
 
         bodyTR.appendChild(td);
         schedule.forEach(function(hour){
-
             schedule.indexOf(hour) % 2 == 0 ? bgColor = "white" : bgColor = "#ECEFF1";
             // if(hour == "08")
             var td = document.createElement("td");
@@ -134,6 +140,7 @@ function createTable(schedule, groups, day, gridID){
             if(typeof group.schedules !== 'undefined' && group.schedules.length > 0){
                 group.schedules.forEach(function(p){
                     let datetime = p.start_time.split(" ");
+
                     if((datetime[0] === day) && (datetime[1] === hour+":00")){
                         td.style.backgroundColor = "#" + group.color;
                         td.dataset.scheduleId = p.id;

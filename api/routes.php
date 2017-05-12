@@ -33,7 +33,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
        * @var $api Dingo\Api\Routing\Router
        */
       $api->resource("groups",'GroupController');
-      $api->resource("groups.users",'GroupController',["except"=>"uppdate"]);
+      $api->resource("groups.users",'UserController',["except"=>"uppdate"]);
     });
     
 
