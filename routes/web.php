@@ -32,7 +32,7 @@ Route::resource("comments","CommentController",["only"=>"destroy"]);
 
 $router->get("/runs/display","RunController@display");
 $router->resource("runs","RunController");
-
+$router->post("runs/{run}/comments", ["as"=>"runs.comments.store","uses"=>"RunController@addComment"]);
 
 //$router->post("runs/{run}/car/{car}",function(){
 //  Run::find(1)->cars()->first()->pivot->user()->associate(1)->save();
