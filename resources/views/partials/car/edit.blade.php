@@ -75,7 +75,6 @@
                 @if($car->exists)
                   @include("partials.comment.create",["route"=>route("cars.comments.store",["car"=>$car])])
                   @each("partials.comment.show",$car->comments,"comment")
-
                 @endif
               {{--<div class="form-group">--}}
                 {{--<div class="col-md-6 col-md-offset-4">--}}

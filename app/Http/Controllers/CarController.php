@@ -149,4 +149,9 @@ class CarController extends Controller
 
         return redirect()->back();
     }
+    public function removeComment(Request $request, Comment $comment, Car $car)
+    {
+      $comment->delete();
+      return redirect()->back();
+    }
 }

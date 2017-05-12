@@ -124,5 +124,6 @@ class CarController extends BaseController
     }
     public function removeComment(Request $request, Comment $comment){
       $comment->delete();
+      
     }
 }
