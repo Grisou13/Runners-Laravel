@@ -1,0 +1,61 @@
+version: "2"
+services:
+  app:
+    working_dir: /var/www
+    environment:
+        - "DB_PORT=3306"
+        - "DB_HOST=database"
+        - "REDIS_HOST=cache"
+    volumes:
+      - ./:/var/www
+    build:
+        context: ./config/docker/
+        dockerfile: app.dockerfile
+    links:
+      - cache
+      - database
+
+  web:
+    build:
+      context: ./config/docker/
+      dockerfile: web.dockerfile
+    working_dir: /var/www
+    volumes_from:
+      - app
+    ports:
+      - "80:80"
+
+  database:
+    image: mysql:5.6
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - "MYSQL_DATABASE=homestead"
+      - "MYSQL_USER=homestead"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_ROOT_PASSWORD=secret"
+    ports:
+        - "3306:3306"
+
+  node:
+    restart: 'no'
+    build:
+      context: ./config/docker
+      dockerfile: node.dockerfile
+    volumes:
+      - ./:/app
+
+  echo-server:
+    volumes:
+      - ./config/broadcasting:/app
+    build:
+      context: ./config/docker
+      dockerfile: echo.dockerfile
+    links:
+      - cache
+
+  cache:
+      image: redis:3.0-alpine
+
+volumes:
+  dbdata:
