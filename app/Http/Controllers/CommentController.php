@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Lib\Models\Comment;
+
 class CommentController extends Controller
 {
     /**
@@ -79,8 +81,9 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return redirect()->back();
     }
 }

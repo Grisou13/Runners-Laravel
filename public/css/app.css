@@ -8050,4 +8050,22 @@ button.close {
 .comment-hover:hover{
   text-decoration: none;
 }
+.comment-remove{
+  color: #bf5329;
+  float: right;
+}
+.comment-edit{
+  border: 1px solid #ddd;
+  border-bottom: none;
+  margin-top: 10px;
+  border-radius: 4px 4px 0px 0px;
+  padding-top: 5px;
+}
+.comment-edit-infos{
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0px 0px 4px 4px;
+  padding-top: 5px;
+  font-size: 10pt;
+}
 /*# sourceMappingURL=app.css.map */

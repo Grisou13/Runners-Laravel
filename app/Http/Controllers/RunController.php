@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRunRequest;
+use App\Http\Requests\CreateCommentRequest;
 use Auth;
 use Dingo\Api\Exception\ValidationHttpException;
 use Illuminate\Contracts\View\View;
@@ -14,6 +15,7 @@ use Dingo\Api\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 use Lib\Models\User;
 use Lib\Models\Waypoint;
+use Lib\Models\Comment;
 
 class RunController extends Controller
 {
@@ -134,5 +136,18 @@ class RunController extends Controller
     {
         $this->api->delete(app(UrlGenerator::class)->version("v1")->route("runs.destroy",$run));
         return redirect()->back();
+    }
+
+    public function addComment(CreateCommentRequest $request, Run $run){
+      $comment = new Comment;
+      $comment->fill($request->except("user"));
+      $comment->commentable()->associate($run);
+      if($request->has("user"))
+          $user = User::find($request->get("user"));
+      else
+          $user = $request->user();
+      $comment->user()->associate($user);
+      $comment->save();
+      return redirect()->back();
     }
 }

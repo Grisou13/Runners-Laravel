@@ -16,3 +16,7 @@
     </div>
 </div>
 {!! Form::close() !!}
+@if($run->exists)
+  @include("partials.comment.create",["route"=>route("runs.comments.store",["run"=>$run])])
+  @each("partials.comment.show",$run->comments,"comment")
+@endif
