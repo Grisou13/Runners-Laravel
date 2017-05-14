@@ -7,9 +7,10 @@ import moment from 'moment'
 
 import Run from './../views/Run'
 import Time from './../views/Time'
-import {startRun} from "../../actions/runs";
-import {editRun} from "../../actions/runs";
-import {getRuns} from './../../actions/runs'
+import {startRun} from "./../../actions/runs";
+import {stopRun} from "./../../actions/runs";
+import {editRun} from "./../../actions/runs";
+import {fetchRuns} from './../../actions/runs'
 
 @ui({
     key:"run-list",
@@ -34,7 +35,7 @@ class RunList extends React.Component
                     <Time UTCOffset={2} />
                 </div>
                 <div className="row">
-                    {runs.map(run => <Run key={"run-"+run.id} run={run} startRun={this.props.startRun} editRun={this.props.editRun} />)}
+                    {runs.map(run => <Run key={"run-"+run.id} run={run} startRun={this.props.startRun} editRun={this.props.editRun} stopRun={this.props.stopRun} />)}
                 </div>
             </div>
         )
@@ -111,6 +112,22 @@ const getVisibleRuns = (runs, filters) => {
         runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
     if(filters.name.length)
         runs = runs.filter(r => r.title.startsWith(filters.name))
+    if(filters.user.length)
+      runs = runs.filter(r => {
+         if ( r.runners.filter( r => r.user && r.user.name.startsWith(filters.user)).length )
+          return r
+      })
+    if(filters.car.length)
+        runs = runs.filter(r => {
+          //check cars and car types
+           if ( r.runners.filter( r => r.car && r.car.name.startsWith(filters.car)).length ||  r.runners.filter( r => r.car_type && r.car_type.name.startsWith(filters.car)).length)
+            return r
+        })
+    if(filters.waypoint_in.length)
+      runs = runs.filter( r => {
+        if(r.waypoints.filter(p => p.nickname.startsWith(filters.waypoint_in)).length)
+          return r
+      })
     // filters.forEach((f, key)=>{
     //     switch(key){
     //         case FILTER_STATUS:
@@ -145,10 +162,11 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatch: dispatch,
         getRuns: () =>{
-            dispatch(getRuns())
+            dispatch(fetchRuns())
         },
         startRun: (run) => dispatch(startRun(run)),
-        editRun: (run) => dispatch(editRun(run))
+        editRun: (run) => dispatch(editRun(run)),
+        stopRun: (run) => dispatch(stopRun(run))
     }
 }
 

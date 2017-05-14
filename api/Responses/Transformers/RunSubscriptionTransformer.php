@@ -26,7 +26,9 @@ class RunSubscriptionTransformer extends TransformerAbstract
   {
     return [
       "id"=>$sub->id,
-      "status"=>$sub->status
+      "status"=>$sub->status,
+      "started_at"=>(string)$sub->started_at,
+      "ended_at"=>(string)$sub->ended_at
     ];
   }
   public function includeRun(RunSubscription $sub)

@@ -55,7 +55,7 @@
             {{--{!! Form::bsSelect("waypoints[]", $waypoints) !!}--}}
             <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
                 <div class="col-md-6 col-md-push-4">
-                    {{ Form::select("waypoints[]",$waypoints,null, ['class' => 'form-control']) }}
+                  {{ Form::text("waypoints[]",old("waypoints.0"), ['class' => 'form-control waypoint-typeahead']) }}
                 </div>
             </div>
         </div>
@@ -66,20 +66,39 @@
                 </button>
             </div>
         </div>
-        <div id="waypoint-last">
-            <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
-                <div class="col-md-6 col-md-push-4">
-                    {{ Form::select("waypoints[]",$waypoints,null, ['class' => 'form-control']) }}
-                </div>
-            </div>
-        </div>
+        @foreach(old("waypoints",[1]) as $p)
+          @if($loop->last)
+          <div id="waypoint-last">
+              <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
+                  <div class="col-md-6 col-md-push-4">
+                    {{ Form::text("waypoints[]",old("waypoints.".$p), ['class' => 'form-control waypoint-typeahead']) }}
+                      <!-- {{ Form::select("waypoints[]",$waypoints,null, ['class' => 'form-control']) }} -->
+                  </div>
+              </div>
+          </div>
+          @else
+          <div class="form-group button-remove {{ $errors->has("waypoints") ? 'has-error' : '' }}">
+              <div class="col-md-5 col-md-push-4">
+                {{ Form::text("waypoints[]",old("waypoints.".$p), ['class' => 'form-control waypoint-typeahead']) }}
+                  <!-- {{ Form::select("waypoints[]",$waypoints,old("waypoints[".$point->id."]",$point->id), ['class' => 'form-control']) }} -->
+              </div>
+              <div class="col-md-1 col-md-push-4">
+                  <button class="btn btn-danger" type="button">
+                      <span class="glyphicon glyphicon-minus"></span>
+                  </button>
+              </div>
+          </div>
+          @endif
+        @endforeach
     @else
         @foreach($run->waypoints as $point)
             @if($loop->first)
                 <div id="waypoint-first">
                     <div class="form-group{{ $errors->has("waypoint") ? ' has-error' : '' }}">
                         <div class="col-md-6 col-md-push-4">
-                            {{ Form::select("waypoints[]",$waypoints,old("waypoints[".$point->id."]", $point->id), ['class' => 'form-control']) }}
+                          {{ Form::text("waypoints[]",old("waypoints.".$point->pivot->order, $point->name), ['class' => 'form-control waypoint-typeahead']) }}
+
+                            <!-- {{ Form::select("waypoints[]",$waypoints,old("waypoints[".$point->id."]", $point->id), ['class' => 'form-control']) }} -->
                         </div>
                     </div>
                     {{--{!! Form::bsSelect("waypoints[]", $waypoints) !!}--}}
@@ -95,14 +114,17 @@
                 <div id="waypoint-last">
                     <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
                         <div class="col-md-6 col-md-push-4">
-                            {{ Form::select("waypoints[]",$waypoints,old("waypoints[".$point->id."]", $point->id), ['class' => 'form-control']) }}
+                          {!! Form::text("waypoints[]",old("waypoints.".$point->pivot->order, $point->name), ['class' => 'form-control waypoint-typeahead']) !!}
+
+                            <!-- {{ Form::select("waypoints[]",$waypoints,old("waypoints[".$point->id."]", $point->id), ['class' => 'form-control waypoint-typeahead']) }} -->
                         </div>
                     </div>
                 </div>
             @else
                 <div class="form-group button-remove {{ $errors->has("waypoints") ? 'has-error' : '' }}">
                     <div class="col-md-5 col-md-push-4">
-                        {{ Form::select("waypoints[]",$waypoints,old("waypoints[".$point->id."]",$point->id), ['class' => 'form-control']) }}
+                      {!! Form::text("waypoints[]",old("waypoints.".$point->pivot->order, $point->name), ['class' => 'form-control waypoint-typeahead']) !!}
+                        <!-- {{ Form::select("waypoints[]",$waypoints,old("waypoints[".$point->id."]",$point->id), ['class' => 'form-control']) }} -->
                     </div>
                     <div class="col-md-1 col-md-push-4">
                         <button class="btn btn-danger" type="button">
@@ -151,8 +173,38 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-fr.js"></script>
-<script type="text/javascript">
+ <script src="{{ asset("/js/typeahead.js") }}" charset="utf-8"></script>
 
+<script type="text/javascript">
+//waypoint autocomplete combobox
+
+var suggestions = new Bloodhound({
+          datumTokenizer: Bloodhound.tokenizers.obj.whitespace('nickname'),
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          sufficient: 3,
+          local: window.resource_cache.waypoints.map(p => {
+              return {
+              nickname: p.name,
+              geocoder: p.geo,
+              id: p.id
+            }
+          }),
+          remote: {
+            url: `http://${window.location.hostname}/api/waypoints/search?q=%QUERY&token=${window.Laravel.token}`,
+            wildcard:"%QUERY"
+          }
+        });
+        $(".waypoint-typeahead").typeahead({
+                  hint: true,
+                  highlight: true,
+                  minLength: 1
+                },
+                {
+                  name: 'suggestions',
+                  displayKey: 'name',
+                  source: suggestions
+                });
+//--------------------------------------------------------------------
 // picker pour la date des runs
 $( function() {
   $( "#planned_at" ).datetimepicker({
@@ -177,18 +229,19 @@ $( function() {
         e.preventDefault()
         var waypoints = JSON.parse(add.dataset.points)
         console.log(waypoints)
-        var select = document.createElement("select")
+        var select = document.createElement("input")
         select.name = "waypoints[]"
         select.classList.add("form-control")
-        for(var p in waypoints)
-        {
-            console.log(p)
-            var opt = document.createElement('option');
-            var id = p//Object.keys(p)[0]
-            opt.value= id
-            opt.innerHTML = waypoints[p]
-            select.appendChild(opt)
-        }
+        select.type="text"
+        // for(var p in waypoints)
+        // {
+        //     console.log(p)
+        //     var opt = document.createElement('option');
+        //     var id = p//Object.keys(p)[0]
+        //     opt.value= id
+        //     opt.innerHTML = waypoints[p]
+        //     select.appendChild(opt)
+        // }
         var last = document.getElementById("waypoint-last")
         var container = document.createElement("div")
         container.classList.add("form-group")
@@ -218,6 +271,16 @@ $( function() {
         container.appendChild(subContainer)
         container.appendChild(btnContainer)
         document.getElementById("waypoint-selection").insertBefore(container,document.getElementById("waypoint-last"))
+        $(select).typeahead({
+                  hint: true,
+                  highlight: true,
+                  minLength: 1
+                },
+                {
+                  name: 'suggestions',
+                  displayKey: 'nickname',
+                  source: suggestions
+                })
     })
 
 

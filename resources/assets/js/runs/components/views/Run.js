@@ -4,9 +4,23 @@ import moment from 'moment'
 import WaypointList from './WaypointList'
 import RunDetails from './RunDetails'
 import SubscriptionList from './SubscriptionList'
-
-const Run = ({run, startRun, editRun}) => {
+const swal = window.swal
+const Run = ({run, startRun, editRun, stopRun}) => {
     var t = run.begin_at ? `${moment(run.begin_at).format("HH:mm")}` : null
+    const endTheRun = (run) => {
+      swal({
+        title: "Are you sure you want to stop the run?",
+        text: "This will stop the run",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, stop it!",
+        closeOnConfirm: false,
+        html: false
+      }, function(){
+        stopRun(run)
+      });
+    }
     return (
         <div id={"run-"+run.id} className={run.status + ' run-container'} /*onMouseLeave={(e)=>this.props.updateUI({hoverRun:null})} onMouseOver={(e)=>this.props.updateUI({hoverRun:run.id})}*/ >
             <div className="btn-container">
@@ -14,6 +28,7 @@ const Run = ({run, startRun, editRun}) => {
                 <a href="#" onClick={()=>startRun(run)} className="control">
                     <span className="glyphicon glyphicon-play" />
                 </a>
+                <a href="#" onClick={()=>endTheRun(run)} ><span class="glyphicon glyphicon-stop" /></a>
                 {/*<a href="#" onClick={()=>this.props.dispatch(deleteRun(run))} className="control"><span className="glyphicon glyphicon-minus"></span></a>*/}
             </div>
 

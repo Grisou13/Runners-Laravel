@@ -12,7 +12,7 @@ return array(
     |
     */
     'show_warnings' => false,   // Throw an Exception on warnings from dompdf
-    'orientation' => 'portrait',
+    'orientation' => 'landscape',
     'defines' => array(
         /**
          * The location of the DOMPDF font directory
@@ -195,7 +195,7 @@ return array(
          *
          * @var int
          */
-        "DOMPDF_DPI" => 120,
+        "DOMPDF_DPI" => 96,
 
         /**
          * Enable inline PHP
@@ -251,7 +251,7 @@ return array(
          * Allows people to disabled CSS float support
          * @var bool
          */
-        "DOMPDF_ENABLE_CSS_FLOAT" => false,
+        "DOMPDF_ENABLE_CSS_FLOAT" => true,
 
 
         /**

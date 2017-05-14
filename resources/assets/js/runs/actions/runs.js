@@ -5,6 +5,7 @@ import {DELETE_RUN} from "./consts";
 import {UPDATE_RUN} from "./consts";
 import {FETCHING_RUN_FAILED} from "./consts";
 import {EDIT_RUN} from "./consts";
+import {API_ERROR} from "./consts";
 import {subscribeRun} from "../services/websocket";
 import {subscribeSubscription} from "../services/websocket";
 export const gotRuns = (runs) => {
@@ -17,6 +18,11 @@ export const gotRuns = (runs) => {
         })
     }
 
+}
+export const stopRun = (run) => {
+  return dispatch => {
+    api.post(`/runs/${run.id}/stop`).then(res => dispatch(run.id))
+  }
 }
 export const editRun = (run) => {
     window.location = window.Laravel.basePath + `/runs/${run.id}/edit`
@@ -53,6 +59,10 @@ export const startRun = (run) => {
     }
 }
 export const deleteRun = (run) => {
+  return {
+      type: DELETE_RUN,
+      payload: run
+  };
     return dispatch => {
         api.delete("/runs/"+run.id)
             .then((res)=>{
@@ -79,13 +89,19 @@ export const removeRun = (run) => {
         payload: run
     }
 }
+export const apiError = (error) => {
+  return {
+    type: API_ERROR,
+    error
+  }
+}
 export const fetchingFailed = (error) => {
     return {
         type:FETCHING_RUN_FAILED,
         error
     }
 }
-export const getRuns = () => {
+export const fetchRuns = () => {
     return (dispatch) => {
         api.get("/runs?sortBy=planned_at,status").then(
             res => dispatch(gotRuns(res.data))

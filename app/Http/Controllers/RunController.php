@@ -139,13 +139,18 @@ class RunController extends Controller
         return redirect()->back();
     }
     public function pdf(RunPdfRequest $request){
+      \Debugbar::disable();
+      $before = url("/");
+      \URL::forceRootUrl("http://web");
       if($request->has("runs"))
         $runs = Run::find($request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       else
         $runs = Run::with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
-//      return view("run.pdf",compact("runs"));
+    //  return view("run.pdf",compact("runs"));
       $pdf = PDF::loadView('run.pdf', compact("runs"));
-      return $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("runs.pdf");
+      $rendered = $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("runs.pdf");
+      \URL::forceRootUrl($before);
+      return $rendered;
     }
     public function pdfTemplate(Request $request)
     {

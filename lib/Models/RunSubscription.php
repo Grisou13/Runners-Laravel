@@ -15,6 +15,12 @@ class RunSubscription extends Model
     protected $touches = [
       "run"
     ];
+    protected $dates = [
+        "created_at",
+        "updated_at",
+        "started_at",
+        "ended_at",
+    ];
     protected $events = [
       "saving"=>"App\\Events\\RunSubscriptionSavingEvent",
       "saved"=>"App\\Events\\RunSubscriptionSavedEvent",
@@ -23,7 +29,7 @@ class RunSubscription extends Model
       "deleting"=>"App\\Events\\RunSubscriptionDeletingEvent",
       "deleted"=>"App\\Events\\RunSubscriptionDeletedEvent"
     ];
-  
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -40,5 +46,5 @@ class RunSubscription extends Model
     {
         return $this->belongsTo(Run::class);
     }
-    
+
 }

@@ -23,7 +23,9 @@ const transformRun = (run) => {
         status: run.status,
         title: run.name,
         begin_at: run.planned_at,
-        nb_passenger: run.nb_passenger
+        nb_passenger: run.nb_passenger,
+        waypoints: run.waypoints.map( p => transformWaypoint(p)),
+        runners: run.runners.map( r => transformSub(r))
     }
 }
 const transformSub = (sub) => {
@@ -57,6 +59,7 @@ const transformWaypoint = (point) => {
 }
 export const subscribeSubscription = (run,sub,dispatcher) => {
     var echo = window.LaravelEcho
+    if(!window.LaravelEcho.connector.socket.connected) return false
     echo.channel(`runs.${run.id}.subscriptions.${sub.id}`)
         .on("updated", (e)=>{
             var sub = e.subscription
@@ -82,6 +85,8 @@ export const subscribeSubscription = (run,sub,dispatcher) => {
 }
 export const subscribeRun = (run, dispatcher) => {
     var echo = window.LaravelEcho
+    if(!window.LaravelEcho.connector.socket.connected) return false
+
     echo.channel(`runs.${run.id}`)
         .on("updated", e => {
             var run = transformRun(e.run)
@@ -92,6 +97,12 @@ export const subscribeRun = (run, dispatcher) => {
         })
     echo.channel(`runs.${run.id}`)
         .on("deleted", (e)=>{
+            var run = transformRun(e.run)
+            console.log("deleted")
+            echo.channel(`runs.${run.id}`).unsubscribe();
+            dispatcher(deleteRun(run))
+        })
+        .on("stopped", (e)=>{
             var run = transformRun(e.run)
             console.log("deleted")
             echo.channel(`runs.${run.id}`).unsubscribe();
@@ -133,6 +144,8 @@ export default (dispatcher) => {
     //         echo.channel(`runs.${run.id}`).leave();
     //         dispatcher(deleteRun(run))
     //     })
+    if(!window.LaravelEcho.connector.socket.connected) return false
+
     echo.channel("runs")
         .on("created", (e)=>{
             console.log(e)

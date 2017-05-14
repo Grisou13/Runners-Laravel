@@ -25,3 +25,7 @@
         @endforeach
     </div>
 @stop
+
+@push("styles")
+<!-- <link rel="stylesheet" href="{{ asset("/css/pdf.css")}}"> -->
+@endpush

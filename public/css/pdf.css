@@ -1,0 +1,12 @@
+#app {
+  width: 100vw;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.run-container {
+  display: -webkit-inline-box;
+  display: inline-flex;
+}
+
+/*# sourceMappingURL=pdf.css.map */

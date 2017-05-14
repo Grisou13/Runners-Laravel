@@ -19,6 +19,7 @@ class CreateStatusesTable extends Migration
             $table->string("type")->nullable();
             $table->string("key")->unique();
             $table->string("value",2048);
+            $table->string("display_name")->nullable();
             $table->integer("weight")->default(1);
         });
 

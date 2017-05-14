@@ -4,7 +4,6 @@
   nav, .navbar, .filters, .no-print, .alert, .display-toggle, .time, .print-controls
     display: none
   .run-list
-    width: 100vw
     display: block
     position: absolute
     top: 0
@@ -25,9 +24,10 @@
     padding-left: 0
     border-top: 2px solid black
     //border-top: 2px solid #888a85
-    margin-bottom: 10px
+    margin-bottom: 30px
     padding-bottom: 22px
-    width: 98vw
+    width: 100%
+    max-width: 842px
     & .passengers, & .notes
       margin-left: 10px
       overflow-y: visible
@@ -43,20 +43,20 @@
     &:hover
       padding-left: 0
     & .subscription
-      display: table
-      border-collapse: collapse
-      position: relative
-
+      //display: table
+      //border-collapse: collapse
+      // position: relative
+      // float: right
       & .sub
-        margin-left: 350px
-        padding-left: -500px
+        // margin-left: 350px
+        // padding-left: -500px
         height: 70px
         min-width: 100%
-        display: table-row
-        border: 2px solid black
-        align-content: stretch
+        // display: table-row
+        //border: 2px solid black
+        // align-content: stretch
         & .user, & .car
-          display: table-cell
+          //display: table-cell
           border: 2px solid black
           width: 150px
           font-size: 25px
@@ -85,7 +85,3 @@
     font-size: 16px
     padding-left: 0px
     padding-right: 10px
-
-
-
-
