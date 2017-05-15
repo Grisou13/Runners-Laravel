@@ -140,25 +140,28 @@ class RunController extends Controller
     }
     public function pdf(RunPdfRequest $request){
       \Debugbar::disable();
-      $before = url("/");
-      \URL::forceRootUrl("http://web");
       if($request->has("runs"))
         $runs = Run::find($request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       else
         $runs = Run::with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
-    //  return view("run.pdf",compact("runs"));
+      return view("run.pdf",compact("runs"));
       $pdf = PDF::loadView('run.pdf', compact("runs"));
-      $rendered = $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("runs.pdf");
-      \URL::forceRootUrl($before);
-      return $rendered;
+      
+      
+      $pdf->save(storage_path("run.pdf"));
+      
+      
+      file_put_contents(base_path("storage/test.html"),$pdf->html);
+      return $pdf->setPaper('a3')->setOrientation('landscape')->setOption('margin-bottom', 0)->inline("runs.pdf");
+
     }
     public function pdfTemplate(Request $request)
     {
       $run = new Run;
       $sub = new RunSubscription();
-      //$sub->run()->associate($run);
-//      return view("run.pdf-item",compact("run"));
+
       $pdf = PDF::loadView('run.pdf-item', compact("run"));
+
       return $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("run-template.pdf");
     }
 }

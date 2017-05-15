@@ -21,11 +21,38 @@
                     $i = 0;
                 @endphp
             @endif
-            @include("partials.run.item",compact("run"))
+            @include("run/pdf-item",compact("run"))
         @endforeach
     </div>
 @stop
 
-@push("styles")
-<!-- <link rel="stylesheet" href="{{ asset("/css/pdf.css")}}"> -->
+@push("scripts")
+<script>
+    (function() {
+
+        var beforePrint = function() {
+            console.log('Functionality to run before printing.');
+        };
+
+        var afterPrint = function() {
+            window.location = "http://"+window.location.hostname + "/runs"
+        };
+
+        if (window.matchMedia) {
+            var mediaQueryList = window.matchMedia('print');
+            mediaQueryList.addListener(function(mql) {
+                if (mql.matches) {
+                    beforePrint();
+                } else {
+                    afterPrint();
+                }
+            });
+        }
+
+        window.onbeforeprint = beforePrint;
+        window.onafterprint = afterPrint;
+
+    }());
+    window.print();
+</script>
 @endpush

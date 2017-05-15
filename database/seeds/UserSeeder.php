@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
           "name" => "runnsey",
           "lastname" => "rennur",
           "password"=>bcrypt("runner"),
-          "role_id" => Lib\Models\Role::where("role", "=", "runner")->first()->id,
+          "role_id" => Lib\Models\Role::where("name", "=", "runner")->first()->id,
           "status"=>$sta
 
         ]);

@@ -12,7 +12,7 @@ class RoleSeeder extends Seeder
     public function run()
     {
         Lib\Models\Role::create([
-            "role" => "runner"
+            "name" => "runner"
         ]);
     }
 }

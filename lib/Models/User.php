@@ -93,4 +93,5 @@ class User extends Authenticatable implements StatusableContract
     {
         $this->attributes["name"] = $value ? $value : $this->attributes["firstname"]. " " .$this->attributes["lastname"];
     }
+    
 }
