@@ -28,7 +28,7 @@ class GroupController extends Controller
         $alphabet = Helper::mkrange("A", "ZZ");
 
         // Get all the groups that have at least one active user
-        $groups = Group::with("users")->actifUser()->get();
+        $groups = Group::with("users")->get();
 //        $groups = Group::with("users")->get();
         $i = 0;
         foreach($groups as $g){

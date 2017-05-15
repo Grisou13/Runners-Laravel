@@ -26,18 +26,42 @@ Array.prototype.equals = function (array) {
 // Hide method from for-in loops
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
+var groupUsers = [];
+
 function display(entries, container){
-    var groupUsers = [];
-    function getUserPerGroups(groupID){
-        window.api.get("/groups/"+groupID+"/users", {})
-            .then(function(r){
-                // todo remove comments here
-                // console.log("DONE FOR GROUP " + groupID);
-                // groupUsers[groupID] = r["data"];
-                // console.log(r)
-                // console.log(groupUsers[groupID])
-            });
+
+    function displayUsersPerGroup(container, groupID){
+        if(typeof groupUsers[groupID] === "undefined"){ //if not set yet
+
+            window.api.get("/groups/"+groupID+"/users", {})
+                .then(function(r){
+                    let div = document.createElement("div");
+                    groupUsers[groupID] = "<h3>Group n° " + groupID +"</h3>"; //todo get group letter
+                    //groupUsers[groupID] = r["data"];
+                    if(r["data"].length > 0 ){
+
+                        r["data"].forEach(function(user){
+                            let p = "<p>";
+                            p += user.firstname;
+                            p += " ";
+                            p += user.lastname;
+                            p += "</p>";
+                            groupUsers[groupID] += p;
+                        });
+                    }else{
+                        groupUsers[groupID] += "Aucun utilsateur dans le groupe.";
+                    }
+
+                    div.innerHTML = groupUsers[groupID];
+                    container.appendChild(div); //append when done.
+                    return groupUsers[groupID];
+                });
+        }else{
+            return groupUsers[groupID];
+        }
     }
+
+
     for(let day in entries){
         let hourListed = [];
         let currentContainer = document.createElement("div");
@@ -46,37 +70,27 @@ function display(entries, container){
         sliderContainer.className = "slider";
         container.parentNode.appendChild(sliderContainer);
         container.parentNode.appendChild(currentContainer);
-        console.log(entries[day]);
+
         for(let shift in entries[day]){
             let entryDiv = document.createElement("div");
             let entryHeader = document.createElement("h3");
             entryHeader.innerHTML = "De ";
             entryHeader.innerHTML += entries[day][shift][0]["start_time"].split(" ")[1];
             entryHeader.innerHTML += " à ";
-
-            hourListed.push(entries[day][shift][0]["start_time"].split(" ")[1]);
+            hourListed.push(entries[day][shift][0]["start_time"].split(" ")[1]); //todo wtf here what's wrong with u
 
             for(var obj in entries[day][shift]){
-
-                let p = document.createElement("p");
-                p.innerHTML = "GROUP N° " + entries[day][shift][obj]["group_id"];
-                entryDiv.appendChild(p);
-                // entryDiv.innerHTML += "GROUP N° " + entries[day][shift][obj]["group_id"] + " ";
-
-                if(typeof groupUsers[entries[day][shift][obj]["group_id"]] === 'undefined'){
-                    getUserPerGroups(entries[day][shift][obj]["group_id"]);
-                    // groupUsers[entries[day][shift][obj]["group_id"]] = todo here
-                    groupUsers[entries[day][shift][obj]["group_id"]] = "Waiting....";
-                }
+                let groupID = entries[day][shift][obj]["group_id"];
+                displayUsersPerGroup(entryDiv, groupID);
+                // console.log(userList);
             }
             //entryHeader.innerHTML += entries[day][shift][entries[day][shift].length -1]["end_time"].split(" ")[1];
-            entryHeader.innerHTML += entries[day][shift][obj]["end_time"].split(" ")[1];
-
-
+            /////entryHeader.innerHTML += entries[day][shift][obj]["end_time"].split(" ")[1];
             entryDiv.appendChild(entryHeader);
             currentContainer.appendChild(entryDiv);
         }
 
+        // create slider element
         let slider = tns({
             container: currentContainer,
             controls: false
@@ -91,6 +105,7 @@ function display(entries, container){
         ctrlNextBtn.innerHTML = hourListed[i+1];
         container.parentNode.appendChild(ctrlPrevBtn);
         container.parentNode.appendChild(ctrlNextBtn);
+
         ctrlNextBtn.onclick = function(){
             i += 1;
             if(i == hourListed.length){ i = 0 }
@@ -99,13 +114,22 @@ function display(entries, container){
             let info = slider.getInfo();
             let indexPrev = info.indexCached;
             let indexCurrent = info.index;
-
             // update style based on index
-            ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1 ];
-            ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
+            if(i == hourListed.length - 1){ // if we reach the end of the listed hours...
+
+                slider.goTo("first");
+                console.log("reach the end")
+
+                slider.goTo("next");
+            }
+
+            ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1];
+            ctrlNextBtn.innerHTML = hourListed[i];
+
+
             // ctrlPrevBtn.innerHTML = hourListed[];
             // ctrlNextBtn.innerHTML = hourListed[i];
-            slider.goTo("next");
+
         };
         ctrlPrevBtn.onclick = function(){
             i -= 1;
@@ -124,11 +148,11 @@ function display(entries, container){
             ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
             slider.goTo("prev");
         }
+
     }
 }
 
-function init() {
-    // todo magic here
+function init(schedules) {
     schedules.sort(function(a,b){
         return new Date(a["start_time"]).getTime() - new Date(b["start_time"]).getTime();
     });
@@ -169,7 +193,7 @@ function getAllSchedules(callback){
     window.api.get("/schedules",{})
         .then(function(r){
             schedules = r["data"];
-            callback();
+            callback(schedules);
         })
         .catch(function(error){
             console.log(error);
@@ -204,7 +228,6 @@ function getScheduleFormat(callback){
                 case 401:
                     window.location.replace("/login")
             }
-
         });
 }
 
