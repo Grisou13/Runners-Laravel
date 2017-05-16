@@ -84,8 +84,6 @@ function display(entries, container){
                 displayUsersPerGroup(entryDiv, groupID);
                 // console.log(userList);
             }
-            //entryHeader.innerHTML += entries[day][shift][entries[day][shift].length -1]["end_time"].split(" ")[1];
-            /////entryHeader.innerHTML += entries[day][shift][obj]["end_time"].split(" ")[1];
             entryDiv.appendChild(entryHeader);
             currentContainer.appendChild(entryDiv);
         }
@@ -105,48 +103,45 @@ function display(entries, container){
         ctrlNextBtn.innerHTML = hourListed[i+1];
         container.parentNode.appendChild(ctrlPrevBtn);
         container.parentNode.appendChild(ctrlNextBtn);
+        console.log(hourListed);
 
         ctrlNextBtn.onclick = function(){
             i += 1;
-            if(i == hourListed.length){ i = 0 }
-            // console.log(i);
-            // console.log(hourListed[i]);
-            let info = slider.getInfo();
-            let indexPrev = info.indexCached;
-            let indexCurrent = info.index;
-            // update style based on index
-            if(i == hourListed.length - 1){ // if we reach the end of the listed hours...
-
-                slider.goTo("first");
-                console.log("reach the end")
-
+            if(i == hourListed.length){ // if we reach the end of the listed hours
+                i = 0;
+                slider.goTo("first"); // we go back to the first element. ever.
+            }else{
                 slider.goTo("next");
             }
 
+            //update buttons content (prev and next hour)
             ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1];
-            ctrlNextBtn.innerHTML = hourListed[i];
+            ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
+            let info = slider.getInfo();
 
 
-            // ctrlPrevBtn.innerHTML = hourListed[];
-            // ctrlNextBtn.innerHTML = hourListed[i];
+
 
         };
         ctrlPrevBtn.onclick = function(){
             i -= 1;
-            if(i < 0){ i = hourListed.length -1 }
-            // console.log(i);
-            // console.log(hourListed[i]);
+            if(i < 0){ // we can't go before the index right ?
+                i = hourListed.length - 1;
+                slider.goTo("last");
+            }else{
+                slider.goTo("prev");
+            }
+
             let info = slider.getInfo();
             let indexPrev = info.indexCached;
             let indexCurrent = info.index;
-
             // update style based on index
             info.slideItems[indexPrev].classList.remove('active');
             info.slideItems[indexCurrent].classList.add('active');
 
             ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1];
             ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
-            slider.goTo("prev");
+
         }
 
     }
