@@ -50,7 +50,7 @@ elixir((mix) => {
     mix .copy("./node_modules/sweetalert/dist/sweetalert.min.js","public/js/sweetalert.js")
     mix .copy("./node_modules/sweetalert/dist/sweetalert.css","public/css/sweetalert.css")
     mix .copy("./node_modules/typeahead.js/dist/typeahead.bundle.min.js","public/js/typeahead.js")
-
+    mix.copy('resources/assets/fonts/DroidSerif.ttf', 'public/fonts/DroidSerif.ttf');
     mix .webpack("resources/assets/js/runs/app.js","public/js/runs.js")
     // mix.webpack("runs.js");
     // mix.webpack('runs/app.js', 'public/js/runs.js');

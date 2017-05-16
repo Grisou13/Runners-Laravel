@@ -28,9 +28,9 @@ services:
     command: install
   web:
     build:
-      context: ./config/docker/
-      dockerfile: web.dockerfile
-    working_dir: /var/www
+      context: ./
+      dockerfile: config/docker/web.dockerfile
+
     volumes_from:
       - app
     links:
@@ -59,10 +59,13 @@ services:
       dockerfile: config/docker/node.dockerfile
     volumes:
       - ./:/app
+    links:
+      - database
+      - app
 
   echo-server:
     volumes:
-      - ./:/app
+      - ./config/broadcasting:/app
     build:
       context: ./config/docker
       dockerfile: echo.dockerfile
