@@ -9,9 +9,9 @@ use Lib\Models\User;
 class TerminateRunPolicy
 {
     use HandlesAuthorization;
-    public function before($user, $ability)
+    public function before(User $user, $ability)
     {
-      if($user->is("admin"))
+      if($user->isRole("admin"))
         return true;
     }
     public function end(User $user, Run $run)
@@ -28,7 +28,7 @@ class TerminateRunPolicy
     }
     public function forceEnd(User $user)
     {
-      return $user->is("coordinator");
+      return $user->isRole("coordinator");
     }
     /**
      * Determine whether the user can view the run.

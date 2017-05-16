@@ -51,6 +51,8 @@ class RunController extends BaseController
               $query->orderBy($column,$sorting);
           }
       }
+      if(!$request->has("finished"))
+        $query->notOfStatus("finished");
       return $this->response()->collection($query->get(), new RunTransformer);
     }
     public function search(SearchRequest $request)

@@ -1,25 +1,45 @@
 version: "2"
 services:
   app:
-    environment:
-        - "DB_PORT=3306"
-        - "DB_HOST=database"
-        - "MYSQL_DATABASE=homestead"
-        - "MYSQL_USER=homestead"
-        - "MYSQL_PASSWORD=secret"
-        - "MYSQL_ROOT_PASSWORD=secret"
-        - "REDIS_HOST=cache"
+    env_file:
+      - app.env
     working_dir: /var/www
     volumes:
       - ./:/var/www
     build:
-        context: ./config/docker/
-        dockerfile: app.dockerfile
+      context: ./config/docker/
+      dockerfile: app.dockerfile
     links:
       - cache
       - database
     expose:
       - "9000"
+  app-queue:
+    env_file:
+      - app.env
+    environment:
+      - "CONTAINER_ROLE=queue"
+    build:
+      context: ./config/docker/
+      dockerfile: queue.dockerfile
+    volumes_from:
+      - app
+    links:
+      - cache
+      - database
+  app-schedules:
+    env_file:
+      - app.env
+    env:
+      - "CONTAINER_ROLE=schedule"
+    build:
+      context: ./config/docker/
+      dockerfile: queue.dockerfile
+    volumes_from:
+      - app
+    links:
+      - cache
+      - database
   composer:
     restart: 'no'
     image: composer/composer
@@ -30,7 +50,6 @@ services:
     build:
       context: ./
       dockerfile: config/docker/web.dockerfile
-
     volumes_from:
       - app
     links:
@@ -73,9 +92,9 @@ services:
       - cache
 
   cache:
-      image: redis:3.0-alpine
-      expose:
-        - "6379"
+    image: redis:3.0-alpine
+    expose:
+      - "6379"
 
 volumes:
   dbdata:
