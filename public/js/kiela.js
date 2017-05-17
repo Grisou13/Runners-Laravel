@@ -82,8 +82,8 @@ function display(entries, container){
             for(var obj in entries[day][shift]){
                 let groupID = entries[day][shift][obj]["group_id"];
                 displayUsersPerGroup(entryDiv, groupID);
-                // console.log(userList);
             }
+
             entryDiv.appendChild(entryHeader);
             currentContainer.appendChild(entryDiv);
         }
@@ -117,11 +117,7 @@ function display(entries, container){
             //update buttons content (prev and next hour)
             ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1];
             ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
-            let info = slider.getInfo();
-
-
-
-
+            //let info = slider.getInfo();
         };
         ctrlPrevBtn.onclick = function(){
             i -= 1;
@@ -131,7 +127,6 @@ function display(entries, container){
             }else{
                 slider.goTo("prev");
             }
-
             let info = slider.getInfo();
             let indexPrev = info.indexCached;
             let indexCurrent = info.index;
@@ -166,22 +161,48 @@ function init(schedules) {
             let currentGroup = [];
             let lastGroup = [];
             finalSort[bigO] = [];
+            let last_group_ref = sortedByHourAndByDay[property][0][0]; // first element
+
             for(var times in sortedByHourAndByDay[property]){
-                for(let grp in sortedByHourAndByDay[property][times]){
+                for(var grp in sortedByHourAndByDay[property][times]){
                     currentGroup.push(sortedByHourAndByDay[property][times][grp]["group_id"]);
                 }
+
                 // "Talk is cheap. Show me the code." - Linus Torvalds
                 if(!currentGroup.sort().equals(lastGroup.sort())){ // do we have a different group set
                     // we only keep the first element of the shift (when the shift begins)
+                    /////////
+                    console.log("about to change stuff...");
+                    console.log(last_group_ref);
+
+                    for(let grp in last_group_ref){
+                        last_group_ref[grp]["end_time"] = sortedByHourAndByDay[property][times][0]["end_time"]
+                        // console.log("before")
+                        // console.log(sortedByHourAndByDay[property][times][grp]);
+                        // sortedByHourAndByDay[property][times][grp]["end_time"] = last_group_ref["end_time"];
+                        // console.log("changed !")
+                        // console.log(sortedByHourAndByDay[property][times][grp]);
+                    }
+                    console.log("...");
+                    /////////
                     finalSort[bigO][index] = sortedByHourAndByDay[property][times];
+                    console.log("if equaaaaals =========================, we change and append to final")
+                    console.log(sortedByHourAndByDay[property][times]);
+                    console.log("=======================================")
+
                 }
+                console.log(sortedByHourAndByDay[property][times][grp]);
                 index += 1;
                 lastGroup = currentGroup;
                 currentGroup = []; //reset current
+                last_group_ref = sortedByHourAndByDay[property][times];
             }
         }
+
         bigO += 1;
     }
+    console.log(finalSort);
+    throw new Error("Suche!");
     display(finalSort, document.getElementById("kiela"));
 }
 function getAllSchedules(callback){
