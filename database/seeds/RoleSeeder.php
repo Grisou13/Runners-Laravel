@@ -12,8 +12,33 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        Role::create([
-            "name" => "runner"
-        ]);
+      Artisan::call("cache:forget",["key"=>"spatie.permission.cache"]);
+      Permission::create(["name"=>"end run"]);
+      Permission::create(["name"=>"start run"]);
+      Permission::create(["name"=>"force run end"]);
+      Permission::create(["name"=>"force run start"]);
+      Permission::create(["name"=>"view runs"]);
+
+      Role::create([
+          "name" => "runner"
+      ])
+      ->givePermissionTo('end run')
+      ->givePermissionTo('view runs');
+
+      Role::create([
+        "name" => "administrator"
+      ])
+      ->givePermissionTo('end run')
+      ->givePermissionTo('force run end');
+
+      Role::create([
+        "name" => "coordinator"
+      ])
+      ->givePermissionTo('end run')
+      ->givePermissionTo('force run end');
+
+      Role::create([
+        "name" => "production_assistante"
+      ]);
     }
 }

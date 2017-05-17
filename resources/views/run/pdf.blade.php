@@ -27,6 +27,9 @@
 @stop
 
 @push("scripts")
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+<script src="{{ asset("/js/html2canvas.js") }}"></script>
+
 <script>
     (function() {
 
@@ -53,6 +56,24 @@
         window.onafterprint = afterPrint;
 
     }());
-    window.print();
+    function genPDF()
+    {
+        html2canvas(document.body,{
+            onrendered:function(canvas){
+
+                var img=canvas.toDataURL("image/png");
+                var doc = new jsPDF({orientation: 'landscape', format: "a3", unit: "pt"})
+                doc.addImage(img,'JPEG',-20,0);
+                doc.save("test.pdf")
+            }
+
+        });
+
+    }
+//    var pdf = new jsPDF({orientation: 'landscape', format: "a3", unit: "pt"})
+//    pdf.fromHTML(document.body.innerHTML)
+//    pdf.autoPrint()
+//    pdf.output("dataurlnewwindow")
+//    window.print();
 </script>
 @endpush

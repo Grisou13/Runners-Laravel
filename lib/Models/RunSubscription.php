@@ -11,7 +11,7 @@ class RunSubscription extends Model
     public $table = "run_drivers";
     public $fillable = ["car_id","run_id","car_type_id","user_id"];
     public $guarded = [];
-//    public $hidden = ["id"];
+    public $hidden = [];
     protected $touches = [
       "run"
     ];

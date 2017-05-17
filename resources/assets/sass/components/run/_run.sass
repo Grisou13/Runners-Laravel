@@ -26,6 +26,8 @@
   margin-left: 23px
   padding-left: auto
   transition: padding-left .2s ease-in-out
+  & a
+    color: $text-color
   &:hover, &.control-showed
     padding-left: 120px
     .btn-container
@@ -86,6 +88,10 @@
 
 .gone
   background-color: $gone
+  opacity: 0.5
+  transition: opacity .1s .2s
+  &:hover, & .hovered
+    opacity: 1
 
 .waypoint-list
   padding-bottom: 10px

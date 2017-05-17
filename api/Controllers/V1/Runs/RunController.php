@@ -199,13 +199,13 @@ class RunController extends BaseController
     public function stop(Request $request, Run $run)
     {
       $user = $this->user();
-      if(!$user->can("end",$run))
+      if(!$user->can("end run"))
         throw new UnauthorizedHttpException("You are not allowed to finish a run");
       
-      if($user->can("force-end",Run::class))
+      if($user->can("force run end"))
         $this->terminateRun($run);
       else{
-        $sub = $run->subscriptions()->whereHas("user",function($q) use($user){return $q->where("user.id",$user->id);})->first();
+        $sub = $run->subscriptions()->whereHas("user",function($q) use($user){return $q->where("users.id",$user->id);})->first();
         if($sub != null)
         {
           $sub->status = "finished";

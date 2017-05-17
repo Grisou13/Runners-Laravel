@@ -56,8 +56,11 @@ class CarObserver
   {
     $event->run->subscriptions->map(function($sub){
       $car = $sub->car;
-      $car->status = "gone";
-      $car->save();
+      if($car){
+        $car->status = "gone";
+        $car->save();
+      }
+
     });
   }
   public function carIsCreating(CarCreatingEvent $event)

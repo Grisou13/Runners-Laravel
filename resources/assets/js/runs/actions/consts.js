@@ -12,7 +12,7 @@ export const DELETE_RUN         =   "delete_run"
 export const UPDATE_RUN         =   "update_run"
 export const CREATING_RUN       =   "creating_run"
 export const EDIT_RUN           =   "edit_run"
-
+export const RESET_RUNS    =   "delete_all_runs"
 export const FETCHING_RUN_FAILED  = "fetching_run_failed"
 export const API_ERROR            = "api_error"
 

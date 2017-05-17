@@ -19,6 +19,7 @@ class Filters extends React.Component{
             <div className="filters row">
 
                 <div className="col-md-2" >
+
                   <NameFilter name={this.props.name} changeName={(u)=>this.props.dispatch(updateName(u))} />
                 </div>
                 <div className="col-md-6">
@@ -26,7 +27,7 @@ class Filters extends React.Component{
                   <TimeFilter time={this.props.time} changeTimeEnd={(t)=>this.props.dispatch(updateTimeEnd(t))} changeTimeStart={(t)=>this.props.dispatch(updateTimeStart(t))} />
                   <WaypointFilter waypoint_in={this.props.waypoint_in} changeWaypointIn={()=>this.props.dispatch()} />
                   </div>
-                  <div className="input-radio pull-right">
+                  <div className=" pull-right">
                     <StatusFilter status={this.props.status} addFilter={(s)=>this.props.dispatch(addStatusFilter(s))} removeFilter={(s)=>this.props.dispatch(removeStatusFilter(s))} />
                   </div>
                 </div>

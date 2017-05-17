@@ -106,8 +106,13 @@
     <script src="{{ asset("/js/sweetalert.js") }}"></script>
     <script src="{{ asset("/js/app.js") }}"></script>
     <script src="{{ asset("/js/padlock.js") }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+    <script src="{{ asset("/js/html2canvas.js") }}"></script>
 
-{{--    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>--}}
+    <script>
+
+    </script>
+    {{--    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>--}}
     @stack("scripts")
 </body>
 </html>

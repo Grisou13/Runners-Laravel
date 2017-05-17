@@ -15,9 +15,11 @@ const StatusFilter = ({status,addFilter, removeFilter}) => {
     }
     return (
         <div>
-            <input type="checkbox" name="error" checked={status.indexOf("error") > -1 } onChange={handleChange}/><span>Urgent</span>
-            <input type="checkbox" name="needs_filling" checked={status.indexOf("needs_filling") > -1 } onChange={handleChange}/><span>Problème</span>
-            <input type="checkbox" name="ready" checked={status.indexOf("ready") > -1 } onChange={handleChange} /><span>Prêt</span>
+            <ul className="input-radio">
+                <li><input type="checkbox" name="error" checked={status.indexOf("error") > -1 } onChange={handleChange}/><span>Urgent</span></li>
+                <li><input type="checkbox" name="needs_filling" checked={status.indexOf("needs_filling") > -1 } onChange={handleChange}/><span>Problème</span></li>
+                <li><input type="checkbox" name="ready" checked={status.indexOf("ready") > -1 } onChange={handleChange} /><span>Prêt</span></li>
+            </ul>
         </div>
     )
 }

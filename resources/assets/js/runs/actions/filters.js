@@ -1,6 +1,8 @@
 import {ADD_FILTER_STATUS, REMOVE_FILTER_STATUS} from "./consts";
 import {UPDATE_FILTER_TIME_START} from "./consts";
 import {UPDATE_FILTER_TIME_END, FILTER_USING_USER, FILTER_WAYPOINT_IN} from "./consts";
+import {FILTER_NAME} from "./consts";
+import {FILTER_USING_CAR} from "./consts";
 
 export const filter = (filter_name, value) => {
     return {

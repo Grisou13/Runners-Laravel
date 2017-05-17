@@ -18,7 +18,9 @@ const Run = ({run, startRun, editRun, stopRun}) => {
         closeOnConfirm: false,
         html: false
       }, function(){
+        swal.close()
         stopRun(run)
+
       });
     }
     return (

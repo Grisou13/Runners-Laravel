@@ -7,8 +7,10 @@ import PropTypes from 'prop-types';
 const TimeFilter = ({time, changeTimeEnd, changeTimeStart}) => {
     return (
         <div>
-            <input type="text" value={time.start} onChange={(e)=>changeTimeStart(e.target.value)} />
-            <input type="text" value={time.end} onChange={(e)=>changeTimeEnd(e.target.value)} />
+            Entre:
+            <input className="form-control input-filter" type="text" value={time.start} onChange={(e)=>changeTimeStart(e.target.value)} placeholder="08:00" />
+            Et:
+            <input className="form-control input-filter" type="text" value={time.end} onChange={(e)=>changeTimeEnd(e.target.value)} placeholder="18:00" />
         </div>
     )
 }

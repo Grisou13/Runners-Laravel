@@ -94,7 +94,13 @@ class RunObserver
   }
   protected function adaptRunStatus(Run $run)
   {
+    if($run->ended_at != null){
+      $run->status = "finished";
+      return $run;
+    }
+
     $sub_count = $run->subscriptions()->count();
+
     if($run->status != "gone" || $run->status != "finished")
     {
       if($sub_count > 0 )

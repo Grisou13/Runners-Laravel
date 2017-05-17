@@ -6,6 +6,35 @@ import {subDeleted} from "../actions/subscirptions";
 // import io from 'socket.io-client'
 // import Echo from "laravel-echo"
 import {gotRun} from "../actions/runs";
+import {GOT_RUNS} from "../actions/consts";
+import {ADD_RUN} from "../actions/consts";
+import {DELETE_RUN} from "../actions/consts";
+import {RESET_RUNS} from "../actions/consts";
+
+
+export const middleware = store => next => action => {
+    if(action.type == RESET_RUNS)
+    {
+        store.getState().items.forEach(r => subscribeRun(r, store.dispatch))//TODO maybe put this somewhere else? dunno
+        store.getState().items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
+    }
+    const result = next(action)
+    switch (action.type){
+        case GOT_RUNS:
+            store.getState().items.forEach(r => subscribeRun(r, store.dispatch))//TODO maybe put this somewhere else? dunno
+            store.getState().items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
+            break;
+        case ADD_RUN:
+            let run = action.payload
+            subscribeRun(run, store.dispatch)
+            run.runners.map( s => subscribeSubscription(run,s,store.dispatch))
+        case DELETE_RUN:
+            unsubscribeRun(action.payload)
+        default:
+            return result;
+    }
+    return result;
+}
 
 const transformCarType = (type) => {
     return {
@@ -41,7 +70,8 @@ const transformSub = (sub) => {
         created_at: sub.created_at,
         vehicule_category: cat,
         car: sub.car ? transformCar(sub.car) : sub.car,
-        user: sub.user ? transformUser(sub.user) : sub.user
+        user: sub.user ? transformUser(sub.user) : sub.user,
+        run_id: sub.run ? sub.run.id : sub.run_id
     }
 }
 const transformCar = car => {
@@ -57,10 +87,17 @@ const transformWaypoint = (point) => {
         geocoder: point.geo
     }
 }
-export const subscribeSubscription = (run,sub,dispatcher) => {
+export const unsubscribeRun = (run) =>{
     var echo = window.LaravelEcho
-    if(!window.LaravelEcho.connector.socket.connected) return false
-    echo.channel(`runs.${run.id}.subscriptions.${sub.id}`)
+    if(echo && !window.LaravelEcho.connector.socket.connected) return false
+    echo.channel(`runs.${run.id}`).unsubscribe();
+    echo.channel(`runs.${run.id}.subscriptions`).unsubscribe();
+    run.runners.forEach( r =>  echo.channel(`runs.${run.id}.subscriptions.${r.id}`).unsubscribe() );
+}
+export const subscribeSubscription = (sub,dispatcher) => {
+    var echo = window.LaravelEcho
+    if(echo && !window.LaravelEcho.connector.socket.connected) return false
+    echo.channel(`runs.${sub.run_id}.subscriptions.${sub.id}`)
         .on("updated", (e)=>{
             var sub = e.subscription
             var run = transformRun(e.run)
@@ -74,19 +111,19 @@ export const subscribeSubscription = (run,sub,dispatcher) => {
             console.log("updated sub")
             dispatcher(subUpdated(run,sub))
         })
-    echo.channel(`runs.${run.id}.subscriptions.${sub.id}`)
+    echo.channel(`runs.${sub.run_id}.subscriptions.${sub.id}`)
         .on("deleted", (e)=>{
             var sub = e.subscription
             var run = e.run
             console.log("deleted sub")
-            echo.channel(`runs.${run.id}.subscriptions.${sub.id}`).unsubscribe();
+            echo.channel(`runs.${sub.run_id}.subscriptions.${sub.id}`).unsubscribe();
             dispatcher(subDeleted(run,sub))
         })
 }
 export const subscribeRun = (run, dispatcher) => {
     var echo = window.LaravelEcho
-    if(!window.LaravelEcho.connector.socket.connected) return false
-
+    if(echo && !window.LaravelEcho.connector.socket.connected) return false
+    console.log(run)
     echo.channel(`runs.${run.id}`)
         .on("updated", e => {
             var run = transformRun(e.run)
@@ -99,9 +136,10 @@ export const subscribeRun = (run, dispatcher) => {
         .on("deleted", (e)=>{
             var run = transformRun(e.run)
             console.log("deleted")
-            echo.channel(`runs.${run.id}`).unsubscribe();
+            unsubscribeRun(run)
             dispatcher(deleteRun(run))
         })
+    echo.channel(`runs.${run.id}`)
         .on("stopped", (e)=>{
             var run = transformRun(e.run)
             console.log("deleted")
@@ -118,7 +156,7 @@ export const subscribeRun = (run, dispatcher) => {
             sub = transformSub(sub)
             console.log("===================")
             console.log(sub)
-            subscribeSubscription(run,sub,dispatcher)
+            subscribeSubscription(sub,dispatcher)
             console.log("created sub")
             dispatcher(subCreated(run,sub))
         })
