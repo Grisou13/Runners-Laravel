@@ -2,15 +2,20 @@
 // Fonts
 //@import url('https://fonts.googleapis.com/css?family=Droid+Serif');
 @font-face {
-  font-family: 'Droid Serif';
+  font-family: 'DroidSerif';
   font-style: normal;
   font-weight: 400;
-  src:
-          local('Droid Serif'),
-          url("/fonts/DroidSerif.ttf") format('ttf');
+  src: local("DroidSerif"),url("/fonts/DroidSerif.ttf") format('ttf');
 }
+@font-face {
+  font-family: 'DroidSerifBold';
+  font-style: normal;
+  font-weight: bold;
+  src: local("DroidSerifBold"), url("/fonts/DroidSerifBold.ttf") format('ttf');
+}
+
 html {
-  font-family: 'Droid Serif', serif;
+  font-family: 'DroidSerif', serif;
 }
 // Variables
 @import "variables";

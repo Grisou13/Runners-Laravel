@@ -177,7 +177,8 @@ return [
   
 //        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-
+        Spatie\Permission\PermissionServiceProvider::class,
+  
       /*
        * Application Service Providers...
        */
@@ -188,6 +189,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FormBuilderProvider::class,
         Api\ApiServiceProvider::class,
+      
 
     ],
 

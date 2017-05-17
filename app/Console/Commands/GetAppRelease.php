@@ -37,13 +37,7 @@ class GetAppRelease extends Command
      */
     public function handle()
     {
-      $version = "";
-      $version_composer = json_decode(file_get_contents(base_path("composer.json")), true);
-      if(array_key_exists("version", $version_composer))
-        $version = $version.$version_composer;
-      else
-        $version = $version."0.0.1-rc0";
-      return $version;
+      return app_version();
 
     }
 }

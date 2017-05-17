@@ -201,9 +201,8 @@ class RunController extends BaseController
       $user = $this->user();
       if(!$user->can("end",$run))
         throw new UnauthorizedHttpException("You are not allowed to finish a run");
-
-
-      if($user->car("forceEnd",Run::class))
+      
+      if($user->can("force-end",Run::class))
         $this->terminateRun($run);
       else{
         $sub = $run->subscriptions()->whereHas("user",function($q) use($user){return $q->where("user.id",$user->id);})->first();

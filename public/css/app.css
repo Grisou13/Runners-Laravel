@@ -1,13 +1,20 @@
 @charset "UTF-8";
 @font-face {
-  font-family: 'Droid Serif';
+  font-family: 'DroidSerif';
   font-style: normal;
   font-weight: 400;
-  src: local("Droid Serif"), url("/fonts/DroidSerif.ttf") format("ttf");
+  src: local("DroidSerif"), url("/fonts/DroidSerif.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: 'DroidSerifBold';
+  font-style: normal;
+  font-weight: bold;
+  src: local("DroidSerifBold"), url("/fonts/DroidSerifBold.ttf") format("ttf");
 }
 
 html {
-  font-family: 'Droid Serif', serif;
+  font-family: 'DroidSerif', serif;
 }
 
 /*!
@@ -1387,7 +1394,7 @@ html {
 }
 
 body {
-  font-family: "Droid Serif", serif, sans-serif;
+  font-family: DroidSerif, Arial;
   font-size: 14px;
   line-height: 1.6;
   color: #636b6f;
@@ -6863,7 +6870,7 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Droid Serif", serif, sans-serif;
+  font-family: DroidSerif, Arial;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -6997,7 +7004,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Droid Serif", serif, sans-serif;
+  font-family: DroidSerif, Arial;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;

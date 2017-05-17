@@ -108,7 +108,7 @@ class CreateAppRelease extends Command
    *
    * @var string
    */
-  protected $signature = 'app:release:new {--r|release} {--c|release-candidate} {--beta} {--alpha}';
+  protected $signature = 'app:release:new {--r|release} {--dev} {--stable}';
 
     /**
      * The console command description.

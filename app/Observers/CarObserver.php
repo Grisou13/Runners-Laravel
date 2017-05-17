@@ -68,7 +68,7 @@ class CarObserver
       $car->name = $car->car_type->name . " ". $count;
     }
 
-    $event->car->status="free";
+    $car->status="free";
   }
   public function makeCarAvailable(RunSubscriptionDeletingEvent $event)
   {
