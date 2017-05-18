@@ -24,19 +24,20 @@ set :repo_url, "git@github.com:CPNV-ES/Runners-Laravel.git"
 # append :linked_files, "config/database.yml", "config/secrets.yml"
 append :linked_dirs,
       "storage/app",
+      # "storage/app/public",
       "storage/framework/cache",
       "storage/framework/sessions",
       "storage/framework/views",
       "storage/logs"
 
 # Default value for linked_dirs is []
-set :linked_dirs, fetch(:linked_dirs, []).push('storage')
+# set :linked_dirs, fetch(:linked_dirs, []).push('storage')
 
 set :file_permissions_paths, [
   "bootstrap/cache",
   "storage",
   "storage/app",
-  "storage/app/public",
+  # "storage/app/public",
   "storage/framework",
   "storage/framework/cache",
   "storage/framework/sessions",
@@ -46,21 +47,21 @@ set :file_permissions_paths, [
 set :file_permissions_groups, ["deploy"]
 set :file_permissions_users, ["deploy"]
 set :file_permissions_chmod_mode, "0775"
-desc "Ensure directories exists"
-task :ensure_storage_exists do
-  fetch(:file_permissions_paths,[]).each_char do |p|
-    within shared_path do
-      execute 'mkdir -p #{release_path}/#{p}'
-    end
-  end
-end
-
-set :branch, ENV['BRANCH'] if ENV['BRANCH']
-
-before "deploy:set_permissions:acl", "runner:storage"
-after "deploy:set_permissions:acl", "ensure_storage_exists"
-
-before "deploy:finishing", "deploy:set_permissions:acl"
+# desc "Ensure directories exists"
+# task :ensure_storage_exists do
+#   fetch(:file_permissions_paths,["storage","bootstrap"]).each_char do |p|
+#     within shared_path do
+#       execute 'mkdir -p #{release_path}/#{p}'
+#     end
+#   end
+# end
+puts ENV["branch"]
+set :branch, ENV['branch'] if ENV['branch']
+#
+# before "deploy:set_permissions:acl", "runner:storage"
+# after "deploy:set_permissions:acl", "ensure_storage_exists"
+#
+# before "deploy:finishing", "deploy:set_permissions:acl"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }

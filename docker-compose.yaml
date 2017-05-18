@@ -45,7 +45,7 @@ services:
     image: composer/composer
     volumes:
       - ./:/app
-    command: install
+    command: install --no-scripts
   web:
     build:
       context: ./
@@ -84,7 +84,7 @@ services:
 
   echo-server:
     volumes:
-      - ./config/broadcasting:/app
+      - ./:/app
     build:
       context: ./config/docker
       dockerfile: echo.dockerfile
