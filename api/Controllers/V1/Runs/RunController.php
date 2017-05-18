@@ -157,11 +157,15 @@ class RunController extends BaseController
     public function start(Request $request,Run $run)
     {
       //check all subscriptions if they are good
-        foreach($run->subscriptions as $sub)
+        if(!$this->user()->can("force run start"))
         {
-            if(!$sub->has("car") && $sub->has("user"))
-               throw new NotAcceptableHttpException("All runners have not been filled, please fill run subscription $sub->id");
+          foreach($run->subscriptions as $sub)
+          {
+            if(($sub->car_id == null || $sub->user_id == null) || ($sub->car_id != null || $sub->user_id == null) || ($sub->car_id == null || $sub->user_id != null))
+              throw new NotAcceptableHttpException("All runners have not been filled, please fill run subscription $sub->id");
+          }
         }
+        
 //        $seats = $run->subscriptions->map(function($sub){
 //          return $sub->car->nb_place;
 //        })->sum();

@@ -13,7 +13,7 @@
         within current_path do
           execute ""
           next if test("[ docker-compose exec app echo 'hi' &> /dev/null && $? -eq 0 ]")
-          execute "docker-compose up -d"
+          execute "docker-compose up -d --build"
         end
       end
     end
@@ -21,7 +21,7 @@
       on roles(:all) do
         within current_path do
           execute "docker-compose down"
-          execute "docker-compose up -d"
+          execute "docker-compose up -d --build"
         end
       end
     end
@@ -29,7 +29,7 @@
     task :npm do
       on roles(:all) do
         within release_path do
-          execute "docker-compose up node"
+          execute "docker-compose run --rm node npm install"
         end
       end
     end

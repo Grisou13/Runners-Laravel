@@ -2,7 +2,7 @@ version: "2"
 services:
   app:
     env_file:
-      - app.env
+      - ./config/docker/app.env
     working_dir: /var/www
     volumes:
       - ./:/var/www
@@ -16,7 +16,7 @@ services:
       - "9000"
   app-queue:
     env_file:
-      - app.env
+      - ./config/docker/app.env
     environment:
       - "CONTAINER_ROLE=queue"
     build:
@@ -29,8 +29,8 @@ services:
       - database
   app-schedules:
     env_file:
-      - app.env
-    env:
+      - ./config/docker/app.env
+    environment:
       - "CONTAINER_ROLE=schedule"
     build:
       context: ./config/docker/

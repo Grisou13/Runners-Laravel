@@ -29,13 +29,15 @@ class RoleSeeder extends Seeder
         "name" => "administrator"
       ])
       ->givePermissionTo('end run')
-      ->givePermissionTo('force run end');
+      ->givePermissionTo('force run end')
+      ->givePermissionTo('force run start');
 
       Role::create([
         "name" => "coordinator"
       ])
       ->givePermissionTo('end run')
-      ->givePermissionTo('force run end');
+      ->givePermissionTo('force run end')
+      ->givePermissionTo('force run start');
 
       Role::create([
         "name" => "production_assistante"
