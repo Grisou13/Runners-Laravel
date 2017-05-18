@@ -11,7 +11,7 @@ namespace :runner do
   task :start do
     on roles(:all) do
       within release_path do
-        next if test("[ docker-compose exec app echo 'hi' &> /dev/null && $? -eq 0 ]")
+        next if test("[ cd #{release_path};docker-compose exec app echo 'hi' &> /dev/null && $? -eq 0 ]")
         execute "ls -al"
         execute "pwd"
         #execute "cd #{release_path};docker-compose up composer"
@@ -44,7 +44,7 @@ namespace :runner do
   task :npm do
     on roles(:all) do
       within release_path do
-        execute "docker-compose run --rm node npm install"
+        execute "cd #{release_path};docker-compose run --rm node npm install"
       end
     end
   end
@@ -96,7 +96,7 @@ namespace :runner do
   desc "Ensure that ACL paths exist."
   task :ensure_acl_paths_exist do
 
-    on roles fetch(:laravel_roles) do
+    on roles(:app) do
       fetch(:file_permissions_paths).each do |path|
         within release_path do
           execute :mkdir, "-p", path
@@ -190,6 +190,6 @@ before "deploy:updated",  "deploy:set_permissions:acl"
 
 before "runner:composer", "runner:copy_env"
 after "runner:composer", "runner:app_key"
-after  "runner:composer", "runner:storage_link"
+after  "runner:composer", "runner:storage"
 # after  "runner:composer", "runner:storage_acl"
 after  "runner:composer",  "runner:optimize"
