@@ -161,42 +161,42 @@ function init(schedules) {
             let currentGroup = [];
             let lastGroup = [];
             finalSort[bigO] = [];
-            let last_group_ref = sortedByHourAndByDay[property][0][0]; // first element
-
+            let last_group_ref = sortedByHourAndByDay[property][0]; // first element
+            let ref = false;
             for(var times in sortedByHourAndByDay[property]){
                 for(var grp in sortedByHourAndByDay[property][times]){
                     currentGroup.push(sortedByHourAndByDay[property][times][grp]["group_id"]);
                 }
 
+
+
+
                 // "Talk is cheap. Show me the code." - Linus Torvalds
                 if(!currentGroup.sort().equals(lastGroup.sort())){ // do we have a different group set
                     // we only keep the first element of the shift (when the shift begins)
-                    /////////
-                    console.log("about to change stuff...");
-                    console.log(last_group_ref);
+                    console.log("========= CHANGE =========")
+                    console.log(last_group_ref[0])
+                    console.log("==========================")
 
-                    for(let grp in last_group_ref){
-                        last_group_ref[grp]["end_time"] = sortedByHourAndByDay[property][times][0]["end_time"]
-                        // console.log("before")
-                        // console.log(sortedByHourAndByDay[property][times][grp]);
-                        // sortedByHourAndByDay[property][times][grp]["end_time"] = last_group_ref["end_time"];
-                        // console.log("changed !")
-                        // console.log(sortedByHourAndByDay[property][times][grp]);
+                    if(ref){
+                        for(grp in ref){
+                            ref[grp]['end_time'] = sortedByHourAndByDay[property][times][0]['end_time']
+                        }
                     }
-                    console.log("...");
-                    /////////
+                    console.log(ref)
                     finalSort[bigO][index] = sortedByHourAndByDay[property][times];
-                    console.log("if equaaaaals =========================, we change and append to final")
-                    console.log(sortedByHourAndByDay[property][times]);
-                    console.log("=======================================")
-
+                    ref = finalSort[bigO][index];
                 }
-                console.log(sortedByHourAndByDay[property][times][grp]);
+                console.log(sortedByHourAndByDay[property][times][0]);
+
                 index += 1;
                 lastGroup = currentGroup;
                 currentGroup = []; //reset current
                 last_group_ref = sortedByHourAndByDay[property][times];
+
+
             }
+
         }
 
         bigO += 1;
