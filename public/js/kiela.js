@@ -63,6 +63,7 @@ function display(entries, container){
 
 
     for(let day in entries){
+
         let hourListed = [];
         let currentContainer = document.createElement("div");
         let sliderContainer = document.createElement("div");
@@ -72,12 +73,15 @@ function display(entries, container){
         container.parentNode.appendChild(currentContainer);
 
         for(let shift in entries[day]){
+            
             let entryDiv = document.createElement("div");
             let entryHeader = document.createElement("h3");
             entryHeader.innerHTML = "De ";
             entryHeader.innerHTML += entries[day][shift][0]["start_time"].split(" ")[1];
             entryHeader.innerHTML += " à ";
-            hourListed.push(entries[day][shift][0]["start_time"].split(" ")[1]); //todo wtf here what's wrong with u
+            entryHeader.innerHTML += entries[day][shift][0]["end_time"].split(" ")[1];
+
+            hourListed.push(entries[day][shift][0]["start_time"].split(" ")[1]);
 
             for(var obj in entries[day][shift]){
                 let groupID = entries[day][shift][obj]["group_id"];
@@ -167,42 +171,29 @@ function init(schedules) {
                 for(var grp in sortedByHourAndByDay[property][times]){
                     currentGroup.push(sortedByHourAndByDay[property][times][grp]["group_id"]);
                 }
-
-
-
-
                 // "Talk is cheap. Show me the code." - Linus Torvalds
                 if(!currentGroup.sort().equals(lastGroup.sort())){ // do we have a different group set
-                    // we only keep the first element of the shift (when the shift begins)
-                    console.log("========= CHANGE =========")
-                    console.log(last_group_ref[0])
-                    console.log("==========================")
-
                     if(ref){
                         for(grp in ref){
-                            ref[grp]['end_time'] = sortedByHourAndByDay[property][times][0]['end_time']
+                            ref[grp]['end_time'] = last_group_ref[0]['end_time']
                         }
                     }
-                    console.log(ref)
+                    // we only keep the first element of the shift (when the shift begins)
                     finalSort[bigO][index] = sortedByHourAndByDay[property][times];
                     ref = finalSort[bigO][index];
                 }
-                console.log(sortedByHourAndByDay[property][times][0]);
-
                 index += 1;
                 lastGroup = currentGroup;
                 currentGroup = []; //reset current
                 last_group_ref = sortedByHourAndByDay[property][times];
-
-
             }
-
+            for(let grp in ref){
+                ref[grp]["end_time"] = last_group_ref[0]["end_time"];
+            }
         }
 
         bigO += 1;
     }
-    console.log(finalSort);
-    throw new Error("Suche!");
     display(finalSort, document.getElementById("kiela"));
 }
 function getAllSchedules(callback){
