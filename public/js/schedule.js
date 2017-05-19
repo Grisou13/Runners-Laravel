@@ -49,7 +49,7 @@ function ajaxRequest(method, url, data, callback) {
 }
 
 function updateCell(cellID){
-    console.log("UPDATE UPDATE UPDATE");
+    console.log("UPDATE");
     let cell = document.getElementById(cellID);
     cellID = cellID.split("-");
     let groupID = cellID[0];
@@ -106,6 +106,8 @@ function createTable(schedule, groups, day, gridID){
     schedule.forEach(function(hour){
         var th = document.createElement("th");
         th.innerHTML = hour;
+        th.style.webkitTransform = "rotate(-65deg)";
+        th.style.height = "45px";
         headerTR.appendChild(th);
     });
     theader.appendChild(headerTR);
@@ -120,7 +122,7 @@ function createTable(schedule, groups, day, gridID){
         var bodyTR = document.createElement("tr");
         var td = document.createElement("td");
         td.style.cursor = "none";
-        td.innerHTML = "G°" + group.id;
+        td.innerHTML = "Grp. " + group.name;
         td.style.color = "white";
         var rgb = _hexToRgb(group.color);
         td.style.backgroundColor = "rgba("+ [rgb["r"], rgb["g"], rgb["b"], 0.9].join(",") + ")";
@@ -173,15 +175,29 @@ function createTable(schedule, groups, day, gridID){
                 }
                 return false;
             });
+            function disableTable(table, toDisable){
+                if(toDisable){
+                    console.log("disable")
+                    console.log(table);
+                    throw new Error ("K")
+                    table.style.opacity = "0.5";
+                }else{
+                    table.style.opacity = "1";
+                }
+            }
             td.addEventListener("mouseup",function(e){
-
                 // update the state of each selected div
-                // TODO use time-slot instead of using each cell independently
+                // TODO maybe use time-slot instead of using each cell independently
+                console.log("before update");
+
+                disableTable(td.parentElement.parentElement.parentElement, true); //todo table not loaded yet...
                 modified.forEach(function(cellID){
                     // console.log(td.parentElement.parentElement.parentElement);
                     updateCell(cellID);
                 });
-
+                disableTable(td.parentElement.parentElement.parentElement, false); //todo
+                console.log("after update");
+                //disableTable(td.parentElement.parentElement.parentElement, false);
                 modified = [];
                 isdown = false;
             });
