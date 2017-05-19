@@ -184,13 +184,15 @@ class CreateAppRelease extends Command
         return false;
       }
       
-      exec("git tag -a $version -m '$type $version'");
-      if($this->option("force") || $this->confirm("Should we push tags?"))
-        exec("git push origin --tags");
       $data = json_decode(file_get_contents(base_path("composer.json")),true);
       $data["version"] = $version;
       file_put_contents(base_path("composer.json"),json_encode($data, JSON_PRETTY_PRINT));
       $this->info("saved version to composer.json");
+      exec("git commit --ammend");
+      exec("git tag -a $version -m '$type $version'");
+      if($this->option("force") || $this->confirm("Should we push tags?"))
+        exec("git push origin --tags");
+      
     }
 
   /**
