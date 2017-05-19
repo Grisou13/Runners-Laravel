@@ -11,9 +11,15 @@ class RunSubscription extends Model
     public $table = "run_drivers";
     public $fillable = ["car_id","run_id","car_type_id","user_id"];
     public $guarded = [];
-//    public $hidden = ["id"];
+    public $hidden = [];
     protected $touches = [
       "run"
+    ];
+    protected $dates = [
+        "created_at",
+        "updated_at",
+        "started_at",
+        "ended_at",
     ];
     protected $events = [
       "saving"=>"App\\Events\\RunSubscriptionSavingEvent",
@@ -23,7 +29,7 @@ class RunSubscription extends Model
       "deleting"=>"App\\Events\\RunSubscriptionDeletingEvent",
       "deleted"=>"App\\Events\\RunSubscriptionDeletedEvent"
     ];
-  
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -40,5 +46,5 @@ class RunSubscription extends Model
     {
         return $this->belongsTo(Run::class);
     }
-    
+
 }

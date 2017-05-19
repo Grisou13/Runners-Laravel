@@ -29,7 +29,6 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         Route::bind('setting', function ($value) {
-
             return Setting::where('key', $value)->first();
         });
         Route::model('runner', \Lib\Models\RunSubscription::class);

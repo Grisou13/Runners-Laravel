@@ -14,7 +14,6 @@ const SubscriptionList = ({subs = []}) =>(
                     <div key={"sub-"+sub.id}>
                         <Subscription  sub={sub} user={sub.user} car={sub.car}
                                       car_type={sub.vehicule_category}/>
-                        {i == all.length-1 ?null:<hr/>}
                     </div>
                 )
             }

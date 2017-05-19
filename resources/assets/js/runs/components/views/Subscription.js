@@ -27,8 +27,9 @@ const Subscription = ({sub,user=null,car=null,car_type=null}) => {
     else
         carTypeBtn = (<AddCarTypeButton sub={sub} />)
 
+    let style={ height:"100%", minHeight:"100px" }
      return (
-         <div className="row sub" style={{ height:"100%", minHeight:"100px" }}>
+         <div className="row sub" >
              <div className="col-md-6 col-xs-6 car">
                  <span className="">{car ? car.name: (car_type ? car_type.type: " ")}</span>
              </div>

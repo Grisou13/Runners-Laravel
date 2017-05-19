@@ -3,7 +3,8 @@
  */
 
 import wsService from './websocket'
-
+import printService from './print'
 export default (dispatcher) => {
     wsService(dispatcher)
+    printService(dispatcher)
 }

@@ -11,7 +11,7 @@
 	"databaseConfig": {
 		"redis": {},
 		"sqlite": {
-			"databasePath": "./../../database/laravel-echo-server.sqlite"
+			"databasePath": "/laravel-echo-server-staging-dev.sqlite"
 		}
 	},
 	"devMode": true,

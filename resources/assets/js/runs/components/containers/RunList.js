@@ -1,19 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-
 import {connect} from 'react-redux'
-import moment from 'moment'
-import {getRuns} from './../../actions/runs'
-
-import WaypointList from './../views/WaypointList'
-import RunDetails from './../views/RunDetails'
-import SubscriptionList from './../views/SubscriptionList'
-import Time from './../views/Time'
-import {FILTER_STATUS} from "../../actions/consts";
-import {FILTER_WAYPOINT_BETWEEN} from "../../actions/consts";
 import ui from 'redux-ui';
-import {startRun} from "../../actions/runs";
-import {deleteRun} from "../../actions/runs";
+
+import moment from 'moment'
+
+import Run from './../views/Run'
+import Time from './../views/Time'
+import {startRun} from "./../../actions/runs";
+import {stopRun} from "./../../actions/runs";
+import {editRun} from "./../../actions/runs";
+import {fetchRuns} from './../../actions/runs'
+
 @ui({
     key:"run-list",
     state:{
@@ -28,41 +26,16 @@ class RunList extends React.Component
     renderList(runs){
         return (
             <div className="container-fluid">
+                <div className="row print-controls">
+                    <button className="btn btn-default">
+                        <span className="glyphicon glyphicon-print" />
+                    </button>
+                </div>
                 <div className="row text-center">
                     <Time UTCOffset={2} />
                 </div>
                 <div className="row">
-                    {runs.map(run => {
-                        var date = moment(run.begin_at)
-                        var d = run.begin_at ? `${date.format("DD/MM")}` : null
-                        var t = run.begin_at ? `${date.format("HH:mm")}` : null
-                        return (
-                            <div key={"run-"+run.id} id={"run-"+run.id} className={run.status + ' run-container'} /*onMouseLeave={(e)=>this.props.updateUI({hoverRun:null})} onMouseOver={(e)=>this.props.updateUI({hoverRun:run.id})}*/ >
-                                <div className="btn-container">
-                                    <a href={window.Laravel.basePath + `/runs/${run.id}/edit`} className="control"><span className="glyphicon glyphicon-edit"></span></a>
-                                    <a href="#" onClick={()=>this.props.dispatch(startRun(run))} className="control"><span className="glyphicon glyphicon-play"></span></a>
-                                    <a href="#" onClick={()=>this.props.dispatch(deleteRun(run))} className="control"><span className="glyphicon glyphicon-minus"></span></a>
-                                </div>
-
-                                <div className="run" /*style={{transform: (this.props.ui.hoverRun != null && this.props.ui.hoverRun==run.id )? "translateX(50px)": "" }}*/>
-                                    <div className="col-md-3 col-xs-6 col-sm-2">
-                                        <RunDetails title={run.title} nb_passenger={run.nb_passenger} note={run.note ? run.note : ""} date={d} />
-                                    </div>
-                                    <div className="col-md-5 col-xs-6 col-sm-7">
-                                        <div className="row">
-                                            <WaypointList run={run} points={run.waypoints} />
-                                        </div>
-                                        <div className="row">
-                                            <span className="time">{ t }</span>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-4 col-xs-12 col-sm-3">
-                                        <SubscriptionList subs={run.runners} />
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    })}
+                    {runs.map(run => <Run key={"run-"+run.id} run={run} startRun={this.props.startRun} editRun={this.props.editRun} stopRun={this.props.stopRun} />)}
                 </div>
             </div>
         )
@@ -113,6 +86,8 @@ class RunList extends React.Component
                 return this.renderList(this.props.runs)
             }
             else{
+                if(this.props.error != false)
+                    return this.renderError()
                 return this.renderEmpty()
             }
         }
@@ -136,7 +111,23 @@ const getVisibleRuns = (runs, filters) => {
     if(filters.status.length)
         runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
     if(filters.name.length)
-        runs = runs.filter(r => r.title.startsWith(filters.name))
+        runs = runs.filter(r => r.title.toLowerCase().startsWith(filters.name))
+    if(filters.user.length)
+      runs = runs.filter(r => {
+         if ( r.runners.filter( r => r.user && r.user.name.toLowerCase().startsWith(filters.user)).length )
+          return r
+      })
+    if(filters.car.length)
+        runs = runs.filter(r => {
+          //check cars and car types
+          if ( r.runners.filter( r => r.car && r.car.name.toLowerCase().startsWith(filters.car)).length ||  r.runners.filter( r => r.vehicule_category && r.vehicule_category.type.toLowerCase().startsWith(filters.car)).length)
+            return r
+        })
+    if(filters.waypoint_in.length)
+      runs = runs.filter( r => {
+        if(r.waypoints.filter(p => p.nickname.toLowerCase().startsWith(filters.waypoint_in)).length)
+          return r
+      })
     // filters.forEach((f, key)=>{
     //     switch(key){
     //         case FILTER_STATUS:
@@ -171,8 +162,11 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatch: dispatch,
         getRuns: () =>{
-            dispatch(getRuns())
-        }
+            dispatch(fetchRuns())
+        },
+        startRun: (run) => dispatch(startRun(run)),
+        editRun: (run) => dispatch(editRun(run)),
+        stopRun: (run) => dispatch(stopRun(run))
     }
 }
 

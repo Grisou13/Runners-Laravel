@@ -15,7 +15,7 @@ class CarSeeder extends Seeder
     {
     /*  $ids = \Lib\Models\CarType::all()->pluck("id");
       factory(Lib\Models\Car::class,10)->create(["car_type_id"=>$ids->random()]);*/
-
+      Car::unguard();
       for($i = 0; $i < 10; $i++){
 
         Car::create([
@@ -35,8 +35,9 @@ class CarSeeder extends Seeder
           "model"=>collect(["Monospace", "Camion"])->random(),
           "color" => 'noir',
           "nb_place" => rand(5, 12),
-          "car_type_id" => rand(3,5)
+          "car_type_id" => rand(3,4)
         ]);
       }
+      Car::reguard();
     }
 }

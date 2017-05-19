@@ -1,0 +1,87 @@
+@media print
+  .page-break
+    page-break-after: always
+  nav, .navbar, .filters, .no-print, .alert, .display-toggle, .time, .print-controls
+    display: none
+  .run-list
+    display: block
+    position: absolute
+    top: 0
+    left: 0
+  //.run-container:nth-of-type(5)
+  //  page-break-after: always
+  .run-container
+    & .run
+      font-size: 30px
+      margin-top: 10px
+      min-height: 150px
+      margin-bottom: auto
+      display: block
+      -ms-word-wrap: break-word
+      word-wrap: break-word
+      text-overflow: ellipsis
+    display: block
+    padding-left: 0
+    border-top: 2px solid black
+    //border-top: 2px solid #888a85
+    margin-bottom: 30px
+    padding-bottom: 22px
+    width: 100%
+    max-width: 842px
+    & .passengers, & .notes
+      margin-left: 10px
+      overflow-y: visible
+    & .run-details
+      & .title
+        font-weight: bold
+        padding-bottom: 5px
+        margin-left: 10px
+    & .time
+      padding-top: 5px
+      display: inline-block
+      color: red
+    &:hover
+      padding-left: 0
+    & .subscription
+      //display: table
+      //border-collapse: collapse
+      // position: relative
+      // float: right
+      & .sub
+        // margin-left: 350px
+        // padding-left: -500px
+        height: 70px
+        min-width: 100%
+        // display: table-row
+        //border: 2px solid black
+        // align-content: stretch
+        & .user, & .car
+          //display: table-cell
+          border: 2px solid black
+          width: 150px
+          font-size: 25px
+          height: 50px
+  //@media (min-height: 266mm) and (max-height: 288mm) and (min-width: 179mm) and (max-width: 201mm)
+  //  height: 15vh
+  .btn-container
+    display: none
+  .run .run-details .date
+    left: -86px
+    top: -5px
+    width: 130px
+    height: 50px
+    font-size: 36px
+  //.waypoint
+  //  max-width: 200px
+  .waypoints
+    margin-top: 10px
+    margin-bottom: 10px
+  .waypoint-list
+    margin-right: 20px
+    max-width: 800px
+  .waypoint-list .glyphicon
+    padding-top: -12px
+    font-weight: lighter
+    font-size: 16px
+    padding-left: 0px
+    padding-right: 10px

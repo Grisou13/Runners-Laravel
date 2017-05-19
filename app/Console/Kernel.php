@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\CheckRunsBeforePlanned;
+use App\Console\Commands\CreateAppRelease;
 use App\Console\Commands\DeleteDatabase;
 use App\Console\Commands\EchoTest;
 use App\Console\Commands\OverideRunDatesToToday;
@@ -25,7 +26,8 @@ class Kernel extends ConsoleKernel
         DeleteDatabase::class,
         OverideRunDatesToToday::class,
         EchoTest::class,
-        RunListCommand::class
+        RunListCommand::class,
+        CreateAppRelease::class
     ];
 
     /**
@@ -36,11 +38,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-      if((bool)env("APP_DEBUG"))
-        $schedule->command("runs:update_date")->hourly();
+      // if((bool)env("APP_DEBUG"))
+      //   $schedule->command("runs:update_date")->hourly();
         // $schedule->command('inspire')
         //          ->hourly();
-      $schedule->command(CheckRunsBeforePlanned::class)->evenInMaintenanceMode();
+      $schedule->command(CheckRunsBeforePlanned::class)->evenInMaintenanceMode()->everyMinute();
     }
 
     /**
