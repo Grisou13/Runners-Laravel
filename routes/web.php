@@ -31,6 +31,8 @@ Route::resource('cars', 'CarController');
 Route::resource("comments","CommentController",["only"=>"destroy"]);
 
 $router->get("/runs/display","RunController@display");
+$router->get("/runs/pdf","RunController@pdf");
+$router->get("/runs/pdf/template","RunController@pdfTemplate");
 $router->resource("runs","RunController");
 $router->post("runs/{run}/comments", ["as"=>"runs.comments.store","uses"=>"RunController@addComment"]);
 

@@ -18,9 +18,13 @@ class RunSubObserver
 {
   public function subscribe($events)
   {
+//    $events->listen(
+//      'App\Events\WaypointSavingEvent',
+//      [$this,'saving']
+//    );
     $events->listen(
-      'App\Events\WaypointSavingEvent',
-      [$this,'saving']
+      'App\Events\WaypointSavedEvent',
+      [$this,'saved']
     );
     $events->listen(
       'App\Events\WaypointCreatingEvent',
@@ -35,6 +39,12 @@ class RunSubObserver
       $self->latlng = $self->geo["geometry"]["location"];
   }
   public function saving(WaypointSavingEvent $event)
+  {
+    $point = $event->waypoint;
+    if($point->geo == null)
+      dispatch(new ProcessWaypoint($point));
+  }
+  public function saved(WaypointSavingEvent $event)
   {
     $point = $event->waypoint;
     if($point->geo == null)

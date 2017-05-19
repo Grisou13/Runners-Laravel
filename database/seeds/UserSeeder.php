@@ -14,9 +14,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         $sta = \App\Helpers\Status::getUserStatus("actif");
-        $id_role = Lib\Models\Role::where("role", "runner")->first()->id;
-
+        User::unguard();
         Lib\Models\User::create([
+            "id"=>0,
             "email"=>"root@localhost",
             "phone_number"=>"",
             "sex"=>true,
@@ -24,25 +24,23 @@ class UserSeeder extends Seeder
             "firstname"=>"root",
             "name"=>"rootsey",
             "lastname"=>"toor",
-            "password"=>bcrypt("root"),
-            "status"=>$sta,
-            "role_id"=>Lib\Models\Role::where("role", "admin")->first()->id
+            "password"=>bcrypt("root")
         ]);
 
         // création d'un utilisateur driver
-        Lib\Models\User::create([
+        
+        $user = Lib\Models\User::create([
+          "id"=>1,
           "email" => "runner@localhost",
           "phone_number" => "",
           "sex"=>true,
           "accesstoken" => "runner",
           "firstname" => "runner",
-          "name" => "runnsey",
           "lastname" => "rennur",
-          "password"=>bcrypt("runner"),
-          "role_id" => $id_role,
-          "status"=>$sta
-
+          "password"=>bcrypt("runner")
         ]);
+        User::reguard();
+        $user->assignRole("runner");
         /*factory(Lib\Models\User::class,10)->create()->each(function($user){
           $img = factory(Lib\Models\Image::class)->states("profile")->make(["user_id"=>$user->id]);
           $img->save();

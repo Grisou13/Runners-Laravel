@@ -30,7 +30,7 @@ class RunObserver
     $events->listen(
       'App\Events\RunSubscriptionDeletedEvent',
       [$this,'updateRunStatus']);
-    
+
     $events->listen(
       'App\Events\RunSavingEvent',
       [$this,'savingRun']
@@ -50,8 +50,11 @@ class RunObserver
     $run = $event->run;
     if($run->ended_at == null)
       $run->ended_at = Carbon::now();
+
+    $run->status = "finished";
+
   }
-  
+
   public function savingRun(RunSavingEvent $event)
   {
     //update all subscriptions notifying them they are gone
@@ -60,7 +63,7 @@ class RunObserver
   }
   public function updateRunStatus($event)
   {
-    
+
     $run = $event->run;
     $status = $run->status;
     $this->adaptRunStatus($run);
@@ -70,9 +73,9 @@ class RunObserver
   }
   public function runWasDeleted(RunDeletedEvent $event)
   {
-    event(new RunFinishedEvent($event->run));
+    // event(new RunFinishedEvent($event->run));
   }
-  
+
   protected function runNotReady(Run $run){
     //TODO retalk to product manager if implemented?
 //    $seats = $run->subscriptions->map(function($sub){
@@ -84,15 +87,21 @@ class RunObserver
 //            if($run->subscriptions()->where("car_id","!=",null)->count())//check if all subs have a car
 //              $run->status = "missing_car";
 //            else
-      if(Carbon::now("+1h")->lte($run->planned_at))
+      if(Carbon::now("+15min")->lte($run->planned_at))
         $run->status = "error";
       else
         $run->status="needs_filling";
   }
   protected function adaptRunStatus(Run $run)
   {
+    if($run->ended_at != null){
+      $run->status = "finished";
+      return $run;
+    }
+
     $sub_count = $run->subscriptions()->count();
-    if($run->status != "gone")
+
+    if($run->status != "gone" || $run->status != "finished")
     {
       if($sub_count > 0 )
       {
@@ -112,6 +121,6 @@ class RunObserver
       if($run->subscriptions()->ofStatus("finished")->count() == $sub_count)
         $run->status = "finished";
     }
-    
+
   }
 }

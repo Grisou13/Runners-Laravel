@@ -13,6 +13,7 @@ return [
     */
 
     'name' => 'Runners',
+    'version' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -172,9 +173,15 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        /*
-         * Application Service Providers...
-         */
+//        Barryvdh\DomPDF\ServiceProvider::class,
+  
+//        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+  
+      /*
+       * Application Service Providers...
+       */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
@@ -182,6 +189,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FormBuilderProvider::class,
         Api\ApiServiceProvider::class,
+      
 
     ],
 
@@ -236,8 +244,12 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
         /*App alisaes*/
-        //
+//        'PDF' => Barryvdh\DomPDF\Facade::class,
+//        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
     ],
 
 ];

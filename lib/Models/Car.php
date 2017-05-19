@@ -8,11 +8,15 @@ use App\Concerns\StatusConcern;
 use App\Helpers\Status;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Watson\Validating\ValidatingTrait;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
 class Car extends Model
 {
-    use SoftDeletes, BelongsToThrough, StatusConcern;
+    use SoftDeletes, BelongsToThrough, StatusConcern, ValidatingTrait;
+    public $rules = [
+      "car_type_id"=>"exists:car_types,id"
+    ];
     protected $fillable = [
         "plate_number","brand","model","color","nb_place","comment","name"
     ];

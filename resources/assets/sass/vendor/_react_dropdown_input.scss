@@ -1,0 +1,23 @@
+.dropdown-input.dropdown-menu > li > a {
+  &:hover,
+  &:focus {
+    color: $dropdown-link-color;  // #333
+    background-color: $dropdown-bg; // #fff
+}
+}
+.dropdown-input.dropdown-menu{
+  width: 100%;
+}
+.dropdown-input.dropdown-menu > .active > a {
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: $dropdown-link-hover-color;  // #fff
+    background-color: $dropdown-link-hover-bg;  // #337ab7
+}
+}
+.dropdown-input.dropdown-menu>.active.disabled>a {
+  text-decoration: none;
+  color: $dropdown-link-disabled-color; // #777
+  background-color: $dropdown-bg; // #fff
+}

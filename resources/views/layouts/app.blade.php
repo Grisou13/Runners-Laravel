@@ -14,6 +14,7 @@
     <link href="{{ asset("/css/app.css") }}" rel="stylesheet">
     <link href="{{ asset("/css/style.css") }}" rel="stylesheet">
     <link href="{{ asset("/css/sweetalert.css") }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset("/css/comment.css") }}">
     {{--<link href="{{ asset("/css/theme.css") }}" rel="stylesheet">--}}
 
 
@@ -30,7 +31,7 @@
 
         var api  = window.api = axios.create({
             baseURL: "{!! url("/api") !!}",
-            timeout: 5000,
+            timeout: 10000,
             contentType:"application/json",
             headers: {'X-Access-Token': window.Laravel.token}
         });
@@ -52,7 +53,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'Laravel') }} - {{ app_version() }}
                     </a>
                 </div>
 
@@ -105,9 +106,11 @@
     <!-- Scripts -->
     <script src="{{ asset("/js/sweetalert.js") }}"></script>
     <script src="{{ asset("/js/app.js") }}"></script>
-    {{--<script src="{{ asset("/js/padlock.js") }}"></script>--}}
     <script src="{{ asset("/js/display-comments.js") }}"></script>
+    <script src="{{ asset("/js/html2canvas.js") }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
 {{--    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>--}}
+    {{--<script src="{{ asset("/js/padlock.js") }}"></script>--}}
     @stack("scripts")
 </body>
 </html>

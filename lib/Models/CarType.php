@@ -16,6 +16,9 @@ class CarType extends Model
     {
       return 'name';
     }
+    public function setNameAttribute($val){
+      $this->attributes["name"] = strtoupper($val);
+    }
     public function scopeFree()
     {
       return $this->whereHas("cars",function($q){

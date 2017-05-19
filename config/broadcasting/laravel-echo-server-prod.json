@@ -9,9 +9,11 @@
 	],
 	"database": "redis",
 	"databaseConfig": {
-		"redis": {},
+		"redis": {
+          "host":"cache"
+        },
 		"sqlite": {
-			"databasePath": "./../../database/laravel-echo-server.sqlite"
+			"databasePath": "/laravel-echo-server-staging-prod.sqlite"
 		}
 	},
 	"devMode": false,
