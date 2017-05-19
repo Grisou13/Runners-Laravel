@@ -111,21 +111,21 @@ const getVisibleRuns = (runs, filters) => {
     if(filters.status.length)
         runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
     if(filters.name.length)
-        runs = runs.filter(r => r.title.startsWith(filters.name))
+        runs = runs.filter(r => r.title.toLowerCase().startsWith(filters.name))
     if(filters.user.length)
       runs = runs.filter(r => {
-         if ( r.runners.filter( r => r.user && r.user.name.startsWith(filters.user)).length )
+         if ( r.runners.filter( r => r.user && r.user.name.toLowerCase().startsWith(filters.user)).length )
           return r
       })
     if(filters.car.length)
         runs = runs.filter(r => {
           //check cars and car types
-           if ( r.runners.filter( r => r.car && r.car.name.startsWith(filters.car)).length ||  r.runners.filter( r => r.car_type && r.car_type.name.startsWith(filters.car)).length)
+          if ( r.runners.filter( r => r.car && r.car.name.toLowerCase().startsWith(filters.car)).length ||  r.runners.filter( r => r.vehicule_category && r.vehicule_category.type.toLowerCase().startsWith(filters.car)).length)
             return r
         })
     if(filters.waypoint_in.length)
       runs = runs.filter( r => {
-        if(r.waypoints.filter(p => p.nickname.startsWith(filters.waypoint_in)).length)
+        if(r.waypoints.filter(p => p.nickname.toLowerCase().startsWith(filters.waypoint_in)).length)
           return r
       })
     // filters.forEach((f, key)=>{

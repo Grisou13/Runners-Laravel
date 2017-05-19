@@ -135,18 +135,24 @@ class CreateAppRelease extends Command
      */
     protected function merge($from, $to)
     {
-      $this->info(shell_exec('git checkout ' . $to));
-      $output = shell_exec('git merge --no-ff ' . $from);
-      
-      if (strstr($output, 'CONFLICT')) {
-        $this->error($output);
+      exec('git checkout ' . $to, $output, $ret);
+      if($ret != 0) {
+        $this->error(implode("\n",$output));
         return false;
       }
+      $this->info(implode("\n",$output));
+      exec('git merge --no-ff ' . $from, $output, $ret);
+      if ($ret != 0) {
+        $this->error(implode("\n",$output));
+        return false;
+      }
+      $this->info(implode("\n",$output));
       return true;
     }
     protected function createRelease($type){
       $version = $this->nextRelease($this->current, $type);
       if($version == $this->current || is_null($version)){
+        $this->error("Error creating version $version| $this->current");
         return false;
       }
       $branch_name = GitBranch::createFromGitRootDir(base_path())->getName();
@@ -194,7 +200,7 @@ class CreateAppRelease extends Command
    */
     protected function nextRelease($current_version, $type = ""){
 //      $regex = '/v(\d)\.(\d)\.(\d{1,'.(strlen(self::MAX_BUILD_VERSION)).'})(?:-rc)?(\d{1,'.(strlen(self::MAX_RC_VERSION)).'})?(?:-)?(beta|alpha)?$/';
-      $regex = '/v(\d)\.(\d)\.(\d)(?:-)?(beta|dev|stable)?$/';
+      $regex = '/v?(\d)\.(\d)\.(\d)(?:-)?(beta|dev|stable)?$/';
       dump($regex);
       dump($current_version);
       preg_match_all($regex, $current_version, $matches, PREG_SET_ORDER, 0);
@@ -206,10 +212,11 @@ class CreateAppRelease extends Command
 
       $isDev = isset($matches[0][4]); //array 4 contains rc version too
       function buildVersion($major, $minor, $build, $extra = ""){
-        return "{$major}.{$minor}.{$build}{$extra}";
+        return "v{$major}.{$minor}.{$build}{$extra}";
       }
-      if($build < self::MAX_BUILD_VERSION)
-        $build ++;
+      if($build < self::MAX_BUILD_VERSION) {
+        $build++;
+      }
       else{
         $build = 0;
         if($minor < self::MAX_MINOR_VERSION)
@@ -219,6 +226,7 @@ class CreateAppRelease extends Command
           $major ++;
         }
       }
+      dump([$major, $minor, $build]);
       $extra = "";
       switch($type){
         case "beta":
@@ -231,7 +239,7 @@ class CreateAppRelease extends Command
           $extra = "-stable";
           break;
       }
-      return buildVersion($major,$minor,$build +1,$extra);
+      return buildVersion($major,$minor,$build,$extra);
     }
     public function handle()
     {

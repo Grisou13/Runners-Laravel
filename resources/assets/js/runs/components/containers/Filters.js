@@ -12,6 +12,7 @@ import {removeStatusFilter} from "../../actions/filters";
 import {addStatusFilter} from "../../actions/filters";
 import {updateTimeEnd} from "../../actions/filters";
 import {updateTimeStart, updateUser, updateName, updateCar} from "../../actions/filters";
+import {updateWaypointIn} from "../../actions/filters";
 
 class Filters extends React.Component{
     render(){
@@ -25,7 +26,7 @@ class Filters extends React.Component{
                 <div className="col-md-6">
                   <div className="filter-race" >
                   <TimeFilter time={this.props.time} changeTimeEnd={(t)=>this.props.dispatch(updateTimeEnd(t))} changeTimeStart={(t)=>this.props.dispatch(updateTimeStart(t))} />
-                  <WaypointFilter waypoint_in={this.props.waypoint_in} changeWaypointIn={()=>this.props.dispatch()} />
+                  <WaypointFilter waypoint_in={this.props.waypoint_in} changeWaypointIn={(p)=>this.props.dispatch(updateWaypointIn(p))} />
                   </div>
                   <div className=" pull-right">
                     <StatusFilter status={this.props.status} addFilter={(s)=>this.props.dispatch(addStatusFilter(s))} removeFilter={(s)=>this.props.dispatch(removeStatusFilter(s))} />
