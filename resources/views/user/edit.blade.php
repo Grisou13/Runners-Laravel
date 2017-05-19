@@ -5,7 +5,7 @@ User: Joel.DE-SOUSA
 
 @section("content")
 <div class="row">
-  @include("partials.elements.padlock")
+{{--@include("partials.elements.padlock")--}}
 </div>
 
 @include("partials.user.edit")

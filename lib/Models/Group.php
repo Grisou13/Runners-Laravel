@@ -23,7 +23,7 @@ class Group extends Model
     public function scopeActifUser($query){
       return $query->whereHas("users",function($q){
 //        $q->where("status",Status::getUserStatus("active_user"));
-          $q->whereNotNull("status");
+          $q->where("status", "free");
       });
     }
 

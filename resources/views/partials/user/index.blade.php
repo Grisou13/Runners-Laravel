@@ -4,9 +4,9 @@ User: Joel.DE-SOUSA
 <table class="table table-striped table-bordered">
   <thead>
       <tr>
-          <td>First name</td>
-          <td>Last name</td>
-          <td>Telephone number</td>
+          <td>Prénom</td>
+          <td>Nom</td>
+          <td>Numéro de téléphone</td>
           <td>Status</td>
       </tr>
   </thead>

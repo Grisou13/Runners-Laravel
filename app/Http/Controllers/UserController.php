@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateUserRequest;
 use Session;
 use Lib\Models\User;
 use Lib\Models\Image;
+use Lib\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
@@ -100,6 +101,7 @@ class UserController extends Controller
   {
       $user = new User;
       $user->fill($request->except("_token"));
+      $user->role()->associate(Role::where("role","runner")->first());
       $user->save();
       return redirect()->route("users.show",$user);
   }

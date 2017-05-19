@@ -26,7 +26,7 @@ class Run extends Model
       "name"=>"required_if:artist,''",
     ];
     protected $fillable = [
-        "name","planned_at","nb_passenger"
+        "name","planned_at","nb_passenger","note"
     ];
     protected $guarded = [
       "started_at","ended_at"
@@ -55,7 +55,14 @@ class Run extends Model
       'deleted' => RunDeletedEvent::class,
       'updated' => RunUpdatedEvent::class
     ];
-
+    public function getTimeAttribute()
+    {
+      return $this->planned_at->format("h:i");
+    }
+  public function getDateAttribute()
+  {
+    return $this->planned_at->format("d/m");
+  }
     public function setArtistAttribute($value)
     {
       return $this->attributes["name"]=$value; //instead set the run name prop

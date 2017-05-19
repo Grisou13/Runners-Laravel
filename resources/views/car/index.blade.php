@@ -6,12 +6,12 @@ User: Joel.DE-SOUSA
 @section("content")
 <div class="row">
   <div class="col-md-11">
-    <a href="{{ route("cars.create") }}" class="btn btn-default navbar-btn disabled" id="create-user">Create a car</a>
+    <a href="{{ route("cars.create") }}" class="btn btn-default navbar-btn" id="create-user">Créer une voiture</a>
   </div>
-  @include("partials.elements.padlock")
+  {{--@include("partials.elements.padlock")--}}
 </div>
 
-<h1>All the Cars</h1>
+<h1>Toutes les voitures</h1>
 
 <!-- will be used to show any messages -->
 @include("partials.car.index",["cars"=>$cars])

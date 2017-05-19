@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRunRequest;
+use App\Http\Requests\CreateCommentRequest;
+use App\Http\Requests\RunPdfRequest;
 use Auth;
+use Lib\Models\RunSubscription;
+use PDF;
 use Dingo\Api\Exception\ValidationHttpException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Validation\ValidationException;
@@ -14,6 +18,7 @@ use Dingo\Api\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 use Lib\Models\User;
 use Lib\Models\Waypoint;
+use Lib\Models\Comment;
 
 class RunController extends Controller
 {
@@ -92,7 +97,7 @@ class RunController extends Controller
      */
     public function edit(Request $request,Run $run)
     {
-      return view("run.create")->with("run",$run)->with("car_types",CarType::all())->with("waypoints", Waypoint::all())->with("cars",Car::all())->with("users",User::all());
+      return view("run.edit")->with("run",$run)->with("car_types",CarType::all())->with("waypoints", Waypoint::all())->with("cars",Car::all())->with("users",User::all());
     }
 
     /**
@@ -134,5 +139,44 @@ class RunController extends Controller
     {
         $this->api->delete(app(UrlGenerator::class)->version("v1")->route("runs.destroy",$run));
         return redirect()->back();
+    }
+
+    public function addComment(CreateCommentRequest $request, Run $run){
+      $comment = new Comment;
+      $comment->fill($request->except("user"));
+      $comment->commentable()->associate($run);
+      if($request->has("user"))
+          $user = User::find($request->get("user"));
+      else
+          $user = $request->user();
+      $comment->user()->associate($user);
+      $comment->save();
+      return redirect()->back();
+    }
+    public function pdf(RunPdfRequest $request){
+      \Debugbar::disable();
+      if($request->has("runs"))
+        $runs = Run::find($request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
+      else
+        $runs = Run::with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
+      return view("run.pdf",compact("runs"));
+      $pdf = PDF::loadView('run.pdf', compact("runs"));
+      
+      
+      $pdf->save(storage_path("run.pdf"));
+      
+      
+      file_put_contents(base_path("storage/test.html"),$pdf->html);
+      return $pdf->setPaper('a3')->setOrientation('landscape')->setOption('margin-bottom', 0)->inline("runs.pdf");
+
+    }
+    public function pdfTemplate(Request $request)
+    {
+      $run = new Run;
+      $sub = new RunSubscription();
+
+      $pdf = PDF::loadView('run.pdf-item', compact("run"));
+
+      return $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("run-template.pdf");
     }
 }

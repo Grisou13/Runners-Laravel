@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Lib\Models\User;
+use Lib\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -13,8 +14,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         $sta = \App\Helpers\Status::getUserStatus("actif");
-
+        User::unguard();
         Lib\Models\User::create([
+            "id"=>0,
             "email"=>"root@localhost",
             "phone_number"=>"",
             "sex"=>true,
@@ -22,9 +24,23 @@ class UserSeeder extends Seeder
             "firstname"=>"root",
             "name"=>"rootsey",
             "lastname"=>"toor",
-            "password"=>bcrypt("root"),
-            "status"=>$sta
+            "password"=>bcrypt("root")
         ]);
+
+        // création d'un utilisateur driver
+        
+        $user = Lib\Models\User::create([
+          "id"=>1,
+          "email" => "runner@localhost",
+          "phone_number" => "",
+          "sex"=>true,
+          "accesstoken" => "runner",
+          "firstname" => "runner",
+          "lastname" => "rennur",
+          "password"=>bcrypt("runner")
+        ]);
+        User::reguard();
+        $user->assignRole("runner");
         /*factory(Lib\Models\User::class,10)->create()->each(function($user){
           $img = factory(Lib\Models\Image::class)->states("profile")->make(["user_id"=>$user->id]);
           $img->save();
@@ -42,7 +58,7 @@ class UserSeeder extends Seeder
           ["Julien", "Borel", 1]
         ]);
 
-        $users->each(function($user){
+        $users->each(function($user) use($id_role){
           User::create([
             "firstname" => $user[0],
             "lastname" => $user[1],
@@ -51,6 +67,7 @@ class UserSeeder extends Seeder
             "password" => bcrypt('secret'),
             "phone_number" => "07" . rand(7,9) . " " . rand(100,999) . " " . rand(10, 99) . " " . rand(10, 99),
             "sex" => $user[2],
+            "role_id" => $id_role,
             "remember_token" => str_random(10),
             "accesstoken"=>str_random(255)
           ]);

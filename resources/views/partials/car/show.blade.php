@@ -16,21 +16,21 @@ User: Joel.DE-SOUSA
                 </div>
 
                 <div class="form-group">
-                  <label for="brand" class="col-md-4 control-label">Brand </label>
+                  <label for="brand" class="col-md-4 control-label">Marque </label>
                   <div class="col-md-6">
                     {{$car->brand}}
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="model" class="col-md-4 control-label">Model </label>
+                  <label for="model" class="col-md-4 control-label">Modèle </label>
                   <div class="col-md-6">
                     {{$car->model}}
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="color" class="col-md-4 control-label">Color </label>
+                  <label for="color" class="col-md-4 control-label">Couleur </label>
                   <div class="col-md-6">
                     {{$car->color}}
                   </div>

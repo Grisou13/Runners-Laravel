@@ -13,6 +13,7 @@ use App\Helpers\Status;
 use App\Http\Requests\CreateCommentRequest;
 use Api\Requests\ListCarRequest;
 use Lib\Models\Car;
+use Lib\Models\CarType;
 use Lib\Models\Run;
 use Lib\Models\User;
 use Lib\Models\Comment;
@@ -74,9 +75,9 @@ class CarController extends BaseController
         });
         $query->whereIn("id",$cars->all());
       }
-      
+
       return $query->get();
-      
+
     }
     public function show(Request $request, Car $car)
     {
@@ -88,7 +89,9 @@ class CarController extends BaseController
         $car->update($request->all());
         if($request->has("car_type"))
         {
-          $car->car_type()->associate($request->get("car_type"));
+          $type = $request->get("car_type");
+          $t = CarType::firstOrCreate(["id"=>$type],["name"=>$type]);
+          $car->type()->associate($t);
         }
         $car->save();
         return $this->response()->accepted();
@@ -97,12 +100,20 @@ class CarController extends BaseController
     {
         $car = new Car;
         $car->fill($request->all());
+        $type = $request->get("car_type");
+        $t = CarType::firstOrCreate(["id"=>$type],["name"=>$type]);
+        $car->type()->associate($t);
+        
+        $car->type()->associate($t);
         $car->save();
         return $this->response()->created();
     }
     public function delete(Car $car)
     {
         return $car->delete();
+    }
+    public function showAllComments(Request $request, Car $car){
+      return $car->comments;
     }
     public function addComment(CreateCommentRequest $request, Car $car){
         $comment = new Comment;
@@ -121,5 +132,6 @@ class CarController extends BaseController
     }
     public function removeComment(Request $request, Comment $comment){
       $comment->delete();
+      
     }
 }

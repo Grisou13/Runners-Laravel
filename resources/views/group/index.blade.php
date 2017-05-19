@@ -10,7 +10,6 @@
 <script src="{{ asset("/js/groupManagement.js") }}"></script>
 @endpush
 @section("content")
-
 <div class="l">
     <div class="row" >
         <div class="col-md-1">
@@ -28,9 +27,10 @@
     </div>
     <div class="row">
         @endif
-        <div id="container-{{$group->id}}" class="panel panel-default col-md-2 disabledbutton" style="background-color:#{{$group->color}};">
-            <div class="panel-heading" style="background-color:#{{$group->color}}; opacity:0.3px !important;">{{$group->label}}</div>
+        <div id="container-{{$group->id}}" class="panel panel-default col-md-2" style="background-color:#{{$group->color}};">
+            <div class="panel-heading" style="background-color:#{{$group->color}}; opacity:0.3px !important;" >{{$group->label}}</div>
             <!-- display the users in the group -->
+            {{----}}
             @foreach($group->users as $user)
                 <div id="{{$user->id}}" class="panel-body">
                     {{$user->firstname}}  {{$user->lastname}}
@@ -44,7 +44,7 @@
     <div class="row">
 
         <!--  Display the list for users wihtout group -->
-        <div id="container-null" class="panel panel-default col-md-2 disabledbutton">
+        <div id="container-null" class="panel panel-default col-md-2">
             <div class="panel-heading">Sans groupe</div>
             @foreach($no_group as $user)
                 <div id="{{$user->id}}" class="panel-body">
@@ -53,7 +53,7 @@
             @endforeach
         </div>
         <!-- New group -->
-        <button type="button" class="btn btn-default disablesecondbutton" onclick="getNewGroup()" disabled>Créer groupe</button>
+        <button type="button" class="btn btn-default" onclick="getNewGroup()" >Créer groupe</button>
 
     </div>
 </div>

@@ -23,6 +23,7 @@ use Lib\Models\CarType;
 use Lib\Models\Run;
 use Lib\Models\RunSubscription;
 use Lib\Models\User;
+use Carbon\Carbon;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -102,7 +103,7 @@ class SubscriptionController extends BaseController
     }
     if($request->has("car_type"))
       $sub->car_type()->associate($request->get("car_type"));
-    
+
     $sub->save();
     return $sub;
   }
@@ -142,6 +143,14 @@ class SubscriptionController extends BaseController
   public function stop(RunSubscription $sub)
   {
     $sub->status="finished";
+    $sub->ended_at = Carbon::now();
+    $sub->save();
+    return $sub;
+  }
+  public function start(RunSubscription $sub)
+  {
+    $sub->status="gone";
+    $sub->started_at = Carbon::now();
     $sub->save();
     return $sub;
   }

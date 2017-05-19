@@ -49,11 +49,17 @@ function ajaxRequest(method, url, data, callback) {
 }
 
 function updateCell(cellID){
+    console.log("UPDATE UPDATE UPDATE");
     let cell = document.getElementById(cellID);
     cellID = cellID.split("-");
     let groupID = cellID[0];
     let startHour = schedule[cellID[1]];
-    let endHour = schedule[cellID[1]];
+    let endHour = moment.duration(startHour).add("00:30", "minutes");
+    let minutes = null;
+    // turn 18:00 to 18:30 and 18:30 to 19:00
+    endHour.minutes().toString().length == 1 ? minutes = endHour.minutes().toString() + "0" : minutes = endHour.minutes().toString();
+    endHour = endHour.hours().toString() + ":" + minutes;
+
     let date = cellID.splice(2,3).join("-");
     let selGrp = groups.filter(function(x){
         return x.id == groupID;
@@ -66,7 +72,7 @@ function updateCell(cellID){
     }else{
         cell.dataset.assigned = "true";
         cell.style.backgroundColor = "#" + selGrp.color;
-        let url = window.Laravel.basePath + "/api/groups/"+groupID+"/schedules?token=root";
+        let url = window.Laravel.basePath + "/api/groups/"+groupID+"/schedules?token=root"
         let data = {
             "start_time": date + " " + startHour,
             "end_time": date + " " + endHour,
@@ -121,7 +127,6 @@ function createTable(schedule, groups, day, gridID){
 
         bodyTR.appendChild(td);
         schedule.forEach(function(hour){
-
             schedule.indexOf(hour) % 2 == 0 ? bgColor = "white" : bgColor = "#ECEFF1";
             // if(hour == "08")
             var td = document.createElement("td");
@@ -134,6 +139,7 @@ function createTable(schedule, groups, day, gridID){
             if(typeof group.schedules !== 'undefined' && group.schedules.length > 0){
                 group.schedules.forEach(function(p){
                     let datetime = p.start_time.split(" ");
+
                     if((datetime[0] === day) && (datetime[1] === hour+":00")){
                         td.style.backgroundColor = "#" + group.color;
                         td.dataset.scheduleId = p.id;
@@ -168,7 +174,6 @@ function createTable(schedule, groups, day, gridID){
                 return false;
             });
             td.addEventListener("mouseup",function(e){
-
 
                 // update the state of each selected div
                 // TODO use time-slot instead of using each cell independently
