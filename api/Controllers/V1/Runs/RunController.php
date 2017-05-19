@@ -51,6 +51,8 @@ class RunController extends BaseController
               $query->orderBy($column,$sorting);
           }
       }
+      if(!$request->has("finished"))
+        $query->notOfStatus("finished");
       return $this->response()->collection($query->get(), new RunTransformer);
     }
     public function search(SearchRequest $request)
@@ -69,11 +71,11 @@ class RunController extends BaseController
         $subs = [];
         if($request->has("subscriptions")) {
           $t = collect($request->get("subscriptions", []));
-          $run->subscriptions->each(function(RunSubscription $sub) use ($t){
-            if(!$t->contains("id",$sub->id))
+          $run->subscriptions()->whereNotIn("id",$t->pluck("id")->filter(function($i){return !is_null($i);}))->get()->each(function(RunSubscription $sub) use ($t){
+            // if(!$t->contains("id",$sub->id))
               $sub->forceDelete();
-          });//empty the shit out of the runners
-          
+          });//reset the subscriptions of a run
+
           foreach ($request->get("subscriptions", []) as $convoy) {
             $userId = array_key_exists("user", $convoy) ? $convoy["user"] : null;
             $carId = array_key_exists("car", $convoy) ? $convoy["car"] : null;
@@ -89,14 +91,16 @@ class RunController extends BaseController
               $subs[] = $sub;
             }
           }
-          
+
         }
         if($request->has("waypoints")) {
           $run->waypoints()->sync([]);//remove all waypoints and reassign them
-          foreach($request->get("waypoints") as $point)
-            $run->waypoints()->attach($point);
+          foreach($request->get("waypoints") as $point){
+            $run->waypoints()->attach(Waypoint::firstOrCreate(["name"=>$point]));
+          }
+
         }
-        
+
         $run->save();
         foreach($subs as $s){
           $s->save();
@@ -104,11 +108,15 @@ class RunController extends BaseController
         broadcast(new RunUpdatedEvent($run));
         return $run;
     }
+    protected function addSubsToRun(Request $request, Run $run)
+    {
+      //TODO implement this method, just to DRY up codebase
+    }
     public function store(CreateRunRequest $request)
     {
         $run = new Run;
         $subs = [];
-        
+
         foreach($request->get("subscriptions",[]) as $convoy)
         {
           $userId = array_key_exists("user",$convoy) ? $convoy["user"] : null;
@@ -120,21 +128,21 @@ class RunController extends BaseController
           $sub->car_type()->associate($carTypeId);
           $subs[] = $sub;
         }
-        
+
         $run->fill($request->except(["_token","token"]));
         if($run->name == null)
           $run->name =  $request->get("title",$request->get("artist"));
-      
+
         $run->save();
         //save relationships
         if(count($subs))
           $run->subscriptions()->saveMany($subs);
-  
+
         foreach($request->get("waypoints") as $point){
-          $run->waypoints()->attach($point);//need to attach 1 by 1 to calculate order
+          $run->waypoints()->attach(Waypoint::firstOrCreate(["name"=>$point]));//need to attach 1 by 1 to calculate order
         }
 
-        
+
       return $run;
       //return $this->response->item($run, new RunTransformer);
         //return $this->response()->created($content=$run);
@@ -149,11 +157,15 @@ class RunController extends BaseController
     public function start(Request $request,Run $run)
     {
       //check all subscriptions if they are good
-        foreach($run->subscriptions as $sub)
+        if(!$this->user()->can("force run start"))
         {
-            if(!$sub->has("car") && $sub->has("user"))
-               throw new NotAcceptableHttpException("All runners have not been filled, please fill run subscription $sub->id");
+          foreach($run->subscriptions as $sub)
+          {
+            if(($sub->car_id == null || $sub->user_id == null) || ($sub->car_id != null || $sub->user_id == null) || ($sub->car_id == null || $sub->user_id != null))
+              throw new NotAcceptableHttpException("All runners have not been filled, please fill run subscription $sub->id");
+          }
         }
+        
 //        $seats = $run->subscriptions->map(function($sub){
 //          return $sub->car->nb_place;
 //        })->sum();
@@ -163,7 +175,10 @@ class RunController extends BaseController
         $run->status="gone";
         $run->subscriptions->each(function($sub){
           $sub->status = "gone";
+          $sub->started_at = Carbon::now();
+          $sub->save();
         });
+        $run->save();
       //TODO: rethink where to put this event
       //notify the run has started, this will triger observers that will put every utalised car and runner on "gone" status
         event(new RunStartedEvent($run));
@@ -176,30 +191,31 @@ class RunController extends BaseController
       $run->status="finished";
       $run->subscriptions->each(function($sub){
         $sub->status = "finished";
+        $sub->ended_at = Carbon::now();
         $sub->save();
         $sub->delete();
       });
       $run->save();
       event(new RunStoppedEvent($run));
-      broadcast(new RunUpdatedEvent($run));
-      $run->delete();
+      // broadcast(new RunUpdatedEvent($run));
+      // $run->delete();
     }
     public function stop(Request $request, Run $run)
     {
       $user = $this->user();
-      if(!$user->can("end",$run))
+      if(!$user->can("end run"))
         throw new UnauthorizedHttpException("You are not allowed to finish a run");
       
-      $run->subscriptions->each(function($sub) use ($user){
-        if($user->id = $sub->user_id){
+      if($user->can("force run end"))
+        $this->terminateRun($run);
+      else{
+        $sub = $run->subscriptions()->whereHas("user",function($q) use($user){return $q->where("users.id",$user->id);})->first();
+        if($sub != null)
+        {
           $sub->status = "finished";
           $sub->save();
           return false;//terminate the loop
         }
-      });
-      if($user->car("forceEnd",Run::class))
-        $this->terminateRun($run);
-      else{
         if($run->subscriptions->every(function($sub){
           return $sub->status == "finished";
         }))

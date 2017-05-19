@@ -7,16 +7,16 @@ use App\Events\UserCreatingEvent;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Helpers\Status;
 use App\Concerns\StatusConcern;
 use App\Contracts\StatusableContract;
 
+use Spatie\Permission\Traits\HasRoles;
 use Watson\Validating\ValidatingTrait;
 
 class User extends Authenticatable implements StatusableContract
 {
 
-    use Notifiable,ValidatingTrait, StatusConcern;
+    use Notifiable,ValidatingTrait, StatusConcern, HasRoles;
     protected $rules = [
         'email'   => 'required|unique:users,email',
         'name'    => 'required|min:1',
@@ -93,4 +93,5 @@ class User extends Authenticatable implements StatusableContract
     {
         $this->attributes["name"] = $value ? $value : $this->attributes["firstname"]. " " .$this->attributes["lastname"];
     }
+    
 }

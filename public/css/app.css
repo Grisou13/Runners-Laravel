@@ -1,13 +1,20 @@
 @charset "UTF-8";
 @font-face {
-  font-family: 'Droid Serif';
+  font-family: 'DroidSerif';
   font-style: normal;
   font-weight: 400;
-  src: local("Droid Serif"), url("/fonts/DroidSerif.ttf") format("ttf");
+  src: local("DroidSerif"), url("/fonts/DroidSerif.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: 'DroidSerifBold';
+  font-style: normal;
+  font-weight: bold;
+  src: local("DroidSerifBold"), url("/fonts/DroidSerifBold.ttf") format("ttf");
 }
 
 html {
-  font-family: 'Droid Serif', serif;
+  font-family: 'DroidSerif', serif;
 }
 
 /*!
@@ -1387,7 +1394,7 @@ html {
 }
 
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: DroidSerif, Arial;
   font-size: 14px;
   line-height: 1.6;
   color: #636b6f;
@@ -6863,7 +6870,7 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Raleway", sans-serif;
+  font-family: DroidSerif, Arial;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -6997,7 +7004,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Raleway", sans-serif;
+  font-family: DroidSerif, Arial;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -7717,11 +7724,15 @@ button.close {
   transition: padding-left .2s ease-in-out;
 }
 
-.run-container:hover {
+.run-container a {
+  color: #636b6f;
+}
+
+.run-container:hover, .run-container.control-showed {
   padding-left: 120px;
 }
 
-.run-container:hover .btn-container {
+.run-container:hover .btn-container, .run-container.control-showed .btn-container {
   display: -webkit-box;
   display: flex;
 }
@@ -7742,6 +7753,10 @@ button.close {
   background-color: #ECEFF1;
 }
 
+.run .sub {
+  border-bottom: 1px solid black;
+}
+
 .run .run-details .date {
   width: 50px;
   height: 15px;
@@ -7750,9 +7765,9 @@ button.close {
   transform: rotate(-90deg);
   -webkit-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
-  left: -25px;
+  left: -16px;
   position: absolute;
-  top: 50px;
+  top: 48px;
 }
 
 .run .notes {
@@ -7765,16 +7780,6 @@ button.close {
 
 .run:nth-child(odd) {
   background-color: #cfd6db;
-}
-
-.run::before {
-  content: ' ';
-  height: 100%;
-  width: 15px;
-  margin-right: 5px;
-  position: absolute;
-  left: 0;
-  top: 0;
 }
 
 .ready {
@@ -7794,7 +7799,13 @@ button.close {
 }
 
 .gone {
-  background-color: #1B5E20;
+  background-color: #cfd6db;
+  opacity: 0.5;
+  transition: opacity .1s .2s;
+}
+
+.gone:hover, .gone .hovered {
+  opacity: 1;
 }
 
 .waypoint-list {
@@ -7871,6 +7882,10 @@ button.close {
   font-size: 1.2rem;
 }
 
+.display .run .run-details .notes {
+  font-size: 1.8rem;
+}
+
 .display .run .run-details .date {
   font-size: 3rem;
 }
@@ -7906,47 +7921,6 @@ button.close {
 
 .display .title {
   font-weight: bold;
-}
-
-.display .subscription {
-  min-height: 200px;
-  display: table;
-  margin-left: 30px;
-}
-
-.display .user, .display .car_type, .display .car {
-  height: auto;
-  min-height: 50px;
-  padding: auto;
-  vertical-align: middle;
-  font-weight: bold;
-  border-radius: 0;
-  margin: 0;
-  overflow: hidden;
-  display: table-cell;
-}
-
-@media (min-width: 1200px) {
-  .display .user {
-    border-left: 2px solid #b1bec6;
-    border-bottom: 2px solid #b1bec6;
-  }
-  .display .car {
-    border-bottom: 2px solid #b1bec6;
-    border-left: 2px solid #b1bec6;
-  }
-}
-
-@media (max-width: 1199px) {
-  .display .user {
-    border-top: 2px solid #b1bec6;
-    border-bottom: 2px solid #b1bec6;
-    border-left: 2px solid #b1bec6;
-  }
-  .display .car {
-    border-top: 2px solid #b1bec6;
-    border-bottom: 2px solid #b1bec6;
-  }
 }
 
 .display .user > span, .display .car_type > span, .display .car > span {
@@ -8010,6 +7984,147 @@ button.close {
 .btn-run {
   margin-bottom: 5px;
   width: 110px;
+}
+
+@media print {
+  .page-break {
+    page-break-after: always;
+  }
+  nav, .navbar, .filters, .no-print, .alert, .display-toggle, .time, .print-controls {
+    display: none;
+  }
+  .run-list {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .run-container {
+    display: block;
+    padding-left: 0;
+    border-top: 2px solid black;
+    margin-bottom: 30px;
+    padding-bottom: 22px;
+    width: 100%;
+    max-width: 842px;
+  }
+  .run-container .run {
+    font-size: 30px;
+    margin-top: 10px;
+    min-height: 150px;
+    margin-bottom: auto;
+    display: block;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+  }
+  .run-container .passengers, .run-container .notes {
+    margin-left: 10px;
+    overflow-y: visible;
+  }
+  .run-container .run-details .title {
+    font-weight: bold;
+    padding-bottom: 5px;
+    margin-left: 10px;
+  }
+  .run-container .time {
+    padding-top: 5px;
+    display: inline-block;
+    color: red;
+  }
+  .run-container:hover {
+    padding-left: 0;
+  }
+  .run-container .subscription .sub {
+    height: 70px;
+    min-width: 100%;
+  }
+  .run-container .subscription .sub .user, .run-container .subscription .sub .car {
+    border: 2px solid black;
+    width: 150px;
+    font-size: 25px;
+    height: 50px;
+  }
+  .btn-container {
+    display: none;
+  }
+  .run .run-details .date {
+    left: -86px;
+    top: -5px;
+    width: 130px;
+    height: 50px;
+    font-size: 36px;
+  }
+  .waypoints {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .waypoint-list {
+    margin-right: 20px;
+    max-width: 800px;
+  }
+  .waypoint-list .glyphicon {
+    padding-top: -12px;
+    font-weight: lighter;
+    font-size: 16px;
+    padding-left: 0px;
+    padding-right: 10px;
+  }
+}
+
+.tt-menu {
+  width: 100%;
+  border-radius: 0 0 15px 15px;
+  padding: 10px;
+  padding-bottom: 15px;
+  background-color: #f8fafc;
+  border: 1px solid #e4ecf2;
+  border-top: 0;
+  z-index: 99999;
+}
+
+.tt-suggestion {
+  margin: 0;
+  padding: 10px;
+}
+
+.tt-suggestion:hover {
+  background-color: #e4ecf2;
+  cursor: pointer;
+}
+
+.twitter-typeahead {
+  width: 100%;
+  margin-bottom: -7px;
+}
+
+.input-group .twitter-typeahead .form-control:not(:first-child):not(:last-child) {
+  border-radius: 4px 0px 0px 4px;
+}
+
+.twitter-typeahead > .form-control {
+  width: inherit !important;
+}
+
+.dropdown-input.dropdown-menu > li > a:hover, .dropdown-input.dropdown-menu > li > a:focus {
+  color: #333333;
+  background-color: #fff;
+}
+
+.dropdown-input.dropdown-menu {
+  width: 100%;
+}
+
+.dropdown-input.dropdown-menu > .active > a:hover, .dropdown-input.dropdown-menu > .active > a:focus {
+  text-decoration: none;
+  color: #262626;
+  background-color: #f5f5f5;
+}
+
+.dropdown-input.dropdown-menu > .active.disabled > a {
+  text-decoration: none;
+  color: #777777;
+  background-color: #fff;
 }
 
 /*# sourceMappingURL=app.css.map */

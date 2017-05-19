@@ -35,7 +35,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       $api->resource("groups",'GroupController');
       $api->resource("groups.users",'UserController',["except"=>"uppdate"]);
     });
-    
+
 
     //$api->resource("kiela", "KielaController");
     $api->resource("settings", "SettingController");
@@ -73,10 +73,17 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
        * @var $api Dingo\Api\Routing\Router
        */
       $api->get("/runs/search",["as"=>"runs.search","uses"=>"RunController@search"]);
+      $api->post("/runs/{run}/start",["as"=>"run.start","uses"=>"RunController@start"]);
+      $api->post("/runs/{run}/stop",["as"=>"run.stop","uses"=>"RunController@stop"]);
       $api->resource("runs","RunController");
 
       $api->resource("runs.waypoints","WaypointController");
+      $api->post("/runs/{run}/subscriptions/{subscription}/start",["as"=>"run.sub.start","uses"=>"SubscriptionController@start"]);
+      $api->post("/runs/{run}/subscriptions/{subscription}/stop",["as"=>"run.sub.stop","uses"=>"SubscriptionController@stop"]);
+
       $api->resource("runs.subscriptions","SubscriptionController");
+      $api->post("/runs/{run}/runners/{runner}/start",["as"=>"run.runner.start","uses"=>"SubscriptionController@start"]);
+      $api->post("/runs/{run}/runners/{runner}/stop",["as"=>"run.runner.stop","uses"=>"SubscriptionController@stop"]);
       $api->resource("runs.runners","SubscriptionController");
 
       $api->post("/runs/{run}/start",["as"=>"run.start","uses"=>"RunController@start"]);

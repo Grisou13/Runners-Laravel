@@ -5,6 +5,8 @@
     padding-bottom: 10px
     font-size: 1.2rem
     & .run-details
+      & .notes
+        font-size: 1.8rem
       & .date
         font-size: 3rem
       & .title
@@ -22,38 +24,39 @@
         font-size: 2rem
       & .glyphicon
         font-size: 1.2rem
+
   & .title
     font-weight: bold
-  & .subscription
-    min-height: 200px
-    display: table
-    margin-left: 30px
-  & .user, & .car_type, & .car
-    height: auto
-    min-height: 50px
-    padding: auto
-    vertical-align: middle
-    font-weight: bold
-    border-radius: 0
-    margin: 0
-    overflow: hidden
-    display: table-cell
+  //& .subscription
+  //  min-height: 200px
+  //  display: table
+  //  margin-left: 30px
+  //& .user, & .car_type, & .car
+  //  height: auto
+  //  min-height: 50px
+  //  padding: auto
+  //  vertical-align: middle
+  //  font-weight: bold
+  //  border-radius: 0
+  //  margin: 0
+  //  overflow: hidden
+  //  display: table-cell
 
-  @media (min-width: $screen-lg-min)
-    & .user
-      border-left: 2px solid darken($run-bg, 20%)
-      border-bottom: 2px solid darken($run-bg, 20%)
-    & .car
-      border-bottom: 2px solid darken($run-bg, 20%)
-      border-left: 2px solid darken($run-bg, 20%)
-  @media (max-width: $screen-md-max)
-    & .user
-      border-top: 2px solid darken($run-bg, 20%)
-      border-bottom: 2px solid darken($run-bg, 20%)
-      border-left: 2px solid darken($run-bg, 20%)
-    & .car
-      border-top: 2px solid darken($run-bg, 20%)
-      border-bottom: 2px solid darken($run-bg, 20%)
+  //@media (min-width: $screen-lg-min)
+  //  & .user
+  //    border-left: 2px solid darken($run-bg, 20%)
+  //    border-bottom: 2px solid darken($run-bg, 20%)
+  //  & .car
+  //    border-bottom: 2px solid darken($run-bg, 20%)
+  //    border-left: 2px solid darken($run-bg, 20%)
+  //@media (max-width: $screen-md-max)
+  //  & .user
+  //    border-top: 2px solid darken($run-bg, 20%)
+  //    border-bottom: 2px solid darken($run-bg, 20%)
+  //    border-left: 2px solid darken($run-bg, 20%)
+  //  & .car
+  //    border-top: 2px solid darken($run-bg, 20%)
+  //    border-bottom: 2px solid darken($run-bg, 20%)
 
   & .user > span, & .car_type > span, & .car > span
     min-width: 100%
