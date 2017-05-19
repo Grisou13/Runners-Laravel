@@ -16,7 +16,7 @@ if( !function_exists("app_version"))
     if(array_key_exists("version", $version_composer))
       $version = $version_composer["version"];
     else
-      $version = "v0.0.1";
+      $version = "v0.0.0";
     return $version;
   }
 }

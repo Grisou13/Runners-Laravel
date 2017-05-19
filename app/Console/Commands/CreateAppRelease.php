@@ -97,7 +97,7 @@ class CreateAppRelease extends Command
   /**
    * Allows a build version of maximum 100
    */
-  const MAX_BUILD_VERSION = 100;
+  const MAX_BUILD_VERSION = 20;
   /**
    * Allow a maximum of 100 candidate releases
    */
@@ -108,7 +108,7 @@ class CreateAppRelease extends Command
    *
    * @var string
    */
-  protected $signature = 'app:release:new {--r|release} {--dev} {--stable}';
+  protected $signature = 'app:release:new {--r|release} {--dev} {--beta} {--stable} {-f|--force}';
 
     /**
      * The console command description.
@@ -133,22 +133,57 @@ class CreateAppRelease extends Command
      *
      * @return mixed
      */
+    protected function merge($from, $to)
+    {
+      $this->info(shell_exec('git checkout ' . $to));
+      $output = shell_exec('git merge --no-ff ' . $from);
+      
+      if (strstr($output, 'CONFLICT')) {
+        $this->error($output);
+        return false;
+      }
+      return true;
+    }
     protected function createRelease($type){
-      $version = $this->nextRelease($type, $this->current);
+      $version = $this->nextRelease($this->current, $type);
       if($version == $this->current || is_null($version)){
         return false;
       }
       $branch_name = GitBranch::createFromGitRootDir(base_path())->getName();
-      if($branch_name != "master"){
-        $this->error("You can only create a release on master");
-        $this->info("please checkout on master all changes before rerunning this command");
+      
+      $branch_to = "master";
+      switch($type){
+        case "release":
+          $branch_to = "master";
+          break;
+        case "dev":
+          $branch_to = "develop";
+          break;
+        case "beta":
+          $branch_to = "develop";
+          break;
+        default:
+          $branch_to = "master";
+          break;
+      }
+      $this->info("creating version $version. Previous : {$this->current}");
+      if(!$this->merge($branch_name, $branch_to))
+      {
+        $this->error("Couldn't auto merge to branch for release");
+        $this->error("please do it manually, and fix errors with merging");
+        $this->info("after you can execute commands : ");
+        $this->info("git tag -a {$version} -m '{$type} {$version}'");
+        $this->info("git push origin --tags");
+        $this->info("then replace composer.json version with : {$version}");
         return false;
       }
-      exec("git tag -a $version -m 'release $version'");
-      exec("git push origin --tags");
+      
+      exec("git tag -a $version -m '$type $version'");
+      if($this->option("force") || $this->confirm("Should we push tags?"))
+        exec("git push origin --tags");
       $data = json_decode(file_get_contents(base_path("composer.json")),true);
       $data["version"] = $version;
-      file_put_contents(base_path("composer.json"),$data, JSON_PRETTY_PRINT);
+      file_put_contents(base_path("composer.json"),json_encode($data, JSON_PRETTY_PRINT));
       $this->info("saved version to composer.json");
     }
 
@@ -157,92 +192,59 @@ class CreateAppRelease extends Command
    * @param $current_version string
    * @return string
    */
-    protected function nextRelease($type, $current_version){
-      $regex = '/v(\d)\.(\d)\.(\d{1,'.(strlen(self::MAX_BUILD_VERSION)).'})(?:-rc)?(\d{1,'.(strlen(self::MAX_RC_VERSION)).'})?(?:-)?(beta|alpha)?$/';
+    protected function nextRelease($current_version, $type = ""){
+//      $regex = '/v(\d)\.(\d)\.(\d{1,'.(strlen(self::MAX_BUILD_VERSION)).'})(?:-rc)?(\d{1,'.(strlen(self::MAX_RC_VERSION)).'})?(?:-)?(beta|alpha)?$/';
+      $regex = '/v(\d)\.(\d)\.(\d)(?:-)?(beta|dev|stable)?$/';
+      dump($regex);
+      dump($current_version);
       preg_match_all($regex, $current_version, $matches, PREG_SET_ORDER, 0);
-      $isBeta = isset($array[5]) && $array[5] == "beta";
-      $isAlpha = isset($array[5]) && $array[5] == "alpha";
-      $major = $matches[1];
-      $minor = $matches[2];
-      $build = $matches[3];
+      if(!isset($matches[0]))
+        return null;
+      $major = $matches[0][1];
+      $minor = $matches[0][2];
+      $build = $matches[0][3];
 
-      $isRc = isset($matches[4]); //array 4 contains rc version too
+      $isDev = isset($matches[0][4]); //array 4 contains rc version too
       function buildVersion($major, $minor, $build, $extra = ""){
         return "{$major}.{$minor}.{$build}{$extra}";
       }
-      $next_version = buildVersion($major,$minor,$build);
-
+      if($build < self::MAX_BUILD_VERSION)
+        $build ++;
+      else{
+        $build = 0;
+        if($minor < self::MAX_MINOR_VERSION)
+          $minor ++;
+        else {
+          $minor = 0;
+          $major ++;
+        }
+      }
+      $extra = "";
       switch($type){
         case "beta":
-          $extra = $isRc ? "-rc".$matches[4] : "-rc1" . "-beta";
-          return buildVersion($major,$minor, $build,$extra);
+          $extra = "-beta";
           break;
-        case "alpha":
-          $extra = $isRc ? "-rc".$matches[4] : "-rc1" . "-alpha";
-          return buildVersion($major,$minor, $build,$extra);
-          break;
-        case "release-candidate":
-          $rc = $isRc ? $matches[4] : 1;
-          if(self::MAX_RC_VERSION < $rc){
-            $rc ++;
-            $extra = "-rc".$rc;
-            if($isBeta) $extra = $extra . "-beta";
-            elseif($isAlpha) $extra = $extra."-alpha";
-
-            return buildVersion($major,$minor, $build,$extra);
-          }
-
-          else{
-            $this->error("Release candidates number exceeded");
-            $this->info("please relaunch the command without --release-candidate argument");
-          }
+        case "dev":
+          $extra = "-dev";
           break;
         case "release":
-        default:
-          if($build < self::MAX_BUILD_VERSION)
-            $build ++;
-          else{
-            $build = 0;
-            if($minor < self::MAX_MINOR_VERSION)
-              $minor ++;
-            else{
-              $minor = 0;
-              $major ++;
-            }
-          }
-          return buildVersion($major,$minor,$build);
+          $extra = "-stable";
           break;
       }
-      return null;
+      return buildVersion($major,$minor,$build +1,$extra);
     }
     public function handle()
     {
-      Artisan::call("app:release:info");
-      $this->current = Artisan::output();
+//      Artisan::call("app:release:info");
+      $this->current = app_version();
       
       $type = "release"; //default type is release
 
-      if($this->option("alpha"))
-        $type = "alpha";
-      elseif($this->option("beta") && $type != "alpha")
+      if($this->option("dev"))
+        $type = "dev";
+      elseif($this->option("beta"))
         $type = "beta";
-      else{
-        $this->error("you can't have an alpha beta version... wth man");
-        return false;
-      }
-      if($this->option("release")){
-        $type = "release";
-      }
-      elseif($this->option("rc")){
-        $type = "release-candidate";
-      }
-      elseif($this->confirm("Bump up version ?")){
-        $type = "release";
-      }
-      elseif($this->confirm("Bump up release candidate version ? ")){
-        $type = "release-candidate";
-      }
-
+      
       $this->createRelease($type);
     }
 }
