@@ -14,6 +14,7 @@
     <link href="{{ asset("/css/app.css") }}" rel="stylesheet">
     <link href="{{ asset("/css/style.css") }}" rel="stylesheet">
     <link href="{{ asset("/css/sweetalert.css") }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset("/css/comment.css") }}">
     {{--<link href="{{ asset("/css/theme.css") }}" rel="stylesheet">--}}
 
 
