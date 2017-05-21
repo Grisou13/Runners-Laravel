@@ -14,15 +14,23 @@ import {fetchRuns} from './../../actions/runs'
 import _ from "lodash";
 const swal = window.swal
 
+const selectionMode = ({toggle,toggleAll,action}) => {
+    return (
+        <div>
+
+        </div>
+    )
+}
+
 @ui({
     key:"run-list",
     state:{
         hoverRun:null,
-        printing_selection:false,
-        print:{
-            selected: [],
-            selecting:false
-        }
+        selecting:false,
+        selected:[],
+        printing:false,
+        exporting:false
+
     }
 })
 class RunList extends React.Component
@@ -51,13 +59,51 @@ class RunList extends React.Component
     removeFromPrintSelection(run){
         this.props.updateUI({print:{selected:this.props.ui.print.selected.filter((e)=>e != run)}})
     }
+    toggleSelectMode(e, action){
+        e.preventDefault()
+        if(this.props.ui.exporting){
+
+        }
+        this.props.updateUI({...action,selecting:!this.props.ui.selecting, selected: this.props.runs.map(r => r.id)})
+    }
+    toggleSelection(e, run){
+        if(e.target.checked)
+            this.addSelection(run)
+        else
+            this.removeSelection(run)
+    }
+    addSelection(run){
+        this.props.updateUI({selected: this.props.ui.selected.push(run.id)})
+    }
+    removeSelection(run){
+        this.props.updateUI({selected: this.props.ui.selected.filter( rId => rId != run.id )})
+    }
+    toggleList(e){
+        if(e.target.checked)
+            this.props.updateUI({selected: this.props.runs.filter(r => r.id)})
+        else
+            this.props.updateUI({selected: []})
+
+    }
+    disableList(e)
+    {
+        e.preventDefault()
+        this.props.updateUI({selected: [], selecting:false})
+    }
+
     renderList(runs){
         return (
             <div className="container-fluid">
                 <div className="row print-controls">
-                    <input type="checkbox" value={this.props.ui.print.selected.length == this.props.runs.length} onClick={()=>this.props.runs.forEach( r => this.addRunToPrintSelection(r.id))} />
-                    <button onClick={(e)=>this.print(e)} className="btn btn-default">
-                        <span className="glyphicon glyphicon-print" />
+                    <input type="checkbox" value={this.props.ui.selected.length == runs.length} onClick={(e)=>this.toggleList(e)} />
+                    <button onClick={(e)=>this.toggleSelectMode(e, {printing:true})} className="btn btn-default">
+                        { this.props.ui.selecting ? <span className="glyphicon glyphicon-ok" /> : <span className="glyphicon glyphicon-print" /> }
+                    </button>
+                    <button onClick={(e)=>this.toggleSelectMode(e, {exporting:true})} className="btn btn-default">
+                        { this.props.ui.selecting ? <span className="glyphicon glyphicon-ok" /> : <span className="glyphicon glyphicon-save-file" /> }
+                    </button>
+                    <button className="btn btn-default" onClick = {(e)=>{this.disableList(e)}}>
+                        <span className="glyphicon glyphicon-close" />
                     </button>
                 </div>
                 <div className="row text-center">
@@ -66,9 +112,9 @@ class RunList extends React.Component
                 <div className="row">
                     {runs.map(run =>{
                         return (
-                        <div className={status + ' run-container' + (this.props.ui.print.selecting ? "hovered" : "")} /*onMouseLeave={(e)=>this.props.updateUI({hoverRun:null})} onMouseOver={(e)=>this.props.updateUI({hoverRun:run.id})}*/ >
+                        <div className={status + ' run-container ' + (this.props.ui.selecting ? "hovered" : "")} /*onMouseLeave={(e)=>this.props.updateUI({hoverRun:null})} onMouseOver={(e)=>this.props.updateUI({hoverRun:run.id})}*/ >
                             <div className="btn-container">
-                                { this.props.ui.print.selecting ? <input className="control" type="checkbox" checked={this.props.ui.print.selected.find((e)=>e == run)} onClick={()=>this.toggleRunPrint(run)} /> : null}
+                                { this.props.ui.selecting ? <input className="control" type="checkbox" checked={this.props.ui.selected.filter((e)=>e == run.id).length} onClick={(e)=>this.toggleSelection(e,run)} /> : null}
                                 <a href="#" onClick={()=>this.props.editRun(run)} className="control"><span className="glyphicon glyphicon-edit" /></a>
                                 <a href="#" onClick={()=>this.props.startRun(run)} className="control">
                                     <span className="glyphicon glyphicon-play" />
