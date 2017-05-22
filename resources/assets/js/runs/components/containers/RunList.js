@@ -10,7 +10,7 @@ import Time from './../views/Time'
 import {startRun} from "./../../actions/runs";
 import {stopRun} from "./../../actions/runs";
 import {editRun} from "./../../actions/runs";
-import {fetchRuns} from './../../actions/runs'
+import {fetchRuns, printRuns} from './../../actions/runs'
 import _ from "lodash";
 const swal = window.swal
 
@@ -39,7 +39,10 @@ class RunList extends React.Component
         this.props.getRuns()
     }
     print(e){
+        let selected = this.props.ui.selected;
+        console.log("PRINTING")
         this.disableList(e)
+        this.props.dispatch(printRuns(selected))
     }
     exportRuns(e){
         this.disableList(e)
@@ -48,22 +51,23 @@ class RunList extends React.Component
     toggleSelectMode(e, action){
         e.preventDefault()
         this.props.updateUI({...action,selecting:!this.props.ui.selecting, selected: this.props.runs.map(r => r.id)})
+        // if(this.props.ui.selecting)
+        //     this.props.updateUI({selected: })
     }
     toggleSelection(e, run){
+        console.log(run.id)
+        console.log(this.props.ui.selected)
+        console.log(e.target.checked)
+        console.log("================")
         if(e.target.checked)
-            this.addSelection(run)
+            this.props.updateUI({selected: this.props.ui.selected.concat([run.id])})
         else
-            this.removeSelection(run)
-    }
-    addSelection(run){
-        this.props.updateUI({selected: this.props.ui.selected.push(run.id)})
-    }
-    removeSelection(run){
-        this.props.updateUI({selected: this.props.ui.selected.filter( rId => rId != run.id )})
+            this.props.updateUI({selected: this.props.ui.selected.filter( r => r != run.id )})
     }
     toggleList(e){
+        console.log(e.target.checked)
         if(e.target.checked)
-            this.props.updateUI({selected: this.props.runs.filter(r => r.id)})
+            this.props.updateUI({selected: this.props.runs.map(r => r.id)})
         else
             this.props.updateUI({selected: []})
 
@@ -71,13 +75,13 @@ class RunList extends React.Component
     disableList(e)
     {
         e.preventDefault()
-        this.props.updateUI({selected: [], selecting:false, printing:false, exporting:false})
+        this.props.resetUI()
     }
     renderButtons(){
-        if(this.props.ui.exporting){
+        if(this.props.ui.printing){
             return (
                 <div>
-                    <input type="checkbox" checked={this.props.ui.selected.length == this.props.runs.length} onClick={(e)=>e.target.checked ? this.props.updateUI({selected: this.props.runs.map(r => r.id)}) : this.props.updateUI({selected: []})} />
+                    <input type="checkbox" checked={this.props.ui.selected.length == this.props.runs.length} onChange={(e)=>this.toggleList(e)} />
                     <button onClick={(e)=>this.print(e)} className="btn btn-default">
                         <span className="glyphicon glyphicon-ok"/>
                     </button>
@@ -87,10 +91,10 @@ class RunList extends React.Component
                 </div>
             );
         }
-        else if(this.props.ui.printing){
+        else if(this.props.ui.exporting){
             return (
                 <div>
-                    <input type="checkbox" checked={this.props.ui.selected.length == this.props.runs.length} onClick={(e)=>this.toggleList(e)} />
+                    <input type="checkbox" checked={this.props.ui.selected.length == this.props.runs.length} onChange={(e)=>this.toggleList(e)} />
                     <button onClick={(e)=>this.exportRuns(e)} className="btn btn-default">
                         <span className="glyphicon glyphicon-ok"/>
                     </button>
@@ -127,12 +131,11 @@ class RunList extends React.Component
                     {runs.map(run =>{
                         return (
                             <div key={"run-"+run.id} className={run.status + ' run-container ' + (this.props.ui.selecting ? "hovered" : "")} /*onMouseLeave={(e)=>this.props.updateUI({hoverRun:null})} onMouseOver={(e)=>this.props.updateUI({hoverRun:run.id})}*/ >
-                                {/*<div className="btn-container">*/}
                                     {
                                         this.props.ui.selecting ?
                                         (
                                             <div className="btn-container">
-                                                <input className="control" type="checkbox" checked={this.props.ui.selected.filter((r)=>r == run.id).length > 0} onClick={(e)=>this.toggleSelection(e,run)} />
+                                                <input className="control" type="checkbox" checked={this.props.ui.selected.filter((r)=>r == run.id).length == 1} onChange={(e)=>this.toggleSelection(e,run)} />
                                             </div>
                                         )
                                             :
@@ -144,9 +147,6 @@ class RunList extends React.Component
                                         </div>
                                         )
                                     }
-                                    {/*<a href="#" onClick={()=>this.props.dispatch(deleteRun(run))} className="control"><span className="glyphicon glyphicon-minus"></span></a>*/}
-                                {/*</div>*/}
-
                                 <Run  {...run} />
                             </div>
                     )})}

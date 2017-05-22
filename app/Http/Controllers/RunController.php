@@ -156,7 +156,7 @@ class RunController extends Controller
     public function pdf(RunPdfRequest $request){
       \Debugbar::disable();
       if($request->has("runs"))
-        $runs = Run::find($request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
+        $runs = Run::whereIn("id",$request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       else
         $runs = Run::with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       return view("run.pdf",compact("runs"));
