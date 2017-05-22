@@ -175,26 +175,19 @@ function createTable(schedule, groups, day, gridID){
                 }
                 return false;
             });
-            function disableTable(table, toDisable, className = "overlay"){
 
-            }
             td.addEventListener("mouseup",function(e){
-                // update the state of each selected div
                 // TODO maybe use time-slot instead of using each cell independently
                 console.log("before update");
-
-                //disableTable(td.parentElement.parentElement.parentElement, true); //todo table not loaded yet...
-
                 loadingDiv.style.display = "block";
-                console.log(loadingDiv)
-                modified.forEach(function(cellID){
-                    // console.log(td.parentElement.parentElement.parentElement);
+
+                modified.map(function(cellID){
                     updateCell(cellID);
+                    // update the state of each selected div
                 });
-                //disableTable(td.parentElement.parentElement.parentElement, false); //todo
-                console.log("after update");
+                console.log("updated...");
                 loadingDiv.style.display = "none";
-                //disableTable(td.parentElement.parentElement.parentElement, false);
+
                 modified = [];
                 isdown = false;
             });

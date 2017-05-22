@@ -28,7 +28,7 @@
     <div class="row">
         @endif
         <div id="container-{{$group->id}}" class="panel panel-default col-md-2" style="background-color:#{{$group->color}};">
-            <div class="panel-heading" style="background-color:#{{$group->color}}; opacity:0.3px !important;" >{{$group->label}}</div>
+            <div class="panel-heading" style="background-color:#{{$group->color}}; opacity:0.3px !important;" >{{$group->name}}</div>
             <!-- display the users in the group -->
             {{----}}
             @foreach($group->users as $user)
