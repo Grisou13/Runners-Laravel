@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import Waypoint from './Waypoint'
 
-const WaypointList = ({runId,points}) => (
-    <ul className="waypoint-list" key={"waypoint"-runId}>
+const WaypointList = ({run,points}) => (
+    <ul className="waypoint-list" key={"waypoint"-run}>
         {points.map( (p,i) =>{
             let icon = (i<points.length -1)  ? (<span className="glyphicon glyphicon-arrow-right" />) : null
-            return (<Waypoint key={`waypoint-${runId}-${p.id}-${i}`} point={p} icon={icon} />)
+            return (<Waypoint key={`waypoint-${run}-${p.id}-${i}`} point={p} icon={icon} />)
         }
 
         )}
@@ -14,11 +14,8 @@ const WaypointList = ({runId,points}) => (
 )
 
 WaypointList.propTypes = {
-    points: PropTypes.arrayOf(Waypoint.propTypes.point).isRequired,
-    run: PropTypes.shape({
-        id:PropTypes.number.isRequired,
-        status:PropTypes.string.isRequired
-    }).isRequired
+    points: PropTypes.array.isRequired,
+    run: PropTypes.number.isRequired
 }
 
 export default WaypointList

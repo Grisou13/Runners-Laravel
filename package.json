@@ -19,6 +19,7 @@
     "bootstrap-sass": "^3.3.7",
     "gulp": "^3.9.1",
     "laravel-elixir": "^6.0.0-15",
+    "laravel-elixir-browsersync-official": "^1.0.0",
     "laravel-elixir-vue-2": "^0.2.0",
     "laravel-elixir-webpack-official": "^1.0.2",
     "laravel-elixir-webpack-react": "^1.0.1",

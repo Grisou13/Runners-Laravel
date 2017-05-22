@@ -13,9 +13,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $sta = \App\Helpers\Status::getUserStatus("actif");
         User::unguard();
-        Lib\Models\User::create([
+        $root = Lib\Models\User::create([
             "id"=>0,
             "email"=>"root@localhost",
             "phone_number"=>"",
@@ -26,7 +25,7 @@ class UserSeeder extends Seeder
             "lastname"=>"toor",
             "password"=>bcrypt("root")
         ]);
-
+        $root->assignRole("admin");
         // création d'un utilisateur driver
         
         $user = Lib\Models\User::create([

@@ -21,7 +21,7 @@ const SubscriptionList = ({run,subs = []}) =>(
 )
 
 SubscriptionList.propTypes = {
-    subs: PropTypes.arrayOf(Subscription.propTypes).isRequired,
+    subs: PropTypes.array.isRequired,
     run: PropTypes.number.isRequired
 }
 
