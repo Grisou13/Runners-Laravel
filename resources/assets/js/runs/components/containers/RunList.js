@@ -11,11 +11,18 @@ import {startRun} from "./../../actions/runs";
 import {stopRun} from "./../../actions/runs";
 import {editRun} from "./../../actions/runs";
 import {fetchRuns} from './../../actions/runs'
+import _ from "lodash";
+const swal = window.swal
 
 @ui({
     key:"run-list",
     state:{
-        hoverRun:null
+        hoverRun:null,
+        printing_selection:false,
+        print:{
+            selected: [],
+            selecting:false
+        }
     }
 })
 class RunList extends React.Component
@@ -23,11 +30,33 @@ class RunList extends React.Component
     componentDidMount(){
         this.props.getRuns()
     }
+    print(e){
+        e.preventDefault()
+        if(this.props.ui.printing_selection)
+        {
+            //print the runs :D
+        }
+        this.props.updateUI({print:{selecting:!this.props.ui.print.selecting}})
+
+    }
+    addRunToPrintSelection(run){
+        this.props.updateUI({print:{selected:_.uniq(this.props.ui.print.selected.push(run))}})
+    }
+    toggleRunPrint(run){
+        if(this.props.ui.print.selected.find((e)=>e == run))
+            this.addRunToPrintSelection(run)
+        else
+            this.removeFromPrintSelection(run)
+    }
+    removeFromPrintSelection(run){
+        this.props.updateUI({print:{selected:this.props.ui.print.selected.filter((e)=>e != run)}})
+    }
     renderList(runs){
         return (
             <div className="container-fluid">
                 <div className="row print-controls">
-                    <button className="btn btn-default">
+                    <input type="checkbox" value={this.props.ui.print.selected.length == this.props.runs.length} onClick={()=>this.props.runs.forEach( r => this.addRunToPrintSelection(r.id))} />
+                    <button onClick={(e)=>this.print(e)} className="btn btn-default">
                         <span className="glyphicon glyphicon-print" />
                     </button>
                 </div>
@@ -35,7 +64,25 @@ class RunList extends React.Component
                     <Time UTCOffset={2} />
                 </div>
                 <div className="row">
-                    {runs.map(run => <Run key={"run-"+run.id} run={run} startRun={this.props.startRun} editRun={this.props.editRun} stopRun={this.props.stopRun} />)}
+                    {runs.map(run =>{
+                        return (
+                        <div className={status + ' run-container' + (this.props.ui.print.selecting ? "hovered" : "")} /*onMouseLeave={(e)=>this.props.updateUI({hoverRun:null})} onMouseOver={(e)=>this.props.updateUI({hoverRun:run.id})}*/ >
+                            <div className="btn-container">
+                                { this.props.ui.print.selecting ? <input className="control" type="checkbox" checked={this.props.ui.print.selected.find((e)=>e == run)} onClick={()=>this.toggleRunPrint(run)} /> : null}
+                                <a href="#" onClick={()=>this.props.editRun(run)} className="control"><span className="glyphicon glyphicon-edit" /></a>
+                                <a href="#" onClick={()=>this.props.startRun(run)} className="control">
+                                    <span className="glyphicon glyphicon-play" />
+                                </a>
+                                <a href="#" onClick={()=>this.props.stopRun(run)} className="control"><span className="glyphicon glyphicon-ban-circle" /></a>
+                                {/*<a href="#" onClick={()=>this.props.dispatch(deleteRun(run))} className="control"><span className="glyphicon glyphicon-minus"></span></a>*/}
+                            </div>
+
+                            <Run key={"run-"+run.id} {...run} />
+                        </div>
+
+                        )
+                    }
+                    )}
                 </div>
             </div>
         )
@@ -47,7 +94,7 @@ class RunList extends React.Component
                     <Time UTCOffset={2} />
                 </div>
                 <div className="row">
-                    <p>No runs available for today... </p>
+                    <p>No runs ... </p>
                 </div>
             </div>
         )
@@ -149,6 +196,9 @@ const getVisibleRuns = (runs, filters) => {
     return runs;
 }
 
+RunList.propTypes = {
+    runs:  PropTypes.arrayOf(Run.propTypes).isRequired
+}
 
 const mapStateToProps = (state) => {
     return {
@@ -166,7 +216,22 @@ const mapDispatchToProps = (dispatch) => {
         },
         startRun: (run) => dispatch(startRun(run)),
         editRun: (run) => dispatch(editRun(run)),
-        stopRun: (run) => dispatch(stopRun(run))
+        stopRun: (run) => {
+            swal({
+                title: "Are you sure you want to stop the run?",
+                text: "This will stop the run",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, stop it!",
+                closeOnConfirm: false,
+                html: false
+            }, function(){
+                swal.close()
+                dispatch(stopRun(run))
+            })
+
+        }
     }
 }
 

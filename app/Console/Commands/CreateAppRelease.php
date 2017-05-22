@@ -190,8 +190,10 @@ class CreateAppRelease extends Command
       $this->info("saved version to composer.json");
       exec("git commit --ammend");
       exec("git tag -a $version -m '$type $version'");
-      if($this->option("force") || $this->confirm("Should we push tags?"))
+      if($this->option("force") || $this->confirm("Should we push tags?")) {
         exec("git push origin --tags");
+        exec("git push origin ".GitBranch::createFromGitRootDir(base_path())->getName());
+      }
       
     }
 

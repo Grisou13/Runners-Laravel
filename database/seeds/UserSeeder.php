@@ -58,8 +58,8 @@ class UserSeeder extends Seeder
           ["Julien", "Borel", 1]
         ]);
 
-        $users->each(function($user) use($id_role){
-          User::create([
+        $users->each(function($user){
+          $u = User::create([
             "firstname" => $user[0],
             "lastname" => $user[1],
             "name"=> $user[0],
@@ -67,10 +67,10 @@ class UserSeeder extends Seeder
             "password" => bcrypt('secret'),
             "phone_number" => "07" . rand(7,9) . " " . rand(100,999) . " " . rand(10, 99) . " " . rand(10, 99),
             "sex" => $user[2],
-            "role_id" => $id_role,
-            "remember_token" => str_random(10),
+//            "remember_token" => str_random(10),
             "accesstoken"=>str_random(255)
           ]);
+          $u->assignRole("runner");
         });
     }
 }

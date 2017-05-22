@@ -22,7 +22,7 @@ export const stopRun = run => dispatch => {
 
 }
 export const editRun = (run) => {
-    window.location = window.Laravel.basePath + `/runs/${run.id}/edit`
+    window.location = window.Laravel.basePath + `/runs/${run.id}/edit`UserSEe
 
     return {
         type: EDIT_RUN,
