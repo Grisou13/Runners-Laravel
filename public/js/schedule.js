@@ -175,28 +175,25 @@ function createTable(schedule, groups, day, gridID){
                 }
                 return false;
             });
-            function disableTable(table, toDisable){
-                if(toDisable){
-                    console.log("disable")
-                    console.log(table);
-                    throw new Error ("K")
-                    table.style.opacity = "0.5";
-                }else{
-                    table.style.opacity = "1";
-                }
+            function disableTable(table, toDisable, className = "overlay"){
+
             }
             td.addEventListener("mouseup",function(e){
                 // update the state of each selected div
                 // TODO maybe use time-slot instead of using each cell independently
                 console.log("before update");
 
-                disableTable(td.parentElement.parentElement.parentElement, true); //todo table not loaded yet...
+                //disableTable(td.parentElement.parentElement.parentElement, true); //todo table not loaded yet...
+
+                loadingDiv.style.display = "block";
+                console.log(loadingDiv)
                 modified.forEach(function(cellID){
                     // console.log(td.parentElement.parentElement.parentElement);
                     updateCell(cellID);
                 });
-                disableTable(td.parentElement.parentElement.parentElement, false); //todo
+                //disableTable(td.parentElement.parentElement.parentElement, false); //todo
                 console.log("after update");
+                loadingDiv.style.display = "none";
                 //disableTable(td.parentElement.parentElement.parentElement, false);
                 modified = [];
                 isdown = false;
@@ -263,7 +260,7 @@ schedule = ["08:00","08:30", "09:00","09:30",
     "04:00","04:30", "05:00","05:30",
     "06:00","06:30", "07:00","07:30"
 ];
-
+var loadingDiv = document.getElementById("loading");
 var groups = getAllGroups();
 
 createGrid(schedule, days, groups);
