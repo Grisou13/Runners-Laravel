@@ -137,8 +137,10 @@ class RunController extends Controller
      */
     public function destroy(Run $run)
     {
-        $this->api->delete(app(UrlGenerator::class)->version("v1")->route("runs.destroy",$run));
-        return redirect()->back();
+        /*$this->api->delete(app(UrlGenerator::class)->version("v1")->route("runs.destroy",$run));
+        return redirect()->back();*/
+        $run->delete();
+        return redirect()->route("runs.index");
     }
 
     public function addComment(CreateCommentRequest $request, Run $run){
@@ -161,11 +163,11 @@ class RunController extends Controller
         $runs = Run::with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       return view("run.pdf",compact("runs"));
       $pdf = PDF::loadView('run.pdf', compact("runs"));
-      
-      
+
+
       $pdf->save(storage_path("run.pdf"));
-      
-      
+
+
       file_put_contents(base_path("storage/test.html"),$pdf->html);
       return $pdf->setPaper('a3')->setOrientation('landscape')->setOption('margin-bottom', 0)->inline("runs.pdf");
 
