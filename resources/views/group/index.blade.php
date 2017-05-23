@@ -7,7 +7,7 @@
 
 @push("scripts")
 <script src="{{ asset("/js/dragula.min.js") }}"></script>
-<script src="{{ asset("/js/groupManagement.js") }}"></script>
+<script src="{{ asset("/js/groups.js") }}"></script>
 @endpush
 @section("content")
 <div class="l">

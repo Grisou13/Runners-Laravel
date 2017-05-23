@@ -184,7 +184,6 @@ $factory->define(Lib\Models\RunSubscription::class, function(Faker\Generator $fa
 $factory->define(Lib\Models\Group::class, function (Faker\Generator $faker){
     return [
         "color" => App\Http\Helpers\Helper::getRandomGroupColor(),
-        "name" => strtoupper($faker->randomLetter()),
         "active"=>true
     ];
 });
