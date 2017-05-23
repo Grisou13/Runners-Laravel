@@ -5,7 +5,6 @@
     <td>{{ $car->plate_number }}</td>
     <td>{{ $car->brand }}</td>
     <td>{{ $car->model }}</td>
-    <td>{{ $car->nb_place }}</td>
     <td>
       <a class="comment-add">
         <span class="glyphicon glyphicon-plus"></span>

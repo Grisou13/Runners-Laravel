@@ -3,6 +3,8 @@ import thunk from 'redux-thunk'
 import runs from './runs'
 import filterReducer from './filters'
 import { reducer as rUiReducer } from 'redux-ui'
+import {middleware as wsMiddleware} from './../services/websocket';
+
 const reducers = combineReducers({
     filters: filterReducer,
     ui: rUiReducer,
@@ -10,7 +12,7 @@ const reducers = combineReducers({
 })
 const enhancer = compose(
     // Middleware you want to use in development:
-    applyMiddleware(thunk),
+    applyMiddleware(thunk, wsMiddleware),
 );
 const initialState = {}
 export default createStore(reducers, initialState , enhancer)

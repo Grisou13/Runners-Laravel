@@ -31,22 +31,15 @@ var groupUsers = [];
 function display(entries, container){
 
     function displayUsersPerGroup(container, groupID){
-        function getGroup(groupID){
-
-        }
         if(typeof groupUsers[groupID] === "undefined"){ //if not set yet
-
             window.api.get("/groups/"+groupID, {})
                 .then(function(groupR){
                     window.api.get("/groups/"+groupID+"/users", {})
                         .then(function(r){
                             let div = document.createElement("div");
-                            let groupInfo = getGroup(groupID);
                             groupUsers[groupID] = "<h3>Groupe " + groupR["data"].name +"</h3>"; //todo get group letter
                             //groupUsers[groupID] = r["data"];
-
                             if(r["data"].length > 0 ){
-
                                 r["data"].forEach(function(user){
                                     let p = "<p>";
                                     p += user.firstname;
@@ -58,7 +51,6 @@ function display(entries, container){
                             }else{
                                 groupUsers[groupID] += "Aucun utilsateur dans le groupe.";
                             }
-
                             div.innerHTML = groupUsers[groupID];
                             container.appendChild(div); //append when done.
                             return groupUsers[groupID];
@@ -96,7 +88,6 @@ function display(entries, container){
             for(var obj in entries[day][shift]){
                 let groupID = entries[day][shift][obj]["group_id"];
                 displayUsersPerGroup(entryDiv, groupID);
-                console.log(entries[day][shift][obj]);
             }
 
             entryDay.appendChild(entryShift);
@@ -119,9 +110,6 @@ function display(entries, container){
         ctrlNextBtn.innerHTML = hourListed[hourListed.length > 1 ? i + 1 : i];
         container.parentNode.appendChild(ctrlPrevBtn);
         container.parentNode.appendChild(ctrlNextBtn);
-        console.log("HOUR LISTED :::");
-        console.log(hourListed);
-        console.log(hourListed.length > i);
         ctrlNextBtn.onclick = function(){
             i += 1;
             if(i == hourListed.length){ // if we reach the end of the listed hours

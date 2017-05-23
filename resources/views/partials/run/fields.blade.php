@@ -20,8 +20,8 @@
  <div class="form-group">
      <label for="planned_at" class="col-md-4 control-label">Planifé à</label>
      <div class="col-md-6">
-         <input type="hidden" id="input_planned_at" name="planned_at" value="">
-         <div id="planned_at"></div>
+         <input type="hidden" id="input_planned_at" name="planned_at" value="{{ (string)$run->planned_at }}">
+         <input type="datetime" id="planned_at" value="{{ (string)$run->planned_at }}">
      </div>
  </div>
  @php
@@ -566,6 +566,9 @@ data.forEach((s)=> subs.appendChild(generateSubscription(s)))
 
  @push("styles")
  <style>
+     .ui-widget.ui-widget-content{
+         z-index: 2 !important;
+     }
      .waypoints .form-group{
          margin-bottom: 0px !important;
      }

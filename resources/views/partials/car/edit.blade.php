@@ -65,7 +65,7 @@
                     </div>
                 @endif
               {{ Form::close() }}
-              @if(auth()->check())
+              @if(auth()->check() && $car->exists)
                 <form method="post" action="{{ route("cars.destroy",$car) }}"  class="pull-right">
                     <input type="hidden" value="DELETE" name="_method">
                     <input type="hidden" value="{{ csrf_token() }}" name="_token">

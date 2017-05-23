@@ -52,6 +52,7 @@ elixir((mix) => {
     mix .copy("./node_modules/typeahead.js/dist/typeahead.bundle.min.js","public/js/typeahead.js")
     mix.copy('resources/assets/fonts/**/*', 'public/fonts/');
     mix .webpack("resources/assets/js/runs/app.js","public/js/runs.js")
+    mix.browserSync({proxy: "runners"});
     // if (mix.config.inProduction) {
     //     mix.version();
     // }

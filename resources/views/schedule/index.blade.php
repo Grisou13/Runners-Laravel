@@ -8,6 +8,10 @@
 @endpush
 
 @section("content")
+    <div id="loading">
+        <img src="{{asset("images/icons/load.gif")}}" alt="Loading" title="Loading" />
+    </div>
+
     <div class="container-fluid">
         <div class="row">
 

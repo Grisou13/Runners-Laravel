@@ -1,43 +1,63 @@
 # PRW02 - Runners
-## Installation
-### Server requirements
+## Server requirements
+Please make sure your envirronement has the following:
 - PHP >= 5.6.4
-- OpenSSL PHP Extension
-- PDO PHP Extension
-- Mbstring PHP Extension
-- Tokenizer PHP Extension
-- XML PHP Extension
+    - OpenSSL PHP Extension
+    - PDO PHP Extension
+    - Mbstring PHP Extension
+    - Tokenizer PHP Extension
+    - XML PHP Extension
+- Web server
+- Redis
+- Node >= 7.10.0
 
-## Setup
+## Installation
 
-**Make sure you have PHP in you PATH**
 
-First, you will need to install [composer](https://getcomposer.org/download/) if not already done.
+If you have some trouble please visit the [laravel documentation](https://laravel.com/docs/5.3/installation), or create an [issue](https://github.com/CPNV-ES/Runners-Laravel/issues/new).
+
+The preferred way is using docker-compose (The installation of docker-compose is beyond the scope of this tutorial).
+
+`docker-compose up -d`
+
+And then visit localhost:8080.
+
+*If the port is already occupied, you can edit `docker-compose.yaml` and change the `ports` under the `web` service to something that suits you better.*
+
+*If you are using a mac, or windows, we recommend you use [vagrant with Homestead](https://laravel.com/docs/5.4/homestead)*
+
+*note. If you are using docker, you can skip completly this step*
+First Install [composer](https://getcomposer.org/download/).
+
+### Install the app
+First off, either clone the repo, or pull it
+
 ```
-php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-php composer-setup.php
-php -r "unlink('composer-setup.php');"
+git clone https://github.com/CPNV-ES/Runners-Laravel.git
 ```
 
-
-To get a local developpement server, you can use the following command :
+Then you will need to install dependencies.
 ```
 composer install
 cp .env.example .env
 php artisan key:generate
-
 ```
-You'll need a mysql server. Modify your .env to adapt to your Mysql installation
+
+### setup .env
+Now you need to change your .env to suit your needs (mainly database stuff related)
 ```
 DB_USERNAME=YOURUSERNAME
 DB_PASSWORD=YOURUSERNAMEPASSWORD
-```
-Then you will either need to create, and or provide an empty database name in the .env
-```
 DB_DATABASE=THEDATABASENAME
 ```
+The default database is mysql, if you don't have mysql, you can use sqlite
+```
+DB_CONNECTION=sqlite
+DB_DATABASE=database/db.sqlite
+```
+And then create the file `touch database/db.sqlite`
 
+### setup database
 Then execute the following command to create and populate your databse with dummy data.
 ```
 php artisan migrate --seed
@@ -45,13 +65,45 @@ php artisan migrate --seed
 This will create the database tables **AND** populate the database with Dummy Data.
 The dummy data includes a default login for the system.
 
-Then execute ```php artisan serve ```. This command will launch a PHP developpment server accessible on `http://localhost:8000`.
+*If you are having trouble with migrations*
+`php artisan db:reset`
 
-If you are stuck during the installation, please visit the [laravel documentation](https://laravel.com/docs/5.3/installation), or create an [issue](https://github.com/CPNV-ES/Runners-Laravel/issues/new).
+### install dependencies
+The only big dependency this app has is laravel-echo-server.
+If you are wondering what is laravel-echo-server , please read [Laravel-echo](Laravel-echo)
 
-### Default User
+To install laravel-echo-server.
+`sudo npm i -g laravel-echo-server`
 
-The default user will allow you to access anything within the app. From basic login, to the api.
+Goto config/broadcasting
+`cd config/broadcasting`
+
+And edit the laravel-echo-server.json config file and adapt the `redis` section
+``` 
+nano laravel-echo-server.json
+...
+"databaseConfig": {
+		"redis": {
+		    "host":"url/ip of redis host(localhost)",
+		    "port:"6379"
+		},
+		"sqlite": {
+			"databasePath": "./../../database/laravel-echo-server.sqlite"
+		}
+	}
+....
+```
+
+Now you can start laravel-echo-server `laravel-echo-server start`
+
+**The laravel-echo-server process MUST always run for the app to add realtime**
+
+# Using the app
+
+## Logins
+
+If you seeded the database, you will hae a couple users, but a few are important.
+
 
 | username | email          | password | access token |
 |----------|----------------|----------|--------------|
@@ -61,27 +113,25 @@ To access the app, please visit the url ```/home```.This page will give you acce
 
 To access the api, please visit the url ```/api```. This page will display information necessary for you to use the api.
 
-### Api
+## Api
 
 The brief documentation of the api, for now is available in the file [api.md](/api.md)
 
-### Participants
+# Using the app with docker
 
-Please refer to "PARTICIPANTS.md" to know which part each student devolopped.
+If you choose to use docker, you can interact with the app using the following command
 
-# Notifications
+`docker-compose run --rm app /bin/bash`
 
-Use redis as a worker thread and then echo it with an event and to Laravel Echo
+After that, you should have access to artisan.
 
-https://github.com/tlaverdure/laravel-echo-server
+# Laravel-echo
 
-## Install
-```
-npm install -g laravel-echo-server
-composer require predis/predis
-```
+PHP was not made for real time, this is why we need a nodejs utility server to do so.
+Laravel provides a client javascript `laravel-echo` lib, but this doesn't manage notifications server side whise.
+For this, we use `laravel-echo-server`.
 
-### For production
+This server/utility will listen to redis events, and transmit them via websocket.
+This is why you need redis, to run laravel-echo-server with laravel.
 
-Use the script `install/install.sh`.
-
+Laravel-echo-server allows Laravel to send events to a javascript client. In our case, we use it for updating the run list in real time.

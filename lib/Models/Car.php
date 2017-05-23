@@ -15,7 +15,8 @@ class Car extends Model
 {
     use SoftDeletes, BelongsToThrough, StatusConcern, ValidatingTrait;
     public $rules = [
-      "car_type_id"=>"exists:car_types,id"
+      "car_type_id"=>"exists:car_types,id",
+      "nb_place"=>"nullable"
     ];
     protected $fillable = [
         "plate_number","brand","model","color","nb_place","comment","name"
