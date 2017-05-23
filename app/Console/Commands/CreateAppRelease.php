@@ -150,13 +150,15 @@ class CreateAppRelease extends Command
       return true;
     }
     protected function createRelease($type){
+      exec("cd '".base_path()."' ;echo \$PWD");
+      return
       $version = $this->nextRelease($this->current, $type);
       if($version == $this->current || is_null($version)){
         $this->error("Error creating version $version| $this->current");
         return false;
       }
       $branch_name = GitBranch::createFromGitRootDir(base_path())->getName();
-      
+
       $branch_to = "master";
       switch($type){
         case "release":
@@ -183,18 +185,19 @@ class CreateAppRelease extends Command
         $this->info("then replace composer.json version with : {$version}");
         return false;
       }
-      
+
       $data = json_decode(file_get_contents(base_path("composer.json")),true);
       $data["version"] = $version;
       file_put_contents(base_path("composer.json"),json_encode($data, JSON_PRETTY_PRINT));
+
       $this->info("saved version to composer.json");
-      exec("git commit --ammend");
-      exec("git tag -a $version -m '$type $version'");
+      exec("cd ".base_path()." ;git commit --amend --no-edit");
+      exec("cd ".base_path()." ;git tag -a $version -m '$type $version'");
       if($this->option("force") || $this->confirm("Should we push tags?")) {
-        exec("git push origin --tags");
-        exec("git push origin ".GitBranch::createFromGitRootDir(base_path())->getName());
+        exec("cd ".base_path()." ;git push origin --tags");
+        exec("cd ".base_path()." ;git push origin ".GitBranch::createFromGitRootDir(base_path())->getName());
       }
-      
+
     }
 
   /**
@@ -205,8 +208,7 @@ class CreateAppRelease extends Command
     protected function nextRelease($current_version, $type = ""){
 //      $regex = '/v(\d)\.(\d)\.(\d{1,'.(strlen(self::MAX_BUILD_VERSION)).'})(?:-rc)?(\d{1,'.(strlen(self::MAX_RC_VERSION)).'})?(?:-)?(beta|alpha)?$/';
       $regex = '/v?(\d)\.(\d)\.(\d)(?:-)?(beta|dev|stable)?$/';
-      dump($regex);
-      dump($current_version);
+
       preg_match_all($regex, $current_version, $matches, PREG_SET_ORDER, 0);
       if(!isset($matches[0]))
         return null;
@@ -230,7 +232,6 @@ class CreateAppRelease extends Command
           $major ++;
         }
       }
-      dump([$major, $minor, $build]);
       $extra = "";
       switch($type){
         case "beta":
@@ -249,14 +250,14 @@ class CreateAppRelease extends Command
     {
 //      Artisan::call("app:release:info");
       $this->current = app_version();
-      
+
       $type = "release"; //default type is release
 
       if($this->option("dev"))
         $type = "dev";
       elseif($this->option("beta"))
         $type = "beta";
-      
+
       $this->createRelease($type);
     }
 }
