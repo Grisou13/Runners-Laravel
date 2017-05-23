@@ -103,7 +103,7 @@ class CarController extends BaseController
         $type = $request->get("car_type");
         $t = CarType::firstOrCreate(["id"=>$type],["name"=>$type]);
         $car->type()->associate($t);
-        
+
         $car->type()->associate($t);
         $car->save();
         return $this->response()->created();
@@ -132,6 +132,6 @@ class CarController extends BaseController
     }
     public function removeComment(Request $request, Comment $comment){
       $comment->delete();
-      
+
     }
 }

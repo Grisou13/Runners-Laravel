@@ -59,6 +59,7 @@ class UserController extends BaseController
         $user = new User;
         $user->fill($request->all());
         $user->save();
+        $user->assignRole("runner");
         return $this->response()->created(route("users.show"),$user);
     }
     public function delete(User $user)

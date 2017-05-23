@@ -7,7 +7,6 @@ User: Joel.DE-SOUSA
           <td>Licence</td>
           <td>Marque</td>
           <td>Modèle</td>
-          <td>Places</td>
           <td>Commentaires</td>
       </tr>
   </thead>

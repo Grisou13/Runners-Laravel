@@ -101,7 +101,8 @@ class UserController extends Controller
   {
       $user = new User;
       $user->fill($request->except("_token"));
-      $user->role()->associate(Role::where("role","runner")->first());
+      $user->assignRole("runner");
+      //$user->role()->associate(Role::where("role","runner")->first());
       $user->save();
       return redirect()->route("users.show",$user);
   }

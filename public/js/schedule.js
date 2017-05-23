@@ -49,7 +49,7 @@ function ajaxRequest(method, url, data, callback) {
 }
 
 function updateCell(cellID){
-    console.log("UPDATE UPDATE UPDATE");
+    console.log("UPDATE");
     let cell = document.getElementById(cellID);
     cellID = cellID.split("-");
     let groupID = cellID[0];
@@ -106,6 +106,8 @@ function createTable(schedule, groups, day, gridID){
     schedule.forEach(function(hour){
         var th = document.createElement("th");
         th.innerHTML = hour;
+        th.style.webkitTransform = "rotate(-65deg)";
+        th.style.height = "45px";
         headerTR.appendChild(th);
     });
     theader.appendChild(headerTR);
@@ -120,7 +122,7 @@ function createTable(schedule, groups, day, gridID){
         var bodyTR = document.createElement("tr");
         var td = document.createElement("td");
         td.style.cursor = "none";
-        td.innerHTML = "G°" + group.id;
+        td.innerHTML = "Grp. " + group.name;
         td.style.color = "white";
         var rgb = _hexToRgb(group.color);
         td.style.backgroundColor = "rgba("+ [rgb["r"], rgb["g"], rgb["b"], 0.9].join(",") + ")";
@@ -173,14 +175,18 @@ function createTable(schedule, groups, day, gridID){
                 }
                 return false;
             });
-            td.addEventListener("mouseup",function(e){
 
-                // update the state of each selected div
-                // TODO use time-slot instead of using each cell independently
-                modified.forEach(function(cellID){
-                    // console.log(td.parentElement.parentElement.parentElement);
+            td.addEventListener("mouseup",function(e){
+                // TODO maybe use time-slot instead of using each cell independently
+                console.log("before update");
+                loadingDiv.style.display = "block";
+
+                modified.map(function(cellID){
                     updateCell(cellID);
+                    // update the state of each selected div
                 });
+                console.log("updated...");
+                loadingDiv.style.display = "none";
 
                 modified = [];
                 isdown = false;
@@ -247,7 +253,7 @@ schedule = ["08:00","08:30", "09:00","09:30",
     "04:00","04:30", "05:00","05:30",
     "06:00","06:30", "07:00","07:30"
 ];
-
+var loadingDiv = document.getElementById("loading");
 var groups = getAllGroups();
 
 createGrid(schedule, days, groups);

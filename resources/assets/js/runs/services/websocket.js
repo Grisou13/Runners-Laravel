@@ -13,23 +13,26 @@ import {RESET_RUNS} from "../actions/consts";
 
 
 export const middleware = store => next => action => {
+    console.log("middle ware yey")
     if(action.type == RESET_RUNS)
     {
-        store.getState().items.forEach(r => subscribeRun(r, store.dispatch))//TODO maybe put this somewhere else? dunno
-        store.getState().items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
+        store.getState().runs.items.forEach(r => subscribeRun(r, store.dispatch))//TODO maybe put this somewhere else? dunno
+        store.getState().runs.items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
     }
     const result = next(action)
     switch (action.type){
         case GOT_RUNS:
-            store.getState().items.forEach(r => subscribeRun(r, store.dispatch))//TODO maybe put this somewhere else? dunno
-            store.getState().items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
+            store.getState().runs.items.forEach(r => subscribeRun(r, store.dispatch))//TODO maybe put this somewhere else? dunno
+            store.getState().runs.items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
             break;
         case ADD_RUN:
             let run = action.payload
             subscribeRun(run, store.dispatch)
-            run.runners.map( s => subscribeSubscription(run,s,store.dispatch))
+            run.runners.forEach( s => subscribeSubscription(s,store.dispatch))
+            break;
         case DELETE_RUN:
             unsubscribeRun(action.payload)
+            break;
         default:
             return result;
     }
@@ -52,6 +55,7 @@ const transformRun = (run) => {
         status: run.status,
         title: run.name,
         begin_at: run.planned_at,
+        start_at: run.started_at ? run.started_at : null,
         nb_passenger: run.nb_passenger,
         waypoints: run.waypoints.map( p => transformWaypoint(p)),
         runners: run.runners.map( r => transformSub(r))

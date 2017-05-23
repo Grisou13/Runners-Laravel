@@ -13,9 +13,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $sta = \App\Helpers\Status::getUserStatus("actif");
         User::unguard();
-        Lib\Models\User::create([
+        $root = Lib\Models\User::create([
             "id"=>0,
             "email"=>"root@localhost",
             "phone_number"=>"",
@@ -26,7 +25,7 @@ class UserSeeder extends Seeder
             "lastname"=>"toor",
             "password"=>bcrypt("root")
         ]);
-
+        $root->assignRole("admin");
         // création d'un utilisateur driver
         
         $user = Lib\Models\User::create([
@@ -58,8 +57,8 @@ class UserSeeder extends Seeder
           ["Julien", "Borel", 1]
         ]);
 
-        $users->each(function($user) use($id_role){
-          User::create([
+        $users->each(function($user){
+          $u = User::create([
             "firstname" => $user[0],
             "lastname" => $user[1],
             "name"=> $user[0],
@@ -67,10 +66,10 @@ class UserSeeder extends Seeder
             "password" => bcrypt('secret'),
             "phone_number" => "07" . rand(7,9) . " " . rand(100,999) . " " . rand(10, 99) . " " . rand(10, 99),
             "sex" => $user[2],
-            "role_id" => $id_role,
-            "remember_token" => str_random(10),
+//            "remember_token" => str_random(10),
             "accesstoken"=>str_random(255)
           ]);
+          $u->assignRole("runner");
         });
     }
 }

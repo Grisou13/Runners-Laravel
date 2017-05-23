@@ -29,6 +29,17 @@ export const editRun = (run) => {
         payload:run
     }
 }
+export const printRuns = (runs = []) => {
+    window.location = "/runs/pdf?"+runs.reduce((acc, cur, i,t)=>{
+            if(i == 1)
+                return "runs[]="+acc+"&runs[]="+cur
+            else
+                return acc+"&runs[]="+cur
+        },"") //TODO reimplement this
+    // return {
+    //     type: "PRINTED"
+    // }
+}
 export const gotRun = (run) => {
     return {
         type: ADD_RUN,

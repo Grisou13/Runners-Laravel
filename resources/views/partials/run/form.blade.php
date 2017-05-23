@@ -13,6 +13,13 @@
         <div class="col-md-3 col-md-push-1">
             <a href="{{ route("runs.index") }}" class="btn btn-danger">Cancel</a>
         </div>
+        @if(auth()->check() && $run->exists)
+          <form method="post" action="{{ route("runs.destroy",$run) }}"  class="pull-right">
+              <input type="hidden" value="DELETE" name="_method">
+              <input type="hidden" value="{{ csrf_token() }}" name="_token">
+              <input type="submit" id="delete" value="Supprimer la course" class="btn btn-warning">
+          </form>
+        @endif
     </div>
 </div>
 
