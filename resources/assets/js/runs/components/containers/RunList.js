@@ -10,19 +10,27 @@ import Time from './../views/Time'
 import {startRun} from "./../../actions/runs";
 import {stopRun} from "./../../actions/runs";
 import {editRun} from "./../../actions/runs";
-import {fetchRuns} from './../../actions/runs'
+import {fetchRuns, printRuns} from './../../actions/runs'
 import _ from "lodash";
 const swal = window.swal
+
+const selectionMode = ({toggle,toggleAll,action}) => {
+    return (
+        <div>
+
+        </div>
+    )
+}
 
 @ui({
     key:"run-list",
     state:{
         hoverRun:null,
-        printing_selection:false,
-        print:{
-            selected: [],
-            selecting:false
-        }
+        selecting:false,
+        selected:[],
+        printing:false,
+        exporting:false
+
     }
 })
 class RunList extends React.Component
@@ -31,34 +39,90 @@ class RunList extends React.Component
         this.props.getRuns()
     }
     print(e){
+        let selected = this.props.ui.selected;
+        console.log("PRINTING")
+        this.disableList(e)
+        this.props.dispatch(printRuns(selected))
+    }
+    exportRuns(e){
+        this.disableList(e)
+    }
+
+    toggleSelectMode(e, action){
         e.preventDefault()
-        if(this.props.ui.printing_selection)
-        {
-            //print the runs :D
-        }
-        this.props.updateUI({print:{selecting:!this.props.ui.print.selecting}})
+        this.props.updateUI({...action,selecting:!this.props.ui.selecting, selected: this.props.runs.map(r => r.id)})
+        // if(this.props.ui.selecting)
+        //     this.props.updateUI({selected: })
+    }
+    toggleSelection(e, run){
+        console.log(run.id)
+        console.log(this.props.ui.selected)
+        console.log(e.target.checked)
+        console.log("================")
+        if(e.target.checked)
+            this.props.updateUI({selected: this.props.ui.selected.concat([run.id])})
+        else
+            this.props.updateUI({selected: this.props.ui.selected.filter( r => r != run.id )})
+    }
+    toggleList(e){
+        console.log(e.target.checked)
+        if(e.target.checked)
+            this.props.updateUI({selected: this.props.runs.map(r => r.id)})
+        else
+            this.props.updateUI({selected: []})
 
     }
-    addRunToPrintSelection(run){
-        this.props.updateUI({print:{selected:_.uniq(this.props.ui.print.selected.push(run))}})
+    disableList(e)
+    {
+        e.preventDefault()
+        this.props.resetUI()
     }
-    toggleRunPrint(run){
-        if(this.props.ui.print.selected.find((e)=>e == run))
-            this.addRunToPrintSelection(run)
-        else
-            this.removeFromPrintSelection(run)
+    renderButtons(){
+        if(this.props.ui.printing){
+            return (
+                <div>
+                    <input type="checkbox" checked={this.props.ui.selected.length == this.props.runs.length} onChange={(e)=>this.toggleList(e)} />
+                    <button onClick={(e)=>this.print(e)} className="btn btn-default">
+                        <span className="glyphicon glyphicon-ok"/>
+                    </button>
+                    <button className="btn btn-default" onClick = {(e)=>{this.disableList(e)}}>
+                        <span className="glyphicon glyphicon-remove" />
+                    </button>
+                </div>
+            );
+        }
+        else if(this.props.ui.exporting){
+            return (
+                <div>
+                    <input type="checkbox" checked={this.props.ui.selected.length == this.props.runs.length} onChange={(e)=>this.toggleList(e)} />
+                    <button onClick={(e)=>this.exportRuns(e)} className="btn btn-default">
+                        <span className="glyphicon glyphicon-ok"/>
+                    </button>
+                    <button className="btn btn-default" onClick = {(e)=>{this.disableList(e)}}>
+                        <span className="glyphicon glyphicon-remove" />
+                    </button>
+                </div>
+            );
+        }
+        else{
+            return (
+                <div>
+                    <button onClick={(e)=>this.toggleSelectMode(e, {printing:true})} className="btn btn-default">
+                        <span className="glyphicon glyphicon-print" />
+                    </button>
+                    <button onClick={(e)=>this.toggleSelectMode(e, {exporting: true})} className="btn btn-default">
+                        <span className="glyphicon glyphicon-save-file"/>
+                    </button>
+                </div>
+            );
+        }
     }
-    removeFromPrintSelection(run){
-        this.props.updateUI({print:{selected:this.props.ui.print.selected.filter((e)=>e != run)}})
-    }
+
     renderList(runs){
         return (
             <div className="container-fluid">
                 <div className="row print-controls">
-                    <input type="checkbox" value={this.props.ui.print.selected.length == this.props.runs.length} onClick={()=>this.props.runs.forEach( r => this.addRunToPrintSelection(r.id))} />
-                    <button onClick={(e)=>this.print(e)} className="btn btn-default">
-                        <span className="glyphicon glyphicon-print" />
-                    </button>
+                    {this.renderButtons()}
                 </div>
                 <div className="row text-center">
                     <Time UTCOffset={2} />
@@ -66,23 +130,26 @@ class RunList extends React.Component
                 <div className="row">
                     {runs.map(run =>{
                         return (
-                        <div className={status + ' run-container' + (this.props.ui.print.selecting ? "hovered" : "")} /*onMouseLeave={(e)=>this.props.updateUI({hoverRun:null})} onMouseOver={(e)=>this.props.updateUI({hoverRun:run.id})}*/ >
-                            <div className="btn-container">
-                                { this.props.ui.print.selecting ? <input className="control" type="checkbox" checked={this.props.ui.print.selected.find((e)=>e == run)} onClick={()=>this.toggleRunPrint(run)} /> : null}
-                                <a href="#" onClick={()=>this.props.editRun(run)} className="control"><span className="glyphicon glyphicon-edit" /></a>
-                                <a href="#" onClick={()=>this.props.startRun(run)} className="control">
-                                    <span className="glyphicon glyphicon-play" />
-                                </a>
-                                <a href="#" onClick={()=>this.props.stopRun(run)} className="control"><span className="glyphicon glyphicon-ban-circle" /></a>
-                                {/*<a href="#" onClick={()=>this.props.dispatch(deleteRun(run))} className="control"><span className="glyphicon glyphicon-minus"></span></a>*/}
+                            <div key={"run-"+run.id} className={run.status + ' run-container ' + (this.props.ui.selecting ? "hovered" : "")} /*onMouseLeave={(e)=>this.props.updateUI({hoverRun:null})} onMouseOver={(e)=>this.props.updateUI({hoverRun:run.id})}*/ >
+                                    {
+                                        this.props.ui.selecting ?
+                                        (
+                                            <div className="btn-container">
+                                                <input className="control" type="checkbox" checked={this.props.ui.selected.filter((r)=>r == run.id).length == 1} onChange={(e)=>this.toggleSelection(e,run)} />
+                                            </div>
+                                        )
+                                            :
+                                        (
+                                        <div className="btn-container">
+                                            <a href="#" onClick={()=>this.props.editRun(run)} className="control"><span className="glyphicon glyphicon-edit" /></a>
+                                            {run.start_at == null || run.start_at == "" ? <a href="#" onClick={()=>this.props.startRun(run)} className="control"><span className="glyphicon glyphicon-play" /></a> : <a href="#" onClick={()=>this.props.stopRun(run)} className="control"><span className="glyphicon glyphicon-ban-circle" /></a>}
+
+                                        </div>
+                                        )
+                                    }
+                                <Run  {...run} />
                             </div>
-
-                            <Run key={"run-"+run.id} {...run} />
-                        </div>
-
-                        )
-                    }
-                    )}
+                    )})}
                 </div>
             </div>
         )
@@ -154,7 +221,7 @@ const getVisibleRuns = (runs, filters) => {
     }).orderBy(function(r){
         return r.status
     }).value()
-    runs.forEach(r => console.log(r.status))
+    runs = runs.filter( r => !r.start_at && !r.end_at)
     if(filters.status.length)
         runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
     if(filters.name.length)
@@ -195,9 +262,8 @@ const getVisibleRuns = (runs, filters) => {
     // })
     return runs;
 }
-
 RunList.propTypes = {
-    runs:  PropTypes.arrayOf(Run.propTypes).isRequired
+    runs:  PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => {

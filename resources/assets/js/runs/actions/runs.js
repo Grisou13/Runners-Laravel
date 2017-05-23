@@ -22,12 +22,23 @@ export const stopRun = run => dispatch => {
 
 }
 export const editRun = (run) => {
-    window.location = window.Laravel.basePath + `/runs/${run.id}/edit`UserSEe
+    window.location = window.Laravel.basePath + `/runs/${run.id}/edit`
 
     return {
         type: EDIT_RUN,
         payload:run
     }
+}
+export const printRuns = (runs = []) => {
+    window.location = "/runs/pdf?"+runs.reduce((acc, cur, i,t)=>{
+            if(i == 1)
+                return "runs[]="+acc+"&runs[]="+cur
+            else
+                return acc+"&runs[]="+cur
+        },"") //TODO reimplement this
+    // return {
+    //     type: "PRINTED"
+    // }
 }
 export const gotRun = (run) => {
     return {

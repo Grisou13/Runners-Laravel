@@ -74,6 +74,6 @@
 //    pdf.fromHTML(document.body.innerHTML)
 //    pdf.autoPrint()
 //    pdf.output("dataurlnewwindow")
-//    window.print();
+    window.print();
 </script>
 @endpush

@@ -11,8 +11,13 @@ namespace Api\Controllers\V1\Runs;
 use Api\Controllers\BaseController;
 use Api\Requests\ListRunRequest;
 use Api\Requests\SearchRequest;
+use App\Events\RunDeletedEvent;
 use App\Events\RunStartedEvent;
 use App\Events\RunStoppedEvent;
+use App\Events\RunSubscriptionCreatedEvent;
+use App\Events\RunSubscriptionDeletedEvent;
+use App\Events\RunSubscriptionSavedEvent;
+use App\Events\RunSubscriptionUpdatedEvent;
 use App\Events\RunUpdatedEvent;
 use App\Http\Requests\CreateRunRequest;
 use Carbon\Carbon;
@@ -84,14 +89,15 @@ class RunController extends BaseController
             $sub->user()->associate($userId);
             $sub->car()->associate($carId);
             $sub->car_type()->associate($carTypeId);
-            if($sub->exists)
+            if($sub->exists) {
               $sub->save();
+              broadcast(new RunSubscriptionUpdatedEvent($sub));
+            }
             else{
               $sub->run()->associate($run);
               $subs[] = $sub;
             }
           }
-
         }
         if($request->has("waypoints")) {
           $run->waypoints()->sync([]);//remove all waypoints and reassign them
@@ -100,10 +106,10 @@ class RunController extends BaseController
           }
 
         }
-
         $run->save();
         foreach($subs as $s){
           $s->save();
+          broadcast(new RunSubscriptionCreatedEvent($s));
         }
         broadcast(new RunUpdatedEvent($run));
         return $run;
@@ -151,6 +157,7 @@ class RunController extends BaseController
     {
         $run->ended_at = Carbon::now();
         $run->save();
+        broadcast(new RunDeletedEvent($run));
         $run->delete();
         return $run;
     }
@@ -194,6 +201,7 @@ class RunController extends BaseController
         $sub->ended_at = Carbon::now();
         $sub->save();
         $sub->delete();
+        broadcast(new RunSubscriptionDeletedEvent($sub));
       });
       $run->save();
       event(new RunStoppedEvent($run));
