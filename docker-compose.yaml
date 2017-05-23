@@ -1,6 +1,8 @@
 version: "2"
 services:
   app:
+    depends_on:
+      - composer
     env_file:
       - ./config/docker/app.env
     working_dir: /var/www
@@ -14,6 +16,8 @@ services:
       - database
     expose:
       - "9000"
+    ports:
+      - "9000:9000"
   app-queue:
     env_file:
       - ./config/docker/app.env
