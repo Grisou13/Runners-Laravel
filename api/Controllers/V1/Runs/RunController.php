@@ -106,6 +106,7 @@ class RunController extends BaseController
           }
 
         }
+        dump("saving");
         $run->save();
         foreach($subs as $s){
           $s->save();
@@ -137,7 +138,7 @@ class RunController extends BaseController
 
         $run->fill($request->except(["_token","token"]));
         if($run->name == null)
-          $run->name =  $request->get("title",$request->get("artist"));
+          $run->name =  $request->get("title",$request->get("artist", null));
 
         $run->save();
         //save relationships
@@ -180,9 +181,9 @@ class RunController extends BaseController
 //          throw new NotAcceptableHttpException("The run cannot start because number you don't have enough seats avaiable ($seats) in cars (needed : {$run->nb_passenger} )");
         $run->started_at = Carbon::now();
         $run->status="gone";
-        $run->subscriptions->each(function($sub){
+        $run->subscriptions->each(function($sub) use($run){
           $sub->status = "gone";
-          $sub->started_at = Carbon::now();
+          $sub->started_at = $run->started_at;
           $sub->save();
         });
         $run->save();

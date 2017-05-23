@@ -13,7 +13,7 @@ class AddEnmdedAtAndStartedAtToRunSubscriptions extends Migration
      */
     public function up()
     {
-        Schema::table("run_drivers", function($table){
+        Schema::table("run_drivers", function(Blueprint $table){
           $table->datetime("started_at")->nullable();
           $table->datetime("ended_at")->nullable();
         });
@@ -26,9 +26,9 @@ class AddEnmdedAtAndStartedAtToRunSubscriptions extends Migration
      */
     public function down()
     {
-      Schema::table("run_drivers", function($table){
-        $table->dropColumn("started_at");
-        $table->dropColumn("ended_at");
-      });
+//      Schema::table("run_drivers", function(Blueprint $table){
+//        $table->dropColumn("started_at");
+//        $table->dropColumn("ended_at");
+//      });
     }
 }

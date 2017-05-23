@@ -98,7 +98,7 @@ class RunObserver
       $run->status = "finished";
       return $run;
     }
-    if($run->started_at == null) {
+    if($run->started_at != null) {
        $run->status="gone";
       return $run;
     }
@@ -121,7 +121,7 @@ class RunObserver
       }
     }
     else{
-      if($run->subscriptions()->ofStatus("finished")->count() == $sub_count)
+      if($run->status != "finished" && $run->subscriptions()->ofStatus("finished")->count() == $sub_count)
         $run->status = "finished";
     }
 
