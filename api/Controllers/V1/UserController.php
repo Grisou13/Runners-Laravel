@@ -56,6 +56,8 @@ class UserController extends BaseController
     }
     public function store(CreateUserRequest $request)
     {
+      dump('test');
+        dump($request);
         $user = new User;
         $user->fill($request->all());
         $user->save();

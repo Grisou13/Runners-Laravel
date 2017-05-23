@@ -54,6 +54,10 @@ User: Joel.DE-SOUSA
                         <a href="{{ url('images/'.$user->profileImage()->filename)}}" class="thumbnail">
                           <img src="{{ url('images/'.$user->profileImage()->filename)}}" alt="facepicture">
                         </a>
+                      @else
+                        <a href="{{ url('images/icons/default_pp.png')}}" class="thumbnail">
+                          <img src="{{ url('images/icons/default_pp.png')}}" alt="facepicture">
+                        </a>
                       @endif
                       <div class="caption">
                         <form method="post" enctype="multipart/form-data" files="true" action="{{ route('image.upload') }}">
@@ -76,6 +80,10 @@ User: Joel.DE-SOUSA
                       @if($user->licenseImage() != null)
                         <a href="{{ url('images/' . $user->licenseImage()->filename)}}" class="thumbnail">
                           <img src="{{ url('images/' . $user->licenseImage()->filename)}}" alt="facepicture">
+                        </a>
+                      @else
+                        <a href="{{ url('images/icons/default_pp.png')}}" class="thumbnail">
+                          <img src="{{ url('images/icons/default_pp.png')}}" alt="facepicture">
                         </a>
                       @endif
                       <div class="caption">
