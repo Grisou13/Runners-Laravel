@@ -84,7 +84,7 @@ services:
 
   echo-server:
     volumes:
-      - ./:/app
+      - ./config/broadcasting/laravel-echo-server-staging.json:/app/laravel-echo-server.json
     build:
       context: ./config/docker
       dockerfile: echo.dockerfile

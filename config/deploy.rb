@@ -28,7 +28,9 @@ append :linked_dirs,
       "storage/framework/cache",
       "storage/framework/sessions",
       "storage/framework/views",
-      "storage/logs"
+      "storage/logs",
+      "node_modules",
+      "vendor"
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('storage')
@@ -42,7 +44,9 @@ set :file_permissions_paths, [
   "storage/framework/cache",
   "storage/framework/sessions",
   "storage/framework/views",
-  "storage/logs"
+  "storage/logs",
+  "node_modules",
+  "vendor"
 ]
 set :file_permissions_groups, ["deploy"]
 set :file_permissions_users, ["deploy"]

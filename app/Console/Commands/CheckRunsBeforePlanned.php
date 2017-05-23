@@ -13,7 +13,7 @@ class CheckRunsBeforePlanned extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'runs:check';
 
     /**
      * The console command description.
