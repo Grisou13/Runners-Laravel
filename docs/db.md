@@ -4,8 +4,9 @@ Maybe you're a special kind of bird and need help reading models, and migrations
 
 So here's a dump of our database model
 
-If you relly need a visual model, download workbench. Connect to the database. And then Database > Reverse Engineer.
-Now you can rearrane a bit the tables for it to be clearer.
+If you really need a visual model, download workbench. Connect to the database. And then Database > Reverse Engineer.
+Now you can rearrange a bit the tables for it to be clearer.
+
 ![help is comming](https://media.giphy.com/media/fpXxIjftmkk9y/giphy.gif)
 
 #Schema documentation
