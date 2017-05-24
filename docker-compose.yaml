@@ -89,12 +89,16 @@ services:
   echo-server:
     volumes:
       - ./config/broadcasting/laravel-echo-server-staging.json:/app/laravel-echo-server.json
+      - ./database/lecho.sqlite:/database/laravel-echo-server.sqlite
     build:
       context: ./config/docker
       dockerfile: echo.dockerfile
     links:
       - cache
-
+    expose:
+      - 6001
+    ports:
+      - "6001:6001"
   cache:
     image: redis:3.0-alpine
     expose:

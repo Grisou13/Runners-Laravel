@@ -1,26 +1,26 @@
 {
-	"authHost": "http://localhost",
-	"authEndpoint": "/broadcasting/auth",
-	"clients": [
-		{
-			"appId": "680a9cfa3ed31bd5",
-			"key": "84aef5d7eda7ba0481d3c5620718c0c6"
-		}
-	],
-	"database": "sqlite",
-	"databaseConfig": {
-		"redis": {
-          "host":"cache"
-        },
-		"sqlite": {
-			"databasePath": "/laravel-echo-server-staging.sqlite"
-		}
-	},
-	"devMode": true,
-	"host": null,
-	"port": "6001",
-	"protocol": "http",
-	"socketio": {},
-	"sslCertPath": "",
-	"sslKeyPath": ""
+  "authHost": "http://web",
+  "authEndpoint": "/broadcasting/auth",
+  "clients": [
+    {
+      "appId": "3d57c7e2596172b8",
+      "key": "516c272d5f9adb99542cd46b9c5cc807"
+    }
+  ],
+  "database": "redis",
+  "databaseConfig": {
+    "redis": {
+      "host":"cache"
+    },
+    "sqlite": {
+      "databasePath": "/database/laravel-echo-server.sqlite"
+    }
+  },
+  "devMode": true,
+  "host": "",
+  "port": "6001",
+  "protocol": "http",
+  "socketio": {},
+  "sslCertPath": "",
+  "sslKeyPath": ""
 }
