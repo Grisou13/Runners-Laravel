@@ -11,14 +11,7 @@
 @endpush
 @section("content")
 <div class="l">
-    <div class="row" >
-        <div class="col-md-1">
-            <a href="#" class="btn btn-danger pull-left closed" id="padlock" role="button" onclick="enable()">
-                &nbsp Vérouillé
-                <span class="glyphicon glyphicon-pushpin"></span>
-            </a>
-        </div>
-    </div>
+
     <!-- Display each group -->
     <div class="row " id="group-container">
         @foreach($groups as $group)
@@ -53,7 +46,7 @@
             @endforeach
         </div>
         <!-- New group -->
-        <button type="button" class="btn btn-default" onclick="getNewGroup()" >Créer groupe</button>
+        <button type="button" class="btn btn-default" onclick="getNewGroup()" >Créer un nouveau groupe</button>
 
     </div>
 </div>

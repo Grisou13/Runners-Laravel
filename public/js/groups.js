@@ -31,7 +31,7 @@ function getNewGroup(){
         newContainer.style = "background-color : #" + data["color"] + ";";
         var heading = document.createElement("div");
         heading.classList.add("panel-heading");
-        heading.appendChild(document.createTextNode("Nouveau groupe"));
+        heading.appendChild(document.createTextNode(data["name"]));
         heading.style = "background-color : #" + data["color"] + ";";
         // heading.style += "color : white;";
         newContainer.appendChild(heading);
@@ -42,7 +42,7 @@ function getNewGroup(){
     };
     window.api.post("/groups",{})
         .then(function(res){
-            console.log("worked");
+            console.log("group created");
             success(res);
         })  .catch(function (error) {
         console.log(error);
