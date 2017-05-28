@@ -20,9 +20,10 @@ class RunUpdatedEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Run $run)
-    {
-        $this->run = $run;
+    public function __construct(Run $run){
+        $this->run = $run->load(["waypoints","runners","runners.car","runners.car.car_type","runners.car_type","runners.user"]);
+        \Log::debug("CREA>TING EVENT RUN UPDATED");
+        \Log::debug(print_r($this->run,true));
     }
     public function broadcastAs(){
         return "updated";
@@ -36,12 +37,12 @@ class RunUpdatedEvent implements ShouldBroadcast
     {
         return new Channel('runs.'.$this->run->id);
     }
-    public function broadcastWith()
-    {
-      return [
-        "run"=>$this->run,
-        "waypoints"=>$this->run->waypoints,
-        "subscriptions"=>$this->run->runners()->with(["car_type","user","car","car.car_type"])->get()
-      ];
-    }
+    // public function broadcastWith()
+    // {
+    //   return [
+    //     "run"=>$this->run->load(["waypoints,runners,runners.car,runners.car.car_type,runners.car_type,runners.users"]),
+    //     "waypoints"=>$this->run->waypoints,
+    //     "subscriptions"=>$this->run->runners()->with(["car_type","user","car","car.car_type"])->get()
+    //   ];
+    // }
 }

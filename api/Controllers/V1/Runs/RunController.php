@@ -76,7 +76,7 @@ class RunController extends BaseController
         $subs = [];
         if($request->has("subscriptions")) {
           $t = collect($request->get("subscriptions", []));
-          $run->subscriptions()->whereNotIn("id",$t->pluck("id")->filter(function($i){return !is_null($i);}))->get()->each(function(RunSubscription $sub) use ($t){
+          $run->subscriptions()->whereNotIn("id",$t->pluck("id")->filter())->get()->each(function(RunSubscription $sub){
             // if(!$t->contains("id",$sub->id))
               $sub->forceDelete();
           });//reset the subscriptions of a run
@@ -106,13 +106,15 @@ class RunController extends BaseController
           }
 
         }
-        dump("saving");
-        $run->save();
+
         foreach($subs as $s){
+          $exists = $s->exists;
           $s->save();
-          broadcast(new RunSubscriptionCreatedEvent($s));
         }
-        broadcast(new RunUpdatedEvent($run));
+        $run->save();
+        // broadcast(new RunUpdatedEvent($run));
+        //dd($run);
+
         return $run;
     }
     protected function addSubsToRun(Request $request, Run $run)
@@ -158,7 +160,7 @@ class RunController extends BaseController
     {
         $run->ended_at = Carbon::now();
         $run->save();
-        broadcast(new RunDeletedEvent($run));
+        event(new RunDeletedEvent($run));
         $run->delete();
         return $run;
     }
@@ -173,7 +175,7 @@ class RunController extends BaseController
               throw new NotAcceptableHttpException("All runners have not been filled, please fill run subscription $sub->id");
           }
         }
-        
+
 //        $seats = $run->subscriptions->map(function($sub){
 //          return $sub->car->nb_place;
 //        })->sum();
@@ -190,7 +192,7 @@ class RunController extends BaseController
       //TODO: rethink where to put this event
       //notify the run has started, this will triger observers that will put every utalised car and runner on "gone" status
         event(new RunStartedEvent($run));
-        broadcast(new RunUpdatedEvent($run));
+        // event(new RunUpdatedEvent($run));
         return $run;
 
     }
@@ -202,11 +204,11 @@ class RunController extends BaseController
         $sub->ended_at = Carbon::now();
         $sub->save();
         $sub->delete();
-        broadcast(new RunSubscriptionDeletedEvent($sub));
+        event(new RunSubscriptionDeletedEvent($sub));
       });
       $run->save();
       event(new RunStoppedEvent($run));
-      // broadcast(new RunUpdatedEvent($run));
+      // event(new RunUpdatedEvent($run));
       // $run->delete();
     }
     public function stop(Request $request, Run $run)
@@ -214,7 +216,7 @@ class RunController extends BaseController
       $user = $this->user();
       if(!$user->can("end run"))
         throw new UnauthorizedHttpException("You are not allowed to finish a run");
-      
+
       if($user->can("force run end"))
         $this->terminateRun($run);
       else{

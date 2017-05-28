@@ -50,7 +50,7 @@ class RunObserver
     $run = $event->run;
     if($run->ended_at == null)
       $run->ended_at = Carbon::now();
-
+    
     $run->status = "finished";
 
   }
@@ -63,13 +63,12 @@ class RunObserver
   }
   public function updateRunStatus($event)
   {
-
     $run = $event->run;
     $status = $run->status;
     $this->adaptRunStatus($run);
     $run->save();
-    if($status == $run->fresh()->status)//if the status changed, we update it
-      broadcast(new RunStatusUpdatedEvent($run));
+    // if($status == $run->fresh()->status)//if the status changed, we update it
+    //   broadcast(new RunStatusUpdatedEvent($run));
   }
   public function runWasDeleted(RunDeletedEvent $event)
   {
@@ -94,10 +93,10 @@ class RunObserver
   }
   protected function adaptRunStatus(Run $run)
   {
-    if($run->ended_at != null){
-      $run->status = "finished";
-      return $run;
-    }
+    // if($run->ended_at != null && $run->started_at != null){
+    //   $run->status = "finished";
+    //   return $run;
+    // }
     if($run->started_at != null) {
        $run->status="gone";
       return $run;

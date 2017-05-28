@@ -124,8 +124,8 @@ class RunController extends Controller
         }
         $data = array_merge($run_data, ["subscriptions"=>$subs]);
         $run = $this->api->be(Auth::user())->patch("/runs/{$run->id}",$data);
-
-//        return redirect()->route("runs.index");
+        // dd($run);
+      //  return redirect()->route("runs.index");
         return redirect()->back();
     }
 

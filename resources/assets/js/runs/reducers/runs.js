@@ -3,7 +3,7 @@ const defaultState = {
     loaded:false,
     error:false
 }
-import {GOT_RUNS, ADD_RUN} from './../actions/consts'
+import {GOT_RUNS, ADD_RUN, UPDATE_RUN} from './../actions/consts'
 import {DELETE_RUN} from "../actions/consts";
 import {SUBSCRIPTION_CREATED} from "../actions/consts";
 import {SUBSCRIPTION_DELETED} from "../actions/consts";
@@ -31,7 +31,9 @@ const runs = (state = defaultState, action) => {
             return Object.assign({},state, {items: []})
         case FETCHING_RUN_FAILED:
             return Object.assign({}, state, {loaded: true, error: action.error})
-
+        case UPDATE_RUN:
+            var runId = action.payload.id
+            return Object.assign({},state, {items: state.items.filter(run =>run.id != runId)},{items:[...state.items, action.payload]})
         case SUBSCRIPTION_CREATED:
             var run = action.run
             var sub = action.payload

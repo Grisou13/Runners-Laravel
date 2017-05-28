@@ -13,16 +13,21 @@ import {RESET_RUNS} from "../actions/consts";
 
 
 export const middleware = store => next => action => {
-    console.log("middle ware yey")
     if(action.type == RESET_RUNS)
     {
-        store.getState().runs.items.forEach(r => subscribeRun(r, store.dispatch))//TODO maybe put this somewhere else? dunno
-        store.getState().runs.items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
+        store.getState().runs.items.forEach(r => unsubscribeRun(r, store.dispatch))
+        store.getState().runs.items.forEach(r => r.runners.forEach( s => unsubscribeSubscription(s,store.dispatch)))
     }
     const result = next(action)
+    console.log(result)
+    console.log(store.getState())
+    console.log("================");
     switch (action.type){
+        case RESET_RUNS:
+          store.getState().runs.items.forEach(r => subscribeRun(r, store.dispatch))
+          store.getState().runs.items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
         case GOT_RUNS:
-            store.getState().runs.items.forEach(r => subscribeRun(r, store.dispatch))//TODO maybe put this somewhere else? dunno
+            store.getState().runs.items.forEach(r => subscribeRun(r, store.dispatch))
             store.getState().runs.items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
             break;
         case ADD_RUN:
@@ -57,8 +62,8 @@ const transformRun = (run) => {
         begin_at: run.planned_at,
         start_at: run.started_at ? run.started_at : null,
         nb_passenger: run.nb_passenger,
-        waypoints: run.waypoints.map( p => transformWaypoint(p)),
-        runners: run.runners.map( r => transformSub(r))
+        waypoints: run.waypoints ? run.waypoints.map( p => transformWaypoint(p)) : [],
+        runners: run.runners ? run.runners.map( r => transformSub(r)) : []
     }
 }
 const transformSub = (sub) => {
@@ -96,7 +101,10 @@ export const unsubscribeRun = (run) =>{
     if(echo && !window.LaravelEcho.connector.socket.connected) return false
     echo.channel(`runs.${run.id}`).unsubscribe();
     echo.channel(`runs.${run.id}.subscriptions`).unsubscribe();
-    run.runners.forEach( r =>  echo.channel(`runs.${run.id}.subscriptions.${r.id}`).unsubscribe() );
+    run.runners.forEach( r =>  unsubscribeSubscription(r) );
+}
+export const unsubscribeSubscription = (sub) => {
+  echo.channel(`runs.${sub.run_id}.subscriptions.${sub.id}`).unsubscribe()
 }
 export const subscribeSubscription = (sub,dispatcher) => {
     var echo = window.LaravelEcho
@@ -127,19 +135,23 @@ export const subscribeSubscription = (sub,dispatcher) => {
 export const subscribeRun = (run, dispatcher) => {
     var echo = window.LaravelEcho
     if(echo && !window.LaravelEcho.connector.socket.connected) return false
-    console.log(run)
+    console.log(`subbing run ${run.id}`)
+    echo.channel("runs")
+    .on("updated", e => console.log(e))
     echo.channel(`runs.${run.id}`)
-        .on("updated", e => {
+        .on("updated", (e) => {
+          console.log("run updated")
+          console.log(e)
             var run = transformRun(e.run)
-            run.runners = e.subscriptions.map(s => transformSub(s))
-            run.waypoints = e.waypoints.map(w => transformWaypoint(w))
+            // run.runners = e.subscriptions.map(s => transformSub(s))
+            // run.waypoints = e.waypoints.map(w => transformWaypoint(w))
             console.log("updated")
             dispatcher(updateRun(run))
         })
     echo.channel(`runs.${run.id}`)
         .on("deleted", (e)=>{
             var run = transformRun(e.run)
-            console.log("deleted")
+            console.log("run deleted")
             unsubscribeRun(run)
             dispatcher(deleteRun(run))
         })
