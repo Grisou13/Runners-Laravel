@@ -221,14 +221,13 @@ function getAllGroups(){
  */
 function getAllDays(){
     //TODO query the api to get start and end dates of the paléo
-    //for the moment, we only return an array of dates from now in one week
+    // starts few days before the paléo, end few days after
     let startDate = moment('2017-07-13');
     let endDate = moment(startDate).add(2, "week");
     return _getDates(startDate.format(), endDate.format());
 }
 
 var days = getAllDays();
-console.log(days);
 
 schedule = ["08:00","08:30", "09:00","09:30",
     "10:00","10:30", "11:00","11:30",
@@ -250,4 +249,3 @@ createGrid(schedule, days, groups);
 
 //TODO https://laravel.com/docs/5.4/dusk#waiting-for-elements
 //TODO visual division of hours and day&night
-//TODO 'waiting' icon (or disable table)
