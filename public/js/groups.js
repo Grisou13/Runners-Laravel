@@ -65,7 +65,7 @@ function getNewGroup(){
     };
     window.api.post("/groups",{})
         .then(function(res){
-            console.log("worked");
+            console.log("group created");
             success(res);
         })  .catch(function (error) {
         console.log(error);
