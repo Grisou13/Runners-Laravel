@@ -113,7 +113,6 @@ class RunController extends BaseController
         }
         $run->save();
         // broadcast(new RunUpdatedEvent($run));
-        //dd($run);
 
         return $run;
     }
@@ -160,21 +159,16 @@ class RunController extends BaseController
     {
         $run->ended_at = Carbon::now();
         $run->save();
-        event(new RunDeletedEvent($run));
+        
         $run->delete();
         return $run;
     }
     public function start(Request $request,Run $run)
     {
       //check all subscriptions if they are good
-        if(!$this->user()->can("force run start"))
-        {
-          foreach($run->subscriptions as $sub)
-          {
-            if(($sub->car_id == null || $sub->user_id == null) || ($sub->car_id != null || $sub->user_id == null) || ($sub->car_id == null || $sub->user_id != null))
-              throw new NotAcceptableHttpException("All runners have not been filled, please fill run subscription $sub->id");
-          }
-        }
+        if(!$this->user()->hasPermissionTo("force run start") && $run->status != "ready")
+          throw new UnauthorizedHttpException("Not every convoy has been assigned");
+        
 
 //        $seats = $run->subscriptions->map(function($sub){
 //          return $sub->car->nb_place;
@@ -191,7 +185,7 @@ class RunController extends BaseController
         $run->save();
       //TODO: rethink where to put this event
       //notify the run has started, this will triger observers that will put every utalised car and runner on "gone" status
-        event(new RunStartedEvent($run));
+        broadcast(new RunStartedEvent($run))->toOthers();
         // event(new RunUpdatedEvent($run));
         return $run;
 
@@ -214,10 +208,11 @@ class RunController extends BaseController
     public function stop(Request $request, Run $run)
     {
       $user = $this->user();
-      if(!$user->can("end run"))
+
+      if(!$user->hasPermissionTo("end run"))
         throw new UnauthorizedHttpException("You are not allowed to finish a run");
 
-      if($user->can("force run end"))
+      if($user->hasPermissionTo("force run end"))
         $this->terminateRun($run);
       else{
         $sub = $run->subscriptions()->whereHas("user",function($q) use($user){return $q->where("users.id",$user->id);})->first();
@@ -232,6 +227,7 @@ class RunController extends BaseController
         }))
           $this->terminateRun($run);
       }
+      broadcast(new RunStoppedEvent($run))->toOthers();
       return $run;
     }
 }

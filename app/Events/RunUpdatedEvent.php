@@ -35,7 +35,7 @@ class RunUpdatedEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('runs.'.$this->run->id);
+        return [new Channel('runs.'.$this->run->id)];
     }
     // public function broadcastWith()
     // {

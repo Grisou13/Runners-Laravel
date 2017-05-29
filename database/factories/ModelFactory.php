@@ -55,7 +55,7 @@ $factory->define(Lib\Models\Car::class, function (Faker\Generator $faker){
         "nb_place"=>$faker->numberBetween(3,7),
         "car_type_id"=>function(){return factory(Lib\Models\CarType::class)->create()->id;},
         //"car_type_id"=>factory(\Lib\Models\CarType::class)->create()->id,
-        "name"=>$faker->numberBetween(1,18),
+//        "name"=>$faker->numberBetween(1,18),
     ];
 });
 
@@ -178,7 +178,7 @@ $factory->define(Lib\Models\Run::class, function (Faker\Generator $faker){
 });
 $factory->define(Lib\Models\RunSubscription::class, function(Faker\Generator $faker){
   return [
-    "status"=>"not ok"
+    "status"=>"error"
   ];
 });
 $factory->define(Lib\Models\Group::class, function (Faker\Generator $faker){

@@ -61,6 +61,26 @@ paths:
           description: "Allows to recover the runs according to their status such as : [reserved, finish, current]. Example : /runs?status=finish,current"
           required: false
           type: string
+        - name: sortBy
+          in: query
+          description: "Allows to order the runs directly from query. Multiple fields and order can be supplied (seperated by ','). Example: /runs?sortBy=planned_at DESC, status ASC"
+          required: false
+          type: string
+        - name: between
+          in: query
+          description: "Retrieves run that have planned_at between a certain time frame"
+          required: false
+          type: date
+        - name: actif
+          in: query
+          required: false
+          type: boolean
+          description: "Filters run that are already gone and finished"
+        - name: finished
+          in: query
+          required: false
+          type: boolean
+          description: "Filters all the runs that are finished"
       tags:
         - Runs
         - Users
