@@ -220,14 +220,15 @@ function getAllGroups(){
  * Get all days where we can assign schedule
  */
 function getAllDays(){
-    //TODO query the api to get the days in config
-    //ajax
+    //TODO query the api to get start and end dates of the paléo
     //for the moment, we only return an array of dates from now in one week
-    return _getDates(moment().format(), moment().add(1, "week").format());
+    let startDate = moment('2017-07-13');
+    let endDate = moment(startDate).add(2, "week");
+    return _getDates(startDate.format(), endDate.format());
 }
 
-
 var days = getAllDays();
+console.log(days);
 
 schedule = ["08:00","08:30", "09:00","09:30",
     "10:00","10:30", "11:00","11:30",
