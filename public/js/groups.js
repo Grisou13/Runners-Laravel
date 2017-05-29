@@ -11,7 +11,24 @@ var drake = null;
     }
     return array;
  }
+function deleteGroup(groupID){
+    let groupContainer = document.getElementById("container-"+groupID);
+    // delete in the api
+    let success = function(deleted){
 
+    };
+    window.api.delete("/groups/"+groupID,{})
+        .then(function(res){
+            console.log("Deleted");
+            console.log(res);
+        })
+        .catch(function (error) {
+            console.log(error);
+         });
+
+    // delete (hide for the moment) the div
+    groupContainer.style.display = "none";
+}
 function getNewGroup(){
     var base_path = window.Laravel.basePath;
     var url = base_path + "/api/groups?token=root";
@@ -19,8 +36,6 @@ function getNewGroup(){
     var success = function(created) {
         data = created.data;
         console.log(data);
-        // console.log("background-color : " + data["color"] + " !important;");
-
         // create a new container
         var newContainer = document.createElement("div");
         newContainer.classList.add("panel");
@@ -31,10 +46,18 @@ function getNewGroup(){
         newContainer.style = "background-color : #" + data["color"] + ";";
         var heading = document.createElement("div");
         heading.classList.add("panel-heading");
-        heading.appendChild(document.createTextNode("Nouveau groupe"));
+        heading.appendChild(document.createTextNode(data["name"]));
         heading.style = "background-color : #" + data["color"] + ";";
         // heading.style += "color : white;";
         newContainer.appendChild(heading);
+        let img = document.createElement("img");
+        img.className = "delIcon";
+        img.src = "images/icons/trash.png";
+
+        img.onclick = function(){
+            deleteGroup(data["id"]);
+        };
+        newContainer.appendChild(img);
         document.querySelector("#group-container").appendChild(newContainer);
         // add the container to the "dropable" containers
 
@@ -70,7 +93,6 @@ function addUserToGroup(userID, groupID) {
 
 function removeUserFromGroup(userID, groupID) {
     if(!confirm("Etes-vous sûr d'enlever l'utilisateur du groupe ?")){
-        //TODO let lock open when reload page
         location.reload();
         return false;
     }
@@ -78,7 +100,6 @@ function removeUserFromGroup(userID, groupID) {
     var url = base_path + "/api/groups/" + groupID + "?token=root&user="+userID;
     var success = function(data) {
         console.log(data);
-
     };
 
     ajaxRequest(url,{user:userID}, success, "delete");
