@@ -10,6 +10,7 @@ Please make sure your envirronement has the following:
 - Web server
 - Redis
 - Node >= 7.10.0
+- Docker-compose >= 1.8
 
 ## Installation
 
@@ -25,8 +26,10 @@ And then visit localhost:8080.
 *If the port is already occupied, you can edit `docker-compose.yaml` and change the `ports` under the `web` service to something that suits you better.*
 
 *If you are using a mac, or windows, we recommend you use [vagrant with Homestead](https://laravel.com/docs/5.4/homestead)*
+*Or maybe a vm with docker installed*
 
 *note. If you are using docker, you can skip completly this step*
+
 First Install [composer](https://getcomposer.org/download/).
 
 ### Install the app

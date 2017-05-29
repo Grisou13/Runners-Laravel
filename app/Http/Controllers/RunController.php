@@ -6,6 +6,7 @@ use App\Http\Requests\CreateRunRequest;
 use App\Http\Requests\CreateCommentRequest;
 use App\Http\Requests\RunPdfRequest;
 use Auth;
+use Dompdf\Options;
 use Lib\Models\RunSubscription;
 use PDF;
 use Dingo\Api\Exception\ValidationHttpException;
@@ -19,7 +20,7 @@ use Illuminate\Http\Request;
 use Lib\Models\User;
 use Lib\Models\Waypoint;
 use Lib\Models\Comment;
-
+use Dompdf\Dompdf;
 class RunController extends Controller
 {
     /**
@@ -157,19 +158,36 @@ class RunController extends Controller
     }
     public function pdf(RunPdfRequest $request){
       \Debugbar::disable();
+      
       if($request->has("runs"))
         $runs = Run::whereIn("id",$request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       else
         $runs = Run::with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       return view("run.pdf",compact("runs"));
-      $pdf = PDF::loadView('run.pdf', compact("runs"));
-
-
-      $pdf->save(storage_path("run.pdf"));
-
-
-      file_put_contents(base_path("storage/test.html"),$pdf->html);
-      return $pdf->setPaper('a3')->setOrientation('landscape')->setOption('margin-bottom', 0)->inline("runs.pdf");
+      $options = new Options();
+      $options->setIsRemoteEnabled(true);
+      $options->setDefaultMediaType("print");
+      $options->setFontDir(public_path("fonts/"));
+      $options->setTempDir(storage_path("tmp/"));
+      $options->setDebugKeepTemp(true);
+      $dompdf = new Dompdf($options);
+//      $dompdf->loadHtml('hello world');
+      
+      $view = view("run.pdf",compact("runs"));
+      $dompdf->loadHtml($view->render());
+      $dompdf->setPaper('A3', 'landscape');
+      return $dompdf->render();
+      return $dompdf->stream();
+//      return ;
+      
+//      $pdf = PDF::loadView('run.pdf', compact("runs"));
+//
+//
+//      $pdf->save(storage_path("run.pdf"));
+//
+//
+//      file_put_contents(base_path("storage/test.html"),$pdf->html);
+//      return $pdf->setPaper('a3')->setOrientation('landscape')->setOption('margin-bottom', 0)->inline("runs.pdf");
 
     }
     public function pdfTemplate(Request $request)

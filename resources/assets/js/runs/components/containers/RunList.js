@@ -50,7 +50,7 @@ class RunList extends React.Component
 
     toggleSelectMode(e, action){
         e.preventDefault()
-        this.props.updateUI({...action,selecting:!this.props.ui.selecting, selected: this.props.runs.map(r => r.id)})
+        this.props.updateUI({...action,selecting:!this.props.ui.selecting, selected: this.props.runs})
         // if(this.props.ui.selecting)
         //     this.props.updateUI({selected: })
     }
@@ -60,14 +60,14 @@ class RunList extends React.Component
         console.log(e.target.checked)
         console.log("================")
         if(e.target.checked)
-            this.props.updateUI({selected: this.props.ui.selected.concat([run.id])})
+            this.props.updateUI({selected: this.props.ui.selected.concat([run])})
         else
-            this.props.updateUI({selected: this.props.ui.selected.filter( r => r != run.id )})
+            this.props.updateUI({selected: this.props.ui.selected.filter( r => r.id != run.id )})
     }
     toggleList(e){
         console.log(e.target.checked)
         if(e.target.checked)
-            this.props.updateUI({selected: this.props.runs.map(r => r.id)})
+            this.props.updateUI({selected: this.props.runs})
         else
             this.props.updateUI({selected: []})
 
@@ -135,7 +135,7 @@ class RunList extends React.Component
                                         this.props.ui.selecting ?
                                         (
                                             <div className="btn-container">
-                                                <input className="control" type="checkbox" checked={this.props.ui.selected.filter((r)=>r == run.id).length == 1} onChange={(e)=>this.toggleSelection(e,run)} />
+                                                <input className="control" type="checkbox" checked={this.props.ui.selected.filter((r)=>r.id == run.id).length == 1} onChange={(e)=>this.toggleSelection(e,run)} />
                                             </div>
                                         )
                                             :
