@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Created by PhpStorm.
@@ -25,11 +26,7 @@ class CommentController extends BaseController
     $comment = new Comment;
     $comment->fill($request->except("_token"));
     $comment->commentable()->associate($run);
-    //TODO refactor this to authorize only coordinators and up to add a user to a comment
-    if($request->has("user"))
-      $user = $request->get("user");
-    else
-      $user = $this->user();
+    $user = $this->user();
     $comment->user()->associate($user);
     $comment->save();
     return $comment;

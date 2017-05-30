@@ -51,28 +51,20 @@
                 </div> -->
                 @if(auth()->check())
                     <div class="form-group">
-                      <div class="col-md-6 col-md-offset-4">
-                          <div class="col-md-3">
-                            <input type="submit" class="btn btn-primary" name="" value="{{ $car->exists ? "Editer" : "Créer" }} la voiture">
+                          <span class="col-md-4"></span>
+                          <div class="col-md-5">
+                            <input type="submit" class="btn btn-primary pull-right" name="" value="{{ $car->exists ? "Editer" : "Créer" }} la voiture">
                               <!-- <button {{ $mode !== null && $mode === "edit" ? 'disabled' : ''}} type="submit" class="btn btn-primary">
                                   <span>{{ $mode == "edit" ? "Edit" : "Create" }} the car</span>
                               </button> -->
                           </div>
-                          <div class="col-md-3 col-md-push-1">
-                              <a href="{{ route("cars.index") }}" class="btn btn-danger">Annuler</a>
+                          <div class="col-md-1">
+                              <a href="{{ route("cars.index") }}" class="btn btn-danger pull-right">Annuler</a>
                           </div>
-                      </div>
                     </div>
                 @endif
               {{ Form::close() }}
-              @if(auth()->check() && $car->exists)
-                <form method="post" action="{{ route("cars.destroy",$car) }}"  class="pull-right">
-                    <input type="hidden" value="DELETE" name="_method">
-                    <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                    <input type="submit" id="delete" value="Supprimer la voiture" class="btn btn-warning">
-                </form>
-              @endif
-                @if($car->exists)
+                @if($car->exists && auth()->check())
                   @include("partials.comment.create",["route"=>route("cars.comments.store",["car"=>$car])])
                   @each("partials.comment.show",$car->comments,"comment")
                 @endif
@@ -83,6 +75,20 @@
                   {{--</button>--}}
                 {{--</div>--}}
               {{--</div>--}}
+              @if(auth()->check() && $car->exists)
+                <form method="post" action="{{ route("cars.destroy",$car) }}"  class="">
+                    <input type="hidden" value="DELETE" name="_method">
+                    <input type="hidden" value="{{ csrf_token() }}" name="_token">
+                    <div class="form-group">
+                      <span class="col-md-4"></span>
+                      <div class="col-md-6">
+                        <input type="submit" id="delete" value="Supprimer la voiture" class="pull-right btn btn-warning">
+                      </div>
+
+                    </div>
+
+                </form>
+              @endif
               </div>
             </div>
           </div>

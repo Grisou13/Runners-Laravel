@@ -10,10 +10,13 @@
   visibility: hidden;
   padding: 20px;
 }
+.comment{
+  margin-bottom: 10px;
+}
 .comment-info{
   font-size: 8pt;
   margin-top: 5px;
-} 
+}
 .comment-hover:hover{
   text-decoration: none;
 }
@@ -24,7 +27,6 @@
 .comment-edit{
   border: 1px solid #ddd;
   border-bottom: none;
-  margin-top: 10px;
   border-radius: 4px 4px 0px 0px;
   padding-top: 5px;
 }
@@ -34,4 +36,7 @@
   border-radius: 0px 0px 4px 4px;
   padding-top: 5px;
   font-size: 10pt;
+}
+.btn-add-comment{
+  float: right;
 }
