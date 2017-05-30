@@ -163,21 +163,26 @@ class RunController extends Controller
         $runs = Run::whereIn("id",$request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       else
         $runs = Run::with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
+      $pdf = PDF::loadView('run.pdf', compact("runs"), [], [
+        'orientation'=>"L",
+        "format"=>"A3"
+      ]);
+      return $pdf->stream('document.pdf');
       return view("run.pdf",compact("runs"));
-      $options = new Options();
-      $options->setIsRemoteEnabled(true);
-      $options->setDefaultMediaType("print");
-      $options->setFontDir(public_path("fonts/"));
-      $options->setTempDir(storage_path("tmp/"));
-      $options->setDebugKeepTemp(true);
-      $dompdf = new Dompdf($options);
-//      $dompdf->loadHtml('hello world');
-      
-      $view = view("run.pdf",compact("runs"));
-      $dompdf->loadHtml($view->render());
-      $dompdf->setPaper('A3', 'landscape');
-      return $dompdf->render();
-      return $dompdf->stream();
+//      $options = new Options();
+//      $options->setIsRemoteEnabled(true);
+//      $options->setDefaultMediaType("print");
+//      $options->setFontDir(public_path("fonts/"));
+//      $options->setTempDir(storage_path("tmp/"));
+//      $options->setDebugKeepTemp(true);
+//      $dompdf = new Dompdf($options);
+////      $dompdf->loadHtml('hello world');
+//
+//      $view = view("run.pdf",compact("runs"));
+//      $dompdf->loadHtml($view->render());
+//      $dompdf->setPaper('A3', 'landscape');
+//      return $dompdf->render();
+//      return $dompdf->stream();
 //      return ;
       
 //      $pdf = PDF::loadView('run.pdf', compact("runs"));

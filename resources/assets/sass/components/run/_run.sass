@@ -77,27 +77,27 @@
   //  top: 0
 @each $name, $color in $runStatus
   .#{$name}
-    background-color: $ready
-/*
-.ready
-  background-color: $ready
+    background-color: $color
 
-.error
-  background-color: $error
+//.ready
+//  background-color: $ready
+//
+//.error
+//  background-color: $error
+//
+//.needs_filling
+//  background-color: $needs_filling
+//
+//.missing_cars
+//  background-color: $missing_cars
+//
+//.gone
+//  background-color: $gone
+//  opacity: 0.5
+//  transition: opacity .1s .2s
+//  &:hover, & .hovered
+//    opacity: 1
 
-.needs_filling
-  background-color: $needs_filling
-
-.missing_cars
-  background-color: $missing_cars
-
-.gone
-  background-color: $gone
-  opacity: 0.5
-  transition: opacity .1s .2s
-  &:hover, & .hovered
-    opacity: 1
-*/
   
 .waypoint-list
   padding-bottom: 10px

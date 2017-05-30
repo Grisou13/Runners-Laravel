@@ -7,6 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+</head>
+<body>
     <style >
         {!! include(public_path("/css/print.css")) !!}
     </style>
@@ -77,8 +79,7 @@
 {{--    <link href="{{ asset("/css/print.css") }}" rel="stylesheet">--}}
     @stack("styles")
 
-</head>
-<body>
+
     <div id="app">
         @yield('content')
     </div>

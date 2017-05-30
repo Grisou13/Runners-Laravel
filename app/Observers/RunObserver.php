@@ -121,6 +121,8 @@ class RunObserver
             $this->runNotReady($run);
         }
       }
+      else if($sub_count == 0)
+        $run->status="empty";
       else{
         $this->runNotReady($run);
       }
