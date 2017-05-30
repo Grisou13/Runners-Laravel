@@ -97,12 +97,18 @@ class RunObserver
     //   $run->status = "finished";
     //   return $run;
     // }
+    if($run->status == "finished"){
+      if($run->ended_at == null)
+        $run->ended_at = Carbon::now();
+      return $run;
+    }
     if($run->started_at != null) {
        $run->status="gone";
       return $run;
     }
+    
     $sub_count = $run->subscriptions()->count();
-
+    
     if($run->status != "gone" || $run->status != "finished")
     {
       if($sub_count > 0 )

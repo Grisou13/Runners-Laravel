@@ -221,7 +221,7 @@ const getVisibleRuns = (runs, filters) => {
     }).orderBy(function(r){
         return r.status
     }).value()
-    runs = runs.filter( r => !r.start_at && !r.end_at)
+    // runs = runs.filter( r => !r.start_at && !r.end_at)
     if(filters.status.length)
         runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
     if(filters.name.length)
@@ -242,24 +242,6 @@ const getVisibleRuns = (runs, filters) => {
         if(r.waypoints.filter(p => p.nickname.toLowerCase().startsWith(filters.waypoint_in.toLowerCase())).length)
           return r
       })
-    // filters.forEach((f, key)=>{
-    //     switch(key){
-    //         case FILTER_STATUS:
-    //             runs = runs.filter(r => f.payload.indexOf(r.status) > -1)
-    //             break;
-    //         case FILTER_WAYPOINT_BETWEEN:
-    //             var from = f.payload[0]
-    //             var to = f.payload[1]
-    //             runs = runs.filter((r)=>{
-    //                 //TODO search between
-    //                 if(r.waypoints.filter(w => w.name.startswith(from)) && r.waypoints.reverse().filter(w => w.name.startswith(to)))
-    //                     return r
-    //             })
-    //             break;
-    //         default:
-    //             return true;
-    //     }
-    // })
     return runs;
 }
 RunList.propTypes = {

@@ -200,7 +200,10 @@ class RunController extends BaseController
         $sub->delete();
         event(new RunSubscriptionDeletedEvent($sub));
       });
+      \Log::debug("RUN STOPPED: status:".$run->status);
+  
       $run->save();
+      \Log::debug("RUN STOPPED: status:".$run->status);
       event(new RunStoppedEvent($run));
       // event(new RunUpdatedEvent($run));
       // $run->delete();
@@ -220,11 +223,8 @@ class RunController extends BaseController
         {
           $sub->status = "finished";
           $sub->save();
-          return false;//terminate the loop
         }
-        if($run->subscriptions->every(function($sub){
-          return $sub->status == "finished";
-        }))
+        if($run->subscriptions()->ofStatus("finished")->count() == $run->subscriptions()->count())
           $this->terminateRun($run);
       }
       broadcast(new RunStoppedEvent($run))->toOthers();

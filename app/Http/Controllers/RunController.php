@@ -108,7 +108,7 @@ class RunController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Run $run)
+    public function update(CreateRunRequest $request, Run $run)
     {
         //dd($request->all());
         $run_data = $request->except(["subscriptions","_token"]);

@@ -60,6 +60,7 @@ const transformRun = (run) => {
         status: run.status,
         title: run.name,
         begin_at: run.planned_at,
+        end_at: run.ended_at,
         start_at: run.started_at ? run.started_at : null,
         nb_passenger: run.nb_passenger,
         waypoints: run.waypoints ? run.waypoints.map( p => transformWaypoint(p)) : [],

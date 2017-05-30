@@ -22,8 +22,6 @@ class RunUpdatedEvent implements ShouldBroadcast
      */
     public function __construct(Run $run){
         $this->run = $run->load(["waypoints","runners","runners.car","runners.car.car_type","runners.car_type","runners.user"]);
-        \Log::debug("CREA>TING EVENT RUN UPDATED");
-        \Log::debug(print_r($this->run,true));
     }
     public function broadcastAs(){
         return "updated";

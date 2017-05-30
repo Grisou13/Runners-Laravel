@@ -42,9 +42,7 @@ class RunCreatedEvent implements ShouldBroadcast
     public function broadcastWith()
     {
       //json_decode is a buit stupid, but can't do better for now
-      \Log::debug("RUN CREATED");
-      \Log::debug($this->run);
-      \Log::debug($this->run->subscriptions);
+      
       return [
         "run"=>$this->run,
         "waypoints"=>$this->run->waypoints()->get(),

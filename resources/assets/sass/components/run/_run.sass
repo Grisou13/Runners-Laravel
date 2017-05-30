@@ -75,7 +75,10 @@
   //  position: absolute
   //  left: 0
   //  top: 0
-
+@each $name, $color in $runStatus
+  .#{$name}
+    background-color: $ready
+/*
 .ready
   background-color: $ready
 
@@ -94,7 +97,8 @@
   transition: opacity .1s .2s
   &:hover, & .hovered
     opacity: 1
-
+*/
+  
 .waypoint-list
   padding-bottom: 10px
   list-style-type: none

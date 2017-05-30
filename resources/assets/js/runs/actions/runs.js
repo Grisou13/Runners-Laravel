@@ -10,6 +10,7 @@ import {subscribeRun} from "../services/websocket";
 import {subscribeSubscription} from "../services/websocket";
 import {unsubscribeRun} from "../services/websocket";
 import {RESET_RUNS} from "./consts";
+import {STARTED_RUN} from "./consts";
 const jsPDF = window.jsPDF
 export const gotRuns = (runs) => {
     return {
@@ -19,7 +20,7 @@ export const gotRuns = (runs) => {
 }
 export const stopRun = run => dispatch => {
     api.post(`/runs/${run.id}/stop`)
-        .then(res => dispatch(deleteRun(res.data)))
+        .then(res => dispatch(updateRun(res.data)))
 
 }
 export const editRun = (run) => {
@@ -89,10 +90,21 @@ export const updateRun = (run) => {
         payload: run
     }
 }
+export const runStarted = (run) => {
+    return {
+        type: STARTED_RUN,
+        payload: run
+    }
+}
 export const startRun = (run) => {
     return dispatch => {
         api.post("/runs/"+run.id+"/start")
-            .then((res)=>updateRun(res))
+            .then((res)=>{
+                console.log("run started")
+                console.log(res)
+                dispatch(runStarted(res.data))
+                dispatch(updateRun(res.data))
+            })
             .catch((res)=> {
                 console.log(res)
                 dispatch(fetchingFailed(res))

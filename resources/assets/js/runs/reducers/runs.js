@@ -32,8 +32,9 @@ const runs = (state = defaultState, action) => {
         case FETCHING_RUN_FAILED:
             return Object.assign({}, state, {loaded: true, error: action.error})
         case UPDATE_RUN:
-            var runId = action.payload.id
-            return Object.assign({},state, {items: state.items.filter(run =>run.id != runId)},{items:[...state.items, action.payload]})
+            console.log("before",state.items)
+            console.log("after", Object.assign({},state, {items: [...state.items.filter(run =>run.id != action.payload.id), action.payload]}).items)
+            return Object.assign({},state, {items: [...state.items.filter(run =>run.id != action.payload.id), action.payload]})
         case SUBSCRIPTION_CREATED:
             var run = action.run
             var sub = action.payload
