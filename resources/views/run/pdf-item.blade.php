@@ -13,7 +13,7 @@
             @endphp
             @if($row == 0)
             <tr>
-                <td class="tg-yw4l date" rowspan="{{ $count }}" style="padding-top: 30px; padding-bottom:auto; width: 30px;"><span class="vertical-text">{{ $run->planned_at ? $run->planned_at->format("d/m") : "" }}</span></td>
+                <td class="tg-yw4l date" rowspan="{{ $count }}" style="padding-top: 30px; padding-bottom:auto; width: 30px;" text-rotate="-90"><span class="vertical-text">{{ $run->planned_at ? $run->planned_at->format("d/m") : "" }}</span></td>
                 <td class="tg-yw4l title" colspan="2" rowspan="2" style="border:0;border-top:1px solid black;padding-bottom:0">{{ $run->name }}</td>
                 <td class="tg-yw4l waypoints" colspan="2" rowspan="3" style="boorder: 0; border-left: 1px solid black; border-right: 1px solid black;">
                     <ul>
