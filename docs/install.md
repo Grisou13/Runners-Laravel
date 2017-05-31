@@ -1,3 +1,15 @@
+# Server requirements
+Please make sure your envirronement has the following:
+- PHP >= 5.6.4
+    - OpenSSL PHP Extension
+    - PDO PHP Extension
+    - Mbstring PHP Extension
+    - Tokenizer PHP Extension
+    - XML PHP Extension
+- Web server (Nginx or Apache)
+- Redis
+- Node >= 7.10.0
+
 # Installing
 
 First you will need a fresh copy of the project, and a terminal.
@@ -12,19 +24,22 @@ Now you have the choice, either to work with docker, a vm, vagrant, or homestead
 
 # With docker
 
-First get yourself a fresh copy of docker, with docker-compose >= 1.8 (we need api v2).
+First get yourself a fresh copy of docker, with docker-compose **>= 1.8** (we need api v2).
 
-Then
+Run the following:
 
 1. sudo docker-compose up -d
 2. sudo docker-compose run --rm app php artisan key:generate
 
-If nothing is written to your .env file (`$ cat .env`). You can rereun the command and copy the key and insert it manually in the file
+If nothing is written to your .env file (`$ cat .env`) after running `artisan key:generate`. You can rereun the command and copy the key and insert it manually in the file
 `$ nano .env`
 
-If you need to change anything in the env variables, like emails or what not, just be sure they aren't already set in `config/docker/app.env`.
-Otherwise you might change the .env without affecting anything really.
-Or you could just change it directly in the config files.
+Since PHP Dotenv doesn't override by default already environment variables, please check `config/docker/app.env`, if you need to change anything.
+All variables that aren't set in that file, can be set via your `.env` file.
+For more examples look at `.env.example`.
+
+Or you could specify them in your config files, instead of `.env`.
+
 
 ## Docker-machine
 

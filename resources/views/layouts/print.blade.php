@@ -27,11 +27,11 @@
         {
             border-top: 1px solid black;
         }
-        .vertical-text {
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-            float: left;
-        }
+        /*.vertical-text {*/
+            /*transform: rotate(-90deg);*/
+            /*transform-origin: 50% 50%;*/
+            /*float: left;*/
+        /*}*/
         .title{
             max-width: 900px;
             -ms-word-wrap:break-word;
@@ -45,6 +45,7 @@
         }
         .waypoints li{
             list-style: none;
+            list-style-type: none;
             display: inline-block;
         }
         .tg-wrap{
