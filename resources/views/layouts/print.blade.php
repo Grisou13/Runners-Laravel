@@ -10,7 +10,7 @@
 </head>
 <body>
     <style >
-        {!! include(public_path("/css/print.css")) !!}
+{{--        {!! include(public_path("/css/print.css")) !!}--}}
     </style>
     <style type="text/css">
         .tg  {border-collapse:collapse;border-spacing:0;}
@@ -33,7 +33,7 @@
             /*float: left;*/
         /*}*/
         .title{
-            max-width: 900px;
+            max-width: 30px;
             -ms-word-wrap:break-word;
             word-wrap:break-word;
         }
@@ -41,7 +41,8 @@
             max-width: 900px;
         }
         .waypoints ul{
-            /*display: inline-block;*/
+            display: inline-block;
+            list-style-type: none;
         }
         .waypoints li{
             list-style: none;
@@ -58,6 +59,12 @@
         .run-table{
             width: 100%;
             table-layout: fixed;
+            border-collapse: collapse;
+            border-spacing:0;
+        }
+        .run-table td{
+            border-style: solid; border-width:1px;
+            overflow:hidden;
         }
         #app{
             width: 98%;
