@@ -175,8 +175,8 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 //        Barryvdh\DomPDF\ServiceProvider::class,
   
-//        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
-        Barryvdh\Snappy\ServiceProvider::class,
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+//        Barryvdh\Snappy\ServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
   
       /*
@@ -247,9 +247,9 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         /*App alisaes*/
 //        'PDF' => Barryvdh\DomPDF\Facade::class,
-//        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
-        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
-        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+//        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+//        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
     ],
 
 ];

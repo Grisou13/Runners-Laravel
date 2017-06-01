@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Status;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\UploadedFile;
 use Session;
 use Lib\Models\User;
 use Lib\Models\Image;
@@ -14,6 +15,7 @@ use Lib\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
+use Auth;
 
 class UserController extends Controller
 {
@@ -105,6 +107,32 @@ class UserController extends Controller
       //$user->role()->associate(Role::where("role","runner")->first());
       $user->save();
       return redirect()->route("users.show",$user);
+  }
+  protected function addImage(UploadedFile $file)
+  {
+    $destinationPath = 'images'; // upload path
+    $extension = $file->getClientOriginalExtension();
+    $filename = $destinationPath . DIRECTORY_SEPARATOR . str_random(8). '.' . $extension;
+    $file->move(public_path($filename), $filename);
+    return $filename;
+  }
+  public function storeLicenseImage(Request $request)
+  {
+    $file = $request->file("image");
+    $user = Auth::user();
+    $user->addLicenseImage($this->addImage($file));
+
+    Session::flash('success', 'Chargement réussi');
+    return redirect()->back();
+  }
+  public function storeProfileImage(Request $request)
+  {
+      $file = $request->file("image");
+      $user = Auth::user();
+      $user->addProfileImage($this->addImage($file));
+
+      Session::flash('success', 'Chargement réussi');
+      return redirect()->back();
   }
 
 }

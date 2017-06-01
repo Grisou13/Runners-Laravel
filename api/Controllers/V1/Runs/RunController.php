@@ -11,8 +11,13 @@ namespace Api\Controllers\V1\Runs;
 use Api\Controllers\BaseController;
 use Api\Requests\ListRunRequest;
 use Api\Requests\SearchRequest;
+use App\Events\RunDeletedEvent;
 use App\Events\RunStartedEvent;
 use App\Events\RunStoppedEvent;
+use App\Events\RunSubscriptionCreatedEvent;
+use App\Events\RunSubscriptionDeletedEvent;
+use App\Events\RunSubscriptionSavedEvent;
+use App\Events\RunSubscriptionUpdatedEvent;
 use App\Events\RunUpdatedEvent;
 use App\Http\Requests\CreateRunRequest;
 use Carbon\Carbon;
@@ -71,7 +76,7 @@ class RunController extends BaseController
         $subs = [];
         if($request->has("subscriptions")) {
           $t = collect($request->get("subscriptions", []));
-          $run->subscriptions()->whereNotIn("id",$t->pluck("id")->filter(function($i){return !is_null($i);}))->get()->each(function(RunSubscription $sub) use ($t){
+          $run->subscriptions()->whereNotIn("id",$t->pluck("id")->filter())->get()->each(function(RunSubscription $sub){
             // if(!$t->contains("id",$sub->id))
               $sub->forceDelete();
           });//reset the subscriptions of a run
@@ -84,14 +89,15 @@ class RunController extends BaseController
             $sub->user()->associate($userId);
             $sub->car()->associate($carId);
             $sub->car_type()->associate($carTypeId);
-            if($sub->exists)
+            if($sub->exists) {
               $sub->save();
+              broadcast(new RunSubscriptionUpdatedEvent($sub));
+            }
             else{
               $sub->run()->associate($run);
               $subs[] = $sub;
             }
           }
-
         }
         if($request->has("waypoints")) {
           $run->waypoints()->sync([]);//remove all waypoints and reassign them
@@ -101,11 +107,13 @@ class RunController extends BaseController
 
         }
 
-        $run->save();
         foreach($subs as $s){
+          $exists = $s->exists;
           $s->save();
         }
-        broadcast(new RunUpdatedEvent($run));
+        $run->save();
+        // broadcast(new RunUpdatedEvent($run));
+
         return $run;
     }
     protected function addSubsToRun(Request $request, Run $run)
@@ -131,7 +139,7 @@ class RunController extends BaseController
 
         $run->fill($request->except(["_token","token"]));
         if($run->name == null)
-          $run->name =  $request->get("title",$request->get("artist"));
+          $run->name =  $request->get("title",$request->get("artist", null));
 
         $run->save();
         //save relationships
@@ -151,21 +159,17 @@ class RunController extends BaseController
     {
         $run->ended_at = Carbon::now();
         $run->save();
+        
         $run->delete();
         return $run;
     }
     public function start(Request $request,Run $run)
     {
       //check all subscriptions if they are good
-        if(!$this->user()->can("force run start"))
-        {
-          foreach($run->subscriptions as $sub)
-          {
-            if(($sub->car_id == null || $sub->user_id == null) || ($sub->car_id != null || $sub->user_id == null) || ($sub->car_id == null || $sub->user_id != null))
-              throw new NotAcceptableHttpException("All runners have not been filled, please fill run subscription $sub->id");
-          }
-        }
+        if(!$this->user()->hasPermissionTo("force run start") && $run->status != "ready")
+          throw new UnauthorizedHttpException("Not every convoy has been assigned");
         
+
 //        $seats = $run->subscriptions->map(function($sub){
 //          return $sub->car->nb_place;
 //        })->sum();
@@ -173,16 +177,16 @@ class RunController extends BaseController
 //          throw new NotAcceptableHttpException("The run cannot start because number you don't have enough seats avaiable ($seats) in cars (needed : {$run->nb_passenger} )");
         $run->started_at = Carbon::now();
         $run->status="gone";
-        $run->subscriptions->each(function($sub){
+        $run->subscriptions->each(function($sub) use($run){
           $sub->status = "gone";
-          $sub->started_at = Carbon::now();
+          $sub->started_at = $run->started_at;
           $sub->save();
         });
         $run->save();
       //TODO: rethink where to put this event
       //notify the run has started, this will triger observers that will put every utalised car and runner on "gone" status
-        event(new RunStartedEvent($run));
-        broadcast(new RunUpdatedEvent($run));
+        broadcast(new RunStartedEvent($run))->toOthers();
+        // event(new RunUpdatedEvent($run));
         return $run;
 
     }
@@ -194,19 +198,24 @@ class RunController extends BaseController
         $sub->ended_at = Carbon::now();
         $sub->save();
         $sub->delete();
+        event(new RunSubscriptionDeletedEvent($sub));
       });
+      \Log::debug("RUN STOPPED: status:".$run->status);
+  
       $run->save();
+      \Log::debug("RUN STOPPED: status:".$run->status);
       event(new RunStoppedEvent($run));
-      // broadcast(new RunUpdatedEvent($run));
+      // event(new RunUpdatedEvent($run));
       // $run->delete();
     }
     public function stop(Request $request, Run $run)
     {
       $user = $this->user();
-      if(!$user->can("end run"))
+
+      if(!$user->hasPermissionTo("end run"))
         throw new UnauthorizedHttpException("You are not allowed to finish a run");
-      
-      if($user->can("force run end"))
+
+      if($user->hasPermissionTo("force run end"))
         $this->terminateRun($run);
       else{
         $sub = $run->subscriptions()->whereHas("user",function($q) use($user){return $q->where("users.id",$user->id);})->first();
@@ -214,13 +223,11 @@ class RunController extends BaseController
         {
           $sub->status = "finished";
           $sub->save();
-          return false;//terminate the loop
         }
-        if($run->subscriptions->every(function($sub){
-          return $sub->status == "finished";
-        }))
+        if($run->subscriptions()->ofStatus("finished")->count() == $run->subscriptions()->count())
           $this->terminateRun($run);
       }
+      broadcast(new RunStoppedEvent($run))->toOthers();
       return $run;
     }
 }

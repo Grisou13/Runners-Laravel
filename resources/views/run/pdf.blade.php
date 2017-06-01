@@ -27,7 +27,7 @@
 @stop
 
 @push("scripts")
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+<script src="{{ asset("/js/jspdf.min.js")}}" ></script>
 <script src="{{ asset("/js/html2canvas.js") }}"></script>
 
 <script>

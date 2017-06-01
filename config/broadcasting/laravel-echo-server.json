@@ -1,5 +1,5 @@
 {
-	"authHost": "http://localhost",
+	"authHost": "http://runners",
 	"authEndpoint": "/broadcasting/auth",
 	"clients": [
 		{
@@ -7,7 +7,7 @@
 			"key": "84aef5d7eda7ba0481d3c5620718c0c6"
 		}
 	],
-	"database": "sqlite",
+	"database": "redis",
 	"databaseConfig": {
 		"redis": {},
 		"sqlite": {
