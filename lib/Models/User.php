@@ -77,7 +77,7 @@ class User extends Authenticatable implements StatusableContract
     }
     public function generateToken()
     {
-        return bcrypt(Carbon::now()->toDateString() . $this->email . $this->name);
+        return $this->accesstoken = bcrypt(Carbon::now()->toDateString() . $this->email . $this->name);
     }
 
 

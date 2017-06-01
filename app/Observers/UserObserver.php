@@ -88,6 +88,7 @@ class UserObserver
   {
     $user = $event->user;
     $user->status="free";//when creating a user, we set his status to free
+    if($user->getAccessToken() == null )$user->generateToken();
     //$user->save();
   }
 
