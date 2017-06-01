@@ -1,6 +1,6 @@
 
 <div class="tg-wrap">
-    <table class="tg run-table" autosize="1" style="overflow: wrap;width:100%">
+    <table  autosize="1" style="width:98%;border: solid 1px black;border-spacing: 0;border-collapse: collapse">
         @php
         $count = $run->runners_count >= 4 ? $run->runners_count : 4;
         $runners = $run->runners->all();
@@ -12,10 +12,10 @@
             $user = $sub->user_id ? $sub->user->name : null;
             @endphp
             @if($row == 0)
-                <tr width="100%">
-                    <td class="tg-baqh" rowspan="{{ $count }}" colspan="-1" style="width: 1%;max-width: 10px" text-rotate="90">{{ $run->planned_at ? $run->planned_at->format("d/m") : "" }}&nbsp;</td>
-                    <td class="tg-baqh" colspan="2" rowspan="2" style="width:30%">{{ $run->name }}</td>
-                    <td class="tg-baqh" colspan="2" rowspan="3" style="width:50%">
+                <tr>
+                    <td class="" style="width: 20px;padding-left:5px" text-rotate="90">{{ $run->planned_at ? $run->planned_at->format("d/m") : "" }}&nbsp;</td>
+                    <td class="" colspan="2"  style="padding-left: 5px;border-left: 1px solid black">{{ $run->name }}&nbsp;</td>
+                    <td class="" colspan="2"  style="">
                             @php
                             $icon = base64_encode(file_get_contents(public_path("images/icons/next.png")));
                             $type = pathinfo(public_path("images/icons/next.png"), PATHINFO_EXTENSION);
@@ -28,37 +28,43 @@
                                     @endif
                                 </span>
                             @endforeach
-
                     </td>
 
-                    <td class="tg-baqh" style="width:10%;">{{ $car }}&nbsp;</td>
-                    <td class="tg-baqh" style="width:10%;">{{ $user }}&nbsp;</td>
+                    <td class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $car }}&nbsp;</td>
+                    <td class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $user }}&nbsp;</td>
                 </tr>
             @elseif($row == 1)
-                <tr width="100%">
-                    {{--<td colspan="2" style="width:60%;border: 1px;"></td>--}}
-                    <td class="tg-baqh" style="">{{ $car }}&nbsp;</td>
-                    <td class="tg-baqh" style="">{{ $user }}&nbsp;</td>
+                <tr>
+                    {{--<td colspan="2" style=";border: 1px;"></td>--}}
+                    <td class="" colspan="1" style="width: 20px">&nbsp;</td>
+                    <td class="" colspan="2" style="border-left: 1px solid black">&nbsp;</td>
+                    <td class="" colspan="2" style="">&nbsp;</td>
+                    <td class="" colspan="1" style="width: 150px;border-left: 1px solid black">{{ $car }}&nbsp;</td>
+                    <td class="" colspan="1" style="width: 150px;border-left: 1px solid black">{{ $user }}&nbsp;</td>
                 </tr>
 
             @elseif($row == 2)
-                <tr width="100%">
-                    <td class="tg-yw4l" colspan="2" style="width:80%">{{ $run->nb_passenger }} personnes</td>
-                    <td class="tg-baqh" style="width:10%;">{{ $car }}&nbsp;</td>
-                    <td class="tg-baqh" style="width:10%;">{{ $user }}&nbsp;</td>
+                <tr>
+                    <td class="" colspan="1" style="width: 20px">&nbsp;</td>
+                    <td class="" colspan="2" style="padding-left: 5px;border-left: 1px solid black">{{ $run->nb_passenger }} personnes</td>
+                    <td class="" colspan="2" style=""></td>
+                    <td class="" style="width: 100px;border-left: 1px solid black;text-align:center">{{ $car }}&nbsp;</td>
+                    <td class="" style="width: 100px;border-left: 1px solid black;text-align:center">{{ $user }}&nbsp;</td>
                 </tr>
             @elseif($row == 3)
-                <tr width="100%">
-                    <td class="tg-yw4l" colspan="2" style="width:40%;">{{ $run->note }}</td>
-                    <td class="tg-yw4l" colspan="2" style="width:40%;">{{ $run->planned_at ? $run->planned_at->format("h:i") : "" }}</td>
-                    <td class="tg-baqh" style="width:10%;min-width:10%">{{ $car }}&nbsp;</td>
-                    <td class="tg-baqh" style="width:10%;">{{ $user }}&nbsp;</td>
+                <tr>
+                    <td class="" colspan="1" style="width: 20px">&nbsp;</td>
+                    <td class="" colspan="2" style="padding-left: 5px;border-left: 1px solid black">{{ $run->note }}</td>
+                    <td class="" colspan="2" style="">{{ $run->planned_at ? $run->planned_at->format("h:i") : "" }}</td>
+                    <td class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $car }}&nbsp;</td>
+                    <td class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $user }}&nbsp;</td>
                 </tr>
             @else
-                <tr width="100%">
-                    <td colspan="4" style="width:80%;border: 1px;">ASDASD</td>
-                    <td class="tg-baqh" class="car" style="width:10%;">{{ $car }}&nbsp;</td>
-                    <td class="tg-baqh" class="user" style="width:10%;">{{ $user }}&nbsp;</td>
+                <tr>
+                    <td class="" colspan="1" style="width: 20px">&nbsp;</td>
+                    <td class="" colspan="4" style="border-left: 1px solid black">&nbsp;</td>
+                    <td class="" class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $car }}&nbsp;</td>
+                    <td class="" class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $user }}&nbsp;</td>
                 </tr>
             @endif
         @endforeach
