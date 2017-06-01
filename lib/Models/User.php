@@ -3,6 +3,7 @@
 *User: Joel.DE-SOUSA
 */
 namespace Lib\Models;
+use App\Events\UserCreatedEvent;
 use App\Events\UserCreatingEvent;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
@@ -46,7 +47,8 @@ class User extends Authenticatable implements StatusableContract
 
 
     protected $events = [
-      "creating"=>UserCreatingEvent::class
+      "creating"=>UserCreatingEvent::class,
+      "created"=>UserCreatedEvent::class
     ];
 
     public function role()
@@ -77,10 +79,7 @@ class User extends Authenticatable implements StatusableContract
     {
         return bcrypt(Carbon::now()->toDateString() . $this->email . $this->name);
     }
-    public function images()
-    {
-      return $this->hasMany(Image::class);
-    }
+
 
     public function setNameAttribute($value)
     {

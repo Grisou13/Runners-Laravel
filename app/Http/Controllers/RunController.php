@@ -23,6 +23,9 @@ use Lib\Models\Comment;
 use Dompdf\Dompdf;
 class RunController extends Controller
 {
+  public function __construct(){
+    $this->middleware("auth",["except"=>"display"]);
+  }
     /**
      * Display a listing of the resource.
      *
@@ -148,10 +151,7 @@ class RunController extends Controller
       $comment = new Comment;
       $comment->fill($request->except("user"));
       $comment->commentable()->associate($run);
-      if($request->has("user"))
-          $user = User::find($request->get("user"));
-      else
-          $user = $request->user();
+      $user = $request->user();
       $comment->user()->associate($user);
       $comment->save();
       return redirect()->back();

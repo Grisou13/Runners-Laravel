@@ -43,6 +43,11 @@ $router->resource("runs.cars","Run\\CarController",["except"=>"create","edit","u
 $router->resource("runs.runners","Run\\RunnerController",["except"=>"create","edit","update"]);
 $router->resource("runs.car_types","Run\\CarTypeController",["except"=>"create","edit","update"]);
 
+Route::get('users/{user}/profile', ['uses' => 'UserController@redirectToUser']);
+Route::get('users/{user}/license', ['uses' => 'UserController@redirectToUser']);
 
+Route::post('users/{user}/profile', ['as' => 'image.profile', 'uses' => 'UserController@storeProfileImage']);
+Route::post('users/{user}/license', ['as'=>'image.license','uses' => 'UserController@storeLicenseImage']);
 Route::resource('users', 'UserController'); // Joël.DE-SOUSA
 Route::post('upload/image', ['as' => 'image.upload', 'uses' => 'ImageController@upload']); // upload image for users // Joël.DE-SOUSA
+

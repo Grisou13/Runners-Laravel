@@ -21,10 +21,14 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth',["only"=>["destroy","update","create"]]);
+        $this->middleware('auth',["only"=>["destroy","update","create","storeLicenseImage","storeProfileImage"]]);
     }
     public function create(){
       return view("user.create")->with("user",new User);
+    }
+    public function redirectToUser()
+    {
+      return redirect()->route("users.show",["user"=>auth()->user()]);
     }
   /**
    * Display a listing of the resource.
@@ -104,22 +108,23 @@ class UserController extends Controller
       $user = new User;
       $user->fill($request->except("_token"));
       $user->assignRole("runner");
+
       //$user->role()->associate(Role::where("role","runner")->first());
       $user->save();
       return redirect()->route("users.show",$user);
   }
   protected function addImage(UploadedFile $file)
   {
-    $destinationPath = 'images'; // upload path
+    $destinationPath = 'images/profile'; // upload path
     $extension = $file->getClientOriginalExtension();
-    $filename = $destinationPath . DIRECTORY_SEPARATOR . str_random(8). '.' . $extension;
-    $file->move(public_path($filename), $filename);
+    $filename = $destinationPath . DIRECTORY_SEPARATOR . str_random(12). '.' . $extension;
+    $file->move(public_path($destinationPath), $filename);
     return $filename;
   }
   public function storeLicenseImage(Request $request)
   {
     $file = $request->file("image");
-    $user = Auth::user();
+    $user = $request->user();
     $user->addLicenseImage($this->addImage($file));
 
     Session::flash('success', 'Chargement réussi');
@@ -128,7 +133,9 @@ class UserController extends Controller
   public function storeProfileImage(Request $request)
   {
       $file = $request->file("image");
-      $user = Auth::user();
+      $user = $request->user();
+      if($user->profileImage() != null)
+        $user->removeProfileImage();
       $user->addProfileImage($this->addImage($file));
 
       Session::flash('success', 'Chargement réussi');

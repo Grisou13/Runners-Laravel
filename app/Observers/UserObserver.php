@@ -14,6 +14,7 @@ use App\Events\RunStartedEvent;
 use App\Events\RunSubscriptionDeletedEvent;
 use App\Events\RunSubscriptionDeletingEvent;
 use App\Events\RunSubscriptionSavingEvent;
+use App\Events\UserCreatedEvent;
 use App\Events\UserCreatingEvent;
 
 class UserObserver
@@ -42,6 +43,11 @@ class UserObserver
       "App\\Events\\UserCreatingEvent",
       [$this,"userCreating"]
     );
+    $events->listen(
+      "App\\Events\\UserCreatedEvent",
+      [$this,"userCreated"]
+    );
+
     
     $events->listen(
       "App\\Events\\RunStartedEvent",
@@ -72,7 +78,11 @@ class UserObserver
       $user->status="free";
       $user->save();
     }
-    
+  }
+  public function userCreated(UserCreatedEvent $event)
+  {
+    $user = $event->user;
+    $user->addProfileImage("images/default_profile.bmp");
   }
   public function userCreating(UserCreatingEvent $event)
   {

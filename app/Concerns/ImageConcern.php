@@ -13,19 +13,24 @@ use Lib\Models\Image;
 
 trait ImageConcern
 {
+
+  public function images()
+  {
+    return $this->hasMany(Image::class);
+  }
   /**
    * @return Image
    */
   public function profileImage()
   {
-    return $this->images()->ofType("profile");
+    return ($this->images()->where("type","profile")->orderBy("created_at","desc")->first());
   }
   /**
    * @return Image
    */
   public function licenseImage()
   {
-    return $this->images()->ofType("license");
+    return $this->images()->where("type","license")->orderBy("created_at","desc")->first();
   }
 
   /**
@@ -49,9 +54,8 @@ trait ImageConcern
   {
     $image = new Image;
     $image->fill(array('filename' => $filename));
-    $image->save();
     $image->type = "profile";
-    $image->user()->associate(auth()->id());
+    $image->user()->associate($this->id);
     $image->save();
   }
   /**
@@ -62,9 +66,8 @@ trait ImageConcern
   {
     $image = new Image;
     $image->fill(array('filename' => $filename));
-    $image->save();
     $image->type = "license";
-    $image->user()->associate(auth()->id());
+    $image->user()->associate($this->id);
     $image->save();
   }
 }

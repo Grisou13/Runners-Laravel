@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Image extends Model
 {
-    use SoftDeletes;
   protected $fillable = [
       "filename","original","type","user_id"
   ];
@@ -19,7 +18,7 @@ class Image extends Model
   public function scopeOfType($query,$type){
     return $query->where("type",$type)->orderBy("created_at","desc")->first();
   }
-  public function getUrlAttribute()
+  public function url()
   {
     return url($this->filename);
   }

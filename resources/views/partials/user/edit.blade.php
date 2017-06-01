@@ -51,15 +51,13 @@ User: Joel.DE-SOUSA
                     <div class="thumbnail">
 
                       @if($user->profileImage() != null)
-                        <a href="{{ url('images/'.$user->profileImage()->filename)}}" class="thumbnail">
-                          <img src="{{ url('images/'.$user->profileImage()->filename)}}" alt="facepicture">
+                        <a href="" class="thumbnail">
+                          <img src="{{ $user->profileImage()->url() }}" alt="facepicture">
                         </a>
                       @endif
                       <div class="caption">
-                        <form method="post" enctype="multipart/form-data" files="true" action="{{ route('image.upload') }}">
+                        <form method="post" enctype="multipart/form-data" files="true" action="{{ route('image.profile',compact("user")) }}">
                           <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-                          <input type="hidden" value="profile" name="type">
-                          <input type="hidden" value="{{$user->id}}" name="id">
                           <div class="form-group">
                             <label for="image">Photo de profile</label>
                             <input type="file" name="image" id="image" accept="image/*">
@@ -74,15 +72,13 @@ User: Joel.DE-SOUSA
                     <div class="thumbnail">
 
                       @if($user->licenseImage() != null)
-                        <a href="{{ url('images/' . $user->licenseImage()->filename)}}" class="thumbnail">
-                          <img src="{{ url('images/' . $user->licenseImage()->filename)}}" alt="facepicture">
+                        <a href="#" class="thumbnail">
+                          <img src="{{ $user->licenseImage()->url() }}" alt="facepicture">
                         </a>
                       @endif
                       <div class="caption">
-                        <form method="post" enctype="multipart/form-data" files="true" action="{{ route('image.upload') }}">
+                        <form method="post" enctype="multipart/form-data" files="true" action="{{ route('image.license',compact("user")) }}">
                           <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-                          <input type="hidden" value="license" name="type">
-                          <input type="hidden" value="{{$user->id}}" name="id">
                           <div class="form-group">
                             <label for="image">Permis de conduire</label>
                             <input type="file" name="image" id="image" accept="image/*">
