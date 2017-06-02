@@ -17,7 +17,10 @@ class ApiStartRun extends TestCase
     
   public function testStartRunOk()
   {
+    $this->seed("RoleSeeder");
+  
     $user = $this->createDefaultUser();
+    $user->assignRole("admin");
     $run = factory(Run::class)->create();
     $run->nb_passenger = 1; //the run only wants one person
     $car = factory(Car::class)->create();
@@ -30,7 +33,6 @@ class ApiStartRun extends TestCase
     $sub->car()->associate($car);
     $sub->user()->associate($user2);
     $sub->save();
-    
     $res = $this->postJson("/api/runs/{$run->id}/start",[],["x-access-token"=>$user->getAccessToken()]);
     $res->assertStatus(200);
     $res->assertJson([
@@ -40,5 +42,6 @@ class ApiStartRun extends TestCase
     
     $this->assertEquals($car->fresh()->status,"gone");
     $this->assertEquals($user2->fresh()->status,"gone");
+    $this->assertEquals($run->fresh()->status,"gone");
   }
 }

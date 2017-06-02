@@ -16,7 +16,7 @@ class AddGroupSchedule extends Migration
         Schema::create("schedule_groups", function(Blueprint $table){
             $table->increments("id");
             $table->unsignedInteger("group_id");
-            $table->foreign("group_id")->references("id")->on("groups");
+            $table->foreign("group_id")->references("id")->on("groups")->onDelete("cascade");
             $table->dateTime("start_time");
             $table->dateTime("end_time");
         });

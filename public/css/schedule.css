@@ -9,8 +9,8 @@ body {
     position: fixed;
     float: none;
     /*margin: 0 auto;*/
-    left: 45%;
-    top : 30%;
+    left: 28%;
+    top : 10%;
     /*background: url('../images/icons/loading.gif') no-repeat center center;*/
     z-index: 1000;
     display: none;

@@ -7,8 +7,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+</head>
+<body>
     <style >
-        {!! include(public_path("/css/print.css")) !!}
+{{--        {!! include(public_path("/css/print.css")) !!}--}}
     </style>
     <style type="text/css">
         .tg  {border-collapse:collapse;border-spacing:0;}
@@ -25,13 +27,13 @@
         {
             border-top: 1px solid black;
         }
-        .vertical-text {
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-            float: left;
-        }
+        /*.vertical-text {*/
+            /*transform: rotate(-90deg);*/
+            /*transform-origin: 50% 50%;*/
+            /*float: left;*/
+        /*}*/
         .title{
-            max-width: 900px;
+            max-width: 30px;
             -ms-word-wrap:break-word;
             word-wrap:break-word;
         }
@@ -39,10 +41,12 @@
             max-width: 900px;
         }
         .waypoints ul{
-            /*display: inline-block;*/
+            display: inline-block;
+            list-style-type: none;
         }
         .waypoints li{
             list-style: none;
+            list-style-type: none;
             display: inline-block;
         }
         .tg-wrap{
@@ -55,6 +59,12 @@
         .run-table{
             width: 100%;
             table-layout: fixed;
+            border-collapse: collapse;
+            border-spacing:0;
+        }
+        .run-table td{
+            border-style: solid; border-width:1px;
+            overflow:hidden;
         }
         #app{
             width: 98%;
@@ -77,8 +87,7 @@
 {{--    <link href="{{ asset("/css/print.css") }}" rel="stylesheet">--}}
     @stack("styles")
 
-</head>
-<body>
+
     <div id="app">
         @yield('content')
     </div>

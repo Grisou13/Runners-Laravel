@@ -11,7 +11,7 @@ class ResetDatabase extends Command
      *
      * @var string
      */
-    protected $signature = 'db:reset {--no-seed}';
+    protected $signature = 'db:reset {--no-seed} {--production}';
 
     /**
      * The console command description.
@@ -42,6 +42,9 @@ class ResetDatabase extends Command
         if($this->option("no-seed"))
             return true;
         $this->info("populating...");
-        $this->call("db:seed");
+        if($this->option("production"))
+          $this->call("db:seed",["--class"=>"ProductionSeeder"]);
+        else
+          $this->call("db:seed");
     }
 }

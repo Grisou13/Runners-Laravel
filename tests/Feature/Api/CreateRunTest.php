@@ -28,10 +28,10 @@ class CreateRunTest extends TestCase
    */
   public function createRun()
   {
-    $this->createDefaultUser();
+    $user = $this->createDefaultUser();
     $date = Carbon::now();
     $waypoints = factory(Waypoint::class,2)->create();
-    $res = $this->json("POST","/api/runs",["title"=>"Test run","nb_passenger"=>3,"planned_at"=>$date->toDateString(),"waypoints"=>$waypoints->pluck("id")], ["x-access-token"=>"root"]);
+    $res = $this->json("POST","/api/runs",["name"=>"Test run","nb_passenger"=>3,"planned_at"=>$date->toDateString(),"waypoints"=>$waypoints->pluck("name")], ["x-access-token"=>$user->getAccessToken()]);
     $res->assertStatus(200)->assertJsonFragment([
       "title"=>"Test run",
       "nb_passenger"=>3
@@ -40,13 +40,7 @@ class CreateRunTest extends TestCase
     $this->assertEquals($run->name,"Test run");
     $this->assertEquals($run->nb_passenger,3);
   
-    $res = $this->json("POST","/api/runs",["artist"=>"Test artist","nb_passenger"=>3,"waypoints"=>$waypoints->pluck("id")], ["x-access-token"=>"root"]);
-    $res->assertStatus(200)->assertJsonFragment([
-      "title"=>"Test artist",
-      "nb_passenger"=>3
-    ]);
-    $run2 = Run::find(2);
-    $this->assertEquals($run2->name,$run2->artist);
+    
   }
 
   /**

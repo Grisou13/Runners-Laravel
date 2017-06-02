@@ -10,6 +10,8 @@ import {subscribeRun} from "../services/websocket";
 import {subscribeSubscription} from "../services/websocket";
 import {unsubscribeRun} from "../services/websocket";
 import {RESET_RUNS} from "./consts";
+import {STARTED_RUN} from "./consts";
+const jsPDF = window.jsPDF
 export const gotRuns = (runs) => {
     return {
         type:GOT_RUNS,
@@ -18,7 +20,7 @@ export const gotRuns = (runs) => {
 }
 export const stopRun = run => dispatch => {
     api.post(`/runs/${run.id}/stop`)
-        .then(res => dispatch(deleteRun(res.data)))
+        .then(res => dispatch(updateRun(res.data)))
 
 }
 export const editRun = (run) => {
@@ -30,12 +32,47 @@ export const editRun = (run) => {
     }
 }
 export const printRuns = (runs = []) => {
-    window.location = "/runs/pdf?"+runs.reduce((acc, cur, i,t)=>{
-            if(i == 1)
-                return "runs[]="+acc+"&runs[]="+cur
-            else
-                return acc+"&runs[]="+cur
-        },"") //TODO reimplement this
+    return dispatch => {
+        // console.log(runs)
+        // var doc = new jsPDF('l', 'pt', 'a2');
+        // var columns = ["ID", "Name", "Country", "extra"];
+        // var rows = [
+        //     [1, "Shaw", "Tanzania", ["some","other"]],
+        //     [2, "Nelson", "Kazakhstan", ["some","other"]],
+        //     [3, "Garcia", "Madagascar", ["some","other"]],
+        //
+        // ];
+        //
+        // // Only pt supported (not mm or in)
+        // var doc = new jsPDF('l', 'pt');
+        // doc.autoTable(columns, rows);
+        // doc.output('dataurlnewwindow');
+        // return false
+        let url = "/runs/pdf?"+runs.map(r => r.id).reduce((acc, cur, i,t)=>{
+                if(i == 1)
+                    return "runs[]="+acc+"&runs[]="+cur
+                else
+                    return acc+"&runs[]="+cur
+            },"") //TODO reimplement this
+
+        axios.get(url).then(res => {
+            let data = res.data
+            var doc = new jsPDF();
+            // doc.text("From HTML", 14, 16);
+            // var elem = document.getElementById("basic-table");
+            let parser = new DOMParser()
+            let htmlDoc = parser.parseFromString(data, "text/html")
+            let tables = htmlDoc.getElementsByTagName("table")
+            for(let i = 0; i < tables.length; i ++) {
+                let t = tables[i];
+                var res = doc.autoTableHtmlToJson(t);
+                doc.autoTable(res.columns, res.data, {startY: 20 + (i*20)});
+            }
+
+            doc.output('dataurlnewwindow');
+        })
+    }
+
     // return {
     //     type: "PRINTED"
     // }
@@ -53,10 +90,21 @@ export const updateRun = (run) => {
         payload: run
     }
 }
+export const runStarted = (run) => {
+    return {
+        type: STARTED_RUN,
+        payload: run
+    }
+}
 export const startRun = (run) => {
     return dispatch => {
         api.post("/runs/"+run.id+"/start")
-            .then((res)=>updateRun(res))
+            .then((res)=>{
+                console.log("run started")
+                console.log(res)
+                dispatch(runStarted(res.data))
+                dispatch(updateRun(res.data))
+            })
             .catch((res)=> {
                 console.log(res)
                 dispatch(fetchingFailed(res))

@@ -6,6 +6,7 @@ use App\Http\Requests\CreateRunRequest;
 use App\Http\Requests\CreateCommentRequest;
 use App\Http\Requests\RunPdfRequest;
 use Auth;
+use Dompdf\Options;
 use Lib\Models\RunSubscription;
 use PDF;
 use Dingo\Api\Exception\ValidationHttpException;
@@ -19,9 +20,12 @@ use Illuminate\Http\Request;
 use Lib\Models\User;
 use Lib\Models\Waypoint;
 use Lib\Models\Comment;
-
+use Dompdf\Dompdf;
 class RunController extends Controller
 {
+  public function __construct(){
+    $this->middleware("auth",["except"=>"display"]);
+  }
     /**
      * Display a listing of the resource.
      *
@@ -107,7 +111,7 @@ class RunController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Run $run)
+    public function update(CreateRunRequest $request, Run $run)
     {
         //dd($request->all());
         $run_data = $request->except(["subscriptions","_token"]);
@@ -124,8 +128,8 @@ class RunController extends Controller
         }
         $data = array_merge($run_data, ["subscriptions"=>$subs]);
         $run = $this->api->be(Auth::user())->patch("/runs/{$run->id}",$data);
-
-//        return redirect()->route("runs.index");
+        // dd($run);
+      //  return redirect()->route("runs.index");
         return redirect()->back();
     }
 
@@ -147,29 +151,48 @@ class RunController extends Controller
       $comment = new Comment;
       $comment->fill($request->except("user"));
       $comment->commentable()->associate($run);
-      if($request->has("user"))
-          $user = User::find($request->get("user"));
-      else
-          $user = $request->user();
+      $user = $request->user();
       $comment->user()->associate($user);
       $comment->save();
       return redirect()->back();
     }
     public function pdf(RunPdfRequest $request){
       \Debugbar::disable();
+      
       if($request->has("runs"))
         $runs = Run::whereIn("id",$request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       else
         $runs = Run::with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
+      $pdf = PDF::loadView('run.pdf', compact("runs"), [], [
+        'orientation'=>"L",
+        "format"=>"A3"
+      ]);
+      return $pdf->stream('document.pdf');
       return view("run.pdf",compact("runs"));
-      $pdf = PDF::loadView('run.pdf', compact("runs"));
-
-
-      $pdf->save(storage_path("run.pdf"));
-
-
-      file_put_contents(base_path("storage/test.html"),$pdf->html);
-      return $pdf->setPaper('a3')->setOrientation('landscape')->setOption('margin-bottom', 0)->inline("runs.pdf");
+//      $options = new Options();
+//      $options->setIsRemoteEnabled(true);
+//      $options->setDefaultMediaType("print");
+//      $options->setFontDir(public_path("fonts/"));
+//      $options->setTempDir(storage_path("tmp/"));
+//      $options->setDebugKeepTemp(true);
+//      $dompdf = new Dompdf($options);
+////      $dompdf->loadHtml('hello world');
+//
+//      $view = view("run.pdf",compact("runs"));
+//      $dompdf->loadHtml($view->render());
+//      $dompdf->setPaper('A3', 'landscape');
+//      return $dompdf->render();
+//      return $dompdf->stream();
+//      return ;
+      
+//      $pdf = PDF::loadView('run.pdf', compact("runs"));
+//
+//
+//      $pdf->save(storage_path("run.pdf"));
+//
+//
+//      file_put_contents(base_path("storage/test.html"),$pdf->html);
+//      return $pdf->setPaper('a3')->setOrientation('landscape')->setOption('margin-bottom', 0)->inline("runs.pdf");
 
     }
     public function pdfTemplate(Request $request)

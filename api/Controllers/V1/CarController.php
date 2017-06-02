@@ -86,7 +86,7 @@ class CarController extends BaseController
 
     public function update(UpdateCarRequest $request, Car $car)
     {
-        $car->update($request->all());
+        $car->fill($request->all());
         if($request->has("car_type"))
         {
           $type = $request->get("car_type");
@@ -94,7 +94,7 @@ class CarController extends BaseController
           $car->type()->associate($t);
         }
         $car->save();
-        return $this->response()->accepted();
+        return $car;
     }
     public function store(CreateCarRequest $request)
     {
@@ -119,10 +119,7 @@ class CarController extends BaseController
         $comment = new Comment;
         $comment->fill($request->except("user"));
         $comment->commentable()->associate($car);
-        if($request->has("user"))
-            $user = User::find($request->get("user"));
-        else
-            $user = $request->user();
+        $user = $request->user();
         $comment->user()->associate($user);
         $comment->save();
         return $comment;

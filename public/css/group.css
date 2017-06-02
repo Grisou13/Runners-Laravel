@@ -1,5 +1,11 @@
-.table-group{
+.table-group {
     margin-left: 10px;
+}
+.delIcon{
+    width: 20px;
+    position: absolute;
+    right: 12px;
+    top: 10px;
 }
 /*
 Dragula CSS requirments

@@ -6,8 +6,8 @@
     {{--{{ dump($run->subscriptions()->with(["user","car_type","car"])->get()) }}--}}
 {{--@endif--}}
 
-{{ Form::bsText("name",$run->name) }}
- {{ Form::bsText("nb_passenger",$run->nb_passenger) }}
+{{ Form::bsText("Artist ou nom du run","name",$run->name) }}
+ {{ Form::bsText("PAX","nb_passenger",$run->nb_passenger) }}
  <script>
      window.resource_cache = {!! collect([
          "waypoints"=>$waypoints,
@@ -43,68 +43,72 @@
     <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
         <div class="col-md-4">
             {{ Form::label("waypoint", "Itinéraire", array('class' => 'control-label col-md-12')) }}
-            @if ($errors->has("waypoint"))
+            @if ($errors->has("waypoints"))
                 <span class="help-block">
-                        <strong>{{ $errors->first("waypoints") }}</strong>
-                    </span>
+                    <strong>{{ $errors->first("waypoints") }}</strong>
+                </span>
             @endif
         </div>
     </div>
     @if(!$run->exists)
-        @foreach(old("waypoints",[0,1]) as $p)
+        @foreach(old("waypoints",[0=>null,1=>null]) as $k => $p)
 
             @php
-                $id = str_random(20);
+                $id = $k."-".str_random(20);
             @endphp
-        @if($loop->first)
-                <div id="waypoint-first">
-                    {{--{!! Form::bsSelect("waypoints[]", $waypoints) !!}--}}
-                    <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
-                        <div class="col-md-6 col-md-push-4">
-                            {{ Form::text("waypoints[]",old("waypoints.0"), ['class' => 'form-control waypoint-typeahead']) }}
-                            <div class="input-group">
-                                {{ Form::text("waypoints[]",old("waypoints.0"), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
-                            </div>
+          @if($loop->first)
+            <div id="waypoint-first">
+                {{--{!! Form::bsSelect("waypoints[]", $waypoints) !!}--}}
+                <div class="form-group{{ $errors->has("waypoints[$k]") ? ' has-error' : '' }}">
+                    <div class="col-md-6 col-md-push-4">
+                        <div class="input-group">
+{{--                            {{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                            <input name="waypoints[]" type="text" value="{{ old("waypoints.$k", "") }}" class="form-control waypoint-typeahead" id="{{ $id }}">
+
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-push-4 col-md-6">
-                        <button style="width:100%" class="btn btn-info" id="add-waypoint">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-push-4 col-md-6">
+                    <button style="width:100%" class="btn btn-info" id="add-waypoint">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
                 </div>
+            </div>
           @elseif($loop->last)
-          <div id="waypoint-last">
-              <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
-                  <div class="col-md-6 col-md-push-4">
-                      <div class="input-group">
-                          {{ Form::text("waypoints[]",old("waypoints.".$p), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
-                          <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+              <div id="waypoint-last">
+                  <div class="form-group{{ $errors->has("waypoints[$k]") ? ' has-error' : '' }}">
+                      <div class="col-md-6 col-md-push-4">
+                          <div class="input-group">
+                              {{--{{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                              <input name="waypoints[]" type="text" value="{{ old("waypoints.$k", "") }}" class="form-control waypoint-typeahead" id="{{ $id }}">
+                              <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+                          </div>
                       </div>
                   </div>
               </div>
-          </div>
           @else
-          <div class="form-group button-remove {{ $errors->has("waypoints") ? 'has-error' : '' }}">
-              <div class="col-md-5 col-md-push-4">
-                  <div class="input-group">
-                        {{ Form::text("waypoints[]",old("waypoints.".$p), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
-                        <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+              <div class="form-group button-remove {{ $errors->has("waypoints[$k]") ? 'has-error' : '' }}">
+                  <div class="col-md-5 col-md-push-4">
+                      <div class="input-group">
+{{--                          {{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                          <input name="waypoints[]" type="text" value="{{ old("waypoints.$k", "") }}" class="form-control waypoint-typeahead" id="{{ $id }}">
+
+                          <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+                      </div>
+                  </div>
+                  <div class="col-md-1 col-md-push-4">
+                      <button class="btn btn-danger" type="button">
+                          <span class="glyphicon glyphicon-minus"></span>
+                      </button>
                   </div>
               </div>
-              <div class="col-md-1 col-md-push-4">
-                  <button class="btn btn-danger" type="button">
-                      <span class="glyphicon glyphicon-minus"></span>
-                  </button>
-              </div>
-          </div>
           @endif
         @endforeach
     @else
-        @foreach($run->waypoints as $point)
+        @foreach(old("waypoints",$run->waypoints) as $k => $point)
             @php
                 $id = str_random(20);
             @endphp
@@ -113,15 +117,16 @@
                     <div class="form-group{{ $errors->has("waypoint") ? ' has-error' : '' }}">
                         <div class="col-md-6 col-md-push-4">
                             <div class="input-group">
-                                {{ Form::text("waypoints[]",old("waypoints.".$point->pivot->order, $point->name), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
+{{--                                {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                                <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
+
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
                             </div>
-
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-push-4 col-md-6">
-                            <button type="button" style="width:50%;margin-left:auto;margin-right:auto;" class="btn btn-info" id="add-waypoint">
+                        <div class="col-md-push-4 col-md-6 col-xs-12">
+                            <button type="button" style="width:100%" class="btn btn-info" id="add-waypoint">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </div>
@@ -132,18 +137,22 @@
                     <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
                         <div class="col-md-6 col-md-push-4">
                             <div class="input-group">
-                                {{ Form::text("waypoints[]",old("waypoints.".$point->pivot->order, $point->name), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
+{{--                                {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                                <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
-                            </div>                        </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             @else
                 <div class="form-group button-remove {{ $errors->has("waypoints") ? 'has-error' : '' }}">
                     <div class="col-md-5 col-md-push-4">
                         <div class="input-group">
-                            {{ Form::text("waypoints[]",old("waypoints.".$point->pivot->order, $point->name), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
+{{--                            {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                            <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
                             <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}"  ></span></div>
-                        </div>                    </div>
+                        </div>
+                    </div>
                     <div class="col-md-1 col-md-push-4">
                         <button class="btn btn-danger" type="button">
                             <span class="glyphicon glyphicon-minus"></span>

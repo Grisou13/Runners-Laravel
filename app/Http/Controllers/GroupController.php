@@ -31,10 +31,15 @@ class GroupController extends Controller
         $groups = Group::with("users")->get();
 //        $groups = Group::with("users")->get();
         $i = 0;
+        // re-order and re-label each group
         foreach($groups as $g){
-            // add the label (groups name)
-            $g->label = $alphabet[$i];
+
+            if($g->name != $alphabet[$i]){
+                $g->name = $alphabet[$i];
+                $g->save();
+            }
             $i ++;
+
         }
 
         // get the users wihout groups. Theses users are in the "no group" container
