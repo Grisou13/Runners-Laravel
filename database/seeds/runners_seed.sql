@@ -1,4 +1,4 @@
-Use runners;
+Use homestead;
 -- Runners
 INSERT INTO groups (color, name, active) VALUES ('e53935','A',1),('e53935','B',1),('e53935','C',1),('e53935','D',1),('e53935','E',1),('e53935','F',1),('e53935','G',1),('e53935','H',1);
 -- Coordinators
