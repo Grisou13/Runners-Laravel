@@ -16,6 +16,7 @@ use App\Events\RunSubscriptionDeletingEvent;
 use App\Events\RunSubscriptionSavingEvent;
 use App\Events\UserCreatedEvent;
 use App\Events\UserCreatingEvent;
+use Illuminate\Http\File;
 
 class UserObserver
 {
@@ -82,13 +83,15 @@ class UserObserver
   public function userCreated(UserCreatedEvent $event)
   {
     $user = $event->user;
-    $user->addProfileImage("images/default_profile.bmp");
+    $file = new File(public_path("images/profile/default_profile.bmp"));
+    $user->addProfileImage($file);
   }
   public function userCreating(UserCreatingEvent $event)
   {
     $user = $event->user;
     $user->status="free";//when creating a user, we set his status to free
     if($user->getAccessToken() == null )$user->generateToken();
+    if($user->name == null) $user->name = $user->firstname;
     //$user->save();
   }
 

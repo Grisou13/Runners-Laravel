@@ -6,8 +6,8 @@
     {{--{{ dump($run->subscriptions()->with(["user","car_type","car"])->get()) }}--}}
 {{--@endif--}}
 
-{{ Form::bsText("name",$run->name) }}
- {{ Form::bsText("nb_passenger",$run->nb_passenger) }}
+{{ Form::bsText("Artist ou nom du run","name",$run->name) }}
+ {{ Form::bsText("PAX","nb_passenger",$run->nb_passenger) }}
  <script>
      window.resource_cache = {!! collect([
          "waypoints"=>$waypoints,
@@ -45,8 +45,8 @@
             {{ Form::label("waypoint", "Itinéraire", array('class' => 'control-label col-md-12')) }}
             @if ($errors->has("waypoints"))
                 <span class="help-block">
-                        <strong>{{ $errors->first("waypoints") }}</strong>
-                    </span>
+                    <strong>{{ $errors->first("waypoints") }}</strong>
+                </span>
             @endif
         </div>
     </div>

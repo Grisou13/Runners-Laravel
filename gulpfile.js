@@ -53,7 +53,7 @@ elixir((mix) => {
     mix.copy('resources/assets/fonts/**/*', 'public/fonts/');
     mix .webpack("resources/assets/js/runs/app.js","public/js/runs.js")
     mix.browserSync({
-        proxy: "192.168.10.10",
+        proxy: "runners",
         socket: {
             namespace: '/bsync'
         }

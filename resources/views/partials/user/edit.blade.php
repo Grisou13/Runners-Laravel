@@ -12,15 +12,7 @@ User: Joel.DE-SOUSA
               @else
                 {{ Form::open(array('route' => 'users.store', 'class' => 'form-horizontal')) }}
               @endif
-              {{ Form::bsText("firstname", old("firstname")) }}
-              {{ Form::bsText("lastname", old("lastname")) }}
-              {{ Form::bsText("name", old("name")) }}
-              {{ Form::bsText("email", old("email")) }}
-              {{ Form::bsText("phone_number", old("phone_number")) }}
-              {{ Form::bsSelect("sex",[0 => "Male", 1 => 'Female'],old("sex")) }}
-              {{ Form::bsText("stat", old("stat")) }}
-              {{ Form::bsText("accesstoken", old("accesstoken")) }}
-              @if(auth()->check())
+                @include("partials.user.fields")
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
                         <div class="col-md-3">
@@ -33,7 +25,6 @@ User: Joel.DE-SOUSA
                     <div class="col-md-3">
                     </div>
                 </div>
-              @endif
                 {{ csrf_field() }}
                 {{ Form::close() }}
               <!--</form>-->

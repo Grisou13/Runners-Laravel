@@ -9,12 +9,12 @@
                 @else
                   {{ Form::open(array('route' => 'cars.store', 'class' => 'form-horizontal')) }}
                 @endif
-                {{ Form::bsText("plate_number") }}
-                {{ Form::bsText("brand") }}
-                {{ Form::bsText("model") }}
-                {{ Form::bsText("color") }}
-                {{ Form::bsText("nb_place") }}
-                {{ Form::bsText("name") }}
+                {{ Form::bsText("Numéro de plaque","plate_number",$car->plate_number) }}
+                {{ Form::bsText("Marque","brand",$car->brand) }}
+                {{ Form::bsText("Model","model",$car->model) }}
+                {{ Form::bsText("Couleur","color",$car->color) }}
+                {{ Form::bsText("Nombre de place disponible","nb_place",$car->nb_place) }}
+                {{ Form::bsText("Nom du véhicule","name",$car->name) }}
                 <div class="form-group">
                   @foreach($errors as $er)
                     <div class="alert alert-danger">
@@ -23,10 +23,10 @@
                   @endforeach
                 </div>
                 @if($car->exists)
-                {{ Form::bsSelect("status",\App\Helpers\Status::getFullStatusForRessource($car),old("status",$car->status)) }}
+                {{ Form::bsSelect("Etat de la voiture","status",\App\Helpers\Status::getFullStatusForRessource($car),old("status",$car->status)) }}
 
                 @endif
-                {{ Form::bsSelect("type",$car_types->mapWithKeys(function($t){return [" {$t->id}"=>$t->name];}),$car->car_type_id) }}
+                {{ Form::bsSelect("Type de voiture","car_type",$car_types->mapWithKeys(function($t){return [" {$t->id}"=>$t->name];}),$car->car_type_id) }}
                 <!-- <div class="form-group{{ $errors->has('car_type_id') ? ' has-error' : '' }}">
                   {{ Form::label('car_type_id', 'Type de voiture ', array('class' => 'col-md-4 control-label')) }}
                   <div class="col-md-6">

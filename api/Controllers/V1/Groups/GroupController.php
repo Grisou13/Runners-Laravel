@@ -65,7 +65,8 @@ class GroupController extends BaseController
             $user->save();
             return $this->response()->accepted();
         }
-        return $group->delete();
+        $group->delete();
+        return $this->response()->accepted();
     }
 
 }

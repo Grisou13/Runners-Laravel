@@ -113,19 +113,13 @@ class UserController extends Controller
       $user->save();
       return redirect()->route("users.show",$user);
   }
-  protected function addImage(UploadedFile $file)
-  {
-    $destinationPath = 'images/profile'; // upload path
-    $extension = $file->getClientOriginalExtension();
-    $filename = $destinationPath . DIRECTORY_SEPARATOR . str_random(12). '.' . $extension;
-    $file->move(public_path($destinationPath), $filename);
-    return $filename;
-  }
+
   public function storeLicenseImage(Request $request)
   {
     $file = $request->file("image");
     $user = $request->user();
-    $user->addLicenseImage($this->addImage($file));
+    //notify the method that we need to move the file
+    $user->addLicenseImage($file,true);
 
     Session::flash('success', 'Chargement réussi');
     return redirect()->back();
@@ -136,7 +130,8 @@ class UserController extends Controller
       $user = $request->user();
       if($user->profileImage() != null)
         $user->removeProfileImage();
-      $user->addProfileImage($this->addImage($file));
+      //notify the method that we need to move the file
+      $user->addProfileImage($file,true);
 
       Session::flash('success', 'Chargement réussi');
       return redirect()->back();

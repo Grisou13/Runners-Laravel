@@ -141,7 +141,7 @@ class RunList extends React.Component
                                             :
                                         (
                                         <div className="btn-container">
-                                            <a href="#" onClick={()=>this.props.editRun(run)} className="control"><span className="glyphicon glyphicon-edit" /></a>
+                                            <a href={`/runs/${run.id}/edit`} onClick={()=>this.props.editRun(run)} className="control"><span className="glyphicon glyphicon-edit" /></a>
                                             {run.start_at == null || run.start_at == "" ? <a href="#" onClick={()=>this.props.startRun(run)} className="control"><span className="glyphicon glyphicon-play" /></a> : <a href="#" onClick={()=>this.props.stopRun(run)} className="control"><span className="glyphicon glyphicon-ban-circle" /></a>}
 
                                         </div>

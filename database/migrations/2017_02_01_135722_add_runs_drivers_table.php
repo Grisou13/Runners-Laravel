@@ -23,7 +23,7 @@ class AddRunsDriversTable extends Migration
             $table->softDeletes();
             $table->foreign("car_id")->references("id")->on("cars");
             $table->foreign("user_id")->references("id")->on("users");
-            $table->foreign("run_id")->references("id")->on("runs");
+            $table->foreign("run_id")->references("id")->on("runs")->onDelete("cascade");
             $table->foreign("car_type_id")->references("id")->on("car_types");
         });
     }

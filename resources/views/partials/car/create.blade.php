@@ -79,32 +79,7 @@ User: Joel.DE-SOUSA
                     @endif
                   </div>
                 </div>
-
-                <div class="form-group{{ $errors->has('comment') ? ' has-error' : '' }}">
-                  <label for="comment" class="col-md-4 control-label">Comment </label>
-                  <div class="col-md-6">
-                    <textarea id="comment" name="comment" class="form-control" required autofocus>{{ old('comment')}}</textarea>
-                    @if ($errors->has('comment'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('comment') }}</strong>
-                        </span>
-                    @endif
-                  </div>
-                </div>
-
-                <div class="form-group{{ $errors->has('stat') ? ' has-error' : '' }}">
-                  <label for="stat" class="col-md-4 control-label">Status </label>
-                  <div class="col-md-6">
-                    <input type="text" id="stat" name="stat" value="{{ old('stat') }}" class="form-control" required autofocus>
-                    @if ($errors->has('stat'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('stat') }}</strong>
-                        </span>
-                    @endif
-                  </div>
-                </div>
-
-                <div class="form-group{{ $errors->has('car_type_id') ? ' has-error' : '' }}">
+              <div class="form-group{{ $errors->has('car_type_id') ? ' has-error' : '' }}">
                   <label for="car_type_id" class="col-md-4 control-label">Type </label>
                   <div class="col-md-6">
                     <select id="car_type_id" name="car_type_id" class="form-control" required autofocus>

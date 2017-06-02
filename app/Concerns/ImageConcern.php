@@ -9,6 +9,7 @@
 namespace App\Concerns;
 
 
+use Illuminate\Http\File;
 use Lib\Models\Image;
 
 trait ImageConcern
@@ -45,29 +46,52 @@ trait ImageConcern
   public function removeLicenseImage(){
     return $this->licenseImage()->delete();
   }
-
+  
   /**
    * Creates a new profile image for the user
-   * @param $filename
+   * @param File $file
+   * @return bool
+   * @internal param $filename
    */
-  public function addProfileImage($filename)
+  public function addProfileImage(File $file, $move = false)
   {
+    $destinationPath = 'images/profile'; // upload path
+    
+    if($move) {
+      $filepath = $file->hashName($destinationPath);
+      $file->move(public_path($destinationPath), $filepath);
+    }
+    else{
+      $filepath = $destinationPath . DIRECTORY_SEPARATOR . $file->getFilename();
+    }
     $image = new Image;
-    $image->fill(array('filename' => $filename));
+    $image->fill(array('filename' => $filepath));
     $image->type = "profile";
     $image->user()->associate($this->id);
-    $image->save();
+    return $image->save();
   }
+  
   /**
    * Creates a new profile image for the user
-   * @param $filename
+   * @param File $file
+   * @return bool
+   * @internal param $filename
    */
-  public function addLicenseImage($filename)
+  public function addLicenseImage(File $file, $move = false)
   {
+    $destinationPath = 'images/profile'; // upload path
+    if($move) {
+      $filepath = $file->hashName($destinationPath);
+      $file->move(public_path($destinationPath), $filepath);
+    }
+    else{
+      $filepath = $destinationPath . DIRECTORY_SEPARATOR . $file->getFilename();
+    }
+    
     $image = new Image;
-    $image->fill(array('filename' => $filename));
+    $image->fill(array('filename' => $filepath));
     $image->type = "license";
     $image->user()->associate($this->id);
-    $image->save();
+    return $image->save();
   }
 }
