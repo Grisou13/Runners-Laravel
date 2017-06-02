@@ -70,7 +70,7 @@ services:
     volumes:
       - dbdata:/var/lib/mysql
     env_file:
-      - ./config/db.env
+      - ./config/docker/db.env
     expose:
       - "3306"
 
