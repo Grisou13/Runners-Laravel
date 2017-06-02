@@ -37,7 +37,6 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         "name"=>"rootsey",
         "lastname"=>"toor",
         "password"=>bcrypt("root"),
-        "status"=>\App\Helpers\Status::getUserStatus("actif")
       ]);
     }
 //    public function tearDown()

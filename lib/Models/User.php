@@ -3,20 +3,21 @@
 *User: Joel.DE-SOUSA
 */
 namespace Lib\Models;
+use App\Events\UserCreatedEvent;
 use App\Events\UserCreatingEvent;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Concerns\StatusConcern;
 use App\Contracts\StatusableContract;
-
+use App\Concerns\ImageConcern as HasImages;
 use Spatie\Permission\Traits\HasRoles;
 use Watson\Validating\ValidatingTrait;
 
 class User extends Authenticatable implements StatusableContract
 {
 
-    use Notifiable,ValidatingTrait, StatusConcern, HasRoles;
+    use Notifiable,ValidatingTrait, StatusConcern, HasRoles, HasImages;
     protected $rules = [
         'email'   => 'required|unique:users,email',
         'name'    => 'required|min:1',
@@ -46,7 +47,8 @@ class User extends Authenticatable implements StatusableContract
 
 
     protected $events = [
-      "creating"=>UserCreatingEvent::class
+      "creating"=>UserCreatingEvent::class,
+      "created"=>UserCreatedEvent::class
     ];
 
     public function role()
@@ -75,20 +77,10 @@ class User extends Authenticatable implements StatusableContract
     }
     public function generateToken()
     {
-        return bcrypt(Carbon::now()->toDateString() . $this->email . $this->name);
+        return $this->accesstoken = bcrypt(Carbon::now()->toDateString() . $this->email . $this->name);
     }
-    public function images()
-    {
-      return $this->hasMany(Image::class);
-    }
-    public function profileImage()
-    {
-      return $this->images()->where("type","profile")->orderBy("created_at","desc")->first();
-    }
-    public function licenseImage()
-    {
-      return $this->images()->where("type","license")->orderBy("created_at","desc")->first();
-    }
+
+
     public function setNameAttribute($value)
     {
         $this->attributes["name"] = $value ? $value : $this->attributes["firstname"]. " " .$this->attributes["lastname"];

@@ -1,4 +1,4 @@
-<div>
+<div class="comment">
     <div class="row">
         <div class="col-md-push-4 col-md-6 comment-edit">
             {{--Lien vers la route pour supprimer le commentaire--}}
@@ -6,13 +6,13 @@
                 {{ method_field('DELETE') }}
                 {!! csrf_field() !!}
             </form>
-            <a href="javascript:void(0);" onclick="document.getElementById('delete-comment-{{$comment->id}}').submit();"><span class="glyphicon glyphicon-remove comment-remove"></span></a>
             {{ $comment->content }}
         </div>
     </div>
     <div class="row">
         <div class=" col-md-push-4 col-md-6 comment-edit-infos">
-            <p>{{ $comment->created_at->diffForHumans() }} | {{ $comment->user->name }}</p>
+            <span hidden>{{ $comment->created_at->setLocale('fr') }}</span>
+            <p>{{ $comment->created_at->diffForHumans() }}</p>
         </div>
     </div>
 </div>

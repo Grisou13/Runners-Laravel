@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Events\EchoTestNotification;
+use App\Events\RunStartedEvent;
+use App\Events\RunUpdatedEvent;
 use Illuminate\Console\Command;
 
 class EchoTest extends Command
@@ -38,6 +40,7 @@ class EchoTest extends Command
      */
     public function handle()
     {
-      broadcast(new EchoTestNotification());
+      broadcast(new RunUpdatedEvent(\Lib\Models\Run::find(1)));
+      broadcast(new RunStartedEvent(\Lib\Models\Run::find(1)));
     }
 }

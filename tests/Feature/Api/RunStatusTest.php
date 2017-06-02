@@ -92,15 +92,7 @@ class RunStatusTest extends TestCase
         ]
       ]);
       //only one of the 1 runs created should be listed
-      $this->assertCount(1,$res->json());
-      $res = $this->getJson("/api/runs/?status=missing_cars",["x-access-token"=>$user->getAccessToken()]);
-      //we should only get 1 item with this id
-      $res->assertStatus(200)->assertJson([
-        [
-          "status"=>"missing_cars"
-        ]
-      ]);
-      //only one of the 1 runs created should be listed
-      $this->assertCount(1,$res->json());
+      $this->assertCount(2,$res->json());
+      
     }
 }

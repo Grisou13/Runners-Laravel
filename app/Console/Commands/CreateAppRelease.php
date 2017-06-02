@@ -175,17 +175,19 @@ class CreateAppRelease extends Command
           break;
       }
       $this->info("creating version $version. Previous : {$this->current}");
-      if(!$this->merge($branch_name, $branch_to))
-      {
-        $this->error("Couldn't auto merge to branch for release");
-        $this->error("please do it manually, and fix errors with merging");
-        $this->info("after you can execute commands : ");
-        $this->info("git tag -a {$version} -m '{$type} {$version}'");
-        $this->info("git push origin --tags");
-        $this->info("then replace composer.json version with : {$version}");
-        return false;
+      if($branch_to != $branch_name){
+        if(!$this->merge($branch_name, $branch_to))
+        {
+          $this->error("Couldn't auto merge to branch for release");
+          $this->error("please do it manually, and fix errors with merging");
+          $this->info("after you can execute commands : ");
+          $this->info("git tag -a {$version} -m \"{$type} {$version}\" ");
+          $this->info("git push origin --tags");
+          $this->info("then replace composer.json version with : {$version}");
+          return false;
+        }
       }
-
+      $this->info("git tag -a {$version} -m '{$type} {$version}'");
       $data = json_decode(file_get_contents(base_path("composer.json")),true);
       $data["version"] = $version;
       file_put_contents(base_path("composer.json"),json_encode($data, JSON_PRETTY_PRINT));

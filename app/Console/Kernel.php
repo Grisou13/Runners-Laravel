@@ -27,7 +27,8 @@ class Kernel extends ConsoleKernel
         OverideRunDatesToToday::class,
         EchoTest::class,
         RunListCommand::class,
-        CreateAppRelease::class
+        CreateAppRelease::class,
+        CheckRunsBeforePlanned::class
     ];
 
     /**

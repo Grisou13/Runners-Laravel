@@ -21,6 +21,7 @@ return [
     "needs_filling"=>"Il manque des information ud convoi",
     "missing_cars"=>"Il manque des voiture pour démarrer le run",
     "ready"=>"Pret",
+    "empty"=>"vide"
   ],
   "run_subscription"=>[
     "ready_to_go"=>"Pret",

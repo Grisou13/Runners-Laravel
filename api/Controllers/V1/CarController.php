@@ -119,10 +119,7 @@ class CarController extends BaseController
         $comment = new Comment;
         $comment->fill($request->except("user"));
         $comment->commentable()->associate($car);
-        if($request->has("user"))
-            $user = User::find($request->get("user"));
-        else
-            $user = $request->user();
+        $user = $request->user();
         $comment->user()->associate($user);
         $comment->save();
         return $comment;
