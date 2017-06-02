@@ -1,8 +1,8 @@
 Use runners;
 -- Runners
-INSERT INTO groups (color, name, active) VALUES ('TBD','A',1),('TBD','B',1),('TBD','C',1),('TBD','D',1),('TBD','E',1),('TBD','F',1),('TBD','G',1),('TBD','H',1);
+INSERT INTO groups (color, name, active) VALUES ('e53935','A',1),('e53935','B',1),('e53935','C',1),('e53935','D',1),('e53935','E',1),('e53935','F',1),('e53935','G',1),('e53935','H',1);
 -- Coordinators
-INSERT INTO groups (color, name, active) VALUES ('TBD','Coo1',1),('TBD','Coo2',1),('TBD','Coo3',1),('TBD','Coo4',1),('TBD','Coo5',1);
+INSERT INTO groups (color, name, active) VALUES ('d81b60','Coo1',1),('d81b60','Coo2',1),('d81b60','Coo3',1),('d81b60','Coo4',1),('d81b60','Coo5',1);
 
 -- Runners
 INSERT INTO schedule_groups (group_id,start_time,end_time) values
