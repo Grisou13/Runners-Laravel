@@ -1,15 +1,4 @@
 Use runners;
-
-DELETE FROM images;
-DELETE FROM schedule_groups;
-DELETE FROM users;
-DELETE FROM groups;
-
-ALTER TABLE images auto_increment=1;
-ALTER TABLE schedule_groups auto_increment=1;
-ALTER TABLE groups auto_increment=1;
-ALTER TABLE users auto_increment=1;
-
 -- Runners
 INSERT INTO groups (color, name, active) VALUES ('TBD','A',1),('TBD','B',1),('TBD','C',1),('TBD','D',1),('TBD','E',1),('TBD','F',1),('TBD','G',1),('TBD','H',1);
 -- Coordinators
@@ -231,8 +220,7 @@ INSERT INTO users (firstname,lastname,phone_number,sex, accesstoken, password, e
 ('Gérald','Chaignat','(474) 962-4639',0,CAST(1000+floor(1000000*rand()) AS CHAR(100)),'password','email',13),
 ('Xavier','Carrel','(474) 962-4639',0,CAST(1000+floor(1000000*rand()) AS CHAR(100)),'password','email',13);
 
+
 UPDATE users SET email=CONCAT(firstname,'.',lastname,'@paleo.ch');
 
 CREATE UNIQUE INDEX users_email_unique ON users(email);
-
-INSERT INTO images(filename,original,type,user_id) SELECT CONCAT(id,'.png'), CONCAT(id,'.png'),'png',id FROM users
