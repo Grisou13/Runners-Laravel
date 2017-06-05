@@ -13,31 +13,54 @@ class CarSeeder extends Seeder
 
     public function run()
     {
-    /*  $ids = \Lib\Models\CarType::all()->pluck("id");
-      factory(Lib\Models\Car::class,10)->create(["car_type_id"=>$ids->random()]);*/
-      Car::unguard();
-      for($i = 0; $i < 10; $i++){
+        Car::unguard();
+        // 12 Vito bus
+        for ($i = 0; $i < 12; $i++)
+        {
+            Car::create([
+                "plate_number" => "AI " . rand(1000000, 200000),
+                "brand" => "Mercedes",
+                "model" => "Vito",
+                "color" => 'noir',
+                "nb_place" => 9,
+                "car_type_id" => 1
+            ]);
+        }
+        // 2 Limos
+        Car::create([
+            "plate_number" => "VD " . rand(1000000, 200000),
+            "brand" => "Mercedes",
+            "model" => "S500",
+            "color" => 'noir',
+            "nb_place" => 4,
+            "car_type_id" => 2
+        ]);
+        Car::create([
+            "plate_number" => "VD " . rand(1000000, 200000),
+            "brand" => "Mercedes",
+            "model" => "S350",
+            "color" => 'blue',
+            "nb_place" => 4,
+            "car_type_id" => 2
+        ]);
+        // 2 matos
+        Car::create([
+            "plate_number" => "VD " . rand(1000000, 200000),
+            "brand" => "Peugeot",
+            "model" => "Boxer",
+            "color" => 'white',
+            "nb_place" => 3,
+            "car_type_id" => 3
+        ]);
+        Car::create([
+            "plate_number" => "VD " . rand(1000000, 200000),
+            "brand" => "Peugeot",
+            "model" => "Kangoo",
+            "color" => 'white',
+            "nb_place" => 2,
+            "car_type_id" => 3
+        ]);
 
-        Car::create([
-          "plate_number"=>"VD ".rand(1000000,200000),
-          "brand"=>collect(["BMW","Suzuki","Renault","Hyundai"])->random(),
-          "model"=>collect(["Serie 4", "Monospace", "Truc"])->random(),
-          "color" => 'noir',
-          "nb_place" => rand(3, 6),
-          "car_type_id" => rand(1,2)
-        ]);
-      }
-      for($i = 0; $i < 10; $i++){
-    
-        Car::create([
-          "plate_number"=>"VD ".rand(1000000,200000),
-          "brand"=>collect(["Suzuki","Renault","Hyundai"])->random(),
-          "model"=>collect(["Monospace", "Camion"])->random(),
-          "color" => 'noir',
-          "nb_place" => rand(5, 12),
-          "car_type_id" => rand(3,4)
-        ]);
-      }
-      Car::reguard();
+        Car::reguard();
     }
 }
