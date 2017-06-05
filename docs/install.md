@@ -1,15 +1,4 @@
 # Server requirements
-Please make sure your envirronement has the following:
-- PHP >= 5.6.4
-    - OpenSSL PHP Extension
-    - PDO PHP Extension
-    - Mbstring PHP Extension
-    - Tokenizer PHP Extension
-    - XML PHP Extension
-- Web server (Nginx or Apache)
-- Redis
-- Node >= 7.10.0
-
 # Installing
 
 First you will need a fresh copy of the project, and a terminal.
@@ -50,7 +39,7 @@ This means cloning the project in ~/
 2. Install php >= 7.0.4
 3. Install an sql database engine (mysql, or mariadb will do just fine)
 4. Install the php drivers for mysql-pdo (just enable them in php.ini)
-5. Install [node.js](https://nodejs.org)
+5. Install [node.js](https://nodejs.org) >= 7.0.0
 6. Install redis, and start a [redis server](https://redis.io)
 7. Run `$ npm i -g laravel-echo-server`
 
