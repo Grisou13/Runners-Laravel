@@ -187,19 +187,17 @@
         </div>
     </div>
     <div id="subs" class="subs" ></div>
-
 </div>
 
-
  @push("styles")
- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
+ <link rel="stylesheet" href="{{ asset("css/jquery-ui.min.css")}}">
+ <link rel="stylesheet" href="{{ asset("css/jquery-ui-timepicker-addon.min.css")}}">
  @endpush
 
 @push("scripts")
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-fr.js"></script>
+<script src="{{ asset("js/jquery-ui.min.js")}}"></script>
+<script src="{{ asset("js/jquery-ui-timepicker-addon.min.js")}}"></script>
+ <script src="{{ asset("js/jquery-ui-timepicker-fr.js")}}"></script>
  <script src="{{ asset("/js/typeahead.js") }}" charset="utf-8"></script>
 
 <script type="text/javascript">
@@ -269,14 +267,21 @@ $(".waypoint-typeahead.tt-input").on('typeahead:close', function() {
 //--------------------------------------------------------------------
 // picker pour la date des runs
 $( function() {
+
   $( "#planned_at" ).datetimepicker({
+      controlType: 'select',
+      oneLine: true,
       altField: "#input_planned_at",
-      timeFormat:"hh:mm:ss",
+      altFieldTimeOnly: false,
+    	altFormat: "yy-mm-dd",
+    	altTimeFormat: "hh:mm:ss",
+      timeFormat:"hh:mm",
       secondSlider:false,
       showSecond:false,
-      dateFormat: 'yy-mm-dd',
-      altFieldTimeOnly: false
+      dateFormat: 'dd/mm/yy',
   });
+  $( "#planned_at" ).datetimepicker('setDate', $( "#planned_at" ).datetimepicker('getDate') );
+
 } );
 // _______________________________
     document.querySelectorAll(".button-remove").forEach(function(container){
@@ -371,14 +376,14 @@ const generateSubscription = (sub) => {
     delete_btn.innerHTML="<span class='glyphicon glyphicon-minus'></span>"
     delete_btn.type = "button"
 
-    var reset_btn = document.createElement("button")
-    reset_btn.innerHTML="<span class='glyphicon glyphicon-repeat'></span>"
-    reset_btn.type = "button"
+    // var reset_btn = document.createElement("button")
+    // reset_btn.innerHTML="<span class='glyphicon glyphicon-repeat'></span>"
+    // reset_btn.type = "button"
 
     var btn_container = document.createElement("div")
 
     btn_container.appendChild(delete_btn)
-    btn_container.appendChild(reset_btn)
+    // btn_container.appendChild(reset_btn)
     //these classes with show only the cars_type_input
     //- container stuff
     container.classList.add("row")
@@ -397,10 +402,10 @@ const generateSubscription = (sub) => {
     //- hide elements that can't be visible at first
     cars_container.classList.add("hidden")
     runners_container.classList.add("hidden")
-    reset_btn.classList.add("hidden")
+    // reset_btn.classList.add("hidden")
 
-    reset_btn.classList.add("btn")
-    reset_btn.classList.add("btn-default")
+    // reset_btn.classList.add("btn")
+    // reset_btn.classList.add("btn-default")
     delete_btn.classList.add("btn")
     delete_btn.classList.add("btn-danger")
     car_types_input.classList.add("form-control")
@@ -414,7 +419,7 @@ const generateSubscription = (sub) => {
         car_types_container.classList.toggle("col-md-2")
         cars_container.classList.toggle("hidden")
         runners_container.classList.toggle("hidden")
-        reset_btn.classList.toggle("hidden")
+        // reset_btn.classList.toggle("hidden")
     }
     //add options
     cars_input.add(emptyOption.cloneNode())
@@ -457,7 +462,7 @@ const generateSubscription = (sub) => {
     id_input.name = "subscriptions["+count+"][id]"
 
     //EVENT HANDLING
-    reset_btn.addEventListener("click", (e)=>{
+    /*reset_btn.addEventListener("click", (e)=>{
         e.preventDefault()
         cars_input.innerHTML = ""
         cars_input.add(emptyOption)
@@ -472,7 +477,7 @@ const generateSubscription = (sub) => {
         runners_container.classList.toggle("hidden")
         //delete_btn.classList.toggle("hidden")
         reset_btn.classList.toggle("hidden")
-    })
+    })*/
 
     delete_btn.addEventListener("click",(e)=>{
         e.preventDefault()
@@ -498,7 +503,7 @@ const generateSubscription = (sub) => {
                 car_types_container.classList.toggle("col-md-2")
                 cars_container.classList.toggle("hidden")
                 runners_container.classList.toggle("hidden")
-                reset_btn.classList.toggle("hidden")
+                // reset_btn.classList.toggle("hidden")
             }
 
         //TODO set other inputs to show
@@ -515,7 +520,7 @@ const generateSubscription = (sub) => {
                 car_types_container.classList.toggle("col-md-2")
                 cars_container.classList.toggle("hidden")
                 runners_container.classList.toggle("hidden")
-                reset_btn.classList.toggle("hidden")
+                // reset_btn.classList.toggle("hidden")
 
             }
         }
@@ -533,7 +538,7 @@ const generateSubscription = (sub) => {
                 car_types_container.classList.toggle("col-md-2")
                 cars_container.classList.toggle("hidden")
                 runners_container.classList.toggle("hidden")
-                reset_btn.classList.toggle("hidden")
+                // reset_btn.classList.toggle("hidden")
             }
         }
     })

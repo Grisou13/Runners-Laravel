@@ -6,7 +6,7 @@ use App\Http\Requests\CreateRunRequest;
 use App\Http\Requests\CreateCommentRequest;
 use App\Http\Requests\RunPdfRequest;
 use Auth;
-use Dompdf\Options;
+// use Dompdf\Options;
 use Lib\Models\RunSubscription;
 use PDF;
 use Dingo\Api\Exception\ValidationHttpException;
@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 use Lib\Models\User;
 use Lib\Models\Waypoint;
 use Lib\Models\Comment;
-use Dompdf\Dompdf;
+// use Dompdf\Dompdf;
 class RunController extends Controller
 {
   public function __construct(){
@@ -158,7 +158,7 @@ class RunController extends Controller
     }
     public function pdf(RunPdfRequest $request){
       \Debugbar::disable();
-      
+
       if($request->has("runs"))
         $runs = Run::whereIn("id",$request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       else
@@ -169,30 +169,6 @@ class RunController extends Controller
       ]);
       return $pdf->stream('document.pdf');
       return view("run.pdf",compact("runs"));
-//      $options = new Options();
-//      $options->setIsRemoteEnabled(true);
-//      $options->setDefaultMediaType("print");
-//      $options->setFontDir(public_path("fonts/"));
-//      $options->setTempDir(storage_path("tmp/"));
-//      $options->setDebugKeepTemp(true);
-//      $dompdf = new Dompdf($options);
-////      $dompdf->loadHtml('hello world');
-//
-//      $view = view("run.pdf",compact("runs"));
-//      $dompdf->loadHtml($view->render());
-//      $dompdf->setPaper('A3', 'landscape');
-//      return $dompdf->render();
-//      return $dompdf->stream();
-//      return ;
-      
-//      $pdf = PDF::loadView('run.pdf', compact("runs"));
-//
-//
-//      $pdf->save(storage_path("run.pdf"));
-//
-//
-//      file_put_contents(base_path("storage/test.html"),$pdf->html);
-//      return $pdf->setPaper('a3')->setOrientation('landscape')->setOption('margin-bottom', 0)->inline("runs.pdf");
 
     }
     public function pdfTemplate(Request $request)
@@ -203,5 +179,15 @@ class RunController extends Controller
       $pdf = PDF::loadView('run.pdf-item', compact("run"));
 
       return $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("run-template.pdf");
+    }
+    public function start(Request $request, Run $run)
+    {
+      $this->api()->be(auth()->user())->post("/runs/{$run->id}/start");
+      return redirect()->back();
+    }
+    public function stop(Request $request, Run $run)
+    {
+      $this->api()->be(auth()->user())->post("/runs/{$run->id}/stop");
+      return redirect()->back();
     }
 }

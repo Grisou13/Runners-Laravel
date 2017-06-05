@@ -32,15 +32,16 @@ function display(entries, container){
 
     function displayUsersPerGroup(container, groupID){
         if(typeof groupUsers[groupID] === "undefined"){ //if not set yet
-            window.api.get("/groups/"+groupID, {})
+            window.api.get("/groups/"+groupID, {"include":"users"})
                 .then(function(groupR){
-                    window.api.get("/groups/"+groupID+"/users", {})
-                        .then(function(r){
+                    // window.api.get("/groups/"+groupID+"/users", {})
+                    //     .then(function(r){
+                    let r = groupR.users
                             let div = document.createElement("div");
                             groupUsers[groupID] = "<h3>Groupe " + groupR["data"].name +"</h3>"; //todo get group letter
                             //groupUsers[groupID] = r["data"];
-                            if(r["data"].length > 0 ){
-                                r["data"].forEach(function(user){
+                            if(r.length > 0 ){
+                                r.forEach(function(user){
                                     let p = "<p>";
                                     p += user.firstname;
                                     p += " ";
@@ -54,7 +55,7 @@ function display(entries, container){
                             div.innerHTML = groupUsers[groupID];
                             container.appendChild(div); //append when done.
                             return groupUsers[groupID];
-                        });
+                        // });
                 });
 
         }else{
@@ -147,6 +148,11 @@ function display(entries, container){
 }
 
 function init(schedules) {
+  if(!schedules.length)
+  {
+    document.getElementById("kiela").innerHTML = ("<p>Il n'y a pas d'horaire crée :(</p>")
+    return false;
+  }
     schedules.sort(function(a,b){
         return new Date(a["start_time"]).getTime() - new Date(b["start_time"]).getTime();
     });
@@ -239,5 +245,3 @@ function getScheduleFormat(callback){
 }
 
 getScheduleFormat(getAllSchedules);
-
-

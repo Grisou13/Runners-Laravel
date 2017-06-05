@@ -10,7 +10,7 @@ import {subscribeRun} from "../services/websocket";
 import {subscribeSubscription} from "../services/websocket";
 import {unsubscribeRun} from "../services/websocket";
 import {RESET_RUNS} from "./consts";
-import {STARTED_RUN} from "./consts";
+import {STARTED_RUN,RUN_PRINTED} from "./consts";
 const jsPDF = window.jsPDF
 export const gotRuns = (runs) => {
     return {
@@ -31,6 +31,11 @@ export const editRun = (run) => {
         payload:run
     }
 }
+export const runPrinted = () => (
+  {
+    type: RUN_PRINTED
+  }
+)
 export const printRuns = (runs = []) => {
     return dispatch => {
         // console.log(runs)
@@ -54,23 +59,34 @@ export const printRuns = (runs = []) => {
                 else
                     return acc+"&runs[]="+cur
             },"") //TODO reimplement this
-
-        axios.get(url).then(res => {
-            let data = res.data
-            var doc = new jsPDF();
-            // doc.text("From HTML", 14, 16);
-            // var elem = document.getElementById("basic-table");
-            let parser = new DOMParser()
-            let htmlDoc = parser.parseFromString(data, "text/html")
-            let tables = htmlDoc.getElementsByTagName("table")
-            for(let i = 0; i < tables.length; i ++) {
-                let t = tables[i];
-                var res = doc.autoTableHtmlToJson(t);
-                doc.autoTable(res.columns, res.data, {startY: 20 + (i*20)});
-            }
-
-            doc.output('dataurlnewwindow');
-        })
+        let res = window.open(url,"_blank")
+        if(res)
+          dispatch(runPrinted())
+        // axios.get(url).then(res => {
+        //     let data = res.data
+        //     var downloadLink      = document.createElement('a');
+        //       downloadLink.target   = '_blank';
+        //       downloadLink.download = 'runs.pdf';
+        //
+        //       // convert downloaded data to a Blob
+        //       var blob = new Blob([data], { type: 'application/pdf' });
+        //
+        //       // create an object URL from the Blob
+        //       var URL = window.URL || window.webkitURL;
+        //       var downloadUrl = URL.createObjectURL(blob);
+        //
+        //       // set object URL as the anchor's href
+        //       downloadLink.href = downloadUrl;
+        //
+        //       // append the anchor to document body
+        //       document.body.appendChild(downloadLink);
+        //
+        //       // fire a click event on the anchor
+        //       downloadLink.click();
+        //
+        //       // cleanup: remove element and revoke object URL
+        //       document.body.removeChild(downloadLink);
+        //       URL.revokeObjectURL(downloadUrl);        })
     }
 
     // return {

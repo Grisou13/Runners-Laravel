@@ -42,7 +42,7 @@ import Echo from "laravel-echo"
 
 var echo = new Echo({
     broadcaster: 'socket.io',
-    host: "runners" /*window.location.hostname*/ + ':6001'
+    host: window.location.hostname + ':6001'
 });
 echo.registerAxiosRequestInterceptor()
 window.LaravelEcho = echo

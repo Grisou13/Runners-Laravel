@@ -16,7 +16,7 @@ export const RESET_RUNS    =   "delete_all_runs"
 export const FETCHING_RUN_FAILED  = "fetching_run_failed"
 export const API_ERROR            = "api_error"
 export const STARTED_RUN          = "starteed_run"
-
+export const RUN_PRINTED          = "run_printed"
 
 export const SUBSCRIPTION_CREATED   =   "sub_created"
 export const SUBSCRIPTION_UPDATED   =   "sub_updated"

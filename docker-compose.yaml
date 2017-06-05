@@ -77,8 +77,8 @@ services:
   node:
     restart: 'no'
     build:
-      context: ./
-      dockerfile: config/docker/node.dockerfile
+      context: ./config/docker
+      dockerfile: node.dockerfile
     volumes:
       - ./:/app
     links:
