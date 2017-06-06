@@ -21,9 +21,27 @@
      <label for="planned_at" class="col-md-4 control-label">Planifé à</label>
      <div class="col-md-6">
          <input type="hidden" id="input_planned_at" name="planned_at" value="{{ (string)$run->planned_at }}">
-         <input type="datetime" id="planned_at" value="{{ (string)$run->planned_at }}">
+         <input type="datetime" class="form-control" id="planned_at" value="{{ (string)$run->planned_at }}">
      </div>
+     @if ($errors->has("planned_at"))
+         <span class="help-block">
+          <strong>{{ $errors->first("planned_at") }}</strong>
+      </span>
+     @endif
  </div>
+<div class="form-group">
+    <label for="note" class="col-md-4 control-label">Extra</label>
+    <div class="col-md-6">
+        <textarea class="form-control">
+            {{ (string)$run->note }}
+        </textarea>
+    </div>
+    @if ($errors->has("note"))
+        <span class="help-block">
+          <strong>{{ $errors->first("note") }}</strong>
+      </span>
+    @endif
+</div>
  @php
      $waypoints = $waypoints->mapWithKeys(function($p){
          return [(string)$p->id => $p->name];
@@ -197,7 +215,7 @@
 @push("scripts")
 <script src="{{ asset("js/jquery-ui.min.js")}}"></script>
 <script src="{{ asset("js/jquery-ui-timepicker-addon.min.js")}}"></script>
- <script src="{{ asset("js/jquery-ui-timepicker-fr.js")}}"></script>
+<script src="{{ asset("js/jquery-ui-timepicker-fr.js")}}"></script>
  <script src="{{ asset("/js/typeahead.js") }}" charset="utf-8"></script>
 
 <script type="text/javascript">

@@ -20,7 +20,6 @@ class Filters extends React.Component{
             <div className="filters row">
 
                 <div className="col-md-2" >
-
                   <NameFilter name={this.props.name} changeName={(u)=>this.props.dispatch(updateName(u))} />
                 </div>
                 <div className="col-md-6">

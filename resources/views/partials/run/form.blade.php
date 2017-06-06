@@ -1,52 +1,82 @@
 <div class="panel panel-default  ">
   <div class="panel-heading {{ $run->status }}">{{$run->name}} ({{ $run->status }})</div>
-    <div class="panel-body">
-      @if($run->exists)
-          {!! Form::model($run,["route"=>["runs.update",$run],'class' => 'form-horizontal', 'method' => 'put']) !!}
-      @else
-          {!! Form::model($run,["route"=>["runs.store"],'class' => 'form-horizontal']) !!}
-      @endif
-      {!! Form::token() !!}
-      @include("partials.run.fields",compact("run","waypoints","car_types"))
-      <div class="form-group">
-          <div class="col-md-6 col-md-offset-4">
-              <div class="col-md-3">
-                  <input type="submit" class="btn btn-primary" name="" value="{{ $run->exists ? "Edit" : "Create" }} the run">
-              </div>
-              <div class="col-md-3 col-md-push-1">
-                  <a href="{{ route("runs.index") }}" class="btn btn-danger">Cancel</a>
-              </div>
-
-          </div>
+  <div class="panel-body">
+    @if($run->exists)
+      {!! Form::model($run,["route"=>["runs.update",$run],'class' => 'form-horizontal', 'method' => 'put']) !!}
+    @else
+      {!! Form::model($run,["route"=>["runs.store"],'class' => 'form-horizontal']) !!}
+    @endif
+    {!! Form::token() !!}
+    @include("partials.run.fields",compact("run","waypoints","car_types"))
+    <div class="form-group">
+      <div class="col-md-10 col-md-offset-1 row">
+        <div class="">
+          <input type="submit" class="btn btn-primary col-md-3" name="" value="{{ $run->exists ? "Sauvegarder" : "Crée un nouveau run" }}">
+        </div>
+        <div class="">
+          <a href="{{ route("runs.index") }}" class="btn btn-warning col-md-2">Cancel</a>
+        </div>
+        @if($run->exists)
+        <div class="">
+          <button type="submit" id="delete" class="btn btn-danger col-md-3" >
+            <span>Supprimer la course</span>
+          </button>
+        </div>
+        <div class="">
+          <button onclick="document.getElementById('form-action').submit()" type="submit" id="delete" class="btn btn-danger col-md-3" >
+            <span>
+            @if($run->status == "ready")
+              Démarrer la course
+            @elseif($run->status=="gone")
+              Terminer la course
+            @else
+              Forcer démarrage de la course
+            @endif
+            </span>
+          </button>
+        </div>
+        @endif
       </div>
-
-      {!! Form::close() !!}
     </div>
-</div>
+    {!! Form::close() !!}
+      @if($run->exists)
+          <form method="post" id="form-delete" action="{{ route("runs.destroy",$run) }}"  class="pull-right">
+            <input type="hidden" value="{{ csrf_token() }}" name="_token">
+            {!! method_field("DELETE") !!}
+          </form>
 
-@if($run->exists)
-  <form method="post" action="{{ route("runs.destroy",$run) }}"  class="pull-right">
-      <input type="hidden" value="{{ csrf_token() }}" name="_token">
-      <input type="submit" id="delete" value="Supprimer la course" class="btn btn-warning">
-  </form>
-  @if($run->status == "ready")
-  <form method="post" action="{{ route("runs.start",$run) }}"  class="pull-right">
-      <input type="hidden" value="{{ csrf_token() }}" name="_token">
-      <input type="submit" id="delete" value="Démarrer la course" class="btn btn-warning">
-  </form>
-  @elseif($run->status=="gone")
-  <form method="post" action="{{ route("runs.stop",$run) }}"  class="pull-right">
-      <input type="hidden" value="{{ csrf_token() }}" name="_token">
-      <input type="submit" id="delete" value="Forcer l'arrêt de la course" class="btn btn-warning">
-  </form>
-  @else
-  <form method="post" action="{{ route("runs.start",$run) }}"  class="pull-right">
-      <input type="hidden" value="DELETE" name="_method">
-      <input type="hidden" value="{{ csrf_token() }}" name="_token">
-      <input type="submit" id="delete" value="Forcer le démarrage de la course" class="btn btn-warning">
-  </form>
-  @endif
-@endif
+          @if($run->status == "ready")
+            <form id="form-action" method="post" action="{{ route("runs.start",$run) }}"  class="pull-right">
+          @elseif($run->status=="gone")
+            <form id="form-action" method="post" action="{{ route("runs.stop",$run) }}"  class="pull-right">
+          @else
+            <form id="form-action" method="post" action="{{ route("runs.start",$run) }}"  class="pull-right">
+          @endif
+              <input type="hidden" value="{{ csrf_token() }}" name="_token">
+            </form>
+      @endif
+  </div>
+</div>
+@push("scripts")
+<script>
+  document.getElementById("delete").addEventListener("click", function(e){
+    e.preventDefault();
+    swal({
+          title: "Êtes-vous sur?",
+          text: "Êtes vous sur de vouloir supprimer le run!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Confirmer",
+          closeOnConfirm: false
+        },
+        function(){
+          document.getElementById("form-delete").submit()
+        });
+
+  });
+</script>
+@endpush
 @if($run->exists)
   @include("partials.comment.create",["route"=>route("runs.comments.store",["run"=>$run])])
   @each("partials.comment.show",$run->comments,"comment")

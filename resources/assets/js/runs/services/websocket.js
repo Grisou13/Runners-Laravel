@@ -19,9 +19,6 @@ export const middleware = store => next => action => {
         store.getState().runs.items.forEach(r => r.runners.forEach( s => unsubscribeSubscription(s,store.dispatch)))
     }
     const result = next(action)
-    console.log(result)
-    console.log(store.getState())
-    console.log("================");
     switch (action.type){
         case RESET_RUNS:
           store.getState().runs.items.forEach(r => subscribeRun(r, store.dispatch))

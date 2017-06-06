@@ -10,6 +10,6 @@ export default (dispatcher) => {
         window.setInterval(()=>{
             console.log("refreshing runs");
             dispatcher(fetchRuns())
-        },10*1000);
+        },60*1000);
     printService(dispatcher)
 }

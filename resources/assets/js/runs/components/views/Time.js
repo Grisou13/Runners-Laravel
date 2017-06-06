@@ -31,18 +31,18 @@ class Time extends React.Component{
             date: moment()
         });
     }
-    componentWillMount(){
-
+    componentWillUnmount(){
+        clearInterval(this.interval);
     }
     componentDidMount(){
         this.setTime();
-        window.setInterval(function () {
+        this.interval = window.setInterval(function () {
             this.setTime();
         }.bind(this), 60*1000);
     }
     render() {
         return(
-            <div className="time-row" ref="cityRow">
+            <div className="time-row">
                 <span className="time">{this.state.date.format("DD/MM/YY HH:mm")}</span>
             </div>
         )

@@ -110,9 +110,9 @@ class RunList extends React.Component
                     <button onClick={(e)=>this.toggleSelectMode(e, {printing:true})} className="btn btn-default">
                         <span className="glyphicon glyphicon-print" />
                     </button>
-                    <button onClick={(e)=>this.toggleSelectMode(e, {exporting: true})} className="btn btn-default">
-                        <span className="glyphicon glyphicon-save-file"/>
-                    </button>
+                    {/*<button onClick={(e)=>this.toggleSelectMode(e, {exporting: true})} className="btn btn-default">*/}
+                        {/*<span className="glyphicon glyphicon-save-file"/>*/}
+                    {/*</button>*/}
                 </div>
             );
         }
@@ -161,7 +161,7 @@ class RunList extends React.Component
                     <Time UTCOffset={2} />
                 </div>
                 <div className="row">
-                    <p>No runs ... </p>
+                    <p>Pas de run... </p>
                 </div>
             </div>
         )
@@ -186,7 +186,8 @@ class RunList extends React.Component
                 </div>
                 <div className="row">
                     <div>
-                        <p>There has been an error fetching the runs, please try again later, or logging in</p>
+                        <p>Il y a eu un problème lors du chargement des runs</p>
+                        <p>Veuillez vous authentifier, et réessayer</p>
                     </div>
                 </div>
             </div>
@@ -217,9 +218,9 @@ class RunList extends React.Component
 
 const getVisibleRuns = (runs, filters) => {
     runs = _(runs).orderBy(function(r){
-        return moment(r.begin_at).unix();
-    }).orderBy(function(r){
         return r.status
+    }).orderBy(function(r){
+        return moment(r.begin_at).unix();
     }).value()
     // runs = runs.filter( r => !r.start_at && !r.end_at)
     if(filters.status.length)
@@ -245,7 +246,7 @@ const getVisibleRuns = (runs, filters) => {
     return runs;
 }
 RunList.propTypes = {
-    runs:  PropTypes.array.isRequired
+    runs:  PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state) => {

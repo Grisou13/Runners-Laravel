@@ -21,15 +21,15 @@ class App extends React.Component{
         let updateUI = this.props.updateUI;
         let cl = ui.displayModeEnabled ? "glyphicon-remove" : "glyphicon-fullscreen"
         return (
-            <div className="app-container">
-                <div className={ui.displayModeEnabled ? "display" : null}>
+            <div className={["app-container ",ui.displayModeEnabled ? "display" : ""].join(" ")}>
+                {/*<div className={ui.displayModeEnabled ? "display" : null}>*/}
                     {ui.displayModeEnabled ? (<div className="hidden"><Filters /></div>) : <Filters />}
                     <button className="display-toggle" onClick={()=>updateUI({displayModeEnabled: !ui.displayModeEnabled})}>
                         <span className={["glyphicon", cl].join(" ")}/>
                     </button>
                     <RunList />
                     <DevTools />
-                </div>
+                {/*</div>*/}
             </div>
         )
     }
