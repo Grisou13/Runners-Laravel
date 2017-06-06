@@ -8,7 +8,7 @@ User: Joel.DE-SOUSA
             <div class="panel-body">
               <!-- si l'utilisateur existe -->
               @if($user->exists)
-                {{ Form::model($user, array('route' => array('users.update', $user), 'class' => 'form-horizontal', 'method' => 'put')) }}
+                {{ Form::model($user, array('route' => array('users.update', $user), 'class' => 'form-horizontal form-user', 'method' => 'put')) }}
               @else
                 {{ Form::open(array('route' => 'users.store', 'class' => 'form-horizontal')) }}
               @endif
@@ -16,7 +16,7 @@ User: Joel.DE-SOUSA
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
                         <div class="col-md-3">
-                          <input type="submit" class="btn btn-primary" value="Editer l'utilisateur">
+                          <input type="submit" class="btn btn-primary" value="Sauver">
                         </div>
                         <div class="col-md-3 col-md-push-1">
                             <a href="{{ route("users.index") }}" class="btn btn-danger">Annuler</a>
@@ -32,7 +32,7 @@ User: Joel.DE-SOUSA
                 <form method="post" action="{{ route("users.destroy",$user) }}"  class="pull-right">
                     <input type="hidden" value="DELETE" name="_method">
                     <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                    <input type="submit" id="delete" value="Supprimer l'utilisateur" class="btn btn-warning">
+                    <input type="submit" id="delete" value="Supprimer l'utilisateur" class="btn btn-warning delete-user">
                 </form>
               @endif
               <div class="row">
