@@ -12,9 +12,11 @@ class SettingsSeeder extends Seeder
     public function run()
     {
       $settings = config("settings");
-      foreach($settings as $setting){
-        foreach($setting as $key=>$value)
-          Setting::create(["key"=>"{$setting}::{$key}","value"=>$value]);
-      }
+//      foreach($settings as $setting){
+//        foreach($setting as $key=>$value)
+//          Setting::create(["key"=>"{$setting}::{$key}","value"=>$value]);
+//      }
+      Setting::create(["key" => "start_date", "value" => "2017-07-13"]);
+      Setting::create(["key" => "end_date", "value" => "2017-07-27"]);
     }
 }
