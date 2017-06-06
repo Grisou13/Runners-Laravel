@@ -70,3 +70,15 @@ You can just redo the steps wither with docker, or the normal install.
 With homestead all you need is to add your site to your Homestead.yaml.
 
 Don't forget to add the `schedule: true`
+
+# Post install operations
+
+Now that the app is installed you will need to execute the following commands:
+`php artisan migrate`
+`php artisan db:seed --class=BaseSeeder`
+
+If you have any problems with the seeding, or the database is giving you a hard time, a command was created
+`php artisan db:reset`.
+If supplied the argument `--production`, a seeder with real production data will be called.
+
+_If you are using docker, run the commands above prefixed with `docker-compose run --rm app {command}`_

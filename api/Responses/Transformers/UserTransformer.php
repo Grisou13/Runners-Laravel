@@ -18,7 +18,7 @@ class UserTransformer extends TransformerAbstract
     $sex = $user->sex ? "male" : "female";
     return array_merge($user->toArray(),[
       "sex"=>$sex,
-      "profile_image"=>$user->profileImage()->url()
+      "profile_image"=>$user->profileImage() ? $user->profileImage()->url() : null
     ]);//put data to be transformed in last array, this way we always have the right model data
   }
 }

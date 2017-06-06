@@ -1,11 +1,11 @@
 -- Runners
-INSERT INTO groups (color, name, active) VALUES ('e53935','A',1),('e53935','B',1),('e53935','C',1),('e53935','D',1),('e53935','E',1),('e53935','F',1),('e53935','G',1),('e53935','H',1);
+INSERT INTO groups (color, name, active) VALUES ('ff9933','A',1),('ffff00','B',1),('ff0000','C',1),('00ffff','D',1),('a6a6a6','E',1),('00ff00','F',1),('ff99ff','G',1),('0033cc','H',1);
 -- Coordinators
-INSERT INTO groups (color, name, active) VALUES ('d81b60','Coo1',1),('d81b60','Coo2',1),('d81b60','Coo3',1),('d81b60','Coo4',1),('d81b60','Coo5',1);
+INSERT INTO groups (color, name, active) VALUES ('dd0806','C1',1),('1fb714','C2',1),('3366ff','C3',1),('f20884','C4',1),('fcf305','C5',1);
 
 -- Runners
 INSERT INTO schedule_groups (group_id,start_time,end_time) values
-(4,'2017-07-16 11:00','2017-07-17 02:00'),
+(5,'2017-07-17 11:00','2017-07-18 02:00'),
 (3,'2017-07-17 10:00','2017-07-17 15:00'),
 (4,'2017-07-17 10:00','2017-07-17 15:00'),
 (7,'2017-07-17 10:00','2017-07-17 15:00'),
@@ -130,7 +130,7 @@ BEGIN
 	DECLARE startt DATETIME;
 	DECLARE endt DATETIME;
 	DECLARE finished INT DEFAULT 0;
-	DEClARE blocks CURSOR FOR SELECT group_id, start_time, end_time FROM schedule_groups WHERE TIMESTAMPDIFF(MINUTE,start_time,end_time) > 30;
+	DEClARE blocks CURSOR FOR SELECT group_id, start_time, end_time FROM schedule_groups WHERE TIMESTAMPDIFF(MINUTE,start_time,end_time) > 30 ORDER BY start_time,group_id;
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = 1;
 	OPEN blocks;
 	get_block: LOOP
@@ -138,7 +138,7 @@ BEGIN
 		IF finished = 1 THEN
 			LEAVE get_block;
 		END IF;
-		WHILE TIMESTAMPDIFF(MINUTE,startt, endt) > 30 DO
+		WHILE TIMESTAMPDIFF(MINUTE,startt, endt) >= 30 DO
 			INSERT INTO schedule_groups(group_id, start_time, end_time) VALUES (gid, startt, ADDTIME(startt,'00:30:00'));
 			SET startt = ADDTIME(startt,'00:30:00') ;
 		END WHILE;
