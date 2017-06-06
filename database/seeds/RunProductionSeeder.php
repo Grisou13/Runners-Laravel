@@ -167,32 +167,23 @@ class RunProductionSeeder extends Seeder
             {
                 $onedate["day"]->setTime(rand(1, 23), rand(0, 11) * 5);
                 $artist = $this->artists[rand(0, count($this->artists) - 1)];
-                $note = (rand(1,100) > 80 ? $this->notes[rand(0, count($this->notes) - 1)] : null);
+                $note = (rand(1,100) > 80 ? $this->notes->random() : null);
                 $nbPax = rand(1, 9);
-                $textItinerary = array();
-                $intItinerary = array();
+                $Itinerary = array();
                 $nbwp = (rand(1,100) > 80) ? (rand(1,100) > 80) ? 4 : 3 : 2;
-                for ($wp = 0; $wp < $nbwp; $wp++)
-                {
-                    $wpidx = rand(0, count($this->wayPoints) - 1);
-                    $textItinerary[] = $this->wayPoints[$wpidx];
-                    $intItinerary[] = $wpidx;
-                }
-                echo $onedate["day"]->format('Y-m-d H:i:s').", $artist, $nbPax pax, ".implode('->',$textItinerary).(isset($note) ? ", note:$note": "")."\n";
-                /*/
+                for ($wp = 0; $wp < $nbwp; $wp++) $Itinerary[] = rand(1, count($this->wayPoints));
                 $run = Run::create([
                     'started_at' => $onedate["day"]->format('Y-m-d H:i:s'),
                     'ended_at' => null,
                     'planned_at' => $onedate["day"]->format('Y-m-d H:i:s'),
                     'nb_passenger' => $nbPax,
                     'name' => $artist,
-                    'note' => $this->notes->first(),
+                    'note' => $note,
                     'created_at' => date('Y-m-d h:m:s'),
                     'updated_at' => date('Y-m-d h:m:s'),
                     'deleted_at' => null,
                 ]);
-                for ($i=0; $i < count($intItinerary); $i++) $run->waypoints()->attach($intItinerary[$i]);
-                //*/
+                for ($i=0; $i < count($Itinerary); $i++) $run->waypoints()->attach($Itinerary[$i]);
             }
         });
     }
