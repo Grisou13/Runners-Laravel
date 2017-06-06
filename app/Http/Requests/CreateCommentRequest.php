@@ -24,8 +24,7 @@ class CreateCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            "content"=>"required|min:1",
-            "user"=>"sometimes|exists:users,id"
+            "content"=>"required|min:1"
         ];
     }
 }

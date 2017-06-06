@@ -96,9 +96,14 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-
-      $this->api()->be(auth()->user())->with($request->except("_token"))->patch("/cars/{$car->id}");
-      return redirect()->back()->with("message","Car updated!");
+      try{
+        $data = $request->except("_token");
+        $this->api()->be(auth()->user())->patch("/cars/{$car->id}",$data);
+        return redirect()->back()->with("message","Car updated!");
+      }catch(\Exception $e){
+        return redirect()->back()->withErrors($e)->withInput();
+      }
+      
       //$car = Car::findOrFail($id);
       $input = $request->all();
 

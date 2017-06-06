@@ -1,6 +1,6 @@
 
 <div class="tg-wrap">
-    <table class="tg run-table">
+    <table  autosize="1" style="width:98%;border: solid 1px black;border-spacing: 0;border-collapse: collapse">
         @php
         $count = $run->runners_count >= 4 ? $run->runners_count : 4;
         $runners = $run->runners->all();
@@ -12,44 +12,56 @@
             $user = $sub->user_id ? $sub->user->name : null;
             @endphp
             @if($row == 0)
-            <tr>
-                <td class="tg-yw4l date" rowspan="{{ $count }}" style="padding-top: 30px; padding-bottom:auto; width: 30px;"><span class="vertical-text">{{ $run->planned_at ? $run->planned_at->format("d/m") : "" }}</span></td>
-                <td class="tg-yw4l title" colspan="2" rowspan="2" style="border:0;border-top:1px solid black;padding-bottom:0">{{ $run->name }}</td>
-                <td class="tg-yw4l waypoints" colspan="2" rowspan="3" style="boorder: 0; border-left: 1px solid black; border-right: 1px solid black;">
-                    <ul>
-                        @foreach($run->waypoints as $p)
-                            <li>{{ $p->name }} {!! !$loop->last ? '<span class="glyphicon glyphicon-arrow-right" ></span>': '' !!}</li>
-                        @endforeach
-                    </ul>
-                </td>
+                <tr>
+                    <td class="" style="width: 20px;padding-left:5px" text-rotate="90">{{ $run->planned_at ? $run->planned_at->format("d/m") : "" }}&nbsp;</td>
+                    <td class="" colspan="2"  style="padding-left: 5px;border-left: 1px solid black">{{ $run->name }}&nbsp;</td>
+                    <td class="" colspan="2"  style="">
+                            
+                            @foreach($run->waypoints as $p)
+                                <span>{{ $p->name }}
+                                    @if(!$loop->last)
+                                        {!! $next !!}
+                                    @endif
+                                </span>
+                            @endforeach
+                    </td>
 
-                <td class="tg-baqh" style="{{ !($car)&&!($user)&&!$sub->exists?"border:0;border-left:1px solid black":"" }}">{{ $car }}&nbsp;</td>
-                <td class="tg-baqh" style="{{ !($car)&&!($user)&&!$sub->exists?"border:0;border-right:1px solid black":"" }}">{{ $user }}&nbsp;</td>
-            </tr>
-
+                    <td class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $car }}&nbsp;</td>
+                    <td class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $user }}&nbsp;</td>
+                </tr>
             @elseif($row == 1)
-            <tr>
-                <td class="tg-baqh" style="{{ !($car)&&!($user)&&!$sub->exists?"border:0;border-left:1px solid black":"" }}">{{ $car }}</td>
-                <td class="tg-baqh" style="{{ !($car)&&!($user)&&!$sub->exists?"border:0;border-right:1px solid black":"" }}">{{ $user }}&nbsp;</td>
-            </tr>
+                <tr>
+                    {{--<td colspan="2" style=";border: 1px;"></td>--}}
+                    <td class="" colspan="1" style="width: 20px">&nbsp;</td>
+                    <td class="" colspan="2" style="border-left: 1px solid black">&nbsp;</td>
+                    <td class="" colspan="2" style="">&nbsp;</td>
+                    <td class="" colspan="1" style="width: 150px;border-left: 1px solid black">{{ $car }}&nbsp;</td>
+                    <td class="" colspan="1" style="width: 150px;border-left: 1px solid black">{{ $user }}&nbsp;</td>
+                </tr>
 
             @elseif($row == 2)
-            <tr>
-                <td class="tg-yw4l people" colspan="2" style="border:0">{{ $run->nb_passenger }} personnes</td>
-                <td class="tg-baqh" style="{{ !($car)&&!($user)&&!$sub->exists?"border:0;border-left:1px solid black":"" }}">{{ $car }}&nbsp;</td>
-                <td class="tg-baqh" style="{{ !($car)&&!($user)&&!$sub->exists?"border:0;border-right:1px solid black":"" }}">{{ $user }}&nbsp;</td>            </tr>
-
+                <tr>
+                    <td class="" colspan="1" style="width: 20px">&nbsp;</td>
+                    <td class="" colspan="2" style="padding-left: 5px;border-left: 1px solid black">{{ $run->nb_passenger }} personnes</td>
+                    <td class="" colspan="2" style=""></td>
+                    <td class="" style="width: 100px;border-left: 1px solid black;text-align:center">{{ $car }}&nbsp;</td>
+                    <td class="" style="width: 100px;border-left: 1px solid black;text-align:center">{{ $user }}&nbsp;</td>
+                </tr>
             @elseif($row == 3)
-            <tr>
-                <td class="tg-yw4l note" colspan="2" style="border:0; border-bottom: 1px solid black;">{{ $run->note }}</td>
-                <td class="tg-yw4l time" colspan="2" style="border:0; border-left: 1px solid black; border-bottom: 1px solid black;">{{ $run->planned_at ? $run->planned_at->format("i:m") : "" }}</td>
-                <td class="tg-baqh" style="{{ !($car)&&!($user)&&!$sub->exists?"border:0;border-left:1px solid black":"" }}">{{ $car }}&nbsp;</td>
-                <td class="tg-baqh" style="{{ !($car)&&!($user)&&!$sub->exists?"border:0;border-right:1px solid black":"" }}">{{ $user }}&nbsp;</td>            </tr>
+                <tr>
+                    <td class="" colspan="1" style="width: 20px">&nbsp;</td>
+                    <td class="" colspan="2" style="padding-left: 5px;border-left: 1px solid black">{{ $run->note }}</td>
+                    <td class="" colspan="2" style="">{{ $run->planned_at ? $run->planned_at->format("h:i") : "" }}</td>
+                    <td class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $car }}&nbsp;</td>
+                    <td class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $user }}&nbsp;</td>
+                </tr>
             @else
-                    <tr>
-                        <td colspan="4" style="border: 0px;"></td>
-                        <td class="tg-baqh" class="car" style="{{ !($car)&&!($user)&&!$sub->exists?"border:0;border-left:1px solid black":"" }}">{{ $car }}&nbsp;</td>
-                        <td class="tg-baqh" class="user" style="{{ !($car)&&!($user)&&!$sub->exists?"border:0;border-right:1px solid black":"" }}">{{ $user }}&nbsp;</td>                    </tr>
+                <tr>
+                    <td class="" colspan="1" style="width: 20px">&nbsp;</td>
+                    <td class="" colspan="4" style="border-left: 1px solid black">&nbsp;</td>
+                    <td class="" class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $car }}&nbsp;</td>
+                    <td class="" class="" style="width: 150px;border-left: 1px solid black;text-align:center">{{ $user }}&nbsp;</td>
+                </tr>
             @endif
         @endforeach
 

@@ -27,12 +27,12 @@ class ApiSearchTest extends TestCase
     public function testCarSearchHasResults()
     {
       $user = $this->createDefaultUser();
-      $car = factory(Car::class)->create();
-      $name = $car->name[0];
-      $res = $this->getJson("/api/cars/search?q=$name",["x-access-token"=>$user->getAccessToken()]);
+      $cars = factory(Car::class,3)->create();
+      $name = $cars[0]->name;
+      $res = $this->getJson("/api/cars/search?q=".urlencode($name),["x-access-token"=>$user->getAccessToken()]);
       $res->assertStatus(200)->assertJson([
         [
-          "name"=>$car->name,
+          "name"=>$cars[0]->name
         ]
       ]);
   

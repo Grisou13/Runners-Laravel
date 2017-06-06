@@ -1,6 +1,8 @@
 version: "2"
 services:
   app:
+    depends_on:
+      - composer
     env_file:
       - ./config/docker/app.env
     working_dir: /var/www
@@ -14,6 +16,8 @@ services:
       - database
     expose:
       - "9000"
+    ports:
+      - "9000:9000"
   app-queue:
     env_file:
       - ./config/docker/app.env
@@ -27,6 +31,7 @@ services:
     links:
       - cache
       - database
+      - web
   app-schedules:
     env_file:
       - ./config/docker/app.env
@@ -40,6 +45,7 @@ services:
     links:
       - cache
       - database
+      - web
   composer:
     restart: 'no'
     image: composer/composer
@@ -60,22 +66,19 @@ services:
       - "80:80"
 
   database:
-    image: mysql:5.6
+    image: mysql:latest
     volumes:
       - dbdata:/var/lib/mysql
-    environment:
-      - "MYSQL_DATABASE=homestead"
-      - "MYSQL_USER=homestead"
-      - "MYSQL_PASSWORD=secret"
-      - "MYSQL_ROOT_PASSWORD=secret"
+    env_file:
+      - ./config/docker/db.env
     expose:
       - "3306"
 
   node:
     restart: 'no'
     build:
-      context: ./
-      dockerfile: config/docker/node.dockerfile
+      context: ./config/docker
+      dockerfile: node.dockerfile
     volumes:
       - ./:/app
     links:
@@ -84,13 +87,17 @@ services:
 
   echo-server:
     volumes:
-      - ./:/app
+      - ./config/broadcasting/laravel-echo-server-staging.json:/app/laravel-echo-server.json
+      - ./database/lecho.sqlite:/database/laravel-echo-server.sqlite
     build:
       context: ./config/docker
       dockerfile: echo.dockerfile
     links:
       - cache
-
+    expose:
+      - 6001
+    ports:
+      - "6001:6001"
   cache:
     image: redis:3.0-alpine
     expose:

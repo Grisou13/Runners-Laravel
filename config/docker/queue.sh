@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Defaults to an app server
-role=${CONTAINER_ROLE:-schedule}
+role=${CONTAINER_ROLE:-queue}
 
 echo "Container role: $role"
 

@@ -6,8 +6,8 @@
     {{--{{ dump($run->subscriptions()->with(["user","car_type","car"])->get()) }}--}}
 {{--@endif--}}
 
-{{ Form::bsText("name",$run->name) }}
- {{ Form::bsText("nb_passenger",$run->nb_passenger) }}
+{{ Form::bsText("Artist ou nom du run","name",$run->name) }}
+ {{ Form::bsText("PAX","nb_passenger",$run->nb_passenger) }}
  <script>
      window.resource_cache = {!! collect([
          "waypoints"=>$waypoints,
@@ -20,8 +20,8 @@
  <div class="form-group">
      <label for="planned_at" class="col-md-4 control-label">Planifé à</label>
      <div class="col-md-6">
-         <input type="hidden" id="input_planned_at" name="planned_at" value="">
-         <div id="planned_at"></div>
+         <input type="hidden" id="input_planned_at" name="planned_at" value="{{ (string)$run->planned_at }}">
+         <input type="datetime" id="planned_at" value="{{ (string)$run->planned_at }}">
      </div>
  </div>
  @php
@@ -43,68 +43,72 @@
     <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
         <div class="col-md-4">
             {{ Form::label("waypoint", "Itinéraire", array('class' => 'control-label col-md-12')) }}
-            @if ($errors->has("waypoint"))
+            @if ($errors->has("waypoints"))
                 <span class="help-block">
-                        <strong>{{ $errors->first("waypoints") }}</strong>
-                    </span>
+                    <strong>{{ $errors->first("waypoints") }}</strong>
+                </span>
             @endif
         </div>
     </div>
     @if(!$run->exists)
-        @foreach(old("waypoints",[0,1]) as $p)
+        @foreach(old("waypoints",[0=>null,1=>null]) as $k => $p)
 
             @php
-                $id = str_random(20);
+                $id = $k."-".str_random(20);
             @endphp
-        @if($loop->first)
-                <div id="waypoint-first">
-                    {{--{!! Form::bsSelect("waypoints[]", $waypoints) !!}--}}
-                    <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
-                        <div class="col-md-6 col-md-push-4">
-                            {{ Form::text("waypoints[]",old("waypoints.0"), ['class' => 'form-control waypoint-typeahead']) }}
-                            <div class="input-group">
-                                {{ Form::text("waypoints[]",old("waypoints.0"), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
-                            </div>
+          @if($loop->first)
+            <div id="waypoint-first">
+                {{--{!! Form::bsSelect("waypoints[]", $waypoints) !!}--}}
+                <div class="form-group{{ $errors->has("waypoints[$k]") ? ' has-error' : '' }}">
+                    <div class="col-md-6 col-md-push-4">
+                        <div class="input-group">
+{{--                            {{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                            <input name="waypoints[]" type="text" value="{{ old("waypoints.$k", "") }}" class="form-control waypoint-typeahead" id="{{ $id }}">
+
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-push-4 col-md-6">
-                        <button style="width:100%" class="btn btn-info" id="add-waypoint">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-push-4 col-md-6">
+                    <button style="width:100%" class="btn btn-info" id="add-waypoint">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
                 </div>
+            </div>
           @elseif($loop->last)
-          <div id="waypoint-last">
-              <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
-                  <div class="col-md-6 col-md-push-4">
-                      <div class="input-group">
-                          {{ Form::text("waypoints[]",old("waypoints.".$p), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
-                          <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+              <div id="waypoint-last">
+                  <div class="form-group{{ $errors->has("waypoints[$k]") ? ' has-error' : '' }}">
+                      <div class="col-md-6 col-md-push-4">
+                          <div class="input-group">
+                              {{--{{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                              <input name="waypoints[]" type="text" value="{{ old("waypoints.$k", "") }}" class="form-control waypoint-typeahead" id="{{ $id }}">
+                              <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+                          </div>
                       </div>
                   </div>
               </div>
-          </div>
           @else
-          <div class="form-group button-remove {{ $errors->has("waypoints") ? 'has-error' : '' }}">
-              <div class="col-md-5 col-md-push-4">
-                  <div class="input-group">
-                        {{ Form::text("waypoints[]",old("waypoints.".$p), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
-                        <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+              <div class="form-group button-remove {{ $errors->has("waypoints[$k]") ? 'has-error' : '' }}">
+                  <div class="col-md-5 col-md-push-4">
+                      <div class="input-group">
+{{--                          {{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                          <input name="waypoints[]" type="text" value="{{ old("waypoints.$k", "") }}" class="form-control waypoint-typeahead" id="{{ $id }}">
+
+                          <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+                      </div>
+                  </div>
+                  <div class="col-md-1 col-md-push-4">
+                      <button class="btn btn-danger" type="button">
+                          <span class="glyphicon glyphicon-minus"></span>
+                      </button>
                   </div>
               </div>
-              <div class="col-md-1 col-md-push-4">
-                  <button class="btn btn-danger" type="button">
-                      <span class="glyphicon glyphicon-minus"></span>
-                  </button>
-              </div>
-          </div>
           @endif
         @endforeach
     @else
-        @foreach($run->waypoints as $point)
+        @foreach(old("waypoints",$run->waypoints) as $k => $point)
             @php
                 $id = str_random(20);
             @endphp
@@ -113,15 +117,16 @@
                     <div class="form-group{{ $errors->has("waypoint") ? ' has-error' : '' }}">
                         <div class="col-md-6 col-md-push-4">
                             <div class="input-group">
-                                {{ Form::text("waypoints[]",old("waypoints.".$point->pivot->order, $point->name), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
+{{--                                {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                                <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
+
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
                             </div>
-
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-push-4 col-md-6">
-                            <button type="button" style="width:50%;margin-left:auto;margin-right:auto;" class="btn btn-info" id="add-waypoint">
+                        <div class="col-md-push-4 col-md-6 col-xs-12">
+                            <button type="button" style="width:100%" class="btn btn-info" id="add-waypoint">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </div>
@@ -132,18 +137,22 @@
                     <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
                         <div class="col-md-6 col-md-push-4">
                             <div class="input-group">
-                                {{ Form::text("waypoints[]",old("waypoints.".$point->pivot->order, $point->name), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
+{{--                                {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                                <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
-                            </div>                        </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             @else
                 <div class="form-group button-remove {{ $errors->has("waypoints") ? 'has-error' : '' }}">
                     <div class="col-md-5 col-md-push-4">
                         <div class="input-group">
-                            {{ Form::text("waypoints[]",old("waypoints.".$point->pivot->order, $point->name), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}
+{{--                            {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
+                            <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
                             <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}"  ></span></div>
-                        </div>                    </div>
+                        </div>
+                    </div>
                     <div class="col-md-1 col-md-push-4">
                         <button class="btn btn-danger" type="button">
                             <span class="glyphicon glyphicon-minus"></span>
@@ -178,19 +187,17 @@
         </div>
     </div>
     <div id="subs" class="subs" ></div>
-
 </div>
 
-
  @push("styles")
- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
+ <link rel="stylesheet" href="{{ asset("css/jquery-ui.min.css")}}">
+ <link rel="stylesheet" href="{{ asset("css/jquery-ui-timepicker-addon.min.css")}}">
  @endpush
 
 @push("scripts")
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-fr.js"></script>
+<script src="{{ asset("js/jquery-ui.min.js")}}"></script>
+<script src="{{ asset("js/jquery-ui-timepicker-addon.min.js")}}"></script>
+ <script src="{{ asset("js/jquery-ui-timepicker-fr.js")}}"></script>
  <script src="{{ asset("/js/typeahead.js") }}" charset="utf-8"></script>
 
 <script type="text/javascript">
@@ -260,14 +267,21 @@ $(".waypoint-typeahead.tt-input").on('typeahead:close', function() {
 //--------------------------------------------------------------------
 // picker pour la date des runs
 $( function() {
+
   $( "#planned_at" ).datetimepicker({
+      controlType: 'select',
+      oneLine: true,
       altField: "#input_planned_at",
-      timeFormat:"hh:mm:ss",
+      altFieldTimeOnly: false,
+    	altFormat: "yy-mm-dd",
+    	altTimeFormat: "hh:mm:ss",
+      timeFormat:"hh:mm",
       secondSlider:false,
       showSecond:false,
-      dateFormat: 'yy-mm-dd',
-      altFieldTimeOnly: false
+      dateFormat: 'dd/mm/yy',
   });
+  $( "#planned_at" ).datetimepicker('setDate', $( "#planned_at" ).datetimepicker('getDate') );
+
 } );
 // _______________________________
     document.querySelectorAll(".button-remove").forEach(function(container){
@@ -362,14 +376,14 @@ const generateSubscription = (sub) => {
     delete_btn.innerHTML="<span class='glyphicon glyphicon-minus'></span>"
     delete_btn.type = "button"
 
-    var reset_btn = document.createElement("button")
-    reset_btn.innerHTML="<span class='glyphicon glyphicon-repeat'></span>"
-    reset_btn.type = "button"
+    // var reset_btn = document.createElement("button")
+    // reset_btn.innerHTML="<span class='glyphicon glyphicon-repeat'></span>"
+    // reset_btn.type = "button"
 
     var btn_container = document.createElement("div")
 
     btn_container.appendChild(delete_btn)
-    btn_container.appendChild(reset_btn)
+    // btn_container.appendChild(reset_btn)
     //these classes with show only the cars_type_input
     //- container stuff
     container.classList.add("row")
@@ -388,10 +402,10 @@ const generateSubscription = (sub) => {
     //- hide elements that can't be visible at first
     cars_container.classList.add("hidden")
     runners_container.classList.add("hidden")
-    reset_btn.classList.add("hidden")
+    // reset_btn.classList.add("hidden")
 
-    reset_btn.classList.add("btn")
-    reset_btn.classList.add("btn-default")
+    // reset_btn.classList.add("btn")
+    // reset_btn.classList.add("btn-default")
     delete_btn.classList.add("btn")
     delete_btn.classList.add("btn-danger")
     car_types_input.classList.add("form-control")
@@ -405,7 +419,7 @@ const generateSubscription = (sub) => {
         car_types_container.classList.toggle("col-md-2")
         cars_container.classList.toggle("hidden")
         runners_container.classList.toggle("hidden")
-        reset_btn.classList.toggle("hidden")
+        // reset_btn.classList.toggle("hidden")
     }
     //add options
     cars_input.add(emptyOption.cloneNode())
@@ -448,7 +462,7 @@ const generateSubscription = (sub) => {
     id_input.name = "subscriptions["+count+"][id]"
 
     //EVENT HANDLING
-    reset_btn.addEventListener("click", (e)=>{
+    /*reset_btn.addEventListener("click", (e)=>{
         e.preventDefault()
         cars_input.innerHTML = ""
         cars_input.add(emptyOption)
@@ -463,7 +477,7 @@ const generateSubscription = (sub) => {
         runners_container.classList.toggle("hidden")
         //delete_btn.classList.toggle("hidden")
         reset_btn.classList.toggle("hidden")
-    })
+    })*/
 
     delete_btn.addEventListener("click",(e)=>{
         e.preventDefault()
@@ -489,7 +503,7 @@ const generateSubscription = (sub) => {
                 car_types_container.classList.toggle("col-md-2")
                 cars_container.classList.toggle("hidden")
                 runners_container.classList.toggle("hidden")
-                reset_btn.classList.toggle("hidden")
+                // reset_btn.classList.toggle("hidden")
             }
 
         //TODO set other inputs to show
@@ -506,7 +520,7 @@ const generateSubscription = (sub) => {
                 car_types_container.classList.toggle("col-md-2")
                 cars_container.classList.toggle("hidden")
                 runners_container.classList.toggle("hidden")
-                reset_btn.classList.toggle("hidden")
+                // reset_btn.classList.toggle("hidden")
 
             }
         }
@@ -524,7 +538,7 @@ const generateSubscription = (sub) => {
                 car_types_container.classList.toggle("col-md-2")
                 cars_container.classList.toggle("hidden")
                 runners_container.classList.toggle("hidden")
-                reset_btn.classList.toggle("hidden")
+                // reset_btn.classList.toggle("hidden")
             }
         }
     })
@@ -566,6 +580,9 @@ data.forEach((s)=> subs.appendChild(generateSubscription(s)))
 
  @push("styles")
  <style>
+     .ui-widget.ui-widget-content{
+         z-index: 2 !important;
+     }
      .waypoints .form-group{
          margin-bottom: 0px !important;
      }

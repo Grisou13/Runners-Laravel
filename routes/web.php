@@ -33,6 +33,9 @@ Route::resource("comments","CommentController",["only"=>"destroy"]);
 $router->get("/runs/display","RunController@display");
 $router->get("/runs/pdf","RunController@pdf");
 $router->get("/runs/pdf/template","RunController@pdfTemplate");
+$router->post("/runs/{run}/start",["as"=>"runs.start","uses"=>"RunController@start"]);
+$router->post("/runs/{run}/stop",["as"=>"runs.stop","uses"=>"RunController@stop"]);
+
 $router->resource("runs","RunController");
 $router->post("runs/{run}/comments", ["as"=>"runs.comments.store","uses"=>"RunController@addComment"]);
 
@@ -43,5 +46,10 @@ $router->resource("runs.cars","Run\\CarController",["except"=>"create","edit","u
 $router->resource("runs.runners","Run\\RunnerController",["except"=>"create","edit","update"]);
 $router->resource("runs.car_types","Run\\CarTypeController",["except"=>"create","edit","update"]);
 
+Route::get('users/{user}/profile', ['uses' => 'UserController@redirectToUser']);
+Route::get('users/{user}/license', ['uses' => 'UserController@redirectToUser']);
+
+Route::post('users/{user}/profile', ['as' => 'image.profile', 'uses' => 'UserController@storeProfileImage']);
+Route::post('users/{user}/license', ['as'=>'image.license','uses' => 'UserController@storeLicenseImage']);
 Route::resource('users', 'UserController'); // Joël.DE-SOUSA
 Route::post('upload/image', ['as' => 'image.upload', 'uses' => 'ImageController@upload']); // upload image for users // Joël.DE-SOUSA

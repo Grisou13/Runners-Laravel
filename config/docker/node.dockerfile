@@ -1,10 +1,7 @@
 FROM node:latest
 WORKDIR /app
-RUN npm install -g yarn 2 > /dev/null
-RUN npm install -g bower 2 > /dev/null
-
-RUN bower install &> /dev/null
-RUN yarn 2 > /dev/null
-
-RUN npm rebuild node-sass 2 > /dev/null
-RUN node node_modules/gulp/bin/gulp.js --production &> /dev/null
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash
+RUN npm install -g bower &> /dev/null
+copy node.sh /opt/bin/entrypoint.sh
+RUN chmod +x /opt/bin/entrypoint.sh
+CMD ["/opt/bin/entrypoint.sh"]

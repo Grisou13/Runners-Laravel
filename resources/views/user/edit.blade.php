@@ -4,9 +4,9 @@ User: Joel.DE-SOUSA
 @extends("layouts.app")
 
 @section("content")
-<div class="row">
+{{--<div class="row">--}}
 {{--@include("partials.elements.padlock")--}}
-</div>
+{{--</div>--}}
 
 @include("partials.user.edit")
 @endsection

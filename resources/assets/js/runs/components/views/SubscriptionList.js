@@ -9,7 +9,6 @@ import AddUserButton from './subs/AddUserButton'
 const SubscriptionList = ({run,subs = []}) =>(
     <div className="subscription" style={{height:"100%", minHeight:"100px"}}>
         {subs.map( (sub, i, all) => {
-            console.log(sub)
              return   (
                     <div key={"sub-"+sub.id}>
                         <Subscription key={`sub-${run}-${sub.id}`}  {...sub}/>
@@ -21,7 +20,7 @@ const SubscriptionList = ({run,subs = []}) =>(
 )
 
 SubscriptionList.propTypes = {
-    subs: PropTypes.arrayOf(Subscription.propTypes).isRequired,
+    subs: PropTypes.array.isRequired,
     run: PropTypes.number.isRequired
 }
 

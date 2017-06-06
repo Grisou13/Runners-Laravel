@@ -26,7 +26,7 @@ class RoleSeeder extends Seeder
       ->givePermissionTo('view runs');
 
       Role::create([
-        "name" => "administrator"
+        "name" => "admin"
       ])
       ->givePermissionTo('end run')
       ->givePermissionTo('force run end')

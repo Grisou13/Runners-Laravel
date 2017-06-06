@@ -12,15 +12,7 @@ User: Joel.DE-SOUSA
               @else
                 {{ Form::open(array('route' => 'users.store', 'class' => 'form-horizontal')) }}
               @endif
-              {{ Form::bsText("firstname", old("firstname")) }}
-              {{ Form::bsText("lastname", old("lastname")) }}
-              {{ Form::bsText("name", old("name")) }}
-              {{ Form::bsText("email", old("email")) }}
-              {{ Form::bsText("phone_number", old("phone_number")) }}
-              {{ Form::bsSelect("sex",[0 => "Male", 1 => 'Female'],old("sex")) }}
-              {{ Form::bsText("stat", old("stat")) }}
-              {{ Form::bsText("accesstoken", old("accesstoken")) }}
-              @if(auth()->check())
+                @include("partials.user.fields")
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
                         <div class="col-md-3">
@@ -33,7 +25,6 @@ User: Joel.DE-SOUSA
                     <div class="col-md-3">
                     </div>
                 </div>
-              @endif
                 {{ csrf_field() }}
                 {{ Form::close() }}
               <!--</form>-->
@@ -51,8 +42,8 @@ User: Joel.DE-SOUSA
                     <div class="thumbnail">
 
                       @if($user->profileImage() != null)
-                        <a href="{{ url('images/'.$user->profileImage()->filename)}}" class="thumbnail">
-                          <img src="{{ url('images/'.$user->profileImage()->filename)}}" alt="facepicture">
+                        <a href="" class="thumbnail">
+                          <img src="{{ $user->profileImage()->url() }}" alt="facepicture">
                         </a>
                       @else
                         <a href="{{ url('images/icons/default_pp.png')}}" class="thumbnail">
@@ -60,10 +51,8 @@ User: Joel.DE-SOUSA
                         </a>
                       @endif
                       <div class="caption">
-                        <form method="post" enctype="multipart/form-data" files="true" action="{{ route('image.upload') }}">
+                        <form method="post" enctype="multipart/form-data" files="true" action="{{ route('image.profile',compact("user")) }}">
                           <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-                          <input type="hidden" value="profile" name="type">
-                          <input type="hidden" value="{{$user->id}}" name="id">
                           <div class="form-group">
                             <label for="image">Photo de profile</label>
                             <input type="file" name="image" id="image" accept="image/*">
@@ -78,8 +67,8 @@ User: Joel.DE-SOUSA
                     <div class="thumbnail">
 
                       @if($user->licenseImage() != null)
-                        <a href="{{ url('images/' . $user->licenseImage()->filename)}}" class="thumbnail">
-                          <img src="{{ url('images/' . $user->licenseImage()->filename)}}" alt="facepicture">
+                        <a href="#" class="thumbnail">
+                          <img src="{{ $user->licenseImage()->url() }}" alt="facepicture">
                         </a>
                       @else
                         <a href="{{ url('images/icons/default_pp.png')}}" class="thumbnail">
@@ -87,10 +76,8 @@ User: Joel.DE-SOUSA
                         </a>
                       @endif
                       <div class="caption">
-                        <form method="post" enctype="multipart/form-data" files="true" action="{{ route('image.upload') }}">
+                        <form method="post" enctype="multipart/form-data" files="true" action="{{ route('image.license',compact("user")) }}">
                           <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-                          <input type="hidden" value="license" name="type">
-                          <input type="hidden" value="{{$user->id}}" name="id">
                           <div class="form-group">
                             <label for="image">Permis de conduire</label>
                             <input type="file" name="image" id="image" accept="image/*">

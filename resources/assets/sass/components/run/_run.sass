@@ -19,6 +19,8 @@
     height: 100%
     margin-left: 15px
     font-size: 20px
+  & input[type=checkbox]
+    height: 20px
     //margin: 0 auto
 
 .run-container
@@ -74,24 +76,26 @@
   //  left: 0
   //  top: 0
 
-.ready
-  background-color: $ready
 
-.error
-  background-color: $error
+//.ready
+//  background-color: $ready
+//
+//.error
+//  background-color: $error
+//
+//.needs_filling
+//  background-color: $needs_filling
+//
+//.missing_cars
+//  background-color: $missing_cars
+//
+//.gone
+//  background-color: $gone
+//  opacity: 0.5
+//  transition: opacity .1s .2s
+//  &:hover, & .hovered
+//    opacity: 1
 
-.needs_filling
-  background-color: $needs_filling
-
-.missing_cars
-  background-color: $missing_cars
-
-.gone
-  background-color: $gone
-  opacity: 0.5
-  transition: opacity .1s .2s
-  &:hover, & .hovered
-    opacity: 1
 
 .waypoint-list
   padding-bottom: 10px

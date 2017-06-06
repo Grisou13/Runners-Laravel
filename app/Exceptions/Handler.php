@@ -63,7 +63,9 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \Watson\Validating\ValidationException) {
             return redirect()->back()->withErrors($exception)->withInput();
         }
-
+        if ($exception instanceof \Dingo\Api\Exception\ValidationHttpException) {
+          return redirect()->back()->withErrors($exception)->withInput();
+        }
         return redirect()->guest('login');
     }
 }

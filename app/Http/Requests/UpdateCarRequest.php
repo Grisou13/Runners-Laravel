@@ -25,8 +25,8 @@ class UpdateCarRequest extends FormRequest
     public function rules()
     {
         return [
-            "plate_number"=>["required",Rule::unique('cars',"plate_number")->ignore($this->route("car")->id)],
-            "car_type"=>"sometimes|required|exists:car_types,id"
+            "plate_number"=>["required",Rule::unique('cars')->ignore($this->route("car")->id)],
+            "car_type"=>"required|exists:car_types,id"
         ];
     }
 }

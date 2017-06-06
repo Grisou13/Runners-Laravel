@@ -1,6 +1,12 @@
 @extends("layouts.print")
 
 @section("content")
+@php
+$icon = base64_encode(file_get_contents(public_path("images/icons/next.png")));
+$type = pathinfo(public_path("images/icons/next.png"), PATHINFO_EXTENSION);
+$next = '<img src="data:image/'.$type.';base64,'.$icon.'" alt="->" width="12" />';
+@endphp
+
     <div class="display">
         @php
             $c = 0;
@@ -27,7 +33,7 @@
 @stop
 
 @push("scripts")
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+<script src="{{ asset("/js/jspdf.min.js")}}" ></script>
 <script src="{{ asset("/js/html2canvas.js") }}"></script>
 
 <script>

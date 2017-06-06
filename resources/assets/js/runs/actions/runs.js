@@ -10,6 +10,8 @@ import {subscribeRun} from "../services/websocket";
 import {subscribeSubscription} from "../services/websocket";
 import {unsubscribeRun} from "../services/websocket";
 import {RESET_RUNS} from "./consts";
+import {STARTED_RUN,RUN_PRINTED} from "./consts";
+const jsPDF = window.jsPDF
 export const gotRuns = (runs) => {
     return {
         type:GOT_RUNS,
@@ -18,16 +20,78 @@ export const gotRuns = (runs) => {
 }
 export const stopRun = run => dispatch => {
     api.post(`/runs/${run.id}/stop`)
-        .then(res => dispatch(deleteRun(res.data)))
+        .then(res => dispatch(updateRun(res.data)))
 
 }
 export const editRun = (run) => {
-    window.location = window.Laravel.basePath + `/runs/${run.id}/edit`UserSEe
+    window.location = window.Laravel.basePath + `/runs/${run.id}/edit`
 
     return {
         type: EDIT_RUN,
         payload:run
     }
+}
+export const runPrinted = () => (
+  {
+    type: RUN_PRINTED
+  }
+)
+export const printRuns = (runs = []) => {
+    return dispatch => {
+        // console.log(runs)
+        // var doc = new jsPDF('l', 'pt', 'a2');
+        // var columns = ["ID", "Name", "Country", "extra"];
+        // var rows = [
+        //     [1, "Shaw", "Tanzania", ["some","other"]],
+        //     [2, "Nelson", "Kazakhstan", ["some","other"]],
+        //     [3, "Garcia", "Madagascar", ["some","other"]],
+        //
+        // ];
+        //
+        // // Only pt supported (not mm or in)
+        // var doc = new jsPDF('l', 'pt');
+        // doc.autoTable(columns, rows);
+        // doc.output('dataurlnewwindow');
+        // return false
+        let url = "/runs/pdf?"+runs.map(r => r.id).reduce((acc, cur, i,t)=>{
+                if(i == 1)
+                    return "runs[]="+acc+"&runs[]="+cur
+                else
+                    return acc+"&runs[]="+cur
+            },"") //TODO reimplement this
+        let res = window.open(url,"_blank")
+        if(res)
+          dispatch(runPrinted())
+        // axios.get(url).then(res => {
+        //     let data = res.data
+        //     var downloadLink      = document.createElement('a');
+        //       downloadLink.target   = '_blank';
+        //       downloadLink.download = 'runs.pdf';
+        //
+        //       // convert downloaded data to a Blob
+        //       var blob = new Blob([data], { type: 'application/pdf' });
+        //
+        //       // create an object URL from the Blob
+        //       var URL = window.URL || window.webkitURL;
+        //       var downloadUrl = URL.createObjectURL(blob);
+        //
+        //       // set object URL as the anchor's href
+        //       downloadLink.href = downloadUrl;
+        //
+        //       // append the anchor to document body
+        //       document.body.appendChild(downloadLink);
+        //
+        //       // fire a click event on the anchor
+        //       downloadLink.click();
+        //
+        //       // cleanup: remove element and revoke object URL
+        //       document.body.removeChild(downloadLink);
+        //       URL.revokeObjectURL(downloadUrl);        })
+    }
+
+    // return {
+    //     type: "PRINTED"
+    // }
 }
 export const gotRun = (run) => {
     return {
@@ -42,10 +106,21 @@ export const updateRun = (run) => {
         payload: run
     }
 }
+export const runStarted = (run) => {
+    return {
+        type: STARTED_RUN,
+        payload: run
+    }
+}
 export const startRun = (run) => {
     return dispatch => {
         api.post("/runs/"+run.id+"/start")
-            .then((res)=>updateRun(res))
+            .then((res)=>{
+                console.log("run started")
+                console.log(res)
+                dispatch(runStarted(res.data))
+                dispatch(updateRun(res.data))
+            })
             .catch((res)=> {
                 console.log(res)
                 dispatch(fetchingFailed(res))
