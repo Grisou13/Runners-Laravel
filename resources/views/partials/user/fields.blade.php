@@ -2,7 +2,7 @@
 {{ Form::bsText("Nom","lastname", $user->lastname) }}
 {{ Form::bsText("Email","email", $user->email) }}
 {{ Form::bsText("Nom abbrégé","name", $user->name) }}
-{{ Form::bsText("Téléphone","phone", $user->phone) }}
+{{ Form::bsText("Téléphone","phone", $user->phone_number) }}
 <div class="form-group">
     <label for="sex" class="col-md-4 control-label">Sexe </label>
     <div class="col-md-6">

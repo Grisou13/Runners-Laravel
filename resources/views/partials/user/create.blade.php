@@ -9,7 +9,7 @@ User: Joel.DE-SOUSA
               @if($user->exists())
                 {{ Form::model($user, array('route' => array('users.update', $user), 'method' => 'PUT', 'class' => 'form-horizontal')) }}
               @else
-                {{ Form::open(array('route' => 'users.store', 'method' => 'POST', 'class' => 'form-horizontal')) }}
+                {{ Form::open(array('route' => 'users.store', 'class' => 'form-horizontal')) }}
 
               @endif
                 @include("partials.user.fields")
