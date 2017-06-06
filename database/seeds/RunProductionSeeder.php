@@ -9,6 +9,10 @@ use Lib\Models\Run;
 
 class RunProductionSeeder extends Seeder
 {
+    private $notes;
+    private $artists;
+    private $wayPoints;
+
     /**
      * Run the database seeds.
      *
@@ -16,28 +20,7 @@ class RunProductionSeeder extends Seeder
      */
     public function run()
     {
-
-        collect([
-            "Grande scène",
-            "Les Arches",
-            "Le Dôme",
-            "Prod",
-            "Honda",
-            "Détour",
-            "Genève aéroport",
-            "Chavannes",
-            "Nyon Gare",
-            "Lake Geneva Hotel",
-            "Cressy",
-            "Hilton Genève",
-            "Formule 1 Versoix",
-            "Best Western Mies",
-            "Holiday Inn Coppet"
-        ])->each(function ($n)
-        {
-            Waypoint::create(["name" => $n]);
-        });
-        $notes = collect([
+        $this->notes = collect([
             'Band départ 11 Pax',
             'Crew départ 1 Pax, 1 VALISE + 1 SAC',
             'invité arrivé 1 Pax',
@@ -49,7 +32,7 @@ class RunProductionSeeder extends Seeder
             'divers transfert Pax'
         ]);
 
-        $artists = [
+        $this->artists = [
             "RED HOT CHILI PEPPERS",
             "FOALS",
             "KALEO",
@@ -146,123 +129,62 @@ class RunProductionSeeder extends Seeder
             "DELGRÈS",
             "SON DEL SALÓN"];
 
-        // seeds creation ========================
-
-        $run = Run::create([ // run started
-            'started_at' => '2017-07-12 08:00:00',
-            'ended_at' => null,
-            'planned_at' => '2017-07-12 00:00:00',
-            'nb_passenger' => 8,
-            'name' => 'RED HOT CHILI PEPPERS',
-            'note' => $notes->first(),
-            'created_at' => date('Y-m-d h:m:s'),
-            'updated_at' => date('Y-m-d h:m:s'),
-            'deleted_at' => null,
+        $this->wayPoints = collect([
+            "Grande scène",
+            "Les Arches",
+            "Le Dôme",
+            "Prod",
+            "Honda",
+            "Détour",
+            "Genève aéroport",
+            "Chavannes",
+            "Nyon Gare",
+            "Lake Geneva Hotel",
+            "Cressy",
+            "Hilton Genève",
+            "Formule 1 Versoix",
+            "Best Western Mies",
+            "Holiday Inn Coppet"
         ]);
-        $run->waypoints()->attach(3);
-        $run->waypoints()->attach(1);
 
-        $run = Run::create([ // run ended and 0 passengers
-            'started_at' => '2017-07-13 08:00:00',
-            'ended_at' => '2017-07-13 12:00:00',
-            'planned_at' => '2017-07-13 00:00:00',
-            'nb_passenger' => 2,
-            'name' => "FOALS",
-            'note' => $notes[1],
-            'created_at' => date('Y-m-d h:m:s'),
-            'updated_at' => date('Y-m-d h:m:s'),
-            'deleted_at' => null,
-        ]);
-        $run->waypoints()->attach(3);
-        $run->waypoints()->attach(4);
-        $run->waypoints()->attach(1);
-
-        foreach ($artists as $artist)
+        $this->wayPoints->each(function ($n)
         {
-            $run = Run::create([
-                'started_at' => null,
-                'ended_at' => null,
-                'planned_at' => '2017-07-13 20:49:18',
-                'nb_passenger' => rand(1, 5),
-                'name' => $artist,
-                'note' => $notes->random(),
-                'created_at' => date('Y-m-d h:m:s'),
-                'updated_at' => date('Y-m-d h:m:s'),
-                'deleted_at' => null,
-            ]);
-            $run->waypoints()->attach(3);
-            $run->waypoints()->attach(5);
-
-            if (rand(0, 100) % 2)
-            {
-                $run->waypoints()->attach(1);
-                $run->waypoints()->attach(2);
-                $sub = new Lib\Models\RunSubscription();
-                $sub->run()->associate($run);
-                $sub->user()->associate(rand(2,User::all()->count()-1));
-                $sub->car_type()->associate(1);
-                $sub->save();
-            }
-        }
-        /*factory(Lib\Models\Waypoint::class,10)->create();
-        factory(Lib\Models\Run::class,3)->create()->each(function(\Lib\Models\Run $run){
-          $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
+            Waypoint::create(["name" => $n]);
         });
 
-        $run = factory(Lib\Models\Run::class)->create();
-
-        $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
-        $sub = new Lib\Models\RunSubscription();
-        $sub->run()->associate($run);
-        $sub->user()->associate(2);
-        $sub->car()->associate(1);
-        $sub->save();
-
-        $run = factory(Lib\Models\Run::class)->create();
-        $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
-        $sub = new Lib\Models\RunSubscription();
-        $sub->run()->associate($run);
-        $sub->user()->associate(3);
-        $sub->car()->associate(3);
-        $sub->save();
-
-        $run = factory(Lib\Models\Run::class)->create();
-        $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
-        $sub = new Lib\Models\RunSubscription();
-        $sub->run()->associate($run);
-        $sub->car()->associate(5);
-        $sub->save();
-
-        $run = factory(Lib\Models\Run::class)->create();
-        $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
-        $sub = new Lib\Models\RunSubscription();
-        $sub->run()->associate($run);
-        $sub->user()->associate(6);
-        $sub->save();
-
-        $run = factory(Lib\Models\Run::class)->create();
-        $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
-        $sub = new Lib\Models\RunSubscription();
-        $sub->run()->associate($run);
-        $sub->user()->associate(5);
-        $sub->car_type()->associate(2);
-        $sub->save();
-
-        $run = factory(Lib\Models\Run::class)->create();
-        $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
-        $sub = new Lib\Models\RunSubscription();
-        $sub->run()->associate($run);
-        $sub->car_type()->associate(2);
-        $sub->save();
-
-        $run = factory(Lib\Models\Run::class)->create();
-        $run->waypoints()->attach(Waypoint::all()->random(rand(2,4)));
-        $sub = new Lib\Models\RunSubscription();
-        $sub->run()->associate($run);
-        $sub->user()->associate(8);
-        $sub->car_type()->associate(2);
-        $sub->save();
-
-        Run::create()*/
+        // seeds creation ========================
+        collect([
+            ["day" => new DateTime('2017-07-18'), "nbRuns" => random_int(30,50)],
+            ["day" => new DateTime('2017-07-19'), "nbRuns" => random_int(40,70)],
+            ["day" => new DateTime('2017-07-20'), "nbRuns" => random_int(50,90)],
+            ["day" => new DateTime('2017-07-21'), "nbRuns" => random_int(50,70)],
+            ["day" => new DateTime('2017-07-22'), "nbRuns" => random_int(50,70)],
+            ["day" => new DateTime('2017-07-23'), "nbRuns" => random_int(45,60)],
+            ["day" => new DateTime('2017-07-24'), "nbRuns" => random_int(10,30)]
+        ])->each(function ($onedate)
+        {
+            for ($r = 0; $r < $onedate["nbRuns"]; $r++)
+            {
+                $onedate["day"]->setTime(rand(1, 23), rand(0, 11) * 5);
+                $artist = $this->artists[rand(0, count($this->artists) - 1)];
+                $note = (rand(1,100) > 80 ? $this->notes->random() : null);
+                $nbPax = rand(1, 9);
+                $Itinerary = array();
+                $nbwp = (rand(1,100) > 80) ? (rand(1,100) > 80) ? 4 : 3 : 2;
+                for ($wp = 0; $wp < $nbwp; $wp++) $Itinerary[] = rand(1, count($this->wayPoints));
+                $run = Run::create([
+                    'started_at' => $onedate["day"]->format('Y-m-d H:i:s'),
+                    'ended_at' => null,
+                    'planned_at' => $onedate["day"]->format('Y-m-d H:i:s'),
+                    'nb_passenger' => $nbPax,
+                    'name' => $artist,
+                    'note' => $note,
+                    'created_at' => date('Y-m-d h:m:s'),
+                    'updated_at' => date('Y-m-d h:m:s'),
+                    'deleted_at' => null,
+                ]);
+                for ($i=0; $i < count($Itinerary); $i++) $run->waypoints()->attach($Itinerary[$i]);
+            }
+        });
     }
 }
