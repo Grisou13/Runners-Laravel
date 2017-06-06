@@ -154,13 +154,13 @@ class RunProductionSeeder extends Seeder
 
         // seeds creation ========================
         collect([
-            ["day" => new DateTime('2017-07-18'), "nbRuns" => 15],
-            ["day" => new DateTime('2017-07-19'), "nbRuns" => 25],
-            ["day" => new DateTime('2017-07-20'), "nbRuns" => 35],
-            ["day" => new DateTime('2017-07-21'), "nbRuns" => 45],
-            ["day" => new DateTime('2017-07-22'), "nbRuns" => 35],
-            ["day" => new DateTime('2017-07-23'), "nbRuns" => 25],
-            ["day" => new DateTime('2017-07-24'), "nbRuns" => 15]
+            ["day" => new DateTime('2017-07-18'), "nbRuns" => random_int(30,50)],
+            ["day" => new DateTime('2017-07-19'), "nbRuns" => random_int(40,70)],
+            ["day" => new DateTime('2017-07-20'), "nbRuns" => random_int(50,90)],
+            ["day" => new DateTime('2017-07-21'), "nbRuns" => random_int(50,70)],
+            ["day" => new DateTime('2017-07-22'), "nbRuns" => random_int(50,70)],
+            ["day" => new DateTime('2017-07-23'), "nbRuns" => random_int(45,60)],
+            ["day" => new DateTime('2017-07-24'), "nbRuns" => random_int(10,30)]
         ])->each(function ($onedate)
         {
             for ($r = 0; $r < $onedate["nbRuns"]; $r++)
