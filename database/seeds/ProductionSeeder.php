@@ -14,7 +14,7 @@ class ProductionSeeder extends Seeder
         $this->call(EmptyDbSeeder::class);
         $this->call(CarTypeSeeder::class);
         $this->call(CarSeeder::class);
-        $this->call(RoleSeeder::class);
+        $this->call(BaseSeeder::class);
         $this->call(UserProductionSeeder::class);
         $this->call(RunProductionSeeder::class);
     }

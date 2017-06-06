@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         // the order is important
         $this->call(GroupSeeder::class);
-        $this->call(RoleSeeder::class);
+        $this->call(BaseSeeder::class);
         $this->call(UserSeeder::class); // OK
         $this->call(ImageSeeder::class);
         $this->call(CarTypeSeeder::class);
