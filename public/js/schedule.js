@@ -234,16 +234,15 @@ function getAllDays(){
     function _getSetting(setting){
         let url = window.Laravel.basePath + "/api/settings/"+setting+"?token=root";
         let res = ajaxRequest("get", url, "", null);
-        return res;
+        return res["value"];
     }
     let startDate = moment(_getSetting("start_date"));
     let endDate = moment(_getSetting("end_date"));
 
-    return _getDates(startDate.format(), endDate.format());
+    return _getDates(startDate, endDate);
 }
 
 var days = getAllDays();
-console.log(days);
 
 schedule = ["00:00","00:30", "01:00","01:30",
             "02:00","02:30", "03:00","03:30",
@@ -264,6 +263,8 @@ var groups = getAllGroups();
 
 createGrid(schedule, days, groups);
 
-//TODO https://laravel.com/docs/5.4/dusk#waiting-for-elements
+// dates forms input
+let startDateForm = document.getElementById("start_date_form");
+let endDateForm = document.getElementById("end_date_form");
+
 //TODO visual division of hours and day&night
-//TODO 'waiting' icon (or disable table)

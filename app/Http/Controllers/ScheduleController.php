@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Lib\Models\Schedule;
+use Lib\Models\Setting;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
@@ -14,8 +15,9 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        //$schedules = Schedule::all();
-        return view("schedule.index");//->with("schedules", $schedules);
+        $start_time = Setting::where("key","start_date")->first();
+        $end_time = Setting::where("key","end_date")->first();
+        return view("schedule.index", compact("start_time", "end_time"));//->with("schedules", $schedules);
     }
 
     /**
