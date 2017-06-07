@@ -13,13 +13,14 @@ class SettingsSeeder extends Seeder
     {
       $settings = config("settings");
       foreach($settings as $setting => $sets){
-        foreach($sets as $key=>$value){
-          dump($value);
-          dump($key);
-          dump($setting);
-          dump($settings);
-          Setting::create(["key"=>"{$setting}::{$key}","value"=>$value]);
-
+        if(is_array($sets)) {
+          foreach ($sets as $key => $value) {
+            Setting::create(["key" => "{$setting}::{$key}", "value" => $value]);
+    
+          }
+        }
+        else{
+          Setting::create(["key" => "{$setting}", "value" => $sets]);
         }
       }
     }

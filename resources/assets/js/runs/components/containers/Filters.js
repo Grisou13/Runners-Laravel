@@ -13,6 +13,7 @@ import {addStatusFilter} from "../../actions/filters";
 import {updateTimeEnd} from "../../actions/filters";
 import {updateTimeStart, updateUser, updateName, updateCar} from "../../actions/filters";
 import {updateWaypointIn} from "../../actions/filters";
+import {resetFilters} from "../../actions/filters";
 
 class Filters extends React.Component{
     render(){
@@ -20,6 +21,9 @@ class Filters extends React.Component{
             <div className="filters row">
 
                 <div className="col-md-2" >
+                    <button onClick={this.props.reset} >
+                        <span className="glyphicon glyphicon-repeat" />
+                    </button>
                   <NameFilter name={this.props.name} changeName={(u)=>this.props.dispatch(updateName(u))} />
                 </div>
                 <div className="col-md-6">
@@ -43,7 +47,7 @@ class Filters extends React.Component{
 }
 
 Filters.propTypes = {
-
+    reset: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -53,6 +57,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         dispatch: dispatch,
+        reset: () => {
+            return dispatch(resetFilters())
+        }
     }
 }
 

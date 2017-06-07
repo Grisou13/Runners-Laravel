@@ -71,12 +71,6 @@ export const FILTER_WAYPOINT_IN     =   "filter_waypoint_in"
 export const FILTER_USING_CAR       =   "filter_using_car"
 export const FILTER_USING_USER      =   "filter_using_user"
 
-/*display mode*/
-
-export const TOGGLE_DISPLAY_MODE    =   "toggle_display_mode"
-export const SET_DISPLAY_MODE       =   "set_display_mode"
-export const RESET_DISPLAY_MODE     =   "reset_display_mode"
-
 export const UPDATE_FILTER_TIME_START   =   "UPDATE_FILTER_TIME_START"
 export const UPDATE_FILTER_TIME_END     =   "UPDATE_FILTER_TIME_END"
 export const RESET_FILTER_TIME_START    =   "RESET_FILTER_TIME_START"

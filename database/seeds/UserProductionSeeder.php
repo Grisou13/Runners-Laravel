@@ -44,6 +44,7 @@ class UserProductionSeeder extends Seeder
 
       // running command line import in php code
       exec("mysql -u " . $user . " -p" . $pass . " -h ".\Config::get("database.connections.mysql.host")." " . $db . " < ".database_path("seeds/runners_seed.sql"));
+//      \DB::connection()->getPdo()->exec(file_get_contents(database_path("seeds/runners_seed.sql")));
       $count = User::count();
       $skip = 2;
       $limit = $count - $skip; // the limit
