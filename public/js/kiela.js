@@ -26,46 +26,43 @@ Array.prototype.equals = function (array) {
 // Hide method from for-in loops
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
-var groupUsers = [];
+
+
 
 function display(entries, container){
+    var groupUsers = [];
 
     function displayUsersPerGroup(container, groupID){
-        if(typeof groupUsers[groupID] === "undefined"){ //if not set yet
-            window.api.get("/groups/"+groupID, {"include":"users"})
-                .then(function(groupR){
-                    // window.api.get("/groups/"+groupID+"/users", {})
-                    //     .then(function(r){
-                    let r = groupR.users
-                            let div = document.createElement("div");
-                            groupUsers[groupID] = "<h3>Groupe " + groupR["data"].name +"</h3>"; //todo get group letter
-                            //groupUsers[groupID] = r["data"];
-                            if(r.length > 0 ){
-                                r.forEach(function(user){
-                                    let p = "<p>";
-                                    p += user.firstname;
-                                    p += " ";
-                                    p += user.lastname;
-                                    p += "</p>";
-                                    groupUsers[groupID] += p;
-                                });
-                            }else{
-                                groupUsers[groupID] += "Aucun utilsateur dans le groupe.";
-                            }
-                            div.innerHTML = groupUsers[groupID];
-                            container.appendChild(div); //append when done.
-                            return groupUsers[groupID];
-                        // });
-                });
+        if(typeof groupUsers[groupID] == "undefined"){
 
-        }else{
-            return groupUsers[groupID];
+            groupUsers[groupID] = document.createElement("div")
+            window.api.get("/groups/"+groupID, {params:{"include":"users"}})
+                .then(function(res){
+                    let div = document.createElement("div");
+                    div.innerHTML = "<h3>group " + res["data"].name +"</h3>";
+                    //TODO what if no users
+                    let users = res["data"].users
+                    users.forEach(function(user){
+                        let p = document.createElement("p")
+
+                        p.innerHTML += user.firstname + " "
+                        p.innerHTML += user.lastname
+                        p.innerHTML += "<img src='" + user.profile_image + "'>"
+
+                        //groupUsers[groupID] += p;
+                        div.appendChild(p);
+                    })
+                    groupUsers[groupID] = div;
+                    console.log(groupUsers[groupID]);
+                    container.appendChild(groupUsers[groupID]);
+                });
         }
+
+        container.appendChild(groupUsers[groupID]);
+        console.log(container)
     }
 
-
     for(let day in entries){
-
         let hourListed = [];
         let currentContainer = document.createElement("div");
         let sliderContainer = document.createElement("div");
@@ -73,6 +70,7 @@ function display(entries, container){
         sliderContainer.className = "slider";
         container.parentNode.appendChild(sliderContainer);
         container.parentNode.appendChild(currentContainer);
+        console.log(entries[day])
 
         for(let shift in entries[day]){
             let entryDiv = document.createElement("div");
@@ -84,13 +82,12 @@ function display(entries, container){
             entryShift.innerHTML += entries[day][shift][0]["start_time"].split(" ")[1];
             entryShift.innerHTML += " à ";
             entryShift.innerHTML += entries[day][shift][0]["end_time"].split(" ")[1];
-
             hourListed.push(entries[day][shift][0]["start_time"].split(" ")[1]);
+
             for(var obj in entries[day][shift]){
                 let groupID = entries[day][shift][obj]["group_id"];
                 displayUsersPerGroup(entryDiv, groupID);
             }
-
             entryDay.appendChild(entryShift);
             entryDiv.appendChild(entryDay);
             currentContainer.appendChild(entryDiv);
@@ -200,6 +197,7 @@ function init(schedules) {
 
         bigO += 1;
     }
+
     display(finalSort, document.getElementById("kiela"));
 }
 function getAllSchedules(callback){
