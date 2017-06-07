@@ -26,33 +26,45 @@ Array.prototype.equals = function (array) {
 // Hide method from for-in loops
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
-
-
-
 function display(entries, container){
     var groupUsers = [];
 
     function displayUsersPerGroup(container, groupID){
         if(typeof groupUsers[groupID] == "undefined"){
-
-            groupUsers[groupID] = document.createElement("div")
+            groupUsers[groupID] = document.createTextNode("Chargement des utilisateurs...")
             window.api.get("/groups/"+groupID, {params:{"include":"users"}})
                 .then(function(res){
                     let div = document.createElement("div");
                     div.innerHTML = "<h3>group " + res["data"].name +"</h3>";
+
                     //TODO what if no users
                     let users = res["data"].users
-                    users.forEach(function(user){
-                        let p = document.createElement("p")
 
-                        p.innerHTML += user.firstname + " "
-                        p.innerHTML += user.lastname
-                        p.innerHTML += "<img src='" + user.profile_image + "'>"
+                    let groupContainer = document.createElement("div");
+                    groupContainer.className += "container"
+                    let rowDiv = document.createElement("div");
+                    rowDiv.className += "row";
+                    let i = 0;
+                    users.forEach(function(user){
+                        i++;
+                        if(i % 3 == 0){
+                            console.log("yep")
+                            console.log(i)
+                            groupContainer.appendChild(rowDiv);
+                            rowDiv = document.createElement("div");
+                            rowDiv.className += "row";
+                        }
+                        let userDiv = document.createElement("div");
+                        userDiv.innerHTML += user.firstname + " ";
+                        userDiv.innerHTML += user.lastname + "<br>";
+                        userDiv.innerHTML += "<img src='" + user.profile_image + "'>";
+                        userDiv.innerHTML += "<br>";
 
                         //groupUsers[groupID] += p;
-                        div.appendChild(p);
+                        rowDiv.appendChild(userDiv);
                     })
-                    groupUsers[groupID] = div;
+                    groupContainer.appendChild(rowDiv)
+                    groupUsers[groupID] = groupContainer;
                     console.log(groupUsers[groupID]);
                     container.appendChild(groupUsers[groupID]);
                 });
