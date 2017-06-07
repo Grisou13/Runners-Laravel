@@ -8063,6 +8063,20 @@ button.close {
   width: inherit !important;
 }
 
+.home {
+  height: 60vh;
+}
+
+.home .row, .home .run {
+  height: 50%;
+}
+
+.home a {
+  height: 100%;
+  color: black;
+  font-size: 4rem;
+}
+
 @media print {
   .page-break {
     page-break-after: always;
