@@ -223,6 +223,11 @@ const getVisibleRuns = (runs, filters) => {
         return moment(r.begin_at).unix();
     }).value()
     // runs = runs.filter( r => !r.start_at && !r.end_at)
+    if(filters.time.start.length)
+        runs = runs.filter(r => moment(r.start_at).minutes() >= time.start.split(":")[1] && moment(r.start_at).hours() >= time.start.split(":")[1])
+    if(filters.time.end.length)
+        runs = runs.filter(r => moment(r.start_at).minutes() >= time.start.split(":")[1] && moment(r.start_at).hours() >= time.start.split(":")[1])
+
     if(filters.status.length)
         runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
     if(filters.name.length)

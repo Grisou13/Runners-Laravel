@@ -5,10 +5,15 @@ import React from 'react'
 import PropTypes from 'prop-types';
 
 const TimeFilter = ({time, changeTimeEnd, changeTimeStart}) => {
+    const changeTime = (e) => {
+        if(e.target.value.length >= 3 && e.target.value.indexOf(":"))
+            changeTimeStart(e.target.value)
+        return e
+    }
     return (
         <div>
             Entre:
-            <input className="form-control input-filter" type="text" value={time.start} onChange={(e)=>changeTimeStart(e.target.value)} placeholder="08:00" />
+            <input className="form-control input-filter" type="text" value={time.start} onChange={(e)=>changeTime(e)} placeholder="08:00" />
             Et:
             <input className="form-control input-filter" type="text" value={time.end} onChange={(e)=>changeTimeEnd(e.target.value)} placeholder="18:00" />
         </div>

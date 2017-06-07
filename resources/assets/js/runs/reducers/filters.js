@@ -43,13 +43,13 @@ const filter = (state = defaultState, action) => {
         case FILTER_WAYPOINT_IN:
             return Object.assign({},state, {waypoint_in: action.payload})
         case UPDATE_FILTER_TIME_START:
-            return Object.assign({},state, {time: {start:action.payload}})
+            return Object.assign({},state, {time: {start:action.payload, end:state.time.end}})
         case UPDATE_FILTER_TIME_END:
-            return Object.assign({},state, {time: {end:action.payload}})
+            return Object.assign({},state, {time: {end:action.payload, start: state.time.start}})
         case RESET_FILTER_TIME_START:
-            return Object.assign({},state, {time: {start:defaultState.time.start}})
+            return Object.assign({},state, {time: {start:defaultState.time.start, end:state.time.end}})
         case RESET_FILTER_TIME_END:
-            return Object.assign({},state, {time: {end:defaultState.time.end}})
+            return Object.assign({},state, {time: defaultState.time})
         case RESET_FILTERS:
             return Object.assign({},defaultState);
         default:

@@ -17,6 +17,7 @@ import {resetFilters} from "../../actions/filters";
 
 class Filters extends React.Component{
     render(){
+        console.log(this.props.time);
         return (
             <div className="filters row">
 
