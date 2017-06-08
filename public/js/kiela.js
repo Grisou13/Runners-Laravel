@@ -27,52 +27,48 @@ Array.prototype.equals = function (array) {
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
 function display(entries, container){
-    var groupUsers = [];
+    window.groupUsers = [];
 
     function displayUsersPerGroup(container, groupID){
         if(typeof groupUsers[groupID] == "undefined"){
-            groupUsers[groupID] = document.createTextNode("Chargement des utilisateurs...")
             window.api.get("/groups/"+groupID, {params:{"include":"users"}})
                 .then(function(res){
-                    let div = document.createElement("div");
-                    div.innerHTML = "<h3>group " + res["data"].name +"</h3>";
-
+                    let currentContainer = document.createElement("div");
+                    currentContainer.className += "container";
+                    currentContainer.innerHTML = "<h3>group " + res["data"].name +"</h3>";
+                    let row = document.createElement("row");
+                    row.className += "row";
                     //TODO what if no users
-                    let users = res["data"].users
-
-                    let groupContainer = document.createElement("div");
-                    groupContainer.className += "container"
-                    let rowDiv = document.createElement("div");
-                    rowDiv.className += "row";
-                    let i = 0;
+                    let users = res["data"].users;
                     users.forEach(function(user){
-                        i++;
-                        if(i % 3 == 0){
-                            console.log("yep")
-                            console.log(i)
-                            groupContainer.appendChild(rowDiv);
-                            rowDiv = document.createElement("div");
-                            rowDiv.className += "row";
-                        }
                         let userDiv = document.createElement("div");
                         userDiv.innerHTML += user.firstname + " ";
                         userDiv.innerHTML += user.lastname + "<br>";
                         userDiv.innerHTML += "<img src='" + user.profile_image + "'>";
                         userDiv.innerHTML += "<br>";
-
+                        userDiv.className += "col-md-2";
                         //groupUsers[groupID] += p;
-                        rowDiv.appendChild(userDiv);
-                    })
-                    groupContainer.appendChild(rowDiv)
-                    groupUsers[groupID] = groupContainer;
-                    console.log(groupUsers[groupID]);
-                    container.appendChild(groupUsers[groupID]);
+                        row.appendChild(userDiv);
+                    });
+                    currentContainer.appendChild(row);
+                    //groupContainer.appendChild(rowDiv);
+                    console.log("override " + groupID);
+                    groupUsers[groupID] = currentContainer;
+                    console.log(groupUsers[groupID])
+                    container.appendChild(currentContainer);
                 });
+        }else{
+
+            container.appendChild(document.createTextNode(groupID + " AND "))
+            console.log(groupUsers[groupID])
+            container.appendChild(groupUsers[groupID]);
         }
 
-        container.appendChild(groupUsers[groupID]);
-        console.log(container)
+        // container.appendChild(groupUsers[groupID]);
+        // console.log(container)
     }
+
+    let now = moment()
 
     for(let day in entries){
         let hourListed = [];
@@ -82,10 +78,22 @@ function display(entries, container){
         sliderContainer.className = "slider";
         container.parentNode.appendChild(sliderContainer);
         container.parentNode.appendChild(currentContainer);
-        console.log(entries[day])
 
+        // let entryDate = entries[day].slice(0,1)[0]["start_time"];
+        let entryDate = entries[day].slice(0,1)
+
+        if(moment(entryDate).diff(now, "days") < 0){
+            continue;
+        }
+
+
+        //let date = moment(entries[day][shift][0]["start_time"].split(" ")[0]);
+        //if(moment().diff(date))
         for(let shift in entries[day]){
+
             let entryDiv = document.createElement("div");
+            // entryDiv.className += "container";
+            // entryDiv.removeAttribute("style");
             let entryDay = document.createElement("h2");
             let d = new Date(entries[day][shift][0]["start_time"].split(" ")[0]);
             entryDay.innerHTML = d.toDateString();
