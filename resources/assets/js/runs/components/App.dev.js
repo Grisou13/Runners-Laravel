@@ -16,6 +16,10 @@ import ui from 'redux-ui';
     }
 })
 class App extends React.Component{
+    componentWillMount(){
+        if(window.location.pathname.includes("display"))
+            this.props.updateUI({displayModeEnabled: !ui.displayModeEnabled})
+    }
     render() {
         let ui = this.props.ui;
         let updateUI = this.props.updateUI;

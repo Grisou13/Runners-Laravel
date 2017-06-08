@@ -61,6 +61,10 @@ export const updateWaypointIn = (pointName) => {
     payload: pointName
   }
 }
+export const today = (flag) => ({
+    type: FILTER_TODAY,
+    payload: flag
+})
 
 export const resetFilters = () => ({
     type: RESET_FILTERS

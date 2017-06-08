@@ -232,7 +232,6 @@ const getVisibleRuns = (runs, filters) => {
         console.log(r.begin_at)
         console.log(moment(r.begin_at).minutes() >= parseInt(filters.time.start.split(timeSplitter)[1]) && moment(r.begin_at).hours() >= parseInt(filters.time.start.split(timeSplitter)[0]))
         console.log(moment(r.begin_at).minutes() <= parseInt(filters.time.end.split(timeSplitter)[1]) && moment(r.begin_at).hours() <= parseInt(filters.time.end.split(timeSplitter)[0]))
-
     }
     if(filters.time.start.length)
         runs = runs.filter(r => moment(r.begin_at).minutes() >= parseInt(filters.time.start.split(timeSplitter)[1]) && moment(r.begin_at).hours() >= parseInt(filters.time.start.split(timeSplitter)[0]))

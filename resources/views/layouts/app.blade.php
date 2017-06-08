@@ -39,7 +39,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-default navbar-static-top" >
             <div class="container">
                 <div class="navbar-header">
 
@@ -53,37 +53,51 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }} - {{ app_version() }}
+                        <span>{{ config('app.name', 'Laravel') }}</span>
+                        @if(config("app.debug"))
+                            <small>- {{ app_version() }}</small>
+                        @endif
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
+                        @if (!Auth::guest())
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 Courses <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ route("runs.index") }}">list des courses</a></li>
-                                <li><a href="{{ route("runs.create") }}">crée nouvelle course</a></li>
+                                <li><a href="{{ route("runs.index") }}">Liste courses</a></li>
+                                <li><a href="{{ route("runs.create") }}">Créer course</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                Chauffeurs <span class="caret"></span>
+                                Voitures <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ route("users.index") }}">list des chauffeurs</a></li>
-                                <li><a href="{{ route("users.create") }}">crée nouveau chauffeur</a></li>
+                                <li><a href="{{ route("cars.index") }}">liste voitures</a></li>
+                                <li><a href="{{ route("cars.create") }}">Créer voiture</a></li>
                             </ul>
                         </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    Chauffeurs <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route("users.index") }}">liste chauffeurs</a></li>
+                                    <li><a href="{{ route("users.create") }}">Créer chauffeur</a></li>
+                                </ul>
+                            </li>
                         <li>
-                            <a href="{{ route("groups.index") }}">Groups</a>
+                            <a href="{{ route("groups.index") }}">Groupes</a>
                         </li>
                         <li>
                             <a href="{{ route("schedule.index") }}">Horaires</a>
                         </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
