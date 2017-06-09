@@ -109,7 +109,7 @@
     <script src="{{ asset("/js/display-comments.js") }}"></script>
     <script src="{{ asset("/js/html2canvas.js") }}"></script>
     <script src="{{ asset("/js/jspdf.min.js")}}" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.2/jspdf.plugin.autotable.js"></script>
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.2/jspdf.plugin.autotable.js"></script>--}}
 {{--    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>--}}
     {{--<script src="{{ asset("/js/padlock.js") }}"></script>--}}
     @stack("scripts")

@@ -29,6 +29,18 @@ Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 function display(entries, container){
     var groupUsers = [];
 
+    function getDay(entries, now){
+        for (let day in entries){
+            let entryDate = moment(firstInArray(entries[day])[0]["start_time"].split(" ")[0])
+            if(entryDate.diff(now, "days") < 0){
+                continue;
+            }
+            if(entries.hasOwnProperty(day)){
+                return entries[day];
+            }
+        }
+    }
+
     function firstInArray(arr) {
         for(let el  in arr){
             if(arr.hasOwnProperty(el)){
@@ -37,14 +49,36 @@ function display(entries, container){
         }
     }
 
-    function displayUsersPerGroup(container, groupID){
-        if(typeof groupUsers[groupID] == "undefined"){
-            groupUsers[groupID] = document.createTextNode("Recherche d'utilisateurs");
-            window.api.get("/groups/"+groupID, {params:{"include":"users"}})
-                .then(function(res){
+    function displayUsersPerGroup(groupID){
+        return window.api.get("/groups/"+groupID, {params:{"include":"users"}})
+    }
+
+    let now = moment("2017-07-19");
+    let  hourListed = [];
+    let day = getDay(entries, now);
+
+    for(let shift in day){
+        // container.appendChild(ctrlNextBtn);
+        // container.appendChild(ctrlPrevBtn);
+        var entryDiv = document.createElement("div");
+        let entryDay = document.createElement("h2");
+        let d = new Date(day[shift][0]["start_time"].split(" ")[0]);
+        entryDay.innerHTML = d.toDateString();
+        let entryShift = document.createElement("h3");
+        entryShift.innerHTML = "De ";
+        entryShift.innerHTML += day[shift][0]["start_time"].split(" ")[1];
+        entryShift.innerHTML += " à ";
+        entryShift.innerHTML += day[shift][0]["end_time"].split(" ")[1];
+        hourListed.push(day[shift][0]["start_time"].split(" ")[1]);
+
+        for(var obj in day[shift]){
+            let groupID = day[shift][obj]["group_id"];
+            if (typeof groupUsers[groupID] == "undefined"){
+                displayUsersPerGroup(groupID).then(function(res){
+
                     let currentContainer = document.createElement("div");
                     currentContainer.className += "container";
-                    currentContainer.innerHTML = "<h3>group " + res["data"].name +"</h3>";
+                    currentContainer.innerHTML = "<h3>Groupe " + res["data"].name +"</h3>";
                     let row = document.createElement("row");
                     row.className += "row";
                     //TODO what if no users
@@ -58,111 +92,78 @@ function display(entries, container){
                         userDiv.className += "col-md-2";
                         //groupUsers[groupID] += p;
                         row.appendChild(userDiv);
+
+                        //groupContainer.appendChild(rowDiv);
+                        //console.log("override " + groupID);
                     });
                     currentContainer.appendChild(row);
-                    //groupContainer.appendChild(rowDiv);
-                    //console.log("override " + groupID);
 
                     groupUsers[groupID] = currentContainer;
-                    //console.log(groupUsers[groupID])
-                    container.appendChild(currentContainer);
+                    entryDiv.appendChild(currentContainer);
+                    console.log("APPENED")
+
                 });
-        }else{
-            container.appendChild(document.createTextNode(groupID + " AND "))
-            container.appendChild(groupUsers[groupID]);
-        }
-
-        // container.appendChild(groupUsers[groupID]);
-        // console.log(container)
-    }
-
-    let now = moment("2017-07-18");
-    let  hourListed = [];
-
-    for(let day in entries){
-
-        let currentContainer = document.createElement("div");
-        let sliderContainer = document.createElement("div");
-        //currentContainer.className = "kiela";
-        sliderContainer.className = "slider";
-        container.parentNode.appendChild(sliderContainer);
-        //container.parentNode.appendChild(currentContainer);
-
-        let entryDate = moment(firstInArray(entries[day])[0]["start_time"].split(" ")[0])
-        if(entryDate.diff(now, "days") < 0){
-            continue;
-        }
-        for(let shift in entries[day]){
-            let entryDiv = document.createElement("div");
-            // entryDiv.className += "container";
-            // entryDiv.removeAttribute("style");
-            let entryDay = document.createElement("h2");
-            let d = new Date(entries[day][shift][0]["start_time"].split(" ")[0]);
-            entryDay.innerHTML = d.toDateString();
-            let entryShift = document.createElement("h3");
-            entryShift.innerHTML = "De ";
-            entryShift.innerHTML += entries[day][shift][0]["start_time"].split(" ")[1];
-            entryShift.innerHTML += " à ";
-            entryShift.innerHTML += entries[day][shift][0]["end_time"].split(" ")[1];
-            hourListed.push(entries[day][shift][0]["start_time"].split(" ")[1]);
-
-            for(var obj in entries[day][shift]){
-                let groupID = entries[day][shift][obj]["group_id"];
-                displayUsersPerGroup(entryDiv, groupID);
+                // console.log(groupUsers)
+                // debugger
+                // console.log(groupID)
+            }else{
+                console.log(groupUsers[groupID])
             }
+
             entryDay.appendChild(entryShift);
             entryDiv.appendChild(entryDay);
             container.appendChild(entryDiv);
+
         }
+
+        var ctrlNextBtn = document.createElement("button");
+        var ctrlPrevBtn = document.createElement("button");
+        let i = 0;
+
+        ctrlPrevBtn.innerHTML = "Précédent";
+        ctrlNextBtn.innerHTML = "Suivant";
+        ctrlNextBtn.onclick = function(){
+            i += 1;
+            if(i == hourListed.length){ // if we reach the end of the listed hours
+                i = 0;
+                slider.goTo("first"); // we go back to the first element. ever.
+            }else{
+                slider.goTo("next");
+            }
+            //update buttons content (prev and next hour)
+            ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1];
+            ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
+            //let info = slider.getInfo();
+        };
+        ctrlPrevBtn.onclick = function(){
+            i -= 1;
+            if(i < 0){ // we can't go before the index right ?
+                i = hourListed.length - 1;
+                slider.goTo("last");
+            }else{
+                slider.goTo("prev");
+            }
+            let info = slider.getInfo();
+            let indexPrev = info.indexCached;
+            let indexCurrent = info.index;
+            // update style based on index
+            info.slideItems[indexPrev].classList.remove('active');
+            info.slideItems[indexCurrent].classList.add('active');
+
+            ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1];
+            ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
+
+        };
+        entryDay.appendChild(entryShift);
+        entryDiv.appendChild(entryDay);
+        entryDiv.appendChild(ctrlPrevBtn);
+        entryDiv.appendChild(ctrlNextBtn);
+        container.appendChild(entryDiv);
     }
-    // create slider element
     let slider = tns({
         container: container,
         controls: false
     });
-
-    // add next button control
-    let ctrlNextBtn = document.createElement("button");
-    let ctrlPrevBtn = document.createElement("button");
-    // index starts at 0, but we want the next one...ls
-    let i = 0;
-    ctrlPrevBtn.innerHTML = hourListed[(hourListed.length)-1];
-    ctrlNextBtn.innerHTML = hourListed[hourListed.length > 1 ? i + 1 : i];
-    container.parentNode.appendChild(ctrlPrevBtn);
-    container.parentNode.appendChild(ctrlNextBtn);
-    ctrlNextBtn.onclick = function(){
-        i += 1;
-        if(i == hourListed.length){ // if we reach the end of the listed hours
-            i = 0;
-            slider.goTo("first"); // we go back to the first element. ever.
-        }else{
-            slider.goTo("next");
-        }
-        //update buttons content (prev and next hour)
-        ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1];
-        ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
-        //let info = slider.getInfo();
-    };
-    ctrlPrevBtn.onclick = function(){
-        i -= 1;
-        if(i < 0){ // we can't go before the index right ?
-            i = hourListed.length - 1;
-            slider.goTo("last");
-        }else{
-            slider.goTo("prev");
-        }
-        let info = slider.getInfo();
-        let indexPrev = info.indexCached;
-        let indexCurrent = info.index;
-        // update style based on index
-        info.slideItems[indexPrev].classList.remove('active');
-        info.slideItems[indexCurrent].classList.add('active');
-
-        ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1];
-        ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
-
-    }
-
 }
 
 function init(schedules) {
