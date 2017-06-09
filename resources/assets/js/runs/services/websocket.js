@@ -19,13 +19,11 @@ export const middleware = store => next => action => {
         store.getState().runs.items.forEach(r => r.runners.forEach( s => unsubscribeSubscription(s,store.dispatch)))
     }
     const result = next(action)
-    console.log(result)
-    console.log(store.getState())
-    console.log("================");
     switch (action.type){
         case RESET_RUNS:
-          store.getState().runs.items.forEach(r => subscribeRun(r, store.dispatch))
-          store.getState().runs.items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
+            store.getState().runs.items.forEach(r => subscribeRun(r, store.dispatch))
+            store.getState().runs.items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
+            break;
         case GOT_RUNS:
             store.getState().runs.items.forEach(r => subscribeRun(r, store.dispatch))
             store.getState().runs.items.forEach(r => r.runners.forEach( s => subscribeSubscription(s,store.dispatch)))
@@ -58,10 +56,10 @@ const transformRun = (run) => {
     return {
         id: run.id,
         status: run.status,
-        title: run.name,
-        begin_at: run.planned_at,
-        end_at: run.ended_at,
-        start_at: run.started_at ? run.started_at : null,
+        title: run.name ? run.name: run.title,
+        begin_at: run.planned_at?run.planned_at : run.begin_at,
+        end_at: run.ended_at?run.ended_at:run.end_at,
+        start_at: run.started_at ? run.started_at : run.start_at,
         nb_passenger: run.nb_passenger,
         waypoints: run.waypoints ? run.waypoints.map( p => transformWaypoint(p)) : [],
         runners: run.runners ? run.runners.map( r => transformSub(r)) : []
@@ -85,7 +83,6 @@ const transformSub = (sub) => {
     }
 }
 const transformCar = car => {
-    console.log(car)
     return Object.assign({},car,{
         car_type: car.car_type ? transformCarType(car.car_type) : car.car_type
     })
@@ -93,8 +90,8 @@ const transformCar = car => {
 const transformWaypoint = (point) => {
     return {
         id: point.id,
-        nickname: point.name,
-        geocoder: point.geo
+        nickname: point.name ? point.name : point.nickname,
+        geocoder: point.geo ? point.geo : point.geocoder
     }
 }
 export const unsubscribeRun = (run) =>{

@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         User::unguard();
         $root = Lib\Models\User::create([
             "id"=>0,
-            "email"=>"root@localhost",
+            "email"=>"root.toor@paleo.ch",
             "phone_number"=>"",
             "sex"=>true,
             "accesstoken"=>"root",
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
           "sex"=>true,
           "accesstoken" => "runner",
           "firstname" => "runner",
-          "lastname" => "rennur",
+          "lastname" => "runner",
           "password"=>bcrypt("runner")
         ]);
         User::reguard();

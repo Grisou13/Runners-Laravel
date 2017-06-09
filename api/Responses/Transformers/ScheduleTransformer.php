@@ -22,6 +22,6 @@ class ScheduleTransformer extends TransformerAbstract
   }
   public function includeGroup(Schedule $schedule)
   {
-    return $this->collection($schedule->group);
+    return $this->item($schedule->group, new GroupTransformer());
   }
 }

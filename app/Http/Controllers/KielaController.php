@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 class KielaController extends Controller
 {
+  public function __construct(){
+    $this->middleware("auth");
+  }
     public function index(){
         // we get all the "kiélas" in JS
         return view("kiela.index");
