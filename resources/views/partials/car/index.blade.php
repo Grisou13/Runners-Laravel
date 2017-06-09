@@ -4,6 +4,7 @@ User: Joel.DE-SOUSA
 <table class="table table-striped table-bordered">
   <thead>
       <tr>
+          <td>Nom véhicule</td>
           <td>Licence</td>
           <td>Marque</td>
           <td>Modèle</td>

@@ -1,16 +1,16 @@
 <!--
 User: Joel.DE-SOUSA
 -->
+{{ dump($errors) }}
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
           <div class="panel-heading">Création d'un chauffeur</div>
             <div class="panel-body">
-              @if($user->exists())
+              @if($user->exists)
                 {{ Form::model($user, array('route' => array('users.update', $user), 'method' => 'PUT', 'class' => 'form-horizontal')) }}
               @else
-                {{ Form::open(array('route' => 'users.store', 'class' => 'form-horizontal')) }}
-
+                {{ Form::open(array('route' => 'users.store', 'method' => 'POST', 'class' => 'form-horizontal')) }}
               @endif
                 @include("partials.user.fields")
                 <div class="form-group">

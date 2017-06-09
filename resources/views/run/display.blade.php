@@ -1,9 +1,9 @@
 @extends("layouts.app-without-nav")
 
-@push("scripts")
-    <script src="{{ asset("/js/run-display.js") }}"></script>
-@endpush
-
 @section("content")
-    <div id="run-display-app" class="display"></div>
+    <div id="run-app" class="run-list"></div>
 @stop
+@push("scripts")
+
+<script src="{{ asset("/js/runs.js") }}"></script>
+@endpush

@@ -25,22 +25,23 @@ class GroupController extends Controller
     {
         // get the groups name (Group A, Group B, Group AA, etc...)
         // can generate up to 702 different groups name
-        $alphabet = Helper::mkrange("A", "ZZ");
 
         // Get all the groups that have at least one active user
         $groups = Group::with("users")->get();
 //        $groups = Group::with("users")->get();
-        $i = 0;
-        // re-order and re-label each group
-        foreach($groups as $g){
-
-            if($g->name != $alphabet[$i]){
-                $g->name = $alphabet[$i];
-                $g->save();
-            }
-            $i ++;
-
-        }
+        //reassign group names
+//        $alphabet = Helper::mkrange("A", "ZZ");
+//        $i = 0;
+//        // re-order and re-label each group
+//        foreach($groups as $g){
+//
+//            if($g->name != $alphabet[$i]){
+//                $g->name = $alphabet[$i];
+//                $g->save();
+//            }
+//            $i ++;
+//
+//        }
 
         // get the users wihout groups. Theses users are in the "no group" container
         $usersWithoutGroup = User::whereNull("group_id")->get();

@@ -4,12 +4,12 @@ User: Joel.DE-SOUSA
 @extends("layouts.app")
 
 @section("content")
-<div class="row">
-  <div class="col-md-11">
-    <a href="{{ route("cars.create") }}" class="btn btn-default navbar-btn" id="create-user">Créer une voiture</a>
-  </div>
+{{--<div class="row">--}}
+  {{--<div class="col-md-11">--}}
+    {{--<a href="{{ route("cars.create") }}" class="btn btn-default navbar-btn" id="create-user">Créer une voiture</a>--}}
+  {{--</div>--}}
   {{--@include("partials.elements.padlock")--}}
-</div>
+{{--</div>--}}
 
 <h1>Toutes les voitures</h1>
 

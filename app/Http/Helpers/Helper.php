@@ -39,7 +39,7 @@ class Helper{
         }else{ // but what append if we have 20 groups for only 10 colors ?
             $timesBigger = intval($groupId / $nbColor);
             return $c[
-                $groupdId - ($nbColor * $timesBigger)
+                $groupId - ($nbColor * $timesBigger)
             ];
         }
         return false;

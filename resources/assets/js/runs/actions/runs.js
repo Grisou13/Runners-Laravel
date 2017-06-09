@@ -11,7 +11,7 @@ import {subscribeSubscription} from "../services/websocket";
 import {unsubscribeRun} from "../services/websocket";
 import {RESET_RUNS} from "./consts";
 import {STARTED_RUN,RUN_PRINTED} from "./consts";
-const jsPDF = window.jsPDF
+// const jsPDF = window.jsPDF
 export const gotRuns = (runs) => {
     return {
         type:GOT_RUNS,

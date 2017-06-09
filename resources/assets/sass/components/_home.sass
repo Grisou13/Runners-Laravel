@@ -1,0 +1,51 @@
+.home
+  height: 60vh
+  margin-top: -($navbar-margin-bottom - 1)
+  & .row
+    height: 50%
+  & a
+    height: 100%
+    line-height: 100%
+    display: flex
+    align-items: center /* Vertical center alignment */
+    justify-content: center /* Horizontal center alignment */
+  & .kiela::before
+    background: url("/images/home/kiela-background.jpeg") no-repeat center center
+    filter: grayscale(50%)
+  & .people::before
+    background: url("/images/home/people-background.jpg") no-repeat center center
+  & .runs::before
+    background: url("/images/home/cars-background.jpeg") no-repeat center center
+  & .schedule::before
+    background: url("/images/home/schedule-background.jpg") no-repeat center center
+  & .display::before
+    background: url("/images/home/run-display-bg-2.jpeg") no-repeat center center
+  & .kiela, & .people, & .runs, & .schedule, & .display
+    &:before
+      content: " "
+      position: absolute
+      z-index: -1
+      left: 0
+      top: 0
+      height: 100%
+      width: 100%
+      background-size: cover
+      filter: blur(5px) brightness(0.7)
+      padding: 2px
+    opacity: 0.6
+    color: darken(white,20%)
+    //position: relative
+    font-size: 3rem
+    //top: 50%
+    text-align: center
+    vertical-align: middle
+    //transform: translateY(-50%)
+    transition: opacity .5s, font-size .1s
+    border: 1px solid white
+    &:hover
+      opacity: 0.8
+      color: whitesmoke
+      font-size: 4.5rem
+      text-decoration: none
+      &:before
+        filter: blur(2px) brightness(0.5)

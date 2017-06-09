@@ -39,7 +39,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-default navbar-static-top" >
             <div class="container">
                 <div class="navbar-header">
 
@@ -53,14 +53,51 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }} - {{ app_version() }}
+                        <span>{{ config('app.name', 'Laravel') }}</span>
+                        @if(config("app.debug"))
+                            <small>- {{ app_version() }}</small>
+                        @endif
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        @if (!Auth::guest())
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Courses <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route("runs.index") }}">Liste courses</a></li>
+                                <li><a href="{{ route("runs.create") }}">Créer course</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Voitures <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route("cars.index") }}">liste voitures</a></li>
+                                <li><a href="{{ route("cars.create") }}">Créer voiture</a></li>
+                            </ul>
+                        </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    Chauffeurs <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route("users.index") }}">liste chauffeurs</a></li>
+                                    <li><a href="{{ route("users.create") }}">Créer chauffeur</a></li>
+                                </ul>
+                            </li>
+                        <li>
+                            <a href="{{ route("groups.index") }}">Groupes</a>
+                        </li>
+                        <li>
+                            <a href="{{ route("schedule.index") }}">Horaires</a>
+                        </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -70,11 +107,12 @@
                             <li><a href="{{ url('/login') }}">Login</a></li>
                             <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-
+            
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a href="{{ url('/logout') }}"
@@ -87,6 +125,7 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+                                    <li><a href="{{ route("users.edit",["user"=>auth()->user()]) }}">profile</a></li>
                                 </ul>
                             </li>
                         @endif
@@ -94,10 +133,16 @@
                 </div>
             </div>
         </nav>
-        @if(isset($message))
-            <div class="alert alert-success">
-                <span class="glyphicon glyphicon-ok"></span>
-                <em> {{ $message }}</em>
+        @if(session("message"))
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span> {{ session("message") }}</span>
+            </div>
+        @endif
+        @if(session("error_message"))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span> {{ session("error_message") }}</span>
             </div>
         @endif
         @yield('content')
@@ -107,8 +152,8 @@
     <script src="{{ asset("/js/sweetalert.js") }}"></script>
     <script src="{{ asset("/js/app.js") }}"></script>
     <script src="{{ asset("/js/display-comments.js") }}"></script>
-    <script src="{{ asset("/js/html2canvas.js") }}"></script>
-    <script src="{{ asset("/js/jspdf.min.js")}}" ></script>
+    {{--<script src="{{ asset("/js/html2canvas.js") }}"></script>--}}
+    {{--<script src="{{ asset("/js/jspdf.min.js")}}" ></script>--}}
     {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.2/jspdf.plugin.autotable.js"></script>--}}
 {{--    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>--}}
     {{--<script src="{{ asset("/js/padlock.js") }}"></script>--}}

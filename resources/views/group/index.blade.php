@@ -49,6 +49,7 @@
             @endforeach
         </div>
         <!-- New group -->
+        <input type="text" placeholder="nom du nouveau group" id="group-name">
         <button type="button" class="btn btn-default" onclick="getNewGroup()" >Créer un nouveau groupe</button>
 
     </div>

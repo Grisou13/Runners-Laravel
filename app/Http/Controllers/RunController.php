@@ -6,7 +6,6 @@ use App\Http\Requests\CreateRunRequest;
 use App\Http\Requests\CreateCommentRequest;
 use App\Http\Requests\RunPdfRequest;
 use Auth;
-// use Dompdf\Options;
 use Lib\Models\RunSubscription;
 use PDF;
 use Dingo\Api\Exception\ValidationHttpException;
@@ -20,7 +19,6 @@ use Illuminate\Http\Request;
 use Lib\Models\User;
 use Lib\Models\Waypoint;
 use Lib\Models\Comment;
-// use Dompdf\Dompdf;
 class RunController extends Controller
 {
   public function __construct(){
@@ -157,7 +155,6 @@ class RunController extends Controller
       return redirect()->back();
     }
     public function pdf(RunPdfRequest $request){
-      \Debugbar::disable();
 
       if($request->has("runs"))
         $runs = Run::whereIn("id",$request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
