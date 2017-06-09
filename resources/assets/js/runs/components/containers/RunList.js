@@ -232,14 +232,23 @@ const getVisibleRuns = (runs, filters) => {
         console.log(r.begin_at)
         console.log(moment(r.begin_at).minutes() >= parseInt(filters.time.start.split(timeSplitter)[1]) && moment(r.begin_at).hours() >= parseInt(filters.time.start.split(timeSplitter)[0]))
         console.log(moment(r.begin_at).minutes() <= parseInt(filters.time.end.split(timeSplitter)[1]) && moment(r.begin_at).hours() <= parseInt(filters.time.end.split(timeSplitter)[0]))
+        console.log(moment(r.begin_at).isBetween(moment().subtract(12,"hours"),moment().add(24,"hours")))
     }
+    if(filters.today)
+        runs = runs.filter(r => moment(r.begin_at).isBetween(moment().subtract(12,"hours"),moment().add(24,"hours")) )
     if(filters.time.start.length)
         runs = runs.filter(r => moment(r.begin_at).minutes() >= parseInt(filters.time.start.split(timeSplitter)[1]) && moment(r.begin_at).hours() >= parseInt(filters.time.start.split(timeSplitter)[0]))
     if(filters.time.end.length)
         runs = runs.filter(r => moment(r.begin_at).minutes() <= parseInt(filters.time.end.split(timeSplitter)[1]) && moment(r.begin_at).hours() <= parseInt(filters.time.end.split(timeSplitter)[0]))
 
-    if(filters.status.length)
+
+    if( filters.status.indexOf("finished") > -1)
         runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
+    else
+        runs = runs.filter(r => r.status != "finished")
+
+
+
     if(filters.name.length)
         runs = runs.filter(r => r.title.toLowerCase().startsWith(filters.name.toLowerCase()))
     if(filters.user.length)

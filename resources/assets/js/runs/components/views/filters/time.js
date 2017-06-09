@@ -38,7 +38,8 @@ class TimeFilter extends React.Component {
         console.log(e.target.name)
         console.log(e.target.value)
         console.log(this.state)
-        if(val.match(timeSplitter))
+        //format must be 00:00
+        if(val.match(timeSplitter) && val.match(/\d{1,2}:\d{1,2}/))
             cb(val)
         else
             if(this.props.time[e.target.name] != "")
@@ -56,11 +57,15 @@ class TimeFilter extends React.Component {
     render(){
         console.log(this.state);
         return (
-            <div>
-                Entre:
-                <input className="form-control input-filter" name="start" type="text" value={this.state.start} onChange={(e)=>this.changeTime(e,this.props.changeTimeStart)} placeholder="08:00" />
-                Et:
-                <input className="form-control input-filter" name="end" type="text" value={this.state.end} onChange={(e)=>this.changeTime(e,this.props.changeTimeEnd)} placeholder="18:00" />
+            <div className="form-inline">
+                <div className="form-group">
+                    <label className="">Entre:</label>
+                    <input className="form-control" style={{width:100}} name="start" type="text" value={this.state.start} onChange={(e)=>this.changeTime(e,this.props.changeTimeStart)} placeholder="08:00" />
+                </div>
+                <div className="form-group">
+                    <label className="">Et:</label>
+                    <input className="form-control" style={{width:100}} name="end" type="text" value={this.state.end} onChange={(e)=>this.changeTime(e,this.props.changeTimeEnd)} placeholder="18:00" />
+                </div>
             </div>
         )
     }

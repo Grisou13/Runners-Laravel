@@ -57,6 +57,7 @@ class UserProductionSeeder extends Seeder
         $user->addProfileImage(new Illuminate\Http\File(storage_path("tmp/".($user->id-1).".png")),true);
         $user->password = bcrypt($user->password);
         $user->name = $user->firstname;
+        $user->email=filter_var(strtolower($user->firstname).".".strtolower($user->lastname)."@paleo.ch",FILTER_SANITIZE_EMAIL);
         $user->assignRole("runner");
 
         $user->save();

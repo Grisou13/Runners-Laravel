@@ -4,6 +4,7 @@ import {UPDATE_FILTER_TIME_END, FILTER_USING_USER, FILTER_WAYPOINT_IN} from "./c
 import {FILTER_NAME} from "./consts";
 import {FILTER_USING_CAR} from "./consts";
 import {RESET_FILTERS} from "./consts";
+import {FILTER_TODAY} from "./consts";
 
 export const filter = (filter_name, value) => {
     return {

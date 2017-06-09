@@ -15,11 +15,12 @@ const StatusFilter = ({status,addFilter, removeFilter}) => {
     }
     return (
         <div>
-            <ul className="input-radio">
+            <ul className="list-unstyled">
                 <li><input type="checkbox" name="error" checked={status.indexOf("error") > -1 } onChange={handleChange}/><span>Urgent</span></li>
                 <li><input type="checkbox" name="needs_filling" checked={status.indexOf("needs_filling") > -1 } onChange={handleChange}/><span>Problème</span></li>
                 <li><input type="checkbox" name="ready" checked={status.indexOf("ready") > -1 } onChange={handleChange} /><span>Prêt</span></li>
                 <li><input type="checkbox" name="gone" checked={status.indexOf("gone") > -1 } onChange={handleChange} /><span>Parti</span></li>
+                <li><input type="checkbox" name="finished" checked={status.indexOf("finished") > -1 } onChange={handleChange} /><span>Fini</span></li>
             </ul>
         </div>
     )

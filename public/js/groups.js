@@ -63,9 +63,15 @@ function getNewGroup(){
 
         drake.containers.push(newContainer);
     };
-    window.api.post("/groups",{})
+    let name = document.getElementById("group-name").value
+    let data = {}
+    if(name.length)
+        data["name"] = name
+    console.log(data)
+    window.api.post("/groups",data)
         .then(function(res){
             console.log("group created");
+            document.getElementById("group-name").value = ""
             success(res);
         })  .catch(function (error) {
         console.log(error);
@@ -92,7 +98,7 @@ function addUserToGroup(userID, groupID) {
 }
 
 function removeUserFromGroup(userID, groupID) {
-    if(!confirm("Etes-vous sûr d'enlever l'utilisateur du groupe ?")){
+    if(!confirm("Etes-vous sûr de vouloir enlever l'utilisateur du groupe ?")){
         location.reload();
         return false;
     }

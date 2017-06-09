@@ -51,5 +51,6 @@ Route::get('users/{user}/license', ['uses' => 'UserController@redirectToUser']);
 
 Route::post('users/{user}/profile', ['as' => 'image.profile', 'uses' => 'UserController@storeProfileImage']);
 Route::post('users/{user}/license', ['as'=>'image.license','uses' => 'UserController@storeLicenseImage']);
+$router->post("users/{user}/reset_password",["as"=>"users.reset","uses"=>"UserController@resetPassword"]);
 Route::resource('users', 'UserController'); // Joël.DE-SOUSA
 Route::post('upload/image', ['as' => 'image.upload', 'uses' => 'ImageController@upload']); // upload image for users // Joël.DE-SOUSA

@@ -49,12 +49,13 @@ class GroupController extends BaseController
         $group->active = true;
         $group->color = Helpers\Helper::getRandomGroupColor();
         $group->save();
-        $alphabet = Helpers\Helper::mkrange("A", "ZZ");
-        $group->name = $alphabet[Group::count() - 1];
-        $group->save();
+        
+        if($group->fresh()->name == null){
+          $alphabet = Helpers\Helper::mkrange("A", "ZZ");
+          $group->name = $alphabet[Group::count() - 1];
+          $group->save();
+        }
         return $group;
-        return $this->response()->created(route("groups.show",$group->id));
-
     }
     public function destroy(Request $request, Group $group)
     {

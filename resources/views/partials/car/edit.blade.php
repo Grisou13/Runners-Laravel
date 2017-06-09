@@ -51,16 +51,20 @@
                 </div> -->
                 @if(auth()->check())
                     <div class="form-group">
-                          <span class="col-md-4"></span>
-                          <div class="col-md-5">
-                            <input type="submit" class="btn btn-primary pull-right" name="" value="{{ $car->exists ? "Editer" : "Créer" }} la voiture">
+                          <div class="col-md-2 col-md-push-2">
+                            <input type="submit" class="btn btn-primary pull-right" name="" value="{{ $car->exists ? "Sauvegarder" : "Créer la voiture" }}">
                               <!-- <button {{ $mode !== null && $mode === "edit" ? 'disabled' : ''}} type="submit" class="btn btn-primary">
                                   <span>{{ $mode == "edit" ? "Edit" : "Create" }} the car</span>
                               </button> -->
                           </div>
-                          <div class="col-md-1">
-                              <a href="{{ route("cars.index") }}" class="btn btn-danger pull-right">Annuler</a>
+                          <div class="col-md-2 col-md-push-1">
+                              <a href="{{ route("cars.index") }}" class="btn btn-default pull-right">Annuler</a>
                           </div>
+                        @if($car->exists)
+                            <div class="col-md-2 col-md-push-2">
+                                <button id="delete-btn" class="btn btn-danger"><span>Supprimer la voiture</span></button>
+                            </div>
+                        @endif
                     </div>
                 @endif
               {{ Form::close() }}
@@ -76,16 +80,10 @@
                 {{--</div>--}}
               {{--</div>--}}
               @if(auth()->check() && $car->exists)
-                <form method="post" action="{{ route("cars.destroy",$car) }}"  class="">
+                <form method="post" action="{{ route("cars.destroy",$car) }}" id="delete"  class="">
                     <input type="hidden" value="DELETE" name="_method">
                     <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                    <div class="form-group">
-                      <span class="col-md-4"></span>
-                      <div class="col-md-6">
-                        <input type="submit" id="delete" value="Supprimer la voiture" class="pull-right btn btn-warning">
-                      </div>
 
-                    </div>
 
                 </form>
               @endif
@@ -101,6 +99,22 @@
     $(document).ready(function(){
       $("input:disabled,select:disabled").removeAttr("disabled");
     });
+    document.getElementById("delete-btn").addEventListener("click",function(e){
+        e.preventDefault()
+        swal({
+                    title: "Êtes vous sur?",
+                    text: "Vous allez supprimer une voiture définitevement!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Confirmer!",
+                    closeOnConfirm: true
+                },
+                function(){
+                    document.getElementById('delete').submit()
+                });
+
+    })
   </script>
   @endpush
 @endif

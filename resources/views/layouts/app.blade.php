@@ -133,10 +133,16 @@
                 </div>
             </div>
         </nav>
-        @if(isset($message))
-            <div class="alert alert-success">
-                <span class="glyphicon glyphicon-ok"></span>
-                <em> {{ $message }}</em>
+        @if(session("message"))
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span> {{ session("message") }}</span>
+            </div>
+        @endif
+        @if(session("error_message"))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span> {{ session("error_message") }}</span>
             </div>
         @endif
         @yield('content')

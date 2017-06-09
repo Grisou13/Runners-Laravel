@@ -6,8 +6,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Status;
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\UploadedFile;
+use Route;
 use Session;
 use Lib\Models\User;
 use Lib\Models\Image;
@@ -16,7 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use Auth;
-
+use Password;
 class UserController extends Controller
 {
     public function __construct()
@@ -100,15 +102,23 @@ class UserController extends Controller
   public function destroy(User $user)
   {
     // delete
-    $user->delete();
-    return redirect('user');
+    try{
+      $user->delete();
+    }catch(\Exception $e){
+      return redirect()->back()->with("error_message","L'utilisateur n'as pas pu être supprimé. Est-ce qu'il serait dans des runs?");
+    }
+    return redirect()->route("users.index");
+  }
+  public function resetPassword(ResetPasswordRequest $request, User $user){
+    $res = Password::sendResetLink(['email' => $user->email]);
+    return redirect()->back()->with("message","Un email a été envoyé à {$user->email}, pour remplacer son mot de passe");
   }
   public function store(CreateUserRequest $request)
   {
       $user = new User;
       $user->fill($request->except("_token"));
-      $user->assignRole("runner");
-
+      if(!$request->has("password"))
+        $user->password = str_random(52);
       //$user->role()->associate(Role::where("role","runner")->first());
       $user->save();
       return redirect()->route("users.show",$user);

@@ -8,6 +8,7 @@ import {UPDATE_FILTER_TIME_END} from "../actions/consts";
 import {RESET_FILTER_TIME_START} from "../actions/consts";
 import {RESET_FILTER_TIME_END, FILTER_WAYPOINT_IN} from "../actions/consts";
 import {RESET_FILTERS} from "../actions/consts";
+import {FILTER_TODAY} from "../actions/consts";
 /**
  * Created by thomas_2 on 29.04.2017.
  */
@@ -22,7 +23,8 @@ export const defaultState = {
     time:{
         start:"",
         end:""
-    }
+    },
+    today: false
 }
 
 
@@ -34,6 +36,8 @@ const filter = (state = defaultState, action) => {
             return Object.assign({}, state, {status: state.status.filter(s => s != action.payload)})
         case RESET_FILTER_STATUS:
             return Object.assign({},state, {status: defaultState.status})
+        case FILTER_TODAY:
+            return Object.assign({},state, {today: action.payload})
         case FILTER_NAME:
             return Object.assign({},state, {name: action.payload})
         case FILTER_USING_USER:

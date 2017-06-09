@@ -14,33 +14,36 @@ User: Joel.DE-SOUSA
               @endif
                 @include("partials.user.fields")
                 <div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
-                        <div class="col-md-3">
-                          <input type="submit" class="btn btn-primary" value="Editer l'utilisateur">
+                    <div class="col-md-6 col-md-offset-2 row">
+                        <div class="col-md-2">
+                          <input type="submit" class="btn btn-primary" value="Sauvegarder">
                         </div>
-                        <div class="col-md-3 col-md-push-1">
-                            <a href="{{ route("users.index") }}" class="btn btn-danger">Annuler</a>
+                        <div class="col-md-2 col-md-push-1">
+                            <a href="{{route("users.index") }}" class="btn btn-danger">Annuler</a>
                         </div>
-                    </div>
-                    <div class="col-md-3">
+                        <div class="col-md-2 col-md-push-2">
+                            <button id="delete-btn" class="btn btn-warning"><span>Supprimer l'utilisateur</span></button>
+                        </div>
+                        <div class="col-md-2 col-md-push-5">
+                            <button id="reset-btn" class="btn btn-warning"><span>Reset le mot de passe</span></button>
+                        </div>
                     </div>
                 </div>
                 {{ csrf_field() }}
                 {{ Form::close() }}
               <!--</form>-->
               @if(auth()->check())
-                <form method="post" action="{{ route("users.destroy",$user) }}"  class="pull-right">
-                    <input type="hidden" value="DELETE" name="_method">
-                    <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                    <input type="submit" id="delete" value="Supprimer l'utilisateur" class="btn btn-warning">
+                <form method="post" id="delete" action="{{ route("users.destroy",$user) }}">
+                    {!! method_field("delete") !!}
+                    {{ csrf_field() }}
                 </form>
+                    <form id="reset" action="{{route("users.reset",compact("user"))}}" method="post" >
+                        {{ csrf_field() }}
+                    </form>
               @endif
               <div class="row">
                 <div class="col-xs-6 col-md-3">
-
-
                     <div class="thumbnail">
-
                       @if($user->profileImage() != null)
                         <a href="" class="thumbnail">
                           <img src="{{ $user->profileImage()->url() }}" alt="facepicture">
@@ -87,3 +90,27 @@ User: Joel.DE-SOUSA
       </div>
     </div>
   </div>
+@push("scripts")
+<script>
+    document.getElementById("reset-btn").addEventListener("click",function(e){
+        e.preventDefault()
+        document.getElementById("reset").submit()
+    })
+    document.getElementById("delete-btn").addEventListener("click",function(e){
+        e.preventDefault()
+        swal({
+                    title: "Êtes vous sur?",
+                    text: "Vous allez supprimer un utilisateur!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Confirmer!",
+                    closeOnConfirm: true
+                },
+                function(){
+                    document.getElementById('delete').submit()
+                });
+
+    })
+</script>
+@endpush
