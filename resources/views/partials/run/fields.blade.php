@@ -83,7 +83,7 @@
 {{--                            {{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
                             <input name="waypoints[]" type="text" value="{{ old("waypoints.$k", "") }}" class="form-control waypoint-typeahead" id="{{ $id }}">
 
-                            <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+                            <div class="input-group-addon" data-input="#{{$id}}" ><span class="glyphicon glyphicon-triangle-bottom"></span></div>
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                           <div class="input-group">
                               {{--{{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
                               <input name="waypoints[]" type="text" value="{{ old("waypoints.$k", "") }}" class="form-control waypoint-typeahead" id="{{ $id }}">
-                              <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+                              <div class="input-group-addon" data-input="#{{$id}}" ><span class="glyphicon glyphicon-triangle-bottom" ></span></div>
                           </div>
                       </div>
                   </div>
@@ -114,7 +114,7 @@
 {{--                          {{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
                           <input name="waypoints[]" type="text" value="{{ old("waypoints.$k", "") }}" class="form-control waypoint-typeahead" id="{{ $id }}">
 
-                          <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+                          <div class="input-group-addon" data-input="#{{$id}}" ><span class="glyphicon glyphicon-triangle-bottom" ></span></div>
                       </div>
                   </div>
                   <div class="col-md-1 col-md-push-4">
@@ -138,7 +138,7 @@
 {{--                                {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
                                 <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
 
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+                                <div class="input-group-addon" data-input="#{{$id}}" ><span class="glyphicon glyphicon-triangle-bottom"></span></div>
                             </div>
                         </div>
                     </div>
@@ -157,7 +157,7 @@
                             <div class="input-group">
 {{--                                {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
                                 <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
-                                <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}" ></span></div>
+                                <div class="input-group-addon" data-input="#{{$id}}" ><span class="glyphicon glyphicon-triangle-bottom"></span></div>
                             </div>
                         </div>
                     </div>
@@ -168,7 +168,7 @@
                         <div class="input-group">
 {{--                            {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
                             <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
-                            <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}"  ></span></div>
+                            <div class="input-group-addon" data-input="#{{$id}}" ><span class="glyphicon glyphicon-triangle-bottom"  ></span></div>
                         </div>
                     </div>
                     <div class="col-md-1 col-md-push-4">
@@ -225,7 +225,7 @@ var suggestions = new Bloodhound({
           datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.nickname) },
           queryTokenizer: Bloodhound.tokenizers.whitespace,
           identify: function(obj) { return obj.nickname; },
-          sufficient: 3,
+          sufficient: 1,
           local: window.resource_cache.waypoints.map(p => {
               return {
               nickname: p.name,
@@ -238,7 +238,14 @@ var suggestions = new Bloodhound({
             wildcard:"%QUERY"
           }
         });
-var typeaheadOpened = {}//stores the corresponcance between all typeahead instances that are opened
+function searchWithDefaults(q, sync) {
+  if (q === '') {
+    sync(suggestions.index.all());
+  } else {
+    suggestions.search(q, sync);
+  }
+}
+window.typeaheadOpened = {}//stores the corresponcance between all typeahead instances that are opened
 //it looks somethinf like, true means open, false means closed. If undefined need to assign it
 /*
 * {
@@ -246,42 +253,61 @@ var typeaheadOpened = {}//stores the corresponcance between all typeahead instan
 *   #idOfInput: false
  *}
 */
-document.querySelectorAll("span[data-input]").forEach(i => {
+document.querySelectorAll("[data-input]").forEach(i => {
     i.addEventListener("click", e => {
         e.preventDefault()
         console.log(i.dataset.input)
-        if(typeof typeaheadOpened[i.dataset.input] == "undefined" || !typeaheadOpened[i.dataset.input]){
-            $(`${i.dataset.input}`).typeahead('open')
-            typeaheadOpened[i.dataset.input] = true
-        }
-        else{
-            $(`${i.dataset.input}`).typeahead('close')
-            typeaheadOpened[i.dataset.input] = false
-        }
+        toggleWaypointInput(i)
 
     })
 })
+function code(e) {
+    e = e || window.event;
+    return(e.keyCode || e.which);
+}
+document.addEventListener("keypress", (e)=>{
+  if(code(e) == 27){
+    document.querySelectorAll(".waypoint-typeahead").forEach(i => $(i).typeahead("close"))
+  }
+})
+function toggleWaypointInput(input){
+  // console.log($(input.dataset.input).typeahead("open"))
+  console.log(typeaheadOpened)
+  if(typeof typeaheadOpened[input.dataset.input] == "undefined" || !typeaheadOpened[input.dataset.input]){
+      $(`${input.dataset.input}`).typeahead('open')
+      typeaheadOpened[input.dataset.input] = true
+  }
+  else{
+      $(`${input.dataset.input}`).typeahead('close')
+      typeaheadOpened[input.dataset.input] = false
+  }
+}
+suggestions.initialize()
 const suggestionConfig = {
     name: 'suggestions',
     displayKey: 'nickname',
-    source: suggestions
+    source: suggestions.ttAdapter()//searchWithDefaults
 }
 const typeaheadConfig = {
     hint: true,
     highlight: true,
-    minLength: 1
+    minLength: 0
 }
 
 $(".waypoint-typeahead").typeahead(typeaheadConfig,suggestionConfig);
 
-$(".waypoint-typeahead.tt-input").on('typeahead:open', function() {
-    typeaheadOpened[`#${$(this).attr('id')}`] = true
-    return true
-});
-$(".waypoint-typeahead.tt-input").on('typeahead:close', function() {
-    typeaheadOpened[`#${$(this).attr('id')}`] = false
-    return true
-});
+
+function bindTypeaheadEvents(){
+  $(".waypoint-typeahead.tt-input").on('typeahead:open', function() {
+      typeaheadOpened[`#${$(this).attr('id')}`] = true
+      return true
+  });
+  $(".waypoint-typeahead.tt-input").on('typeahead:close', function() {
+      typeaheadOpened[`#${$(this).attr('id')}`] = false
+      return true
+  });
+}
+bindTypeaheadEvents()
 //--------------------------------------------------------------------
 // picker pour la date des runs
 $( function() {
@@ -302,60 +328,99 @@ $( function() {
 
 } );
 // _______________________________
-    document.querySelectorAll(".button-remove").forEach(function(container){
-        var b = container.getElementsByTagName("button")[0]
-        b.addEventListener("click",function(e){
-            e.preventDefault()
-            container.parentNode.removeChild(container)
-        })
-    })
-    var add = document.getElementById("add-waypoint")
-    add.addEventListener("click",function(e){
+document.querySelectorAll(".button-remove").forEach(function(container){
+    var b = container.getElementsByTagName("button")[0]
+    b.addEventListener("click",function(e){
         e.preventDefault()
-        var select = document.createElement("input")
-        select.name = "waypoints[]"
-        select.classList.add("form-control")
-        select.type="text"
-        // for(var p in waypoints)
-        // {
-        //     console.log(p)
-        //     var opt = document.createElement('option');
-        //     var id = p//Object.keys(p)[0]
-        //     opt.value= id
-        //     opt.innerHTML = waypoints[p]
-        //     select.appendChild(opt)
-        // }
-        var last = document.getElementById("waypoint-last")
-        var container = document.createElement("div")
-        container.classList.add("form-group")
-        var subContainer = document.createElement("div")
-        subContainer.classList.add("col-md-5")
-        subContainer.classList.add("col-md-push-4")
-        subContainer.appendChild(select)
-
-        var btn = document.createElement("button")
-        btn.classList.add("btn")
-        btn.classList.add("btn-danger")
-        btn.type="button"
-
-        var icon = document.createElement("span")
-        icon.classList.add("glyphicon")
-        icon.classList.add("glyphicon-minus")
-        btn.appendChild(icon)
-
-        btn.addEventListener("click",function(e){
-            e.preventDefault();
-            document.getElementById("waypoint-selection").removeChild(container)
-        })
-        var btnContainer = document.createElement("div")
-        btnContainer.classList.add("col-md-1")
-        btnContainer.classList.add("col-md-push-4")
-        btnContainer.appendChild(btn)
-        container.appendChild(subContainer)
-        container.appendChild(btnContainer)
-        document.getElementById("waypoint-selection").insertBefore(container,document.getElementById("waypoint-last"))
-        $(select).typeahead(typeaheadConfig,suggestionConfig)
+        container.parentNode.removeChild(container)
     })
+})
+var add = document.getElementById("add-waypoint")
+add.addEventListener("click",function(e){
+    e.preventDefault()
+    var select = document.createElement("input")
+    select.name = "waypoints[]"
+    select.classList.add("waypoint-typeahead")
+    select.classList.add("form-control")
+    select.type="text"
+    select.id = "waypoint-typeahead-"+Math.ceil(Math.random()*100000)
+    // for(var p in waypoints)
+    // {
+    //     console.log(p)
+    //     var opt = document.createElement('option');
+    //     var id = p//Object.keys(p)[0]
+    //     opt.value= id
+    //     opt.innerHTML = waypoints[p]
+    //     select.appendChild(opt)
+    // }
+    var last = document.getElementById("waypoint-last")
+    var container = document.createElement("div")
+    container.classList.add("form-group")
+    var subContainer = document.createElement("div")
+    subContainer.classList.add("col-md-5")
+    subContainer.classList.add("col-md-push-4")
+
+    var inputGroup = document.createElement("div")
+    inputGroup.classList.add("input-group")
+    inputGroup.appendChild(select)
+    var btnTypeahead = document.createElement("div")
+    btnTypeahead.classList.add("input-group-addon")
+
+    var icon = document.createElement("span")
+    icon.classList.add("glyphicon")
+    icon.classList.add("glyphicon-triangle-bottom")
+
+    btnTypeahead.dataset.input="#"+select.id
+    btnTypeahead.addEventListener("click", e => {
+      e.preventDefault()
+      toggleWaypointInput(btnTypeahead)
+    })
+    btnTypeahead.appendChild(icon)
+    inputGroup.appendChild(btnTypeahead)
+
+    subContainer.appendChild(inputGroup)
+
+    var btn = document.createElement("button")
+    btn.classList.add("btn")
+    btn.classList.add("btn-danger")
+    btn.type="button"
+    /*
+    <div class="form-group button-remove {{ $errors->has("waypoints") ? 'has-error' : '' }}">
+        <div class="col-md-5 col-md-push-4">
+            <div class="input-group">
+                <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
+                <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}"  ></span></div>
+            </div>
+        </div>
+        <div class="col-md-1 col-md-push-4">
+            <button class="btn btn-danger" type="button">
+                <span class="glyphicon glyphicon-minus"></span>
+            </button>
+        </div>
+    </div>
+    */
+
+    var iconDelete = document.createElement("span")
+    iconDelete.classList.add("glyphicon")
+    iconDelete.classList.add("glyphicon-minus")
+    btn.appendChild(iconDelete)
+
+    btn.addEventListener("click",function(e){
+        e.preventDefault();
+        document.getElementById("waypoint-selection").removeChild(container)
+    })
+    var btnContainer = document.createElement("div")
+    btnContainer.classList.add("col-md-1")
+    btnContainer.classList.add("col-md-push-4")
+    btnContainer.appendChild(btn)
+    container.appendChild(subContainer)
+    container.appendChild(btnContainer)
+    document.getElementById("waypoint-selection").insertBefore(container,document.getElementById("waypoint-last"))
+
+
+    $(select).typeahead(typeaheadConfig,suggestionConfig);
+    bindTypeaheadEvents();
+})
 
 
 const generateSubscription = (sub) => {
@@ -405,8 +470,6 @@ const generateSubscription = (sub) => {
     //these classes with show only the cars_type_input
     //- container stuff
     container.classList.add("row")
-//    container.classList.add("col-md-6")
-//    container.classList.add("col-md-push-4")
     //-inputs positioning
     car_types_container.classList.add("col-md-5")
     car_types_container.classList.add("col-md-push-4")

@@ -39,6 +39,9 @@ function ajaxRequest(method, url, data, callback) {
     $.ajax({
         url: url,
         type: method,
+        headers:{
+          "x-access-token":window.Laravel.token
+        },
         data: data,
         async: false, //yeah i know
         success: callback ? callback : function(response){

@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use Auth;
 use Password;
+use Illuminate\Http\File;
+
+
 class UserController extends Controller
 {
     public function __construct()
@@ -44,11 +47,7 @@ class UserController extends Controller
     else
       $users = User::all();
     // load the view and pass the user list
-    //
-//    $status = \DB::table('users')->distinct('stat')->select('stat')->get()->map(function ($stat) {
-//      return $stat->stat;
-//    });
-    //dd($users);
+
     return view('user.index')->with('users', $users)->with("status",Status::getUserStatus()); //TODO: récuprer tout les statut depuis la table user
   }
 
@@ -90,7 +89,7 @@ class UserController extends Controller
     ]);*/
     $input = $request->except(["_token"]);
     $user->update($input);
-    return redirect()->route("users.index");
+    return redirect()->route("users.index")->with("message","Utilisateur mis à jour");
   }
 
   /**
@@ -107,10 +106,11 @@ class UserController extends Controller
     }catch(\Exception $e){
       return redirect()->back()->with("error_message","L'utilisateur n'as pas pu être supprimé. Est-ce qu'il serait dans des runs?");
     }
-    return redirect()->route("users.index");
+    return redirect()->route("users.index")->with("message","Utilisateur supprimé!");
   }
   public function resetPassword(ResetPasswordRequest $request, User $user){
     $res = Password::sendResetLink(['email' => $user->email]);
+    $user->generatetoken();//regenerate api token
     return redirect()->back()->with("message","Un email a été envoyé à {$user->email}, pour remplacer son mot de passe");
   }
   public function store(CreateUserRequest $request)
@@ -118,19 +118,19 @@ class UserController extends Controller
       $user = new User;
       $user->fill($request->except("_token"));
       if(!$request->has("password"))
-        $user->password = str_random(52);
-      //$user->role()->associate(Role::where("role","runner")->first());
+        $user->password = str_random(52); // maybe the user is a driver (no password inserted)
       $user->save();
-      return redirect()->route("users.show",$user);
+      return redirect()->route("users.show",$user)->with("message","Utilisateur crée !");
   }
 
   public function storeLicenseImage(Request $request)
   {
     $file = $request->file("image");
     $user = $request->user();
-    //notify the method that we need to move the file
-    $user->addLicenseImage($file,true);
-
+    if($user->licenseImage() != null)
+      $user->removeLicenseImage();
+    //notify the user that we need to move the file
+    $user->addLicenseImage(new File($file),true);
     Session::flash('success', 'Chargement réussi');
     return redirect()->back();
   }
@@ -140,9 +140,9 @@ class UserController extends Controller
       $user = $request->user();
       if($user->profileImage() != null)
         $user->removeProfileImage();
-      //notify the method that we need to move the file
-      $user->addProfileImage($file,true);
 
+      //notify the user that we need to move the file
+      $user->addProfileImage(new File($file),true);
       Session::flash('success', 'Chargement réussi');
       return redirect()->back();
   }

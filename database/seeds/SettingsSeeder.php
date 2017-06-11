@@ -16,12 +16,14 @@ class SettingsSeeder extends Seeder
         if(is_array($sets)) {
           foreach ($sets as $key => $value) {
             Setting::create(["key" => "{$setting}::{$key}", "value" => $value]);
-    
+
           }
         }
         else{
           Setting::create(["key" => "{$setting}", "value" => $sets]);
         }
       }
+      Setting::create(["key" => "start_date", "value" => "2017-07-13"]);
+      Setting::create(["key" => "end_date", "value" => "2017-07-27"]);
     }
 }

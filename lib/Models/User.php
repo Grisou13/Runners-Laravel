@@ -79,11 +79,11 @@ class User extends Authenticatable implements StatusableContract
     {
         return $this->accesstoken = bcrypt(Carbon::now()->toDateString() . $this->email . $this->name);
     }
-
+    
 
     public function setNameAttribute($value)
     {
         $this->attributes["name"] = $value ? $value : $this->attributes["firstname"]. " " .$this->attributes["lastname"];
     }
-    
+
 }

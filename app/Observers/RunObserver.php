@@ -50,7 +50,7 @@ class RunObserver
     $run = $event->run;
     if($run->ended_at == null)
       $run->ended_at = Carbon::now();
-    
+
     $run->status = "finished";
 
   }
@@ -77,19 +77,13 @@ class RunObserver
 
   protected function runNotReady(Run $run){
     //TODO retalk to product manager if implemented?
-//    $seats = $run->subscriptions->map(function($sub){
-//              return $sub->car_id != null ? $sub->car->nb_place:0;
-//            })->sum();
-//            if($seats < $run->nb_passenger){
-//              $run->status="missing_cars";
-//            }
-//            if($run->subscriptions()->where("car_id","!=",null)->count())//check if all subs have a car
-//              $run->status = "missing_car";
-//            else
-      if(Carbon::now("+15min")->lte($run->planned_at))
+      $date = Carbon::now();
+      $date->addMinutes(15);
+      if($date->lte($run->planned_at))
         $run->status = "error";
       else
         $run->status="needs_filling";
+        return $run;
   }
   protected function adaptRunStatus(Run $run)
   {
@@ -106,31 +100,31 @@ class RunObserver
        $run->status="gone";
       return $run;
     }
-    
+
     $sub_count = $run->subscriptions()->count();
-    
-    if($run->status != "gone" || $run->status != "finished")
+
+    if($sub_count > 0 )
     {
-      if($sub_count > 0 )
+      if($run->started_at==null && $run->ended_at == null) //the run hasn't started
       {
-        if($run->started_at==null && $run->ended_at == null) //the run hasn't started
-        {
-          if($run->subscriptions()->ofStatus("ready_to_go")->count() == $sub_count)
-            $run->status = "ready";
-          else
-            $this->runNotReady($run);
-        }
-      }
-      else if($sub_count == 0)
-        $run->status="empty";
-      else{
-        $this->runNotReady($run);
+        if($run->subscriptions()->ofStatus("ready_to_go")->count() == $sub_count){
+          $run->status = "ready";
+          return $run;
+        }else
+          return $this->runNotReady($run);
       }
     }
-    else{
-      if($run->status != "finished" && $run->subscriptions()->ofStatus("finished")->count() == $sub_count)
-        $run->status = "finished";
+    else if($sub_count == 0){
+      $run->status="empty";
+      return $run;
+    }else{
+      return $this->runNotReady($run);
     }
+
+
+    if($run->status != "finished" && $run->subscriptions()->ofStatus("finished")->count() == $sub_count)
+      $run->status = "finished";
+
 
   }
 }

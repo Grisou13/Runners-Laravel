@@ -46,7 +46,18 @@ trait ImageConcern
   public function removeLicenseImage(){
     return $this->licenseImage()->delete();
   }
-  
+  public function getBasePathForUpload($path = null){
+    $p = 'images/profile';
+    $p.=starts_with($path,"/") ? $path : (DIRECTORY_SEPARATOR . $path);
+    return $p;
+  }
+  public function getStoredPath($path = null){
+    return public_path($this->getBasePathForUpload($path) );
+  }
+  public function getUrlPath($path = null){
+    return $this->getBasePathForUpload($path);
+
+  }
   /**
    * Creates a new profile image for the user
    * @param File $file
@@ -55,22 +66,31 @@ trait ImageConcern
    */
   public function addProfileImage(File $file, $move = false)
   {
-    $destinationPath = 'images/profile'; // upload path
-    
+    $image = $this->addImage($file, $move);
+    $image->type="profile";
+    return $image->save();
+  }
+  protected function addImage(File $file, $move = false)
+  {
     if($move) {
-      $filepath = $file->hashName($destinationPath);
-      $file->move(public_path($destinationPath), $filepath);
+      $filename = $file->hashName();
+      $file->move($this->getStoredPath(), $filename);
+      $filepath = $this->getUrlPath($filename);
+
+    }
+    elseif(!str_contains($file->path(), $this->getBasePathForUpload())){
+        $filepath = $this->getUrlPath($file->getFilename());
     }
     else{
-      $filepath = $destinationPath . DIRECTORY_SEPARATOR . $file->getFilename();
+      
+      $filepath = $this->getUrlPath($file->getFilename());
     }
     $image = new Image;
     $image->fill(array('filename' => $filepath));
-    $image->type = "profile";
     $image->user()->associate($this->id);
-    return $image->save();
+    return $image;
   }
-  
+
   /**
    * Creates a new profile image for the user
    * @param File $file
@@ -79,19 +99,8 @@ trait ImageConcern
    */
   public function addLicenseImage(File $file, $move = false)
   {
-    $destinationPath = 'images/profile'; // upload path
-    if($move) {
-      $filepath = $file->hashName($destinationPath);
-      $file->move(public_path($destinationPath), $filepath);
-    }
-    else{
-      $filepath = $destinationPath . DIRECTORY_SEPARATOR . $file->getFilename();
-    }
-    
-    $image = new Image;
-    $image->fill(array('filename' => $filepath));
-    $image->type = "license";
-    $image->user()->associate($this->id);
+    $image = $this->addImage($file, $move);
+    $image->type="license";
     return $image->save();
   }
 }

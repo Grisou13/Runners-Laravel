@@ -7,9 +7,7 @@
     <td>{{ $car->brand }}</td>
     <td>{{ $car->model }}</td>
     <td>
-      <a class="comment-add">
-        <span class="glyphicon glyphicon-plus"></span>
-      </a>
+
       @if(count($car->comments))
       <a class="comment-hover">
         <span class="glyphicon glyphicon-comment"></span>
