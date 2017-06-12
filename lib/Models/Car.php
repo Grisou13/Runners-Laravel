@@ -19,7 +19,7 @@ class Car extends Model
       "nb_place"=>"nullable"
     ];
     protected $fillable = [
-        "plate_number","brand","model","color","nb_place","comment","name"
+        "plate_number","brand","model","color","nb_place","comment","name","status"
     ];
     public $events = [
       "saving"=>"App\\Events\\CarSavingEvent",

@@ -1,6 +1,8 @@
+@import "./variable"
 #run-app
   padding-right: 7px
   padding-left: 15px
+
 .btn-container
   position: absolute
   margin-bottom: auto
@@ -23,13 +25,8 @@
     height: 20px
     //margin: 0 auto
 
-.display
-  .print-controls
-    display: none
-    visibility: hidden
-  .run-container
-    &:hover
-      padding-left: 0px!important
+
+
 .run-container
   margin-right: 34px
   margin-left: 23px
@@ -38,7 +35,7 @@
   & a
     color: $text-color
   &:hover, &.control-showed, &.hovered
-    padding-left: 120px
+    padding-left: $button-box-width
     .btn-container
       display: flex
 
@@ -72,37 +69,9 @@
     max-height: 40px
     overflow-y: hidden
     text-overflow: ellipsis
-  &:nth-child(odd)
-    background-color: darken($run-bg, 10%)
-  //&::before
-  //  content: ' '
-  //  height: 100%
-  //  width: 15px
-  //  margin-right: 5px
-  //  position: absolute
-  //  left: 0
-  //  top: 0
 
-
-//.ready
-//  background-color: $ready
-//
-//.error
-//  background-color: $error
-//
-//.needs_filling
-//  background-color: $needs_filling
-//
-//.missing_cars
-//  background-color: $missing_cars
-//
-//.gone
-//  background-color: $gone
-//  opacity: 0.5
-//  transition: opacity .1s .2s
-//  &:hover, & .hovered
-//    opacity: 1
-
+  &:hover
+    cursor: pointer
 
 .waypoint-list
   padding-bottom: 10px
@@ -123,3 +92,24 @@
     //display: inline-block
     width: 5px
     margin-right: 2px
+
+.run
+  font-size: 1rem
+  & .run-details
+    & .date
+      font-size: 1.4rem
+    & .title
+      font-size: 1.5rem
+      padding-left: 20px
+    & .passengers
+      font-size: 1.4rem
+    & .notes
+      font-size: 1.2rem
+  & .time
+    font-size: 1.8rem
+  & .subscription
+    font-size: 1.6rem
+  & .waypoint-list
+    font-size: 1.5rem
+    & .glyphicon
+      font-size: 0.8rem

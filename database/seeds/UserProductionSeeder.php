@@ -62,5 +62,10 @@ class UserProductionSeeder extends Seeder
 
         $user->save();
       });
+      $coordUsers = User::whereHas("group", function($query){return $query->where("name","like","c%");})->get();
+      $coordUsers->each(function($user){
+        $user->assignRole("coordinator");
+      });
+      
     }
 }

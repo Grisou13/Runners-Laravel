@@ -17,6 +17,7 @@ class CreateCarTypesTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('description')->nullable();
+            $table->integer('nb_place');
             $table->timestamps();
         });
         if(strtolower(env("DB_CONNECTION")) == "sqlite") {

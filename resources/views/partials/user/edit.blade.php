@@ -24,9 +24,10 @@ User: Joel.DE-SOUSA
                         <div class="col-md-2 col-md-push-2">
                             <button id="delete-btn" class="btn btn-warning"><span>Supprimer l'utilisateur</span></button>
                         </div>
-                        <div class="col-md-2 col-md-push-5">
-                            <button id="reset-btn" class="btn btn-warning"><span>Reset le mot de passe</span></button>
-                        </div>
+                        {{--TODO uncomment this if the app needs password resetting --}}
+                        {{--<div class="col-md-2 col-md-push-5">--}}
+                            {{--<button id="reset-btn" class="btn btn-warning"><span>Reset le mot de passe</span></button>--}}
+                        {{--</div>--}}
                     </div>
                 </div>
                 {{ csrf_field() }}

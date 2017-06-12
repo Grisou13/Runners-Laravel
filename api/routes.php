@@ -13,11 +13,11 @@ $api->get("/ping","HomeController@ping");
 
 $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api){
     $api->get("/users/search",["as"=>"users.search","uses"=>"UserController@search"]);
-
-
-    $api->get("users/me",["uses"=>"AuthenticatedUserController@me","as"=>"users.me"]);
-    $api->get("users/me/runs","AuthenticatedUserController@runs");
-    $api->get("users/me/schedule","AuthenticatedUserController@schedule");
+  
+    $api->get("/me",["uses"=>"AuthenticatedUserController@me","as"=>"users.me"]);
+    $api->get("users/me",["uses"=>"AuthenticatedUserController@me"]);
+    $api->get("/me/runs","AuthenticatedUserController@runs");
+    $api->get("/me/schedule","AuthenticatedUserController@schedule");
     //convinience routes, these will mainly do internal requests
     $api->get("users/{user}/image",["as"=>"user.image","uses"=>"UserController@image"]);
     $api->get("users/{user}/runs","UserController@run");
@@ -33,7 +33,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
        * @var $api Dingo\Api\Routing\Router
        */
       $api->resource("groups",'GroupController');
-      $api->resource("groups.users",'UserController',["except"=>"uppdate"]);
+      $api->resource("groups.users",'UserController',["except"=>"update"]);
     });
 
 

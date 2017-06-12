@@ -17,7 +17,7 @@
          "subscriptions"=> $run->exists ? $run->subscriptions()->with(["user","car_type","car"])->get() : []
      ]) !!}
  </script>
- <div class="form-group">
+ <div class="form-group required">
      <label for="planned_at" class="col-md-4 control-label">Planifé à</label>
      <div class="col-md-6">
          <input type="hidden" id="input_planned_at" name="planned_at" value="{{ (string)$run->planned_at }}">
@@ -32,9 +32,7 @@
 <div class="form-group">
     <label for="note" class="col-md-4 control-label">Extra</label>
     <div class="col-md-6">
-        <textarea class="form-control">
-            {{ (string)$run->note }}
-        </textarea>
+        <textarea name="note" class="form-control">{{ (string)$run->note }}</textarea>
     </div>
     @if ($errors->has("note"))
         <span class="help-block">
@@ -58,7 +56,7 @@
  @endphp
 
 <div id="waypoint-selection" class="waypoints">
-    <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
+    <div class="form-group required {{ $errors->has("waypoints") ? ' has-error' : '' }}">
         <div class="col-md-4">
             {{ Form::label("waypoint", "Itinéraire", array('class' => 'control-label col-md-12')) }}
             @if ($errors->has("waypoints"))
@@ -322,9 +320,9 @@ $( function() {
       timeFormat:"hh:mm",
       secondSlider:false,
       showSecond:false,
-      dateFormat: 'dd/mm/yy',
+      dateFormat: 'dd/mm',
   });
-  $( "#planned_at" ).datetimepicker('setDate', $( "#planned_at" ).datetimepicker('getDate') );
+  $( "#planned_at" ).datetimepicker('setDate', new Date($( "#planned_at" ).val())  );
 
 } );
 // _______________________________
@@ -384,21 +382,7 @@ add.addEventListener("click",function(e){
     btn.classList.add("btn")
     btn.classList.add("btn-danger")
     btn.type="button"
-    /*
-    <div class="form-group button-remove {{ $errors->has("waypoints") ? 'has-error' : '' }}">
-        <div class="col-md-5 col-md-push-4">
-            <div class="input-group">
-                <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
-                <div class="input-group-addon"><span class="glyphicon glyphicon-triangle-bottom" data-input="#{{$id}}"  ></span></div>
-            </div>
-        </div>
-        <div class="col-md-1 col-md-push-4">
-            <button class="btn btn-danger" type="button">
-                <span class="glyphicon glyphicon-minus"></span>
-            </button>
-        </div>
-    </div>
-    */
+
 
     var iconDelete = document.createElement("span")
     iconDelete.classList.add("glyphicon")

@@ -1,5 +1,5 @@
 <div class="panel panel-default  ">
-  <div class="panel-heading {{ $run->status }}">{{$run->name}} ({{ $run->status }})</div>
+  <div class="panel-heading {{ $run->status }}">{{$run->name}} ({{ \App\Helpers\Status::getStatusName("run",$run->status) }})</div>
   <div class="panel-body">
     @if($run->exists)
       {!! Form::model($run,["route"=>["runs.update",$run],'class' => 'form-horizontal', 'method' => 'put']) !!}

@@ -7688,7 +7688,7 @@ button.close {
 }
 
 .empty {
-  background-color: transparent !important;
+  background-color: #ECEFF1 !important;
 }
 
 .organizing-users {
@@ -7704,11 +7704,11 @@ button.close {
 }
 
 .gone {
-  background-color: #69bb7b !important;
+  background-color: #64B5F6 !important;
 }
 
-.needs-filling {
-  background-color: #69bb7b !important;
+.needs_filling {
+  background-color: #fd8b2d !important;
 }
 
 .finished {
@@ -7755,15 +7755,6 @@ button.close {
 
 .btn-container input[type=checkbox] {
   height: 20px;
-}
-
-.display .print-controls {
-  display: none;
-  visibility: hidden;
-}
-
-.display .run-container:hover {
-  padding-left: 0px !important;
 }
 
 .run-container {
@@ -7827,8 +7818,8 @@ button.close {
   text-overflow: ellipsis;
 }
 
-.run:nth-child(odd) {
-  background-color: #cfd6db;
+.run:hover {
+  cursor: pointer;
 }
 
 .waypoint-list {
@@ -7895,6 +7886,23 @@ button.close {
   font-size: 0.8rem;
 }
 
+.display .print-controls {
+  display: none;
+  visibility: hidden;
+}
+
+.display .run-container:hover {
+  padding-left: 0px !important;
+}
+
+.display .waypoint-list .glyphicon {
+  padding-top: 6px;
+}
+
+.display .waypoint-list li {
+  margin-right: 15px;
+}
+
 .display {
   font-size: 2rem;
 }
@@ -7906,7 +7914,7 @@ button.close {
 }
 
 .display .run .run-details .notes {
-  font-size: 1.8rem;
+  font-size: 2.5rem;
 }
 
 .display .run .run-details .date {
@@ -7914,7 +7922,7 @@ button.close {
 }
 
 .display .run .run-details .title {
-  font-size: 2.8rem;
+  font-size: 3.5rem;
   padding-left: 20px;
 }
 
@@ -7923,7 +7931,8 @@ button.close {
 }
 
 .display .run .time {
-  font-size: 2.5rem;
+  font-size: 3rem;
+  padding-left: 150px;
 }
 
 .display .run .subscription {
@@ -7931,15 +7940,16 @@ button.close {
 }
 
 .display .run .waypoint-list {
-  font-size: 1.8rem;
+  font-size: 3.5rem;
+  padding-left: 150px;
 }
 
 .display .run .waypoint-list li:first-of-type, .display .run .waypoint-list li:last-of-type {
-  font-size: 2rem;
+  font-size: 4rem;
 }
 
 .display .run .waypoint-list .glyphicon {
-  font-size: 1.2rem;
+  font-size: 2rem;
 }
 
 .display .title {
@@ -8226,6 +8236,14 @@ button.close {
   text-decoration: none;
   color: #777777;
   background-color: #fff;
+}
+
+.form-group.required .control-label:after {
+  content: "*";
+  color: #d00;
+  position: absolute;
+  margin-left: 8px;
+  top: 7px;
 }
 
 /*# sourceMappingURL=app.css.map */

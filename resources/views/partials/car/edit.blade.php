@@ -9,12 +9,14 @@
                 @else
                   {{ Form::open(array('route' => 'cars.store', 'class' => 'form-horizontal')) }}
                 @endif
-                {{ Form::bsText("Numéro de plaque","plate_number",$car->plate_number) }}
-                {{ Form::bsText("Marque","brand",$car->brand) }}
-                {{ Form::bsText("Model","model",$car->model) }}
-                {{ Form::bsText("Couleur","color",$car->color) }}
+                {{ Form::bsSelect("Type de voiture","car_type",$car_types->mapWithKeys(function($t){return [" {$t->id}"=>$t->name];}),$car->car_type_id) }}
+                {{ Form::bsText("Nom du véhicule","name",$car->name,[],false) }}
+
+                {{ Form::bsText("Numéro de plaque","plate_number",$car->plate_number,[],false) }}
+                {{ Form::bsText("Marque","brand",$car->brand,[],false) }}
+                {{ Form::bsText("Model","model",$car->model,[],false) }}
+                {{ Form::bsText("Couleur","color",$car->color,[],false) }}
                 {{ Form::bsText("Nombre de place disponible","nb_place",$car->nb_place) }}
-                {{ Form::bsText("Nom du véhicule","name",$car->name) }}
                 <div class="form-group">
                   @foreach($errors as $er)
                     <div class="alert alert-danger">
@@ -22,10 +24,9 @@
                     </div>
                   @endforeach
                 </div>
-                {{-- @if($car->exists)
+                @if($car->exists)
                   {{ Form::bsSelect("Etat de la voiture","status",\App\Helpers\Status::getFullStatusForRessource($car),old("status",$car->status)) }}
-                @endif --}}
-                {{ Form::bsSelect("Type de voiture","car_type",$car_types->mapWithKeys(function($t){return [" {$t->id}"=>$t->name];}),$car->car_type_id) }}
+                @endif
 
                 @if(auth()->check())
                     <div class="form-group">

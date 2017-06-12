@@ -148,7 +148,9 @@ class RunList extends React.Component
                                         </div>
                                         )
                                     }
-                                <Run  {...run} />
+                                    <div onClick={()=>this.props.editRun(run)}>
+                                        <Run  {...run} />
+                                    </div>
                             </div>
                     )})}
                 </div>
@@ -225,22 +227,12 @@ const getVisibleRuns = (runs, filters) => {
     }).value()
     // runs = runs.filter( r => !r.start_at && !r.end_at)
 
-    if(runs.length){
-        let r  = runs[1]
-        console.log(filters.time.start.split(timeSplitter))
-        console.log(filters.time)
-        console.log(r.begin_at)
-        console.log(moment(r.begin_at).minutes() >= parseInt(filters.time.start.split(timeSplitter)[1]) && moment(r.begin_at).hours() >= parseInt(filters.time.start.split(timeSplitter)[0]))
-        console.log(moment(r.begin_at).minutes() <= parseInt(filters.time.end.split(timeSplitter)[1]) && moment(r.begin_at).hours() <= parseInt(filters.time.end.split(timeSplitter)[0]))
-        console.log(moment(r.begin_at).isBetween(moment().subtract(12,"hours"),moment().add(24,"hours")))
-    }
     if(filters.today)
         runs = runs.filter(r => moment(r.begin_at).isBetween(moment().subtract(12,"hours"),moment().add(24,"hours")) )
     if(filters.time.start.length)
         runs = runs.filter(r => moment(r.begin_at).minutes() >= parseInt(filters.time.start.split(timeSplitter)[1]) && moment(r.begin_at).hours() >= parseInt(filters.time.start.split(timeSplitter)[0]))
     if(filters.time.end.length)
         runs = runs.filter(r => moment(r.begin_at).minutes() <= parseInt(filters.time.end.split(timeSplitter)[1]) && moment(r.begin_at).hours() <= parseInt(filters.time.end.split(timeSplitter)[0]))
-
 
     if( filters.status.indexOf("finished") > -1)
         runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)

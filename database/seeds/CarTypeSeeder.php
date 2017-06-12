@@ -14,15 +14,18 @@ class CarTypeSeeder extends Seeder
     {
       Lib\Models\CarType::create([
           "name"=>"VITO",
-          "description"=>"Bus 9 places pour les runs standard"
+          "description"=>"Bus 9 places pour les runs standard",
+          "nb_place"=>5
       ]);
       Lib\Models\CarType::create([
           "name"=>"LIMO",
-          "description"=>"Limousine pour VIP"
+          "description"=>"Limousine pour VIP",
+          "nb_place"=>10
       ]);
       Lib\Models\CarType::create([
           "name"=>"MATOS",
-          "description"=>"Matériel"
+          "description"=>"Matériel",
+          "nb_place"=>2
       ]);
     }
 }

@@ -76,14 +76,13 @@ class RunObserver
   }
 
   protected function runNotReady(Run $run){
-    //TODO retalk to product manager if implemented?
       $date = Carbon::now();
       $date->addMinutes(15);
       if($date->lte($run->planned_at))
         $run->status = "error";
       else
         $run->status="needs_filling";
-        return $run;
+      return $run;
   }
   protected function adaptRunStatus(Run $run)
   {

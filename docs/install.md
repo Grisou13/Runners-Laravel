@@ -1,4 +1,16 @@
 # Server requirements
+
+- PHP >= 7.0.4
+    - OpenSSL PHP Extension
+    - PDO PHP Extension
+    - Mbstring PHP Extension
+    - Tokenizer PHP Extension
+    - XML PHP Extension
+- Webserver (nginx or apache)
+- Mysql >= 13.04
+- Composer
+- Node >= 7.0.0
+
 # Installing
 
 First you will need a fresh copy of the project, and a terminal.
@@ -10,6 +22,8 @@ $ sudo chmod -R 777 bootstrap
 $ cp .env.example .env
 ```
 Now you have the choice, either to work with docker, a vm, vagrant, or homestead.
+
+__Please make sure you check [Post install operations](Post install operations)__
 
 # With docker
 
@@ -35,15 +49,81 @@ This means cloning the project in ~/
 
 # Normal install
 
-1. Install some webserver (nginx prefabaly)
-2. Install php >= 7.0.4
-3. Install an sql database engine (mysql, or mariadb will do just fine)
-4. Install the php drivers for mysql-pdo (just enable them in php.ini)
-5. Install [node.js](https://nodejs.org) >= 7.0.0
-6. Install redis, and start a [redis server](https://redis.io)
-7. Run `$ npm i -g laravel-echo-server`
+## Prerequisites
 
-Now you have all the tools installed, you should configure your .env file to suit all your needs.
+[please refer to server requirements](#Server requirements)
+
+## Install
+Edit the .env file to suit your needs, database wise atleast.
+
+And let's get started
+```
+# install dependencies
+$ composer install
+$ php artisan key:generate
+# asset compiler
+$ npm i -g gulp
+# install deps
+$ npm i
+$ php artisan db:reset --production
+```
+
+
+
+
+# With a vm
+
+You can just redo the steps wither with docker, or the normal install.
+
+# With Homestead
+
+With homestead all you need is to add your site to your Homestead.yaml.
+For more information please check [the official documentation for homestead](https://laravel.com/docs/5.4/homestead#configuring-homestead)
+
+After configuring, please add
+`schedule: true`
+To your sites config. [FYI](https://laravel.com/docs/5.4/homestead#configuring-cron-schedules)
+
+# Post install operations
+
+Now that the app is installed you will need to execute the following commands:
+
+```
+$ php artisan migrate
+$ php artisan db:seed --class=BaseSeeder
+$ sudo chmod 777 -R vendor/mpdf/mpdf/tmp
+$ sudo chmod 777 -R vendor/mpdf/mpdf/graph_cache
+$ sudo chmod 777 -R vendor/mpdf/mpdf/ttfontdata
+```
+
+If you have any problems with the seeding, or the database is giving you a hard time, a command was created
+`php artisan db:reset`.
+If supplied the argument `--production`, a seeder with real production data will be called.
+
+_If you are using docker, run the commands above prefixed with `docker-compose run --rm app {command}`_
+
+# Install laravel echo
+
+## Prerequisites
+
+- Redis [for more info on how to install redis]((https://redis.io/download))
+- Node >= 7.0.0
+
+## Install
+
+``` 
+$ npm i -g laravel-echo-server
+```
+
+Make sure redis is running, and that you have already changed the `.env` to suit your needs.
+
+Now edit the `.env` and change 
+```
+...
+BROADCAST_DRIVER=redis
+QUEUE_DRIVER=redis
+....
+```
 
 Now you will need to start a few deamons:
 1. Start a redis-server instance
@@ -60,25 +140,3 @@ Now you will need to start a few deamons:
     `* * * * * php /PATH TO YOUR PROJECT/artisan schedule:run >> /dev/null 2>&1`
 
 Now you should be good to go.
-
-# With a vm
-
-You can just redo the steps wither with docker, or the normal install.
-
-# With Homestead
-
-With homestead all you need is to add your site to your Homestead.yaml.
-
-Don't forget to add the `schedule: true`
-
-# Post install operations
-
-Now that the app is installed you will need to execute the following commands:
-`php artisan migrate`
-`php artisan db:seed --class=BaseSeeder`
-
-If you have any problems with the seeding, or the database is giving you a hard time, a command was created
-`php artisan db:reset`.
-If supplied the argument `--production`, a seeder with real production data will be called.
-
-_If you are using docker, run the commands above prefixed with `docker-compose run --rm app {command}`_

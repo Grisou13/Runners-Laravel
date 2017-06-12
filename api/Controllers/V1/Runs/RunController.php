@@ -32,13 +32,22 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class RunController extends BaseController
 {
+  /**
+   * Retrieve all runs
+   * @param ListRunRequest $request
+   * @return \Dingo\Api\Http\Response
+   */
     public function index(ListRunRequest $request)
     {
       $query = new Run;
       $query = $query->newQuery();
       if($request->has("between")) {
-        $dates = explode(",",$request->get("between"));
-        $query->whereBetween("planned_at", $dates);
+//        $dates = explode(",",$request->get("between"));
+//        $query->whereBetween("planned_at", $dates);
+        $t = explode(",",$request->get("between"));
+        $start = trim($t[0]);
+        $end = trim($t[1]);
+        $query->where("planned_at",">=",$start)->where("planned_at", "<",$end);
       }
       if($request->has("actif"))
         $query->actif();//retrive all active runs @see Lib\Models\Run::scopeActif
@@ -56,8 +65,10 @@ class RunController extends BaseController
               $query->orderBy($column,$sorting);
           }
       }
-      if(!$request->has("finished"))
+      //we filter the status finished=false, otherwise we don't need
+      if( ! (int) filter_var($request->get("finished",false), FILTER_VALIDATE_BOOLEAN)) {
         $query->notOfStatus("finished");
+      }
       return $this->response()->collection($query->get(), new RunTransformer);
     }
     public function search(SearchRequest $request)

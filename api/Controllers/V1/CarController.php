@@ -101,12 +101,10 @@ class CarController extends BaseController
         $car = new Car;
         $car->fill($request->all());
         $type = $request->get("car_type");
-        $t = CarType::firstOrCreate(["id"=>$type],["name"=>$type]);
-        $car->type()->associate($t);
-
+        $t = CarType::firstOrCreate(["id"=>$type],["name"=>$type,"nb_place"=>$request->get("nb_place",0)]);
         $car->type()->associate($t);
         $car->save();
-        return $this->response()->created();
+        return $car;
     }
     public function delete(Car $car)
     {

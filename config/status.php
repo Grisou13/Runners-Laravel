@@ -18,7 +18,7 @@ return [
     "gone"=>"Démarré",
     "error"=>"Il manque des information pour démarrer le run", //not used
     "finished"=>"le run est terminé",
-    "needs_filling"=>"Il manque des information ud convoi",
+    "needs_filling"=>"Convois incomplet",
     "missing_cars"=>"Il manque des voiture pour démarrer le run",
     "ready"=>"Pret",
     "empty"=>"vide"

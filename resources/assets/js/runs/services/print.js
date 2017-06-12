@@ -25,7 +25,7 @@
 }());
 
 export default (dispatcher) => {
-    window.onbeforeprint = () => {
-        dispatcher.dispatch()
-    }
+    // window.onbeforeprint = () => {
+    //     dispatcher.dispatch()
+    // }
 }

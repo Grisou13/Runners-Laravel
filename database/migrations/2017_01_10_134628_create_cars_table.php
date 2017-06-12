@@ -21,7 +21,7 @@ class CreateCarsTable extends Migration
             $table->string('model')->nullable();
             $table->string('color')->nullable();
             $table->integer('nb_place')->nullable();
-            $table->string('name')->nullable();
+            $table->string('name');
             $table->softDeletes();
         });
     }

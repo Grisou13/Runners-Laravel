@@ -70,6 +70,9 @@ class CarObserver
       $count = $car->car_type->cars()->count() + 1;
       $car->name = $car->car_type->name . " ". $count;
     }
+    if(empty($car->nb_place)){
+      $car->nb_place = $car->car_type->nb_place;
+    }
 
     $car->status="free";
   }

@@ -18,6 +18,9 @@ class RoleSeeder extends Seeder
       Permission::create(["name"=>"force run end"]);
       Permission::create(["name"=>"force run start"]);
       Permission::create(["name"=>"view runs"]);
+      Permission::create(["name"=>"edit settings"]);
+      Permission::create(["name"=>"create settings"]);
+      Permission::create(["name"=>"delete settings"]);
 
       Role::create([
           "name" => "runner"
@@ -30,6 +33,9 @@ class RoleSeeder extends Seeder
       ])
       ->givePermissionTo('end run')
       ->givePermissionTo('force run end')
+      ->givePermissionTo('edit settings')
+      ->givePermissionTo('create settings')
+      ->givePermissionTo('delete settings')
       ->givePermissionTo('force run start');
 
       Role::create([
@@ -37,6 +43,9 @@ class RoleSeeder extends Seeder
       ])
       ->givePermissionTo('end run')
       ->givePermissionTo('force run end')
+      ->givePermissionTo('edit settings')
+      ->givePermissionTo('create settings')
+      ->givePermissionTo('delete settings')
       ->givePermissionTo('force run start');
 
       Role::create([
