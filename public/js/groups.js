@@ -1,9 +1,10 @@
-/**
- * Created by Eric.BOUSBAA on 12.01.2017.
- */
 var drake = null;
- //credits to http://stackoverflow.com/questions/2735067/how-to-convert-a-dom-node-list-to-an-array-in-javascript
- function toArray(obj) {
+
+/*
+ credits to
+ http://stackoverflow.com/questions/2735067/how-to-convert-a-dom-node-list-to-an-array-in-javascript
+ */
+function toArray(obj) {
     var array = [];
     // iterate backwards ensuring that length is an UInt32
     for (var i = obj.length >>> 0; i--;) {
@@ -11,12 +12,14 @@ var drake = null;
     }
     return array;
  }
-function deleteGroup(groupID){
-    let groupContainer = document.getElementById("container-"+groupID);
-    // delete in the api
-    let success = function(deleted){
 
-    };
+ /*
+  Delete the given group (by id).
+  Hide the div, and delete on group on the web API
+  */
+function deleteGroup(groupID){
+    // delete the group in the api
+    let success = function(deleted){};
     window.api.delete("/groups/"+groupID,{})
         .then(function(res){
             console.log("Deleted");
@@ -27,12 +30,15 @@ function deleteGroup(groupID){
          });
 
     // delete (hide for the moment) the div
+    let groupContainer = document.getElementById("container-"+groupID);
     groupContainer.style.display = "none";
 }
+/*
+ Creates a new group and display a new div
+ */
 function getNewGroup(){
     var base_path = window.Laravel.basePath;
     var url = base_path + "/api/groups?token=root";
-
     var success = function(created) {
         data = created.data;
         console.log(data);
@@ -50,36 +56,38 @@ function getNewGroup(){
         heading.style = "background-color : #" + data["color"] + ";";
         // heading.style += "color : white;";
         newContainer.appendChild(heading);
+        // add tge delete functionality (as the group is currently empty)
         let img = document.createElement("img");
         img.className = "delIcon";
         img.src = "images/icons/trash.png";
-
         img.onclick = function(){
             deleteGroup(data["id"]);
         };
         newContainer.appendChild(img);
         document.querySelector("#group-container").appendChild(newContainer);
         // add the container to the "dropable" containers
-
         drake.containers.push(newContainer);
     };
-    let name = document.getElementById("group-name").value
-    let data = {}
-    if(name.length)
-        data["name"] = name
-    console.log(data)
+
+    // check if a group name has been given in input
+    let name = document.getElementById("group-name").value;
+    let data = {};
+    if(name.length){
+        data["name"] = name;
+    }
+    // and post it on the web api
     window.api.post("/groups",data)
         .then(function(res){
             console.log("group created");
-            document.getElementById("group-name").value = ""
+            document.getElementById("group-name").value = "";
             success(res);
         })  .catch(function (error) {
         console.log(error);
     });
-
-    // ajaxRequest(url, {}, success, "post")
 }
-
+/*
+ Drag and Drop event
+ */
 function addUserToGroup(userID, groupID) {
     var base_path = window.Laravel.basePath;
     //TODO get users token
@@ -97,6 +105,9 @@ function addUserToGroup(userID, groupID) {
     //ajaxRequest(url,{user:userID}, success, "patch");
 }
 
+/*
+ Delete the user form his group
+ */
 function removeUserFromGroup(userID, groupID) {
     if(!confirm("Etes-vous sûr de vouloir enlever l'utilisateur du groupe ?")){
         location.reload();
@@ -161,5 +172,4 @@ drake.on("drop", function(el, target, source, sibling){
     }else{
         addUserToGroup(userID, destGroupdID);
     }
-
 });

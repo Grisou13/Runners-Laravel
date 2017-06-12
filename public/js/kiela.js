@@ -119,6 +119,7 @@ function display(entries, container){
         ctrlNextBtn.innerHTML = "Suivant";
         // TODO assign the buttons inner html depending on the previous and next shift
         ctrlNextBtn.onclick = function(){
+            // we can go to next only if we don't overdraw the shifts limit
             if(slider.getInfo().navCurrent < slider.getInfo().navItems.length - 1){
                 slider.goTo("next");
             }else{
@@ -126,6 +127,7 @@ function display(entries, container){
             }
         };
         ctrlPrevBtn.onclick = function(){
+            // we cannot go before the first shift of the day
             if(slider.getInfo().navCurrent > 1){
                 slider.goTo("prev");
             }else{

@@ -1,9 +1,8 @@
-/**
- * Created by Eric.BOUSBAA on 17.02.2017.
+/*
+ Credits to
+ credits to http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
  */
-
 function _hexToRgb(hex){
-    // credits to http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
     var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthandRegex, function(m, r, g, b) {
@@ -31,7 +30,6 @@ function _getDates(startDate, stopDate) {
     return dateArray;
 }
 
-
 function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
     // refer to https://kangax.github.io/compat-table/es6/#webkit for compatibility
@@ -43,7 +41,7 @@ function ajaxRequest(method, url, data, callback) {
           "x-access-token":window.Laravel.token
         },
         data: data,
-        async: false, //yeah i know
+        async: false, //yeah I know
         success: callback ? callback : function(response){
                 returnedData = response;
             }
@@ -161,10 +159,11 @@ function createTable(schedule, groups, day, gridID){
                     td.style.backgroundColor = td.dataset.bgColor;
                 }
             };
+
             td.addEventListener("mousedown", function(e){
                 isdown = true;
                 lin = group.id;
-                modified.push(td.id);
+                modified.push(td.id); // keep track of the cells to modify
                 changeColor(td);
                 return false;
             });
@@ -181,22 +180,20 @@ function createTable(schedule, groups, day, gridID){
 
             td.addEventListener("mouseup",function(e){
                 // TODO maybe use time-slot instead of using each cell independently
+                // TODO loading animation only works with Firefox
                 console.log("before update");
-                loadingDiv.style.display = "block";
+                loadingDiv.style.display = "block"; // activate animation
 
                 modified.map(function(cellID){
-                    updateCell(cellID);
-                    // update the state of each selected div
+                    updateCell(cellID); // update the state of each selected div
                 });
                 console.log("updated...");
-                loadingDiv.style.display = "none";
+                loadingDiv.style.display = "none"; // disabled the animation
 
                 modified = [];
                 isdown = false;
             });
 
-            // td.onclick = cellListener;
-            // td.addEventListener("click", cellListener, false);
             bodyTR.appendChild(td);
         });
         tbody.appendChild(bodyTR);
@@ -247,6 +244,8 @@ function getAllDays(){
 
 var days = getAllDays();
 
+// The schedule format is hard-coded yep.
+//TODO generate format with/within the web api
 schedule = ["00:00","00:30", "01:00","01:30",
             "02:00","02:30", "03:00","03:30",
             "04:00","04:30", "05:00","05:30",
@@ -266,8 +265,5 @@ var groups = getAllGroups();
 
 createGrid(schedule, days, groups);
 
-// dates forms input
-let startDateForm = document.getElementById("start_date_form");
-let endDateForm = document.getElementById("end_date_form");
-
-//TODO visual division of hours and day&night
+// TODO visual division of hours and day&night
+// TODO verify that forms input end_time > start_time and start_time < end_time
