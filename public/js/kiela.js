@@ -82,14 +82,15 @@ function display(entries, container){
             });
     }
 
-    let now = moment("2017-07-19");
+    let now = moment();
 
     // we only keep one day, which is the closer day to now in the future.
     // I.e. if we are the 10 of July but the schedule only starts the 17, it'll display the 17
     // use moment with a different date to try it out : let now = moment("2017-07-19");
     let day = getDay(entries, now);
 
-    for(let shift in day){ // iterate through each entries of the day (which is already sorted)
+    // iterate through each entries of the day (which is already sorted)
+    for(let shift in day){
         var entryDiv = document.createElement("div");
         let entryDay = document.createElement("h2");
         let d = new Date(day[shift][0]["start_time"].split(" ")[0]);
@@ -100,31 +101,28 @@ function display(entries, container){
         entryShift.innerHTML += " à ";
         entryShift.innerHTML += day[shift][0]["end_time"].split(" ")[1];
 
-
+        // get and display the users for each groups
         for(var obj in day[shift]){
             let groupID = day[shift][obj]["group_id"];
             if (typeof groupUsers[groupID] == "undefined"){ // if we didn't query this group yet...
                 displayUsersPerGroup(groupID, entryDiv);
             }else{
-                console.log(groupUsers[groupID]);
+                entryDiv.appendChild(groupUsers[groupID])
             }
-
         }
 
         // creates the button 'previous' and 'next' buttons
-        // assign the hour displayed on it depending of the selected shift
         let ctrlNextBtn = document.createElement("button");
         let ctrlPrevBtn = document.createElement("button");
 
         ctrlPrevBtn.innerHTML = "Précédent";
         ctrlNextBtn.innerHTML = "Suivant";
-
+        // TODO assign the buttons inner html depending on the previous and next shift
         ctrlNextBtn.onclick = function(){
             if(slider.getInfo().navCurrent < slider.getInfo().navItems.length - 1){
                 slider.goTo("next");
             }else{
                 slider.goTo("first");
-                console.log("yup go to first...")
             }
         };
         ctrlPrevBtn.onclick = function(){
@@ -142,6 +140,7 @@ function display(entries, container){
         container.appendChild(entryDiv);
     }
 
+    // created the slider
     let slider = tns({
         container: container,
         controls: false
