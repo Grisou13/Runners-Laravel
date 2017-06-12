@@ -11,8 +11,9 @@ As of right now settings aren't cache. That's a huge performance dump.
 
 The app should have a cached version of the settings, use a database model if nothing is found. As a last resort, use the configs if nothing was found.
 
-# Dashboard UI
 
+# UI components
+## Dashboard
 Enable the front-end to change some hard-coded settings such as :
 - Database reset
 - Change the avaiable groups colors
