@@ -20,6 +20,10 @@ Enable the front-end to change some hard-coded settings such as :
 - Change icons for customisation
 - Allow permission assignement
 
+## Kiela
+## Schedule
+## Groups
+
 # Roles
 
 As of right now the default created users are only `runners`
