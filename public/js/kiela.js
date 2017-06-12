@@ -49,7 +49,6 @@ function display(entries, container){
                 continue;
             }
             if(entries.hasOwnProperty(day)){
-                console.log(entries[day]);
                 return entries[day];
             }
         }
@@ -84,7 +83,6 @@ function display(entries, container){
     }
 
     let now = moment("2017-07-19");
-    let  hourListed = [];
 
     // we only keep one day, which is the closer day to now in the future.
     // I.e. if we are the 10 of July but the schedule only starts the 17, it'll display the 17
@@ -101,69 +99,49 @@ function display(entries, container){
         entryShift.innerHTML += day[shift][0]["start_time"].split(" ")[1];
         entryShift.innerHTML += " à ";
         entryShift.innerHTML += day[shift][0]["end_time"].split(" ")[1];
-        hourListed.push(day[shift][0]["start_time"].split(" ")[1]);
-        console.log("=======")
+
+
         for(var obj in day[shift]){
             let groupID = day[shift][obj]["group_id"];
-            console.log(groupID);
             if (typeof groupUsers[groupID] == "undefined"){ // if we didn't query this group yet...
-
                 displayUsersPerGroup(groupID, entryDiv);
             }else{
                 console.log(groupUsers[groupID]);
             }
 
-            // entryDay.appendChild(entryShift);
-            // entryDiv.appendChild(entryDay);
-            // container.appendChild(entryDiv);
         }
 
         // creates the button 'previous' and 'next' buttons
         // assign the hour displayed on it depending of the selected shift
-        var ctrlNextBtn = document.createElement("button");
-        var ctrlPrevBtn = document.createElement("button");
-        let i = 0;
+        let ctrlNextBtn = document.createElement("button");
+        let ctrlPrevBtn = document.createElement("button");
+
         ctrlPrevBtn.innerHTML = "Précédent";
         ctrlNextBtn.innerHTML = "Suivant";
+
         ctrlNextBtn.onclick = function(){
-            i += 1;
-            if(i == hourListed.length){ // if we reach the end of the listed hours
-                i = 0;
-                slider.goTo("first"); // we go back to the first element. ever.
-            }else{
+            if(slider.getInfo().navCurrent < slider.getInfo().navItems.length - 1){
                 slider.goTo("next");
+            }else{
+                slider.goTo("first");
+                console.log("yup go to first...")
             }
-            //update buttons content (prev and next hour)
-            ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1];
-            ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
-            //let info = slider.getInfo();
         };
         ctrlPrevBtn.onclick = function(){
-            i -= 1;
-            if(i < 0){ // we can't go before the index right ?
-                i = hourListed.length - 1;
-                slider.goTo("last");
-            }else{
+            if(slider.getInfo().navCurrent > 1){
                 slider.goTo("prev");
+            }else{
+                slider.goTo("last");
             }
-            let info = slider.getInfo();
-            let indexPrev = info.indexCached;
-            let indexCurrent = info.index;
-            // update style based on index
-            info.slideItems[indexPrev].classList.remove('active');
-            info.slideItems[indexCurrent].classList.add('active');
-
-            ctrlPrevBtn.innerHTML = hourListed[i == 0 ? hourListed.length -1 : i - 1];
-            ctrlNextBtn.innerHTML = hourListed[i == hourListed.length -1 ? 0 : i + 1];
-
         };
-        
+
         entryDay.appendChild(entryShift);
         entryDiv.appendChild(entryDay);
         entryDiv.appendChild(ctrlPrevBtn);
         entryDiv.appendChild(ctrlNextBtn);
         container.appendChild(entryDiv);
     }
+
     let slider = tns({
         container: container,
         controls: false
