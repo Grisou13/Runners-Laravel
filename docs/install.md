@@ -1,5 +1,4 @@
 # Server requirements
-
 - PHP >= 7.0.4
     - OpenSSL PHP Extension
     - PDO PHP Extension
@@ -11,7 +10,7 @@
 - Composer
 - Node >= 7.0.0
 
-# Installing
+# Project set-up
 
 First you will need a fresh copy of the project, and a terminal.
 ```
@@ -21,11 +20,15 @@ $ sudo chmod -R 777 storage
 $ sudo chmod -R 777 bootstrap
 $ cp .env.example .env
 ```
-Now you have the choice, either to work with docker, a vm, vagrant, or homestead.
 
-__Please make sure you check [Post install operations](Post install operations)__
+Now you have 3 possibilities of installation
+* Docker
+* Vagrant - Homestead
+* LAMP server
 
-# With docker
+# Installation
+
+## With docker
 
 First get yourself a fresh copy of docker, with docker-compose **>= 1.8** (we need api v2).
 
@@ -42,41 +45,11 @@ All variables that aren't set in that file, can be set via your `.env` file.
 For more examples look at `.env.example`.
 Or you could specify them in your config files, instead of `.env`.
 
-## Docker-machine
-
-If you are running docker on windows or mac, you will probably be running docker-machine. If that is the case, you need to put the porject folder in your personnal directory!
+### Using Docker-Machine
+If you are running docker on windows or mac, you will probably be running docker-machine. If that is the case, you need to put the prject folder in your personnal directory!
 This means cloning the project in ~/
 
-# Normal install
-
-## Prerequisites
-
-[please refer to server requirements](#Server requirements)
-
-## Install
-Edit the .env file to suit your needs, database wise atleast.
-
-And let's get started
-```
-# install dependencies
-$ composer install
-$ php artisan key:generate
-# asset compiler
-$ npm i -g gulp
-# install deps
-$ npm i
-$ php artisan db:reset --production
-```
-
-
-
-
-# With a vm
-
-You can just redo the steps wither with docker, or the normal install.
-
-# With Homestead
-
+## With Vagrant - Homestead
 With homestead all you need is to add your site to your Homestead.yaml.
 For more information please check [the official documentation for homestead](https://laravel.com/docs/5.4/homestead#configuring-homestead)
 
@@ -84,40 +57,57 @@ After configuring, please add
 `schedule: true`
 To your sites config. [FYI](https://laravel.com/docs/5.4/homestead#configuring-cron-schedules)
 
+## With a LAMP
+
+Edit the .env file to suit your need. You need to provide at least a setted database.
+
+And simply run. It may take a little few minutes to install.
+1. `composer install`
+2. `php artisan key:generate`  
+3. `npm i -g gulp`  _if you have a persmission error, use `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share` and re-run de command_
+4. `npm i`  
+
+
+
+
+
+
+
 # Post install operations
 
+## Database set-up
 Now that the app is installed you will need to execute the following commands:
 
+**Create** then **seed** the **database** with the production data
 ```
-$ php artisan migrate
-$ php artisan db:seed --class=BaseSeeder
+$ php artisan db:reset --production
 $ sudo chmod 777 -R vendor/mpdf/mpdf/tmp
 $ sudo chmod 777 -R vendor/mpdf/mpdf/graph_cache
 $ sudo chmod 777 -R vendor/mpdf/mpdf/ttfontdata
 ```
 
-If you have any problems with the seeding, or the database is giving you a hard time, a command was created
-`php artisan db:reset`.
-If supplied the argument `--production`, a seeder with real production data will be called.
+If you want to **reset** the database, use at any moment the following command.
+`php artisan db:reset --production`.  
+If you don't want to use the production data, remove the argument and use the command `php artisan db:reset` instead.
 
-_If you are using docker, run the commands above prefixed with `docker-compose run --rm app {command}`_
+If you are using **docker**, run the commands above prefixed with `docker-compose run --rm app {command}`
 
-# Install laravel echo
+## Install laravel echo
 
-## Prerequisites
+### Prerequisites
 
-- Redis [for more info on how to install redis]((https://redis.io/download))
+- Redis [for more info on how to install redis]((https://redis.io/download)), (or use [this link](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04) if you use ubuntu)
 - Node >= 7.0.0
 
-## Install
+### Laravel echo installation
 
-``` 
+```
 $ npm i -g laravel-echo-server
 ```
 
 Make sure redis is running, and that you have already changed the `.env` to suit your needs.
 
-Now edit the `.env` and change 
+Now edit the `.env` and change
 ```
 ...
 BROADCAST_DRIVER=redis

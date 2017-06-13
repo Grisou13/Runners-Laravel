@@ -17,9 +17,11 @@ function _hexToRgb(hex){
         } : null;
 }
 
+/*
+ Get all dates in an array between 2 given dates
+ */
 function _getDates(startDate, stopDate) {
     // https://momentjs.com/
-    // credits to http://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates
     var dateArray = [];
     var currentDate = moment(startDate);
     var stopDate = moment(stopDate);
@@ -48,7 +50,9 @@ function ajaxRequest(method, url, data, callback) {
     });
     return returnedData;
 }
-
+/*
+ Updates the status (on the web api and the layout) of the given cell
+ */
 function updateCell(cellID){
     console.log("UPDATE");
     let cell = document.getElementById(cellID);
