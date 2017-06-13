@@ -15,7 +15,9 @@ class CreateRunsTable extends Migration
     {
         Schema::create('runs', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('started_at')->nullable();
+            $table->boolean('drafting')->default(true)->comment("Hard coded value of status=drafting, allowing the Object model to be easier to understand and manipulate");
+            $table->dateTime('started_at')->nullable()->comment("Defines the date at which a run started");
+            $table->dateTime('published_at')->nullable()->comment("Used for stats only, to get time between publishing");
             $table->dateTime('ended_at')->nullable();
             $table->dateTime("planned_at")->nullable();
             $table->integer("nb_passenger")->default(0);

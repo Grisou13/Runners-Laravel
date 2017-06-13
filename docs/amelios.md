@@ -76,3 +76,11 @@ And on update trigger an event to broadcast.
 Now you would need to modify the runners app a bit to watch location and submit it to the api.
 
 The tricky part comes in the app, where the app should keep the screen awake and watch position.
+
+# Unit and integration testing
+
+Hey, how about some tests?
+
+Weow we didn't really have time. We implemented some tests for the api, but nothing on the app is unit tested.
+
+This should be done, so that deployement in production is always stable.

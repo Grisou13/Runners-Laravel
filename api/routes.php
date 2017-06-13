@@ -75,6 +75,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       $api->get("/runs/search",["as"=>"runs.search","uses"=>"RunController@search"]);
       $api->post("/runs/{run}/start",["as"=>"run.start","uses"=>"RunController@start"]);
       $api->post("/runs/{run}/stop",["as"=>"run.stop","uses"=>"RunController@stop"]);
+      $api->post("/runs/{run}/publish",["as"=>"run.publish","uses"=>"RunController@publish"]);
       $api->resource("runs","RunController");
 
       $api->resource("runs.waypoints","WaypointController");

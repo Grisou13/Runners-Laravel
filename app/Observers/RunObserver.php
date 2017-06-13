@@ -9,6 +9,7 @@
 namespace App\Observers;
 
 
+use App\Events\RunCreatingEvent;
 use App\Events\RunDeletedEvent;
 use App\Events\RunDeletingEvent;
 use App\Events\RunFinishedEvent;
@@ -43,6 +44,15 @@ class RunObserver
       'App\Events\RunDeletedEvent',
       [$this,'runWasDeleted']
     );
+    $events->listen(
+      'App\Events\RunCreatingEvent',
+      [$this,'runIsCreating']
+    );
+  }
+  public function runIsCreating(RunCreatingEvent $event)
+  {
+    $run = $event->run;
+    $run->drafting= true;
   }
   public function runIsDeleting(RunDeletingEvent $event)
   {
@@ -64,7 +74,6 @@ class RunObserver
   public function updateRunStatus($event)
   {
     $run = $event->run;
-    $status = $run->status;
     $this->adaptRunStatus($run);
     $run->save();
     // if($status == $run->fresh()->status)//if the status changed, we update it
@@ -90,6 +99,11 @@ class RunObserver
     //   $run->status = "finished";
     //   return $run;
     // }
+    //if the run is derafting, we don't really need to adpapt it's status
+    if($run->drafting){
+      $run->status="drafting";
+      return $run;
+    }
     if($run->status == "finished"){
       if($run->ended_at == null)
         $run->ended_at = Carbon::now();

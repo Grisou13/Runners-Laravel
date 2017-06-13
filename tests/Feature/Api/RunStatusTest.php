@@ -34,6 +34,7 @@ class RunStatusTest extends TestCase
       $sub->save();
 
       $res = $this->getJson("/api/runs/".$run->id,["x-access-token"=>$user->getAccessToken()]);
+      $this->postJson("/api/runs/$run->id/publish");
       $res->assertStatus(200)->assertJson([
           "status"=>"ready",
           "runners"=>[[
@@ -71,7 +72,8 @@ class RunStatusTest extends TestCase
       $sub3->car()->associate($car3);
       $sub3->save();
       $res = $this->getJson("/api/runs/?status=ready",["x-access-token"=>$user->getAccessToken()]);
-      
+      $res = $this->postJson("/api/runs/$run->id/publish");
+  
       //we should only get 1 item with this id
       $res->assertStatus(200)->assertJson([
         ["status"=>"ready",

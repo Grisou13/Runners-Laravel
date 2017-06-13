@@ -3,6 +3,7 @@
 namespace Lib\Models;
 use App\Concerns\StatusConcern;
 use App\Events\RunCreatedEvent;
+use App\Events\RunCreatingEvent;
 use App\Events\RunDeletedEvent;
 use App\Events\RunDeletingEvent;
 use App\Events\RunFinishedEvent;
@@ -21,7 +22,9 @@ class Run extends Model
 {
     use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern, TransformableModel;
 
-  
+    public $casts = [
+      "drafting"=>"boolean"
+    ];
   public $rules = [
       "name"=>"required_if:artist,''",
     ];
@@ -50,11 +53,19 @@ class Run extends Model
     protected $events = [
       'saving' => RunSavingEvent::class,
       "saved" => RunSavedEvent::class,
+      "creating"=>RunCreatingEvent::class,
       'created'=>RunCreatedEvent::class,
       'deleting' => RunDeletingEvent::class,
       'deleted' => RunDeletedEvent::class,
       'updated' => RunUpdatedEvent::class
     ];
+  
+  public function publish()
+  {
+    $this->drafting = false;
+    $this->save();
+  }
+  
     public function getTimeAttribute()
     {
       return $this->planned_at->format("h:i");

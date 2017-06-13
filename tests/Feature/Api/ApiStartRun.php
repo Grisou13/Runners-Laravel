@@ -17,7 +17,6 @@ class ApiStartRun extends TestCase
     
   public function testStartRunOk()
   {
-    $this->seed("RoleSeeder");
   
     $user = $this->createDefaultUser();
     $user->assignRole("admin");
