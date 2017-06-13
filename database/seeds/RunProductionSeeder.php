@@ -12,6 +12,8 @@ class RunProductionSeeder extends Seeder
     private $notes;
     private $artists;
     private $wayPoints;
+    private $cars;
+    private $drivers;
 
     /**
      * Run the database seeds.
@@ -152,30 +154,62 @@ class RunProductionSeeder extends Seeder
             Waypoint::create(["name" => $n]);
         });
 
+        $this->cars = Car::all();
+        $this->drivers = User::all();
+        echo count($this->cars) . " véhicules\n";
+        echo count($this->drivers) . " chauffeurs\n";
+
         // seeds creation ========================
         collect([
-            ["day" => new DateTime('2017-07-18'), "nbRuns" => random_int(30,50)],
-            ["day" => new DateTime('2017-07-19'), "nbRuns" => random_int(40,70)],
-            ["day" => new DateTime('2017-07-20'), "nbRuns" => random_int(50,90)],
-            ["day" => new DateTime('2017-07-21'), "nbRuns" => random_int(50,70)],
-            ["day" => new DateTime('2017-07-22'), "nbRuns" => random_int(50,70)],
-            ["day" => new DateTime('2017-07-23'), "nbRuns" => random_int(45,60)],
-            ["day" => new DateTime('2017-07-24'), "nbRuns" => random_int(10,30)]
+            ["day" => new DateTime('2017-07-18'), "nbRuns" => random_int(30, 50)],
+            ["day" => new DateTime('2017-07-19'), "nbRuns" => random_int(40, 70)],
+            ["day" => new DateTime('2017-07-20'), "nbRuns" => random_int(50, 90)],
+            ["day" => new DateTime('2017-07-21'), "nbRuns" => random_int(50, 70)],
+            ["day" => new DateTime('2017-07-22'), "nbRuns" => random_int(50, 70)],
+            ["day" => new DateTime('2017-07-23'), "nbRuns" => random_int(45, 60)],
+            ["day" => new DateTime('2017-07-24'), "nbRuns" => random_int(10, 30)]
         ])->each(function ($onedate)
         {
+            echo "Runs for " . $onedate["day"]->format("Y-m-d") . "\n";
             for ($r = 0; $r < $onedate["nbRuns"]; $r++)
             {
-                $onedate["day"]->setTime(rand(1, 23), rand(0, 11) * 5);
+                $simulatedCurrentDateTime = new DateTime();
+                $simulatedCurrentDateTime->setDate(2017, 7, 20);
+                $simulatedCurrentDateTime->setTime(14, 15, 0);
+
+                $onedate["day"]->setTime(rand(1, 23), rand(0, 11) * 5); // Pick a random time within the day
+                $plannedAt = $onedate["day"];
+
+                // Run status depends on $simulatedCurrentDateTime and $plannedAt:
+                // if the run planned start is in the past -> the run has started
+                // if the run start is more than 2 hours in the past -> the run has ended
+                // if the run start is more than 30 minutes in the future -> the run has not started
+                // inbetween, the run is in progress
+                // All runs ended or in progress have fully defined convoys
+                // runs in the future may have incomplete convoys
+                $diff = $simulatedCurrentDateTime->diff($plannedAt);
+                $minDiff = 24 * 60 * $diff->d + 60 * $diff->h + $diff->i;
+                if ($plannedAt < $simulatedCurrentDateTime)
+                {
+                    $startedAt = $plannedAt->format('Y-m-d H:i:s'); // run started as planned
+                    if ($minDiff > 120) // it has ended
+                        $endedAt = $plannedAt->add(new DateInterval('PT2H'))->format('Y-m-d H:i:s');
+                    else
+                        $endedAt = null;
+
+                } else
+                {
+                    $startedAt = null;
+                    $endedAt = null;
+                }
+
                 $artist = $this->artists[rand(0, count($this->artists) - 1)];
-                $note = (rand(1,100) > 80 ? $this->notes->random() : null);
+                $note = (rand(1, 100) > 80 ? $this->notes->random() : null);
                 $nbPax = rand(1, 9);
-                $Itinerary = array();
-                $nbwp = (rand(1,100) > 80) ? (rand(1,100) > 80) ? 4 : 3 : 2;
-                for ($wp = 0; $wp < $nbwp; $wp++) $Itinerary[] = rand(1, count($this->wayPoints));
                 $run = Run::create([
-                    'started_at' => $onedate["day"]->format('Y-m-d H:i:s'),
-                    'ended_at' => null,
-                    'planned_at' => $onedate["day"]->format('Y-m-d H:i:s'),
+                    'started_at' => $startedAt,
+                    'ended_at' => $endedAt,
+                    'planned_at' => $plannedAt->format('Y-m-d H:i:s'),
                     'nb_passenger' => $nbPax,
                     'name' => $artist,
                     'note' => $note,
@@ -183,7 +217,69 @@ class RunProductionSeeder extends Seeder
                     'updated_at' => date('Y-m-d h:m:s'),
                     'deleted_at' => null,
                 ]);
-                for ($i=0; $i < count($Itinerary); $i++) $run->waypoints()->attach($Itinerary[$i]);
+                $nbwp = (rand(1, 100) > 80) ? (rand(1, 100) > 80) ? 4 : 3 : 2;
+                for ($wp = 0; $wp < $nbwp; $wp++) $run->waypoints()->attach(rand(1, count($this->wayPoints)));
+
+                // Now convoys
+                if ($startedAt == null) // run in the future
+                {
+                    if ($minDiff < 15) // start in 15 minutes or less -> fully defined (ready)
+                    {
+                        $nbconvoys = (rand(1, 100) > 80) ? (rand(1, 100) > 80) ? 3 : 2 : 1;
+                        for ($i = 0; $i < $nbconvoys; $i++)
+                        {
+                            $car = $this->cars->random();
+                            $driver = $this->drivers->random();
+                            $sub = new Lib\Models\RunSubscription();
+                            $sub->run()->associate($run);
+                            $sub->user()->associate($driver);
+                            $sub->car()->associate($car);
+                            $sub->car_type()->associate($car->car_type_id);
+                            $sub->save();
+                        }
+                    } else
+                        if ($minDiff < 120) // start in 15 to 120 minutes -> cartype is defined but either car or driver or both or none is not defined
+                        {
+                            $sub = new Lib\Models\RunSubscription();
+                            $car = $this->cars->random();
+                            $sub->car_type()->associate($car->car_type_id);
+                            if (rand(1, 100) > 50)
+                            {
+                                $driver = $this->drivers->random();
+                                $sub->user()->associate($driver);
+                            }
+                            if (rand(1, 100) > 50)
+                            {
+                                $sub->car()->associate($car);
+                            }
+                            $sub->run()->associate($run);
+                            $sub->save();
+                        } else // more than 2 hours in the future -> some have a cartype defined
+                        {
+                            if (rand(1, 100) > 80)
+                            {
+                                $sub = new Lib\Models\RunSubscription();
+                                $car = $this->cars->random();
+                                $sub->car_type()->associate($car->car_type_id);
+                                $sub->run()->associate($run);
+                                $sub->save();
+                            }
+                        }
+                } else // run started: convoys must be defined
+                {
+                    $nbconvoys = (rand(1, 100) > 80) ? (rand(1, 100) > 80) ? 3 : 2 : 1;
+                    for ($i = 0; $i < $nbconvoys; $i++)
+                    {
+                        $car = $this->cars->random();
+                        $driver = $this->drivers->random();
+                        $sub = new Lib\Models\RunSubscription();
+                        $sub->run()->associate($run);
+                        $sub->user()->associate($driver);
+                        $sub->car()->associate($car);
+                        $sub->car_type()->associate($car->car_type_id);
+                        $sub->save();
+                    }
+                }
             }
         });
     }
