@@ -30,6 +30,7 @@ use Api\Responses\Transformers\RunTransformer;
 use Lib\Models\Waypoint;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class RunController extends BaseController
 {
@@ -72,98 +73,138 @@ class RunController extends BaseController
       }
       return $this->response()->collection($query->get(), new RunTransformer);
     }
+  
+  /**
+   * Allows searching runs by name, maybe more in the future
+   * @param SearchRequest $request
+   * @return mixed
+   */
     public function search(SearchRequest $request)
     {
       $query = $request->get("q","");
       return Run::where("name","like","%$query%")->get();
     }
+  
+  /**
+   * Display a basic representation of a run @see RunTransformer
+   * @param Request $request
+   * @param Run $run
+   * @return Run
+   */
     public function show(Request $request, Run $run)
     {
       return $run;
     }
-
+  
+  /**
+   * Update a run
+   * @param Request $request
+   * @param Run $run
+   * @return Run
+   */
     public function update(Request $request, Run $run)
     {
         $run->fill($request->all());
-        $subs = $this->prepareSubscriptionsFromRequest($request, $run);
-        
-        if($request->has("waypoints")) {
-          $run->waypoints()->sync([]);//remove all waypoints and reassign them
-          foreach($request->get("waypoints") as $point){
-            $run->waypoints()->attach(Waypoint::firstOrCreate(["name"=>$point]));
-          }
-
-        }
-
-        foreach($subs as $s){
-          $exists = $s->exists;
-          $s->save();
-        }
         $run->save();
+        $this->prepareSubscriptionsFromRequest($request, $run);
+        $this->prepareWaypointsFromRequest($request, $run);
+        
         // broadcast(new RunUpdatedEvent($run));
 
         return $run;
     }
-    protected function addSubsToRun(Request $request, Run $run)
+  
+  /**
+   * Attaches waypoints to a run
+   * @param Request $request
+   * @param Run $run
+   */
+    protected function prepareWaypointsFromRequest(Request $request, Run $run)
     {
-      //TODO implement this method, just to DRY up codebase
-    }
-    protected function prepareSubscriptionsFromRequest(Request $request, $run)
-    {
-      $subs = [];
-      if($request->has("subscriptions")) {
-        $t = collect($request->get("subscriptions", []));
-        $run->subscriptions()->whereNotIn("id",$t->pluck("id")->filter())->get()->each(function(RunSubscription $sub){
-          // if(!$t->contains("id",$sub->id))
-          $sub->forceDelete();
-        });//reset the subscriptions of a run
-    
-        foreach ($request->get("subscriptions", []) as $convoy) {
-          $userId = array_key_exists("user", $convoy) ? $convoy["user"] : null;
-          $carId = array_key_exists("car", $convoy) ? $convoy["car"] : null;
-          $carTypeId = array_key_exists("car_type", $convoy) ? $convoy["car_type"] : null;
-          $sub = array_key_exists("id", $convoy) ? RunSubscription::findOrFail($convoy["id"]) : new RunSubscription;
-          $sub->user()->associate($userId);
-          $sub->car()->associate($carId);
-          $sub->car_type()->associate($carTypeId);
-          if($sub->exists) {
-            $sub->save();
-            broadcast(new RunSubscriptionUpdatedEvent($sub));
-          }
-          else{
-            $sub->run()->associate($run);
-            $subs[] = $sub;
-          }
+      if($request->has("waypoints")) {
+        if($run->exists)//remove all waypoints and reassign them
+          $run->waypoints()->sync([]);
+        foreach($request->get("waypoints") as $point){
+          if(empty($point)) continue;
+          $run->waypoints()->attach(Waypoint::firstOrCreate(["name"=>$point]));
         }
       }
-      return $subs;
     }
+  /**
+   * Attaches subscriptions from request to a run
+   * This returns an array of new subscriptions. These should be saved in the future since the run might need to be completed
+   * @param Request $request
+   * @param $run
+   * @return Run $run
+   */
+    protected function prepareSubscriptionsFromRequest(Request $request, $run)
+    {
+
+      if($request->has("runners"))
+        $subscriptions = $request->get("runners",[]);
+      else
+        $subscriptions = $request->get("subscriptions",[]);
+      
+//      $t = collect($request->get("subscriptions", []));
+      //reset the subscriptions of a run
+      $run->subscriptions()->whereNotIn("id",collect($subscriptions)->pluck("id")->filter())->get()->each(function(RunSubscription $sub){
+        // if(!$t->contains("id",$sub->id))
+        $sub->forceDelete();
+      });
+  
+      foreach ($subscriptions as $convoy) {
+        $userId = array_key_exists("user", $convoy) ? $convoy["user"] : null;
+        $carId = array_key_exists("car", $convoy) ? $convoy["car"] : null;
+        $carTypeId = array_key_exists("car_type", $convoy) ? $convoy["car_type"] : null;
+        $sub = array_key_exists("id", $convoy) ? RunSubscription::findOrFail($convoy["id"]) : new RunSubscription;
+        $sub->user()->associate($userId);
+        $sub->car()->associate($carId);
+        $sub->car_type()->associate($carTypeId);
+        if($sub->exists) {
+          $sub->save();
+          broadcast(new RunSubscriptionUpdatedEvent($sub));
+        }
+        else{
+          $sub->run()->associate($run);
+          $sub->save();
+//          $subs[] = $sub;
+        }
+      }
+      return $run;
+    }
+  
+  /**
+   * Creates a new run, this run is considered as "drafting"
+   * @param CreateRunRequest $request
+   * @return Run
+   */
     public function store(CreateRunRequest $request)
     {
         $run = new Run;
-        $subs = $this->prepareSubscriptionsFromRequest($request, $run);
-        
         $run->fill($request->except(["_token","token"]));
         if($run->name == null)
           $run->name =  $request->get("title",$request->get("artist", null));
+        
         $run->save();
-        //save relationships
-        foreach($subs as $s){
-          $exists = $s->exists;
-          $s->save();
-        }
-        foreach($request->get("waypoints") as $point){
-          $run->waypoints()->attach(Waypoint::firstOrCreate(["name"=>$point]));//need to attach 1 by 1 to calculate order
-        }
+        $this->prepareSubscriptionsFromRequest($request, $run);
+        $this->prepareWaypointsFromRequest($request, $run);
+        
       return $run;
       //return $this->response->item($run, new RunTransformer);
-        //return $this->response()->created($content=$run);
+      //return $this->response()->created($content=$run);
     }
     public function publish(PublishRunRequest $request, Run $run)
     {
-      $subs = $this->prepareSubscriptionsFromRequest($request, $run);
       $run->fill($request->except(["_token","token"]));
-      $run->publish();
+      $this->prepareSubscriptionsFromRequest($request, $run);
+      $this->prepareWaypointsFromRequest($request, $run);
+      
+      if($run->runners()->where(function($query){
+        return $query->whereNotNull("car_id")->orWhereNotNull("car_type_id");
+        })->count() >= 1)
+        $run->publish();
+      else
+        throw new UnprocessableEntityHttpException("The run needs to have atleast one car type, or car to publish the run");
       return $run;
     }
     public function destroy(Run $run)
@@ -179,8 +220,6 @@ class RunController extends BaseController
       //check all subscriptions if they are good
         if(!$this->user()->hasPermissionTo("force run start") && $run->status != "ready")
           throw new UnauthorizedHttpException("Not every convoy has been assigned");
-        
-
 //        $seats = $run->subscriptions->map(function($sub){
 //          return $sub->car->nb_place;
 //        })->sum();

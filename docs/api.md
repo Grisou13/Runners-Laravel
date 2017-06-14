@@ -5,6 +5,16 @@ This view will list any route you may need, and the purpose of it.
 
 This doc will details more the behind the scenes.
 
+# How the api works in general
+
+The api uses a module called `dingo/api`. 
+This module adds a number of very usefull features to the standard Api declaration of Laravel
+
+Workflow:
+
+TODO create uml workflow registration
+
+
 # Authentication
 
 To authenticate with the api you may use 3 methods : 
@@ -15,10 +25,17 @@ To authenticate with the api you may use 3 methods :
  The access token comes from the `Lib\Models\User` model. This modal stores a special `accesstoken` field.
  If no token matches, the api throws a 403 Unauthorized.
  
+ The you need to change anything with auth on the api take a look in `api/ApiAuthProvider`.
+ __This is not a laravel service provider__
+ 
+ Workflow:
+ 
+ TODO create uml workflow for authentication
+ 
 ## Getting an access token
 
 The default access token, and used right now to debug is ```root```.
-This token will allow you to get anywhere in the api, as there is no permission system implemented yet!
+This token will allow you to get anywhere in the api because the user is an admin
 
 # Special URLS
 

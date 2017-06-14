@@ -3,14 +3,24 @@
 * User: Thomas.RICCI
 */
 /**
- * Injected automatically view ApiServiceProvider
+ * @see \Api\ApiServiceProvider
  * @var $api Dingo\Api\Routing\Router
  */
 
 
 $api->get("/","HomeController@home");
 $api->get("/ping","HomeController@ping");
-
+/**
+ * ----------------------------------
+ * | Auth
+ * ----------------------------------
+ * |
+ * | Auth is defined by routes here.
+ * |
+ * | This is beacause all endpoints
+ * | most of the api are protected
+ * |
+ */
 $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api){
     $api->get("/users/search",["as"=>"users.search","uses"=>"UserController@search"]);
   
@@ -39,18 +49,23 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
 
     //$api->resource("kiela", "KielaController");
     $api->resource("settings", "SettingController");
-
-    $api->get("/cars/search",["as"=>"cars.search","uses"=>"CarController@search"]);
-    $api->get("/cars/{car}/type",["as"=>"cars.type","uses"=>"CarController@type"]);
-    $api->get("/cars/{car}/comments",["as"=>"cars.comments.index","uses"=>"CarController@type"]);
-    $api->post("/cars/{car}/comments",["as"=>"cars.comments.store","uses"=>"CarController@type"]);
-    //$api->delete("/cars/{car}/comments",["as"=>"cars.type","uses"=>"CarController@type"]);
-    $api->get("/cars/{car}/comments/{comment}",["as"=>"cars.type","uses"=>"CarController@type"]);
-    $api->delete("/cars/{car}/comments/{comment}",["as"=>"cars.type","uses"=>"CarController@type"]);
-
-    $api->resource("cars",'CarController', ["except"=>["delete"]]);
-    $api->get("/vehicles/search",["as"=>"vehicles.search","uses"=>"CarController@search"]);
-    $api->resource("vehicles",'CarController', ["except"=>["delete"]]);
+  
+    $api->group(["namespace"=>"Cars"],function($api) {
+      /**
+       * @var $api Dingo\Api\Routing\Router
+       */
+      $api->get("/cars/search",["as"=>"cars.search","uses"=>"CarController@search"]);
+      $api->get("/vehicles/search",["as"=>"vehicles.search","uses"=>"CarController@search"]);
+  
+      $api->get("/cars/{car}/type",["as"=>"cars.type","uses"=>"CarController@type"]);
+      $api->get("/vehicles/{vehicle}/type",["as"=>"cars.type","uses"=>"CarController@type"]);
+  
+      $api->resource("cars.comments","CommentController",["except"=>["update"]]);
+      
+      $api->resource("cars",'CarController');
+      $api->resource("vehicles",'CarController');
+    });
+    
 
     $api->get("/car_types/search",["as"=>"car_types.search","uses"=>"CarTypeController@search"]);
     $api->get("/car_types/{car_type}/cars",["as"=>"car_types.cars","uses"=>"CarTypeController@carList"]);
@@ -73,28 +88,22 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
        * @var $api Dingo\Api\Routing\Router
        */
       $api->get("/runs/search",["as"=>"runs.search","uses"=>"RunController@search"]);
-      $api->post("/runs/{run}/start",["as"=>"run.start","uses"=>"RunController@start"]);
-      $api->post("/runs/{run}/stop",["as"=>"run.stop","uses"=>"RunController@stop"]);
-      $api->post("/runs/{run}/publish",["as"=>"run.publish","uses"=>"RunController@publish"]);
+      $api->post("/runs/{run}/publish",["as"=>"runs.publish","uses"=>"RunController@publish"]);
+      $api->post("/runs/{run}/start",["as"=>"runs.start","uses"=>"RunController@start"]);
+      $api->post("/runs/{run}/stop",["as"=>"runs.stop","uses"=>"RunController@stop"]);
       $api->resource("runs","RunController");
 
       $api->resource("runs.waypoints","WaypointController");
-      $api->post("/runs/{run}/subscriptions/{subscription}/start",["as"=>"run.sub.start","uses"=>"SubscriptionController@start"]);
-      $api->post("/runs/{run}/subscriptions/{subscription}/stop",["as"=>"run.sub.stop","uses"=>"SubscriptionController@stop"]);
-
+      $api->resource("runs.comments","CommentController");
+      //this route is used as a shorthand for drivers to directly target the subscription they are in
+      $api->post("/runs/{run}/subscriptions/{subscription}/start",["as"=>"runs.sub.start","uses"=>"SubscriptionController@start"]);
+      //this route is used as a shorthand for drivers to directly target the subscription they are in
+      $api->post("/runs/{run}/subscriptions/{subscription}/stop",["as"=>"runs.sub.stop","uses"=>"SubscriptionController@stop"]);
+      
       $api->resource("runs.subscriptions","SubscriptionController");
-      $api->post("/runs/{run}/runners/{runner}/start",["as"=>"run.runner.start","uses"=>"SubscriptionController@start"]);
-      $api->post("/runs/{run}/runners/{runner}/stop",["as"=>"run.runner.stop","uses"=>"SubscriptionController@stop"]);
+      $api->post("/runs/{run}/runners/{runner}/start",["as"=>"runs.runner.start","uses"=>"SubscriptionController@start"]);
+      $api->post("/runs/{run}/runners/{runner}/stop",["as"=>"runs.runner.stop","uses"=>"SubscriptionController@stop"]);
       $api->resource("runs.runners","SubscriptionController");
 
-      $api->post("/runs/{run}/start",["as"=>"run.start","uses"=>"RunController@start"]);
-      $api->post("/runs/{run}/stop",["as"=>"run.stop","uses"=>"RunController@stop"]);
-
-      //adding cars to run
-//      $api->post("/runs/{run}/cars/{car}/join","CarController@join");
-//      $api->delete("/runs/{run}/cars/{car}/unjoin","CarController@unjoin");//deletes a user from a car
-//      //adding a user to a run
-//      $api->post("/runs/{run}/users/{user}/join","UserController@join");
-//      $api->delete("/runs/{run}/users/{user}/unjoin","UserController@unjoin"); //deletes a car from a user
     });
 });

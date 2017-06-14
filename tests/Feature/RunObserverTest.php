@@ -15,7 +15,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class RunStatusTest extends TestCase
+class RunObserverTest extends TestCase
 {
     use DatabaseMigrations;
     public function testEventSavedIsFiredWhenSavingRun()

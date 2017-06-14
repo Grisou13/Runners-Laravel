@@ -32,6 +32,7 @@ class ApiStartRun extends TestCase
     $sub->car()->associate($car);
     $sub->user()->associate($user2);
     $sub->save();
+    $run->publish();
     $res = $this->postJson("/api/runs/{$run->id}/start",[],["x-access-token"=>$user->getAccessToken()]);
     $res->assertStatus(200);
     $res->assertJson([

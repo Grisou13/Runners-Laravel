@@ -11,6 +11,7 @@ namespace Api\Controllers\V1\Runs;
 
 use Api\Controllers\BaseController;
 use Dingo\Api\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 use Lib\Models\Comment;
 use Lib\Models\Run;
 
@@ -20,6 +21,10 @@ class CommentController extends BaseController
   {
     return $run->comments;
   }
+  public function show(Request $request, Comment $comment)
+  {
+    return $comment;
+  }
   public function store(Request $request, Run $run)
   {
     $comment = new Comment;
@@ -28,6 +33,11 @@ class CommentController extends BaseController
     $user = $this->user();
     $comment->user()->associate($user);
     $comment->save();
+    return $comment;
+  }
+  public function update(Request $request, Comment $comment)
+  {
+    $comment->update($request->except(["token","_token"]));
     return $comment;
   }
 }

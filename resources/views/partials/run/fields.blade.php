@@ -1,22 +1,23 @@
-{{--@if($errors)--}}
-    {{--{{ dump($errors) }}--}}
-    {{--{{ dump(old("waypoints")) }}--}}
-    {{--{{ dump(old("subscriptions")) }}--}}
-    {{--{{ dump($run) }}--}}
-    {{--{{ dump($run->subscriptions()->with(["user","car_type","car"])->get()) }}--}}
-{{--@endif--}}
-
-{{ Form::bsText("Artist ou nom du run","name",$run->name) }}
- {{ Form::bsText("PAX","nb_passenger",$run->nb_passenger) }}
- <script>
-     window.resource_cache = {!! collect([
+@if($errors)
+    {{ dump($errors) }}
+    {{ dump(old("waypoints")) }}
+    {{ dump(old("subscriptions")) }}
+@endif
+@push("scripts")
+<script>
+    window.resource_cache = {!! collect([
          "waypoints"=>$waypoints,
          "car_types"=>$car_types,
          "cars"=>$cars,
          "users"=>$users,
          "subscriptions"=> $run->exists ? $run->subscriptions()->with(["user","car_type","car"])->get() : []
      ]) !!}
- </script>
+</script>
+@endpush
+
+{{ Form::bsText("Artist ou nom du run","name",$run->name) }}
+{{ Form::bsText("PAX","nb_passenger",$run->nb_passenger) }}
+
  <div class="form-group required">
      <label for="planned_at" class="col-md-4 control-label">Planifé à</label>
      <div class="col-md-6">
@@ -56,7 +57,7 @@
  @endphp
 
 <div id="waypoint-selection" class="waypoints">
-    <div class="form-group required {{ $errors->has("waypoints") ? ' has-error' : '' }}">
+    <div class="form-group {{ !$run->drafting?"required":"" }} {{ $errors->has("waypoints") ? ' has-error' : '' }}">
         <div class="col-md-4">
             {{ Form::label("waypoint", "Itinéraire", array('class' => 'control-label col-md-12')) }}
             @if ($errors->has("waypoints"))
@@ -124,7 +125,12 @@
           @endif
         @endforeach
     @else
-        @foreach(old("waypoints",$run->waypoints) as $k => $point)
+        @php
+            $points = old("waypoints",$run->waypoints);
+            if(!count($points))
+                $points = [0=>null,1=>null];
+        @endphp
+        @foreach($points as $k => $point)
             @php
                 $id = str_random(20);
             @endphp
@@ -289,7 +295,7 @@ const suggestionConfig = {
 const typeaheadConfig = {
     hint: true,
     highlight: true,
-    minLength: 0
+    minLength: 1
 }
 
 $(".waypoint-typeahead").typeahead(typeaheadConfig,suggestionConfig);

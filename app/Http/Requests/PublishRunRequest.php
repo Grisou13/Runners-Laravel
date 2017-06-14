@@ -29,13 +29,14 @@ class PublishRunRequest extends FormRequest
     public function rules()
     {
         return [
-            "name"=>"required|min:1",
-            "nb_passenger"=>"required|numeric|max:255",
+            "name"=>"sometimes|min:1",
+            "nb_passenger"=>"sometimes|numeric|max:255",
 //            "note"=>"sometimes|min:1",
-            "planned_at"=>"required|date",
-            "waypoints"=>"required|min:2",
-            "waypoints.*"=>"required|min:1",
-            "subscriptions"=>"sometimes|required|min:1"
+            "planned_at"=>"sometimes|date",
+            "waypoints"=>"sometimes|min:2",
+            "waypoints.*"=>"sometimes|min:1",
+            "subscriptions"=>"sometimes|required|min:1",
+            "subscriptions.*.car_type"=>"sometimes|required"
             //"waypoints.*"=>Rule::in(Waypoint::all()->pluck("id")->toArray()),
         ];
     }

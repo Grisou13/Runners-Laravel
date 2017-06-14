@@ -2,16 +2,22 @@
   <div class="panel-heading {{ $run->status }}">{{$run->name}} ({{ \App\Helpers\Status::getStatusName("run",$run->status) }})</div>
   <div class="panel-body">
     @if($run->exists)
-      {!! Form::model($run,["route"=>["runs.update",$run],'class' => 'form-horizontal', 'method' => 'put']) !!}
+      @if($run->drafting)
+        {!! Form::model($run,["route"=>["runs.publish",$run],'class' => 'form-horizontal']) !!}
+      @else
+        {!! Form::model($run,["route"=>["runs.update",$run],'class' => 'form-horizontal', 'method' => 'put']) !!}
+      @endif
     @else
       {!! Form::model($run,["route"=>["runs.store"],'class' => 'form-horizontal']) !!}
     @endif
-    {!! Form::token() !!}
+{{--    {!! Form::token() !!}--}}
+
     @include("partials.run.fields",compact("run","waypoints","car_types"))
+
     <div class="form-group">
       <div class="col-md-10 col-md-offset-1 row">
         <div class="">
-          <input type="submit" class="btn btn-primary col-md-3" name="" value="{{ $run->exists ? "Sauvegarder" : "Crée un nouveau run" }}">
+          <input type="submit" class="btn btn-primary col-md-3" name="" value="{{ $run->exists ? $run->drafting ? "Publier" : "Sauvegarder" : "Crée un nouveau run" }}">
         </div>
         <div class="">
           <a href="{{ route("runs.index") }}" class="btn btn-warning col-md-2">Cancel</a>

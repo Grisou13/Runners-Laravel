@@ -6,7 +6,7 @@
  * Time: 13:44
  */
 
-namespace Api\Controllers\V1;
+namespace Api\Controllers\V1\Cars;
 
 use Api\Requests\SearchRequest;
 use App\Helpers\Status;
