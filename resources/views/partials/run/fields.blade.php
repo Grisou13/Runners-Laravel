@@ -1,8 +1,10 @@
-@if($errors)
-    {{ dump($errors) }}
-    {{ dump(old("waypoints")) }}
-    {{ dump(old("subscriptions")) }}
-@endif
+{{--@if($errors)--}}
+    {{--{{ dump($errors) }}--}}
+    {{--{{ dump(old("waypoints")) }}--}}
+    {{--{{ dump(old("subscriptions")) }}--}}
+    {{--{{ dump($run) }}--}}
+    {{--{{ dump($run->drafting) }}--}}
+{{--@endif--}}
 @push("scripts")
 <script>
     window.resource_cache = {!! collect([
@@ -57,14 +59,14 @@
  @endphp
 
 <div id="waypoint-selection" class="waypoints">
-    <div class="form-group {{ !$run->drafting?"required":"" }} {{ $errors->has("waypoints") ? ' has-error' : '' }}">
+    <div class="form-group {{ $run->exists?"":"required" }} {{ $errors->has("waypoints.*") ? 'has-error' : '' }}">
         <div class="col-md-4">
             {{ Form::label("waypoint", "Itinéraire", array('class' => 'control-label col-md-12')) }}
-            @if ($errors->has("waypoints"))
-                <span class="help-block">
-                    <strong>{{ $errors->first("waypoints") }}</strong>
-                </span>
-            @endif
+            {{--@if ($errors->has("waypoints.*"))--}}
+                {{--<span class="help-block">--}}
+                    {{--<strong>{{ $errors->first("waypoints.*") }}</strong>--}}
+                {{--</span>--}}
+            {{--@endif--}}
         </div>
     </div>
     @if(!$run->exists)
@@ -76,7 +78,7 @@
           @if($loop->first)
             <div id="waypoint-first">
                 {{--{!! Form::bsSelect("waypoints[]", $waypoints) !!}--}}
-                <div class="form-group{{ $errors->has("waypoints[$k]") ? ' has-error' : '' }}">
+                <div class="form-group{{ $errors->has("waypoints.$k") ? ' has-error' : '' }}">
                     <div class="col-md-6 col-md-push-4">
                         <div class="input-group">
 {{--                            {{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
@@ -96,7 +98,7 @@
             </div>
           @elseif($loop->last)
               <div id="waypoint-last">
-                  <div class="form-group{{ $errors->has("waypoints[$k]") ? ' has-error' : '' }}">
+                  <div class="form-group{{ $errors->has("waypoints.$k") ? ' has-error' : '' }}">
                       <div class="col-md-6 col-md-push-4">
                           <div class="input-group">
                               {{--{{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
@@ -107,7 +109,7 @@
                   </div>
               </div>
           @else
-              <div class="form-group button-remove {{ $errors->has("waypoints[$k]") ? 'has-error' : '' }}">
+              <div class="form-group button-remove {{ $errors->has("waypoints.$k") ? 'has-error' : '' }}">
                   <div class="col-md-5 col-md-push-4">
                       <div class="input-group">
 {{--                          {{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
@@ -136,7 +138,7 @@
             @endphp
             @if($loop->first)
                 <div id="waypoint-first">
-                    <div class="form-group{{ $errors->has("waypoint") ? ' has-error' : '' }}">
+                    <div class="form-group{{ $errors->has("waypoint.$k") ? ' has-error' : '' }}">
                         <div class="col-md-6 col-md-push-4">
                             <div class="input-group">
 {{--                                {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
@@ -156,7 +158,7 @@
                 </div>
             @elseif($loop->last)
                 <div id="waypoint-last">
-                    <div class="form-group{{ $errors->has("waypoints") ? ' has-error' : '' }}">
+                    <div class="form-group{{ $errors->has("waypoints.$k") ? ' has-error' : '' }}">
                         <div class="col-md-6 col-md-push-4">
                             <div class="input-group">
 {{--                                {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
@@ -167,7 +169,7 @@
                     </div>
                 </div>
             @else
-                <div class="form-group button-remove {{ $errors->has("waypoints") ? 'has-error' : '' }}">
+                <div class="form-group button-remove {{ $errors->has("waypoints.$k") ? 'has-error' : '' }}">
                     <div class="col-md-5 col-md-push-4">
                         <div class="input-group">
 {{--                            {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}

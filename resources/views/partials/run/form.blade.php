@@ -24,23 +24,25 @@
         </div>
         @if($run->exists)
         <div class="">
-          <button type="submit" id="delete" class="btn btn-danger col-md-3" >
+          <button type="button" id="delete" class="btn btn-danger col-md-3" >
             <span>Supprimer la course</span>
           </button>
         </div>
-        <div class="">
-          <button onclick="document.getElementById('form-action').submit()" type="submit" id="delete" class="btn btn-danger col-md-3" >
-            <span>
-            @if($run->status == "ready")
-              Démarrer la course
-            @elseif($run->status=="gone")
-              Terminer la course
-            @else
-              Forcer démarrage de la course
-            @endif
-            </span>
-          </button>
-        </div>
+        @if(!$run->drafting)
+          <div class="">
+            <button onclick="document.getElementById('form-action').submit()" type="submit" id="delete" class="btn btn-danger col-md-3" >
+              <span>
+              @if($run->status == "ready")
+                Démarrer la course
+              @elseif($run->status=="gone")
+                Terminer la course
+              @else
+                Forcer démarrage de la course
+              @endif
+              </span>
+            </button>
+          </div>
+          @endif
         @endif
       </div>
     </div>
@@ -50,16 +52,17 @@
             <input type="hidden" value="{{ csrf_token() }}" name="_token">
             {!! method_field("DELETE") !!}
           </form>
-
-          @if($run->status == "ready")
-            <form id="form-action" method="post" action="{{ route("runs.start",$run) }}"  class="pull-right">
-          @elseif($run->status=="gone")
-            <form id="form-action" method="post" action="{{ route("runs.stop",$run) }}"  class="pull-right">
-          @else
-            <form id="form-action" method="post" action="{{ route("runs.start",$run) }}"  class="pull-right">
+          @if(!$run->drafting)
+            @if($run->status == "ready")
+              <form id="form-action" method="post" action="{{ route("runs.start",$run) }}"  class="pull-right">
+            @elseif($run->status=="gone")
+              <form id="form-action" method="post" action="{{ route("runs.stop",$run) }}"  class="pull-right">
+            @else
+              <form id="form-action" method="post" action="{{ route("runs.start",$run) }}"  class="pull-right">
+            @endif
+                <input type="hidden" value="{{ csrf_token() }}" name="_token">
+              </form>
           @endif
-              <input type="hidden" value="{{ csrf_token() }}" name="_token">
-            </form>
       @endif
   </div>
 </div>
