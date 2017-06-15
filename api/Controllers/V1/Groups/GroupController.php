@@ -85,6 +85,13 @@ class GroupController extends BaseController
         return $group;
     }
 
+    /**
+     * Destroy the given group
+     * @param Request $request
+     * @param Group $group
+     * @return \Dingo\Api\Http\Response
+     * @throws \Exception
+     */
     public function destroy(Request $request, Group $group)
     {
         // in this case, we want to delete the user from the given group

@@ -19,33 +19,59 @@ use App\Http\Helpers;
 
 class UserController extends BaseController
 {
-  public function index(Request $request, Group $group)
-  {
-    return $group->users;
-  }
-  
-  public function show(Request $request,Group $group, User $user)
-  {
-    return $user;
-  }
-  public function store(Request $request, Group $group)
-  {
-    
-    $user = $this->user();
     /**
-     * @var User
+     * Get the users of a given group
+     * @param Request $request
+     * @param Group $group
+     * @return mixed
      */
-    $currentUser = $request->get("user",$user);
-    if(!$currentUser instanceof Model)
-      $currentUser = User::find($currentUser);
-    
-    $currentUser->group()->associate($group);
-    return $group;
-  }
-  public function destroy(Request $request, Group $group, User $user)
-  {
-    $user->group()->dissociate();
-    return $this->response()->accepted();
-  }
+    public function index(Request $request, Group $group)
+    {
+        return $group->users;
+    }
+
+    /**
+     * Return the user
+     * @param Request $request
+     * @param Group $group
+     * @param User $user
+     * @return User
+     */
+    public function show(Request $request,Group $group, User $user)
+    {
+        return $user;
+    }
+
+    /**
+     * Associate a user to a group
+     * and return the group
+     * @param Request $request
+     * @param Group $group
+     * @return Group
+     */
+    public function store(Request $request, Group $group)
+    {
+        $user = $this->user();
+
+        $currentUser = $request->get("user",$user);
+        if(!$currentUser instanceof Model)
+        $currentUser = User::find($currentUser);
+
+        $currentUser->group()->associate($group);
+        return $group;
+    }
+
+    /**
+     * Dissociate the given user from its group
+     * @param Request $request
+     * @param Group $group
+     * @param User $user
+     * @return \Dingo\Api\Http\Response
+     */
+    public function destroy(Request $request, Group $group, User $user)
+    {
+        $user->group()->dissociate();
+        return $this->response()->accepted();
+    }
   
 }
