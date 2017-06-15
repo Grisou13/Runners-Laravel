@@ -1,10 +1,4 @@
-{{--@if($errors)--}}
-    {{--{{ dump($errors) }}--}}
-    {{--{{ dump(old("waypoints")) }}--}}
-    {{--{{ dump(old("subscriptions")) }}--}}
-    {{--{{ dump($run) }}--}}
-    {{--{{ dump($run->drafting) }}--}}
-{{--@endif--}}
+
 @push("scripts")
 <script>
     window.resource_cache = {!! collect([
@@ -81,7 +75,6 @@
                 <div class="form-group{{ $errors->has("waypoints.$k") ? ' has-error' : '' }}">
                     <div class="col-md-6 col-md-push-4">
                         <div class="input-group">
-{{--                            {{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
                             <input name="waypoints[]" type="text" value="{{ old("waypoints.$k", "") }}" class="form-control waypoint-typeahead" id="{{ $id }}">
 
                             <div class="input-group-addon" data-input="#{{$id}}" ><span class="glyphicon glyphicon-triangle-bottom"></span></div>
@@ -112,7 +105,6 @@
               <div class="form-group button-remove {{ $errors->has("waypoints.$k") ? 'has-error' : '' }}">
                   <div class="col-md-5 col-md-push-4">
                       <div class="input-group">
-{{--                          {{ Form::text("waypoints[]",old("waypoints.$k", ""), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
                           <input name="waypoints[]" type="text" value="{{ old("waypoints.$k", "") }}" class="form-control waypoint-typeahead" id="{{ $id }}">
 
                           <div class="input-group-addon" data-input="#{{$id}}" ><span class="glyphicon glyphicon-triangle-bottom" ></span></div>
@@ -131,6 +123,9 @@
             $points = old("waypoints",$run->waypoints);
             if(!count($points))
                 $points = [0=>null,1=>null];
+            elseif(count($points)<=1)
+              $points = [0 => $run->waypoints()->first(), 1 => null];
+            
         @endphp
         @foreach($points as $k => $point)
             @php
@@ -141,9 +136,7 @@
                     <div class="form-group{{ $errors->has("waypoint.$k") ? ' has-error' : '' }}">
                         <div class="col-md-6 col-md-push-4">
                             <div class="input-group">
-{{--                                {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
                                 <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
-
                                 <div class="input-group-addon" data-input="#{{$id}}" ><span class="glyphicon glyphicon-triangle-bottom"></span></div>
                             </div>
                         </div>
@@ -161,7 +154,6 @@
                     <div class="form-group{{ $errors->has("waypoints.$k") ? ' has-error' : '' }}">
                         <div class="col-md-6 col-md-push-4">
                             <div class="input-group">
-{{--                                {{ Form::text("waypoints[]",old("waypoints.".is_object($point) ? $point->pivot->order : $k, is_object($point) ? $point->name : $point), ['class' => 'form-control waypoint-typeahead', "id"=>$id]) }}--}}
                                 <input name="waypoints[]" type="text" value="{{ old("waypoints.".$k, is_object($point) ? $point->name : $point) }}" class="form-control waypoint-typeahead" id="{{ $id }}">
                                 <div class="input-group-addon" data-input="#{{$id}}" ><span class="glyphicon glyphicon-triangle-bottom"></span></div>
                             </div>

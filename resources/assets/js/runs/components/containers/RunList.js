@@ -219,7 +219,7 @@ class RunList extends React.Component
 }
 
 
-const getVisibleRuns = (runs, filters) => {
+const getVisibleRuns = (runs, displayModeEnabled, filters) => {
     runs = _(runs).orderBy(function(r){
         return r.status
     }).orderBy(function(r){
@@ -234,13 +234,16 @@ const getVisibleRuns = (runs, filters) => {
     if(filters.time.end.length)
         runs = runs.filter(r => moment(r.begin_at).minutes() <= parseInt(filters.time.end.split(timeSplitter)[1]) && moment(r.begin_at).hours() <= parseInt(filters.time.end.split(timeSplitter)[0]))
 
-    if( filters.status.indexOf("finished") > -1)
-        runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
-    else
+    if( filters.status.indexOf("finished") === -1)
         runs = runs.filter(r => r.status != "finished")
-
-
-
+    if(filters.status.length)
+      runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
+    else
+      runs = runs.filter(r => r.status != "finished")
+    if(displayModeEnabled){
+        runs = runs.filter(r => r.status != "drafting")
+        runs = runs.filter(r => r.status != "finished")
+      }
     if(filters.name.length)
         runs = runs.filter(r => r.title.toLowerCase().startsWith(filters.name.toLowerCase()))
     if(filters.user.length)
@@ -259,6 +262,7 @@ const getVisibleRuns = (runs, filters) => {
         if(r.waypoints.filter(p => p.nickname.toLowerCase().startsWith(filters.waypoint_in.toLowerCase())).length)
           return r
       })
+
     return runs;
 }
 RunList.propTypes = {
@@ -267,9 +271,10 @@ RunList.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        runs: getVisibleRuns(state.runs.items, state.filters),
+        runs: getVisibleRuns(state.runs.items, state.display.enabled, state.filters),
         loaded: state.runs.loaded,
-        error: state.runs.error
+        error: state.runs.error,
+        displayModeEnabled: state.display.enabled
     }
 }
 

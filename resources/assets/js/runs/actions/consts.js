@@ -12,7 +12,7 @@ export const DELETE_RUN         =   "delete_run"
 export const UPDATE_RUN         =   "update_run"
 export const CREATING_RUN       =   "creating_run"
 export const EDIT_RUN           =   "edit_run"
-export const RESET_RUNS    =   "delete_all_runs"
+export const RESET_RUNS         =   "delete_all_runs"
 export const FETCHING_RUN_FAILED  = "fetching_run_failed"
 export const API_ERROR            = "api_error"
 export const STARTED_RUN          = "starteed_run"
@@ -48,6 +48,11 @@ export const ADDING_CAR_TYPE_TO_SUB=   "adding_car_type_to_sub"
 //for ui
 
 export const UI_LOADED              =   "ui_loaded"
+export const UI = {
+  ENABLE_DISPLAY_MODE:"ENABLE_DISPLAY_MODE",
+  DISABLE_DISPLAY_MODE:"DISABLE_DISPLAY_MODE",
+  TOGGLE_DISPLAY_MODE:"TOGGLE_DISPLAY_MODE"
+}
 //filters
 
 export const ADD_FILTER             =   "filter_add"

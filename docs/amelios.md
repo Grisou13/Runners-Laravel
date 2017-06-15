@@ -38,32 +38,32 @@ If it is done with the weird seeders, than that would be up to the developer to 
 There is nothing done for this right now. What needs to be done is a graph endpoint. It should allows for flexible querying on different models, count columns, etc..
 We were thinking something like
 /statstic/{model}?columns=[columns seperated by',']&count=[columns to count]
- 
+
 Or the best for this would just be GRAPHQL. But Eh, you can't have everything can you?
 
 But maybe you could just use the client and [reselect](https://github.com/reactjs/reselect) to create an intelligent selector for the data.
 
 # Statuses
- 
+
 Implement statuses in the database. This allows the user to be flexible with the names.
-It must also use a "weighting" system to determine which status should go before another ("raedy"<"gone", atleast it should be the case). 
+It must also use a "weighting" system to determine which status should go before another ("raedy"<"gone", atleast it should be the case).
 
 # Modals
- 
+
 As of right now, we created validation rules. But the UI doesn't have any validation. It would be nice to atleast indecate which fields are required with an asterix.
- 
+
 # Runs
- 
+
 The first thing that needs to be done is add multi stage creation for the run.
 The fact the app is built with react is a big step forward already.
 This means that when creating a run, the app should ask for a name, date, etc... then ask to add people.
 This allows the ui to display users that are going to be present, and are free at the declared time of the run.
 And when finishing give the user a recap page and tell them they can change later.
- 
+
 The second thing would be a fast edit option to add people, adn change dates directly from the list.
-This allows coordinators to be much faster in their job. 
+This allows coordinators to be much faster in their job.
 If they need to insert waypoints, or anything else much more complex than a simple update, they can still go to the basic UI.
- 
+
 # Location tracking
 
 This would be a very cool feature to have. It would allow the run list view to be much more dynamic and automatise alot of the stuff.
@@ -81,6 +81,48 @@ The tricky part comes in the app, where the app should keep the screen awake and
 
 Hey, how about some tests?
 
-Weow we didn't really have time. We implemented some tests for the api, but nothing on the app is unit tested.
+We didn't really have time. We implemented some tests for the api (mainly the run features), but nothing on the app.
 
 This should be done, so that deployement in production is always stable.
+
+# Api
+
+The api is mostly done, the only real thing that needs to be done is a reverse mapping between transformers and models.
+As of right now models are transformed to render a request, but not the other way around.
+
+These means that the api binds the model representation only when representing the models, but cannot interpret a request and create a model.
+
+Transformed
+```
+initial object model:
+{
+  name: "ASDASD",
+  planned_at:"yyyy-mm-dd"
+  ...
+}
+becomes
+{
+  title: "ASDASD",
+  begin_at:"yyyy-mm-dd"
+  ...
+}
+```
+
+But when inserting fields have to be the same as in object model. So inserting something like
+```
+{
+  title: "ASDASD",
+  begin_at:"yyyy-mm-dd"
+  ...
+}
+```
+This won't work,  because the the controller and validation won't know how to transform that to
+```
+{
+  name: "ASDASD",
+  planned_at:"yyyy-mm-dd"
+  ...
+}
+```
+
+Or the controller has to do it by hand, making your controllers really fat.

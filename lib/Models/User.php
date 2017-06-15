@@ -10,14 +10,18 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Concerns\StatusConcern;
 use App\Contracts\StatusableContract;
+use App\Contracts\ImageableContract;
+use App\Contracts\ApiAuthenticableContract;
+
 use App\Concerns\ImageConcern as HasImages;
+use App\Concerns\ApiAuthenticableConcern as HasApiToken;
 use Spatie\Permission\Traits\HasRoles;
 use Watson\Validating\ValidatingTrait;
 
-class User extends Authenticatable implements StatusableContract
+class User extends Authenticatable implements StatusableContract, ImageableContract, ApiAuthenticableContract
 {
 
-    use Notifiable,ValidatingTrait, StatusConcern, HasRoles, HasImages;
+    use Notifiable,ValidatingTrait, StatusConcern, HasRoles, HasImages,HasApiToken;
     protected $rules = [
         'email'   => 'required|unique:users,email',
         'name'    => 'required|min:1',
@@ -63,23 +67,8 @@ class User extends Authenticatable implements StatusableContract
     {
         return $this->hasManyThrough(Run::class,RunDriver::class);
     }
-    public static function getAccessTokenKey()
-    {
-      return "accesstoken";
-    }
-    public function getAccessToken()
-    {
-      return array_key_exists($this->getAccessTokenKey(),$this->attributes) ? $this->attributes[$this->getAccessTokenKey()]: false;
-    }
-    public function setAccesstokenAttribute($value)
-    {
-        $this->attributes[$this->getAccessTokenKey()]= $value ? $value : $this->generateToken();
-    }
-    public function generateToken()
-    {
-        return $this->accesstoken = bcrypt(Carbon::now()->toDateString() . $this->email . $this->name);
-    }
-    
+
+
 
     public function setNameAttribute($value)
     {

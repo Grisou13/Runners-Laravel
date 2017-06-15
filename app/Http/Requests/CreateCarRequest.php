@@ -29,6 +29,7 @@ class CreateCarRequest extends FormRequest
           'plate_number'  => 'nullable|sometimes|unique:cars,plate_number',
           'brand'         => 'nullable|sometimes',
           'model'         => 'nullable|sometimes',
+          'name'          => 'nullable|sometimes|min:1',
           'car_type'      => 'required',
           'nb_place'      => "nullable|numeric"
         ];

@@ -17,8 +17,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
 use Lib\Concerns\SortablePivotTrait;
 use App\Helpers\Status as StatusHelper;
+use App\Contracts\StatusableContract;
 
-class Run extends Model
+class Run extends Model implements StatusableContract
 {
     use SoftDeletes,ValidatingTrait,SortablePivotTrait, StatusConcern, TransformableModel;
 
@@ -33,7 +34,7 @@ class Run extends Model
           "name"=>"required|min:1",
           "nb_passenger"=>"sometimes|required|numeric|max:255",
         ];
-  
+
       return [ //rules when publishing, or published
         "name"=>"required",
         "nb_passenger"=>"required|numeric|max:255",
@@ -46,7 +47,7 @@ class Run extends Model
     }
 
 
-    
+
     protected $fillable = [
         "name","planned_at","nb_passenger","note"
     ];
@@ -79,13 +80,13 @@ class Run extends Model
       'deleted' => RunDeletedEvent::class,
       'updated' => RunUpdatedEvent::class
     ];
-  
+
   public function publish()
   {
     $this->drafting = false;
     $this->save();
   }
-  
+
     public function getTimeAttribute()
     {
       return $this->planned_at->format("h:i");
@@ -123,7 +124,7 @@ class Run extends Model
     {
         return $this->belongsToMany(Car::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_type_id"]);
     }
-  
+
   /**
    * Should be readonly
    * @return
@@ -132,7 +133,7 @@ class Run extends Model
     {
         return $this->belongsToMany(CarType::class,"run_drivers")->using(RunDriver::class)->withPivot(["user_id","car_id"]);
     }
-  
+
   /**
    * Defines the cars,car_types,and drivers that are part of a run
    * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -153,7 +154,7 @@ class Run extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-  
+
   /**
    * Retrieves all the runs planned today
    * @param Builder $query
@@ -189,7 +190,7 @@ class Run extends Model
       $d1 = new Carbon($d1);//d1 is the first day
     if(is_string($d2))
       $d2 = new Carbon($d2);//d2 is the last day
-    
+
     return $query->where( \DB::raw('DATE(planned_at)'), '>=', $d1->toDateString())->where(\DB::raw('DATE(planned_at)'), '<=', $d2->toDateString());// + the run must be actif
   }
 }

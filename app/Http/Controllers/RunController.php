@@ -34,7 +34,7 @@ class RunController extends Controller
     {
         return view("run.index");
     }
-  
+
   /**
    * Shows the big screen "display" mode of runs
    * @return View
@@ -65,7 +65,7 @@ class RunController extends Controller
     {
       return view("run.show",compact("run"));
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -76,7 +76,7 @@ class RunController extends Controller
     {
       return view("run.edit")->with("run",$run)->with("car_types",CarType::all())->with("waypoints", Waypoint::all())->with("cars",Car::all())->with("users",User::all());
     }
-    
+
   /**
    * Publishes a run through the api
    * @param PublishRunRequest $request
@@ -85,22 +85,23 @@ class RunController extends Controller
    */
     public function publish(PublishRunRequest $request, Run $run)
     {
-      try{
+      // dd("IASZGDHASDJ");
+      // try{
         $run_data = $request->except(["subscriptions","_token","_method"]);
         $subs = $this->prepareSubsForApi($request);
         $data = array_merge($run_data, ["subscriptions"=>$subs]);
-        $run = $this->api->be(Auth::user())->post("/runs/{$run->id}/publish",$data);
-        dd($run);
-      }
-      catch (ValidationException $e){
-//        dd("ASHGDAKSD");
-          return redirect()->route("runs.edit",compact("run"))->withErrors($e)->withInput($request->all());
-      }
+        $run = $this->api->be(Auth::user())->post("/api/runs/{$run->id}/publish",$data);
+
+//       }
+//       catch (ValidationException $e){
+// //        dd("ASHGDAKSD");
+//           return redirect()->route("runs.edit",compact("run"))->withErrors($e)->withInput($request->all());
+//       }
       // dd($run);
       //  return redirect()->route("runs.index");
       return redirect()->route("runs.edit",compact("run"));
     }
-  
+
   /**
    * Store a newly created resource in storage.
    *
@@ -121,7 +122,7 @@ class RunController extends Controller
         }
         return redirect()->route("runs.edit",compact("run"));
     }
-  
+
   /**
    * Update run through the api.
    *
@@ -153,7 +154,7 @@ class RunController extends Controller
       }
       return $subs;
     }
-  
+
   /**
    * Deletes a run through the api.
    *

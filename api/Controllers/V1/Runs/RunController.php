@@ -73,7 +73,7 @@ class RunController extends BaseController
       }
       return $this->response()->collection($query->get(), new RunTransformer);
     }
-  
+
   /**
    * Allows searching runs by name, maybe more in the future
    * @param SearchRequest $request
@@ -84,7 +84,7 @@ class RunController extends BaseController
       $query = $request->get("q","");
       return Run::where("name","like","%$query%")->get();
     }
-  
+
   /**
    * Display a basic representation of a run @see RunTransformer
    * @param Request $request
@@ -95,7 +95,7 @@ class RunController extends BaseController
     {
       return $run;
     }
-  
+
   /**
    * Update a run
    * @param Request $request
@@ -108,12 +108,12 @@ class RunController extends BaseController
         $run->save();
         $this->prepareSubscriptionsFromRequest($request, $run);
         $this->prepareWaypointsFromRequest($request, $run);
-        
+
         // broadcast(new RunUpdatedEvent($run));
 
         return $run;
     }
-  
+
   /**
    * Attaches waypoints to a run
    * @param Request $request
@@ -144,14 +144,14 @@ class RunController extends BaseController
         $subscriptions = $request->get("runners",[]);
       else
         $subscriptions = $request->get("subscriptions",[]);
-      
+
 //      $t = collect($request->get("subscriptions", []));
       //reset the subscriptions of a run
       $run->subscriptions()->whereNotIn("id",collect($subscriptions)->pluck("id")->filter())->get()->each(function(RunSubscription $sub){
         // if(!$t->contains("id",$sub->id))
         $sub->forceDelete();
       });
-  
+
       foreach ($subscriptions as $convoy) {
         $userId = array_key_exists("user", $convoy) ? $convoy["user"] : null;
         $carId = array_key_exists("car", $convoy) ? $convoy["car"] : null;
@@ -172,7 +172,7 @@ class RunController extends BaseController
       }
       return $run;
     }
-  
+
   /**
    * Creates a new run, this run is considered as "drafting"
    * @param CreateRunRequest $request
@@ -184,11 +184,11 @@ class RunController extends BaseController
         $run->fill($request->except(["_token","token"]));
         if($run->name == null)
           $run->name =  $request->get("title",$request->get("artist", null));
-        
+
         $run->save();
         $this->prepareSubscriptionsFromRequest($request, $run);
         $this->prepareWaypointsFromRequest($request, $run);
-        
+
       return $run;
       //return $this->response->item($run, new RunTransformer);
       //return $this->response()->created($content=$run);
@@ -198,10 +198,10 @@ class RunController extends BaseController
       $run->fill($request->except(["_token","token"]));
       $this->prepareSubscriptionsFromRequest($request, $run);
       $this->prepareWaypointsFromRequest($request, $run);
-      
+
       if($run->runners()->where(function($query){
         return $query->whereNotNull("car_id")->orWhereNotNull("car_type_id");
-        })->count() >= 1)
+      })->count() >= 1 && $run->waypoints()->count() >=2 )
         $run->publish();
       else
         throw new UnprocessableEntityHttpException("The run needs to have atleast one car type, or car to publish the run");
@@ -211,7 +211,7 @@ class RunController extends BaseController
     {
         $run->ended_at = Carbon::now();
         $run->save();
-        
+
         $run->delete();
         return $run;
     }
@@ -251,7 +251,7 @@ class RunController extends BaseController
         event(new RunSubscriptionDeletedEvent($sub));
       });
       \Log::debug("RUN STOPPED: status:".$run->status);
-  
+
       $run->save();
       \Log::debug("RUN STOPPED: status:".$run->status);
       event(new RunStoppedEvent($run));

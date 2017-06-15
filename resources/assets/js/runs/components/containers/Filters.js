@@ -38,7 +38,7 @@ class Filters extends React.Component{
                             <TimeFilter time={this.props.time} changeTimeEnd={(t)=>this.props.dispatch(updateTimeEnd(t))} changeTimeStart={(t)=>this.props.dispatch(updateTimeStart(t))} />
                         </div>
                         <div className="col-md-2 pull-right">
-                            <TodayFilter today={this.props.today} toggleToday={(flag) => this.props.dispatch(today(flag))} />
+                            {/*<TodayFilter today={this.props.today} toggleToday={(flag) => this.props.dispatch(today(flag))} /> */}
                         </div>
                     </div>
                     <div className="col-md-2">

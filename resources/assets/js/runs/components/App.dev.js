@@ -7,28 +7,21 @@ import RunList from './containers/RunList'
 import PropTypes from "prop-types";
 import {connect} from 'react-redux'
 import DevTools from './containers/DevTools'
+import {toggleDisplayMode} from './../actions/display'
 import ui from 'redux-ui';
-
-@ui({
-    key:"root-app",
-    state:{
-        displayModeEnabled : false
-    }
-})
+console.log(toggleDisplayMode)
 class App extends React.Component{
-    componentWillMount(){
-        if(window.location.pathname.includes("display"))
-            this.props.updateUI({displayModeEnabled: !ui.displayModeEnabled})
-    }
+
     render() {
-        let ui = this.props.ui;
-        let updateUI = this.props.updateUI;
-        let cl = ui.displayModeEnabled ? "glyphicon-remove" : "glyphicon-fullscreen"
+        const {
+          displayModeEnabled
+        } = this.props
+        let cl = displayModeEnabled ? "glyphicon-remove" : "glyphicon-fullscreen"
         return (
-            <div className={["app-container ",ui.displayModeEnabled ? "display" : ""].join(" ")}>
+            <div className={["app-container ",displayModeEnabled ? "display" : ""].join(" ")}>
                 {/*<div className={ui.displayModeEnabled ? "display" : null}>*/}
-                    {ui.displayModeEnabled ? (<div className="hidden"><Filters /></div>) : <Filters />}
-                    <button className="display-toggle" onClick={()=>updateUI({displayModeEnabled: !ui.displayModeEnabled})}>
+                    {displayModeEnabled ? (<div className="hidden"><Filters /></div>) : <Filters />}
+                    <button className="display-toggle" onClick={()=>this.props.toggleDisplayMode()}>
                         <span className={["glyphicon", cl].join(" ")}/>
                     </button>
                     <RunList />
@@ -39,16 +32,17 @@ class App extends React.Component{
     }
 }
 App.propTypes = {
-
+  displayModeEnabled: PropTypes.bool.isRequired,
+  toggleDisplayMode: PropTypes.func.isRequired
 }
 const mapStateToProps = (state) => {
     return {
-        // displayModeEnabled : state.displayMode
+        displayModeEnabled : state.display.enabled
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        // toggle: () => dispatch(toggleDisplayMode())
+        toggleDisplayMode: () => dispatch(toggleDisplayMode())
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App)

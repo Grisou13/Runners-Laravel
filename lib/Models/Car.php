@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
 use Znck\Eloquent\Traits\BelongsToThrough;
-
-class Car extends Model
+use App\Contracts\StatusableContract;
+class Car extends Model implements StatusableContract
 {
     use SoftDeletes, BelongsToThrough, StatusConcern, ValidatingTrait;
     public $rules = [

@@ -40,7 +40,7 @@ Route::resource('cars', 'CarController');
 $router->get("runs/display",["as"=>"runs.display","uses"=>"RunController@display"]);
 $router->get("runs/pdf",["as"=>"runs.pdf","uses"=>"RunController@pdf"]);
 //$router->get("runs/pdf/template","RunController@pdfTemplate");
-$router->post("runs/{run}/publish",   ["as"=>"runs.publish",        "uses"=>"RunController@publish"]);
+Route::post("runs/{run}/publish",   ["as"=>"runs.publish",        "uses"=>"RunController@publish"]);
 
 $router->post("runs/{run}/comments",  ["as"=>"runs.comments.store", "uses"=>"RunController@addComment"]);
 $router->post("runs/{run}/start",     ["as"=>"runs.start",          "uses"=>"RunController@start"]);

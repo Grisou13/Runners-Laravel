@@ -21,6 +21,8 @@ const StatusFilter = ({status,addFilter, removeFilter}) => {
                 <li><input type="checkbox" name="ready" checked={status.indexOf("ready") > -1 } onChange={handleChange} /><span>Prêt</span></li>
                 <li><input type="checkbox" name="gone" checked={status.indexOf("gone") > -1 } onChange={handleChange} /><span>Parti</span></li>
                 <li><input type="checkbox" name="finished" checked={status.indexOf("finished") > -1 } onChange={handleChange} /><span>Fini</span></li>
+                <li><input type="checkbox" name="drafting" checked={status.indexOf("drafting") > -1 } onChange={handleChange} /><span>Pas encore publié</span></li>
+
             </ul>
         </div>
     )
