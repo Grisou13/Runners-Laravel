@@ -30,11 +30,11 @@ class ScheduleController extends BaseController{
         $query->where("start_time",">=",$start)->where("end_time", "<",$end);
       }
       
-      return $this->response()->collection($query->get(), new ScheduleTransformer);
+      return $query->get();
     }
     public function show(Request $request, Schedule $schedule)
     {
-        return $this->response()->item($schedule, new ScheduleTransformer);
+        return $schedule;
     }
     public function update(UpdateScheduleRequest $request, Schedule $schedule)
     {
@@ -45,18 +45,18 @@ class ScheduleController extends BaseController{
             return $this->response()->item($schedule, new ScheduleTransformer);
         }
         $schedule->update($request->except(["token","_token"]));
-        return $this->response()->item($schedule, new ScheduleTransformer);
+        return $schedule;
     }
     public function store(CreateScheduleRequest $request)
     {
         $data = $request->except(["_token","token"]);
         $group = Group::find($request->get("group"));
         $schedule = $group->schedules()->create($data);
-        return $this->response()->item($schedule, new ScheduleTransformer);
+        return $schedule;
     }
     public function destroy(Request $request, Schedule $schedule)
     {
         $schedule->delete();
-        return $this->response->accepted();
+        return $schedule;
     }
 }

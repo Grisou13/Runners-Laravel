@@ -28,9 +28,6 @@ To authenticate with the api you may use 3 methods :
  The you need to change anything with auth on the api take a look in `api/ApiAuthProvider`.
  __This is not a laravel service provider__
  
- Workflow:
- 
- TODO create uml workflow for authentication
  
 ## Getting an access token
 
@@ -39,8 +36,6 @@ This token will allow you to get anywhere in the api because the user is an admi
 
 # Special URLS
 
-## groups
-The update method on a group must contain a parameter ```ùser=ID```. It represents a user id.
 
 # Request Examples
 Get the list of users
@@ -72,3 +67,122 @@ If you want to check out a transformer for a model, it will be in `api/Responses
 If you created a Transformer and need to register it. Do it in the `api/ApiServiceProvider` under `registerModelBindings`.
 
 To create a transformer, you can inspire yourself from existing models. And if that doesn't suffice, visit [the transformer docs](http://fractal.thephpleague.com/transformers/)
+
+
+# Creating a new ressource
+
+Here's a small tutorial on how to create a new ressource, a new model interaction with the api.
+
+## Create your model
+
+You need to create your model and table first. Now do that
+ 
+ ```
+ php artisan make:model Profile --migration
+ ```
+ 
+ Now complete the migration file created `create_profile_table`
+ 
+ And run `php artisan db_reset --production`
+ 
+ To stay coherant with model logic, you should move your model RIGHT NOW from `app/Profile` to `lib/Models/Profile`
+ 
+ For more details on why models are in `lib/`, [please check out the docs](models.md)
+ 
+## Create your controller
+
+First of lets create the file `api/Controllers/V1/ProfileController`
+
+```
+<?php
+
+namespace Api\Controllers\V1;
+
+use Api\Controllers\BaseController;
+use Lib\Models\Profile;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+
+class ProfileController extends BaseController
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function index()
+    {
+        return Profile::all();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+       return Setting::create($request->except(["token","_token"]));
+    }
+  
+  /**
+   * Display the specified resource.
+   *
+   * @param Profile $profile
+   * @return \Illuminate\Http\Response|Profile
+   */
+    public function show(Profile $profile)
+    {
+        return $profile;
+    }
+  
+  
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  \Illuminate\Http\Request $request
+   * @param Profile $profile
+   * @return \Illuminate\Http\Response|Setting
+   */
+    public function update(Request $request, Profile $profile)
+    {
+        $profile->update($request->except(["token","_token"]));
+        return $settings;
+    }
+  
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param Profile $profile
+   * @return \Illuminate\Http\Response
+   */
+    public function destroy(Profile $profile)
+    {
+      $profile->delete();
+    }
+}
+```
+
+That's it, you now have the basics of a working controller.
+
+## Register your controller in your routes
+
+Now that the controller is done, you still can't access it because it isn't registered in any routes.
+
+Let's fix that shall we.
+
+open up `api/routes.php`
+
+and add
+```
+...
+$api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api){
+    ....
+    $api->resource("profile","ProfileController");
+    ....
+
+```
+
+And that's it, now ou can access it through `/api/profile`.
+
