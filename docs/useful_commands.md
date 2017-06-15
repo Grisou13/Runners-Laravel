@@ -1,15 +1,14 @@
 # Workflow
 
-Here are a couple of commands we use all the time
+Here are a couple of commands that you might need to know.
 
 ## Reset database
 
 If you already have data and need to rerun seeders
 `php artisan db:reset`
-
-Make sur you check
-`php artisan help db:reset`
-For more help
+And if you want to use the production seeds, use `php artisan db:reset --production`.
+Use `php artisan help db:reset`
+For more help.
 
 ## Interact with the app on docker
 

@@ -50,13 +50,12 @@ If you are running docker on windows or mac, you will probably be running docker
 This means cloning the project in ~/
 
 ## With Vagrant - Homestead
-With homestead all you need is to add your site to your Homestead.yaml.
-For more information please check [the official documentation for homestead](https://laravel.com/docs/5.4/homestead#configuring-homestead)
-
-After configuring, please add
+You first need to download [a vagrant homestead box](https://laravel.com/docs/5.4/homestead).
+Then configure your _Homestead.yaml_ by adding your working directory in the _folder_ field.
+At the end of the same file, add in the _"sites:"_ directive.
 `schedule: true`
-To your sites config. [FYI](https://laravel.com/docs/5.4/homestead#configuring-cron-schedules)
-
+[Here's an example](https://laravel.com/docs/5.4/homestead#configuring-cron-schedules)
+TO VERIFY
 ## With a LAMP
 
 Edit the .env file to suit your need. You need to provide at least a setted database.
