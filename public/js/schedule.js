@@ -31,7 +31,9 @@ function _getDates(startDate, stopDate) {
     }
     return dateArray;
 }
-
+/*
+* !!! THIS METHOD DOES SYNCHRONOUS CALLS
+ */
 function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
     // refer to https://kangax.github.io/compat-table/es6/#webkit for compatibility
@@ -43,7 +45,7 @@ function ajaxRequest(method, url, data, callback) {
           "x-access-token":window.Laravel.token
         },
         data: data,
-        async: false, //yeah I know
+        async: false, //no ragrets
         success: callback ? callback : function(response){
                 returnedData = response;
             }
@@ -92,13 +94,17 @@ function updateCell(cellID){
     }
 }
 
+/*
+* Schedules of a day
+ */
 function createTable(schedule, groups, day, gridID){
     var grid = document.createElement("table");
     grid.style.width  = "80%";
     grid.setAttribute("border", "1");
 
-    // a little help here
+    // you can find a little help about the table structure here
     // http://stackoverflow.com/questions/14643617/create-table-using-javascript
+
     var theader = document.createElement("thead");
     var tbody = document.createElement("tbody");
     // table header
@@ -107,7 +113,7 @@ function createTable(schedule, groups, day, gridID){
     th.style.width = "25%";
     th.innerHTML = "Groupes";
     headerTR.appendChild(th);
-
+    // display the hour at the head of the table
     schedule.forEach(function(hour){
         var th = document.createElement("th");
         th.innerHTML = hour;
@@ -116,10 +122,11 @@ function createTable(schedule, groups, day, gridID){
         headerTR.appendChild(th);
     });
     theader.appendChild(headerTR);
-    var bgColor;
 
-    // listener vars
+    var bgColor;
+    // listener variable
     var isdown = false;
+    // keep all cells modified
     var modified = [];
     var lin = 0;
 
@@ -187,7 +194,6 @@ function createTable(schedule, groups, day, gridID){
                 // TODO loading animation only works with Firefox
                 console.log("before update");
                 loadingDiv.style.display = "block"; // activate animation
-
                 modified.map(function(cellID){
                     updateCell(cellID); // update the state of each selected div
                 });
@@ -197,7 +203,6 @@ function createTable(schedule, groups, day, gridID){
                 modified = [];
                 isdown = false;
             });
-
             bodyTR.appendChild(td);
         });
         tbody.appendChild(bodyTR);
@@ -208,7 +213,10 @@ function createTable(schedule, groups, day, gridID){
 
     return grid
 }
-
+/*
+* Iterate though each day of the schedule
+* Create the table that correspond to each day to display the schedules
+ */
 function createGrid(schedule, days, groups){
     var container = document.getElementsByClassName('schedule-container')[0];
     let i=1;
@@ -225,7 +233,9 @@ function createGrid(schedule, days, groups){
         i++;
     });
 }
-
+/**
+ * Get all available groups
+ */
 function getAllGroups(){
     var url = window.Laravel.basePath + "/api/groups?token=root&include=schedules";
     return ajaxRequest("get", url, "", null);
@@ -248,7 +258,6 @@ function getAllDays(){
 
 var days = getAllDays();
 
-// The schedule format is hard-coded yep.
 //TODO generate format with/within the web api
 schedule = ["00:00","00:30", "01:00","01:30",
             "02:00","02:30", "03:00","03:30",
@@ -270,4 +279,4 @@ var groups = getAllGroups();
 createGrid(schedule, days, groups);
 
 // TODO visual division of hours and day&night
-// TODO verify that forms input end_time > start_time and start_time < end_time
+// TODO verify that forms input end_time > start_time

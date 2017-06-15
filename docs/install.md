@@ -67,14 +67,7 @@ And simply run. It may take a little few minutes to install.
 3. `npm i -g gulp`  _if you have a persmission error, use `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share` and re-run de command_
 4. `npm i`  
 
-
-
-
-
-
-
 # Post install operations
-
 ## Database set-up
 Now that the app is installed you will need to execute the following commands:
 
@@ -93,7 +86,6 @@ If you don't want to use the production data, remove the argument and use the co
 If you are using **docker**, run the commands above prefixed with `docker-compose run --rm app {command}`
 
 ## Install laravel echo
-
 ### Prerequisites
 
 - Redis [for more info on how to install redis]((https://redis.io/download)), (or use [this link](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04) if you use ubuntu)

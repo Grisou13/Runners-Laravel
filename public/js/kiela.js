@@ -54,6 +54,9 @@ function display(entries, container){
         }
     }
 
+    /*
+    * Display the users present in the group in the given container
+    */
     function displayUsersPerGroup(groupID, rootContainer){
         return window.api.get("/groups/"+groupID, {params:{"include":"users"}})
             .then(function(res){

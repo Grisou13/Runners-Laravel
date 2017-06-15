@@ -21,12 +21,12 @@
         <div id="container-{{$group->id}}" class="panel panel-default col-md-2" style="background-color:#{{$group->color}};">
             <div class="panel-heading" style="background-color:#{{$group->color}}; opacity:0.3px !important;" >
                 {{$group->name}}
+                {{-- display group div --}}
                 @unless(count($group->users))
                     <img class="delIcon" src="{{asset("images/icons/trash.png")}}" onclick="deleteGroup({{$group->id}})" />
                 @endunless
             </div>
             <!-- display the users in the group -->
-            {{----}}
             @foreach($group->users as $user)
                 <div id="{{$user->id}}" class="panel-body">
                     {{$user->firstname}}  {{$user->lastname}}
@@ -38,7 +38,6 @@
     </div>
 
     <div class="row">
-
         <!--  Display the list for users wihtout group -->
         <div id="container-null" class="panel panel-default col-md-2">
             <div class="panel-heading">Sans groupe</div>

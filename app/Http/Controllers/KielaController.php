@@ -6,11 +6,17 @@ use Illuminate\Http\Request;
 
 class KielaController extends Controller
 {
-  public function __construct(){
-    $this->middleware("auth");
-  }
+    public function __construct(){
+        $this->middleware("auth");
+    }
+
+    /**
+     * Simply display the view
+     * All the content and the logic is made in the JS
+     * todo maybe sort the schedule with the backend for speed optimisations & error prevention
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(){
-        // we get all the "kiélas" in JS
         return view("kiela.index");
     }
     public function create(){

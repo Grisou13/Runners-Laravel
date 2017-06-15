@@ -59,7 +59,7 @@
 @push("scripts")
 <script>
     $(function () {
-
+        // change on web api the start_time date (for schedule)
         $('#start_time').datetimepicker({
             viewMode: 'days',
             format: 'YYYY-MM-DD'
@@ -68,7 +68,8 @@
             let data = {"value": moment(e.date).format("YYYY-MM-DD")};
             ajaxRequest("PATCH", url, data, console.log);
             location.reload();
-        })
+        });
+        // and same with end_date
         $('#end_time').datetimepicker({
             useCurrent: false,
             viewMode: 'days',
@@ -78,12 +79,11 @@
             let data = {"value": moment(e.date).format("YYYY-MM-DD")};
             ajaxRequest("PATCH", url, data, console.log);
             location.reload();
-        })
+        });
     });
+
     let start_time_input = document.getElementById("start_time");
     let end_time_input = document.getElementById("end_date");
-
-
 </script>
 @endpush
 

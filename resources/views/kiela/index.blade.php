@@ -13,8 +13,4 @@
 @section("content")
     <div class="kiela" id="kiela">
     </div>
-    <!--
-    <div class="slider">
-    </div>
-    -->
 @endsection
