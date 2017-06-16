@@ -82,6 +82,7 @@ elixir((mix) => {
     mix .copy("./node_modules/typeahead.js/dist/typeahead.bundle.min.js","public/js/typeahead.js")
     mix.copy('resources/assets/fonts/**/*', 'public/fonts/');
     mix .webpack("resources/assets/js/runs/app.js","public/js/runs.js")
+    mix .webpack("resources/assets/js/api.js","public/js/api.js")
     mix.browserSync({
         proxy: parseINIString(fs.readFileSync("./.env",{encoding:"UTF8"}))["APP_URL"],
         socket: {

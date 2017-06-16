@@ -33,6 +33,10 @@ class CreateCarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cars');
+      Schema::disableForeignKeyConstraints();
+  
+      Schema::dropIfExists('cars');
+      Schema::enableForeignKeyConstraints();
+  
     }
 }

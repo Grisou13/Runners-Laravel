@@ -14,12 +14,26 @@ schemes:
 basePath: /api
 produces:
   - application/json
+securityDefinitions:
+ AccessToken:
+  description: |
+   For accessing the API a valid Access token must be passed in all the queries in
+   the 'Authorization' header.
+
+   The following syntax must be used in the 'Authorization' header :
+
+       xxxxxx.yyyyyyy.zzzzzz
+  type: apiKey
+  name: X-ACCESS-TOKEN
+  in: header
 paths:
   /users:
     post:
       summary: Create a new user
       tags:
         - Users
+      security:
+        - AccessToken: []
       parameters:
         - name: user
           required: true
@@ -41,6 +55,8 @@ paths:
         List all users
       tags:
         - Users
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of users
@@ -58,6 +74,8 @@ paths:
       description: "The authenticated user (Identified by the token)"
       tags:
         - Users
+      security:
+        - AccessToken: []
       responses:
         200:
           description: A user
@@ -73,6 +91,8 @@ paths:
       description: "The authenticated user (Identified by the token)"
       tags:
         - Users
+      security:
+        - AccessToken: []
       responses:
         200:
           description: A user
@@ -89,6 +109,8 @@ paths:
         List all runs
       tags:
         - Runs
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of runs
@@ -111,6 +133,8 @@ paths:
             in: query
         tags:
           - Waypoints
+        security:
+          - AccessToken: []
         responses:
           200:
             description: An array of runs
@@ -128,6 +152,8 @@ paths:
       description: Create new run. This run won't be published
       tags:
         - Runs
+      security:
+        - AccessToken: []
       parameters:
         - name: run
           required: true
@@ -180,6 +206,8 @@ paths:
           description: "Filters all the runs that are finished /runs?finished=true"
       tags:
         - Runs
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of runs
@@ -196,6 +224,8 @@ paths:
       summary: Update a run
       tags:
         - Runs
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           in: path
@@ -220,6 +250,8 @@ paths:
       summary: Delete a run
       tags:
         - Runs
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -246,6 +278,8 @@ paths:
           type: number
       tags:
         - Runs
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of runs
@@ -263,6 +297,8 @@ paths:
       tags:
         - Waypoints
         - Runs
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -333,6 +369,8 @@ paths:
       description: A run must explicitly call this endpoint if it wants to be published.
       tags:
         - Runs
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           in: path
@@ -366,6 +404,8 @@ paths:
           type: number
       tags:
         - Runs
+      security:
+        - AccessToken: []
       responses:
         200:
           description: Run object with the start_at filled
@@ -390,6 +430,8 @@ paths:
           type: number
       tags:
         - Runs
+      security:
+        - AccessToken: []
       responses:
         200:
           description: Run object with the start_at filled
@@ -418,6 +460,8 @@ paths:
             $ref: "#/definitions/Runners"
       tags:
         - Runs
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of runs
@@ -450,7 +494,9 @@ paths:
            - free
            - taken
       tags:
-       - Runs
+        - Runs
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of vehicles
@@ -467,6 +513,8 @@ paths:
       summary: Delete a car
       tags:
         - Vehicles
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -485,6 +533,8 @@ paths:
       summary: Update a car
       tags:
         - Vehicles
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -509,6 +559,8 @@ paths:
       summary: Retrieve a specific car
       tags:
         - Vehicles
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -534,6 +586,8 @@ paths:
             in: query
         tags:
           - Waypoints
+        security:
+          - AccessToken: []
         responses:
           200:
             description: An array of cars
@@ -551,6 +605,8 @@ paths:
       description:  Create a car. You can easily create a car with only a car_type, if needed.
       tags:
         - Vehicles
+      security:
+        - AccessToken: []
       parameters:
         - name: car
           required: true
@@ -587,6 +643,8 @@ paths:
           type: string
       tags:
         - Vehicles
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of vehicles
@@ -620,6 +678,8 @@ paths:
           type: string
       tags:
         - Vehicles
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of vehicles
@@ -648,6 +708,8 @@ paths:
         Lists available status for a model
       tags:
        - Status
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of status of status
@@ -667,6 +729,8 @@ paths:
         This method is use in actual runners mobile application but you should remove it and use /vehicles instead
       tags:
        - Status
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of status of vehicles
@@ -683,6 +747,8 @@ paths:
       summary: Delete a group
       tags:
         - Groups
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -701,6 +767,8 @@ paths:
       summary: Update a group
       tags:
         - Groups
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -721,11 +789,12 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /groups:
-
     post:
       summary: Create a new group
       tags:
         - Groups
+      security:
+        - AccessToken: []
       parameters:
         - name: group
           in: body
@@ -746,6 +815,8 @@ paths:
       description: Return all the groups
       tags:
         - Groups
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of groups
@@ -774,6 +845,8 @@ paths:
             $ref: '#/definitions/Group'
       tags:
         - Groups
+      security:
+        - AccessToken: []
       responses:
         200:
           description: The modified group
@@ -790,6 +863,8 @@ paths:
       summary: Get a schedule
       tags:
         - Schedule
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -804,11 +879,12 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
     delete:
       summary: Destroy a schedule
       tags:
         - Schedule
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -827,6 +903,8 @@ paths:
       summary: Create a new schedule
       tags:
         - Schedule
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -851,6 +929,8 @@ paths:
       summary: Create a new schedule
       tags:
         - Schedule
+      security:
+        - AccessToken: []
       parameters:
         - name: schedule
           in: body
@@ -871,6 +951,8 @@ paths:
       description: Allows you to get the schedule of everybody
       tags:
         - Schedule
+      security:
+        - AccessToken: []
       parameters:
         - name: between
           in: query
@@ -899,6 +981,8 @@ paths:
           in: query
       tags:
         - Waypoints
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of waypoints
@@ -915,6 +999,8 @@ paths:
       summary: Create a new waypoint
       tags:
         - Waypoints
+      security:
+        - AccessToken: []
       parameters:
         - name: waypoint
           in: body
@@ -934,6 +1020,8 @@ paths:
       summary: Returns all the waypoints
       tags:
         - Waypoints
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of waypoints
@@ -950,6 +1038,8 @@ paths:
       summary: Get a waypoint
       tags:
         - Waypoints
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -969,6 +1059,8 @@ paths:
       summary: Destroy a waypoint
       tags:
         - Schedule
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -987,6 +1079,8 @@ paths:
       summary: Create a new waypoint
       tags:
         - Schedule
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -1010,7 +1104,9 @@ paths:
     post:
       summary: Create a new waypoint
       tags:
-        - Waypoints
+        - Settings
+      security:
+        - AccessToken: []
       parameters:
         - name: waypoint
           in: body
@@ -1029,7 +1125,9 @@ paths:
     get:
       summary: Returns all the waypoints
       tags:
-        - Waypoints
+        - Settings
+      security:
+        - AccessToken: []
       responses:
         200:
           description: An array of waypoints
@@ -1046,6 +1144,8 @@ paths:
       summary: Get a setting
       tags:
         - Settings
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -1064,6 +1164,8 @@ paths:
       summary: Destroy a setting
       tags:
         - Settings
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -1082,6 +1184,8 @@ paths:
       summary: Create a new setting
       tags:
         - Settings
+      security:
+        - AccessToken: []
       parameters:
         - name: id
           required: true
@@ -1341,3 +1445,8 @@ definitions:
         type: string
       ui_message:
         type: string
+  Token:
+    type: object
+    properties:
+     token:
+      type: string

@@ -37,6 +37,9 @@ class CreateRunsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('runs');
+      Schema::disableForeignKeyConstraints();
+      Schema::dropIfExists('runs');
+      Schema::enableForeignKeyConstraints();
+  
     }
 }

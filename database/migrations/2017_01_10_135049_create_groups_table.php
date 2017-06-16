@@ -17,7 +17,7 @@ class CreateGroupsTable extends Migration
             $table->increments('id');
             $table->string("color");
             $table->string("name")->nullable();
-            $table->boolean('active');
+            $table->boolean('active')->nullable()->comment("DEPRECEATED");
             $table->timestamps();
             
         });
@@ -34,10 +34,11 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
+      Schema::table("users",function(Blueprint $table){
+        $table->dropForeign(["group_id"]);
+        $table->dropColumn("group_id");
+      });
         Schema::dropIfExists('groups');
-        Schema::table("users",function(Blueprint $table){
-            $table->dropForeign(["group_id"]);
-            $table->dropColumn("group_id");
-        });
+        
     }
 }

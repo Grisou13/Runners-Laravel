@@ -6,7 +6,8 @@ The only fields required to create the run, are:
 - name
 - nb_place
 
-This is really basic, and allows coordinators to be swift and create on the fly runs
+This is really basic, and allows coordinators to be swift and create runs on the fly.
+The runs create when created by POST /runs are __always drafting__.
 
 Then to publish the run you need to call POST /runs/{runId}/publish
 You can pass fields to finish the run.
@@ -27,3 +28,4 @@ Here's why:
 
 The entry file is `/assets/js/runs/app.js`
 
+The file is compiled to `/public/js/runs.js`

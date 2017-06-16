@@ -30,7 +30,7 @@ return [
     "missing_car"=>"Il manque une voiture",
     "needs_filling"=>"Il faut encore remplir les imformations pour l'utilisateur, la voiture, ou le type de voiture",
     "gone"=>"Le run est parti",
-    "error"=>"Quelque chose c'est vraiment mal passé",
+    "error"=>"Il y a un problème grave avec le convoi",
     "finished"=>"Ce convoi est terminé"
   ],
   "car"=>[
@@ -38,6 +38,6 @@ return [
     "taken"=>"Utilisé",
     "gone"=>"Parti",
     "free"=>"Disponible",
-    "problem"=>"La voiture n'est pas en &eacute;tat de fonctionnement"
+    "problem"=>"La voiture n'est pas en état de fonctionnement"
   ]
 ];

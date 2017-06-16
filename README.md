@@ -23,13 +23,6 @@ To access the api, please visit the url ```/api```. This page will display infor
 
 The brief documentation of the api, for now is available in the file [api.md](/api.md)
 
-# Using the app with docker
-
-If you choose to use docker, you can interact with the app using the following command
-
-`docker-compose run --rm app /bin/bash`
-
-After that, you should have access to artisan.
 
 # Laravel-echo
 

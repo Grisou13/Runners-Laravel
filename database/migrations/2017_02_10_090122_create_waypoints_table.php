@@ -15,9 +15,9 @@ class CreateWaypointsTable extends Migration
     {
         Schema::create("waypoints",function(Blueprint $table){
             $table->increments("id");
-            $table->longText("geo")->nullable();
-            $table->longText("latlng")->nullable();
-            $table->string("name");
+            $table->longText("geo")->nullable()->comment("Google geocoder result.");
+            $table->longText("latlng")->nullable()->comment("latitude and longitude of waypoint. Stored as json {lat:....,lng:...}");
+            $table->string("name")->comment("nickname for the waypoint. Defined by the user");
           $table->timestamps();
         });
       Schema::create("run_waypoint",function(Blueprint $table){

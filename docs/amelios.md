@@ -130,3 +130,9 @@ This won't work,  because the the controller and validation won't know how to tr
 ```
 
 Or the controller has to do it by hand, making your controllers really fat.
+
+
+# Restructuring
+
+The codebase right now needs to be tidied up aloooot. The first thing would be moving observers, and events into Lib\Models.
+Then move some App\Http\Requests that are for both the api and the app to Lib\Http\Requests

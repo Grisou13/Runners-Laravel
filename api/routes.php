@@ -10,6 +10,7 @@
 
 $api->get("/","HomeController@home");
 $api->get("/ping","HomeController@ping");
+$api->get("/spec.yaml","HomeController@spec");
 /**
  * ----------------------------------
  * | Auth

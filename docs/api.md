@@ -12,7 +12,7 @@ This module adds a number of very usefull features to the standard Api declarati
 
 Workflow:
 
-TODO create uml workflow registration
+![uml/api_workflow.png](uml/api_workflow.png)
 
 # Internal requests
 
@@ -44,9 +44,6 @@ To authenticate with the api you may use 3 methods :
 
 The default access token, and used right now to debug is ```root```.
 This token will allow you to get anywhere in the api because the user is an admin
-
-# Special URLS
-
 
 # Request Examples
 Get the list of users
@@ -196,4 +193,3 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
 ```
 
 And that's it, now ou can access it through `/api/profile`.
-
