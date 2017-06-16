@@ -71,7 +71,8 @@ class UserController extends BaseController
     public function destroy(Request $request, Group $group, User $user)
     {
         $user->group()->dissociate();
-        return $this->response()->accepted();
+        $this->response()->accepted();
+        return $user;
     }
-  
+
 }
