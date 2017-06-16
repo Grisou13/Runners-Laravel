@@ -11,7 +11,7 @@ In this folder you will find most of the info you need.
 - [Models and observers](models.md)
 - [A basic usage of the seeds](seeds.md)
 - [Status handling and avaiable statuses](status.md)
-- [Permissions](permmissions.md)
+- [Permissions](permissions.md)
 - [The API routes](routes.md)
 - [How to create a run](runs.md)
 - [What should be done in the app in the future](amelios.md)
