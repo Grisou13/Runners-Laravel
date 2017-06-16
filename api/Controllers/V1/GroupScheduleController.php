@@ -41,11 +41,11 @@ class GroupScheduleController extends BaseController{
         $schedule = $group->schedules()->create($data);
 
         return $this->response()->item($schedule, new ScheduleTransformer);
-        
+
     }
     public function destroy(Request $request, Schedule $schedule)
     {
         $schedule->delete();
-        return $this->response->accepted();
+        return $schedule;
     }
 }
