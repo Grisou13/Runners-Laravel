@@ -62,12 +62,12 @@ Edit the .env file to suit your need. You need to provide at least a setted data
 
 And simply run. It may take a little few minutes to install.
 ```
-`composer install`
-`php artisan key:generate`  
-`npm i -g gulp`  #if you have a persmission error, use `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share` and re-run de command
-`npm i`  
+composer install
+php artisan key:generate
+npm i -g gulp
+npm i 
 ```
-
+_note : if you have an error with gulp, use use `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share` and re-run de command_
 # Post install operations
 ## Database set-up
 Now that the app is installed you will need to execute the following commands:
