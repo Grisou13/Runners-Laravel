@@ -13,8 +13,15 @@ use League\Fractal\TransformerAbstract;
 
 class ScheduleTransformer extends TransformerAbstract
 {
+  public $availableIncludes = [
+    "group"
+  ];
   public function transform(Schedule $schedule)
   {
     return array_merge($schedule->toArray(),[]);
+  }
+  public function includeGroup(Schedule $schedule)
+  {
+    return $this->item($schedule->group, new GroupTransformer());
   }
 }

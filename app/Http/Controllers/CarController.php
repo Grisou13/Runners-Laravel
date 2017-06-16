@@ -4,6 +4,7 @@
 */
 namespace App\Http\Controllers;
 
+use Auth;
 use Lib\Models\Comment;
 use App\Http\Requests\CreateCommentRequest;
 use Lib\Models\User;
@@ -54,15 +55,16 @@ class CarController extends Controller
      */
     public function store(CreateCarRequest $request){
         //$request->flash();
-        $input = $request->except(["_token"]);
+        $data = $request->except(["_token"]);
 
-        $car = new Car;
-        $car->car_type()->associate($request->get("type"));
-        $car->fill($request->all());
-        $car->save();
+//        $car = new Car;
+//        $car->car_type()->associate($request->get("type"));
+//        $car->fill($data);
+//        $car->save();
+        $car = $this->api->be(Auth::user())->post("/cars",$data);
 
         // redirect
-        return redirect()->route("cars.index")->with("message","Car created successfully");
+        return redirect()->route("cars.index")->with("message","$car->name créée, et prêt a partir!");
     }
 
     /**

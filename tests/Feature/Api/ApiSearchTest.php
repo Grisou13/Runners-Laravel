@@ -30,6 +30,7 @@ class ApiSearchTest extends TestCase
       $cars = factory(Car::class,3)->create();
       $name = $cars[0]->name;
       $res = $this->getJson("/api/cars/search?q=".urlencode($name),["x-access-token"=>$user->getAccessToken()]);
+//      $res->dump();
       $res->assertStatus(200)->assertJson([
         [
           "name"=>$cars[0]->name

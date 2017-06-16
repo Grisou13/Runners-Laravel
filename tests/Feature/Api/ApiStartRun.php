@@ -17,7 +17,6 @@ class ApiStartRun extends TestCase
     
   public function testStartRunOk()
   {
-    $this->seed("RoleSeeder");
   
     $user = $this->createDefaultUser();
     $user->assignRole("admin");
@@ -33,6 +32,7 @@ class ApiStartRun extends TestCase
     $sub->car()->associate($car);
     $sub->user()->associate($user2);
     $sub->save();
+    $run->publish();
     $res = $this->postJson("/api/runs/{$run->id}/start",[],["x-access-token"=>$user->getAccessToken()]);
     $res->assertStatus(200);
     $res->assertJson([

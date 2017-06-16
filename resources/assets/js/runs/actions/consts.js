@@ -12,11 +12,11 @@ export const DELETE_RUN         =   "delete_run"
 export const UPDATE_RUN         =   "update_run"
 export const CREATING_RUN       =   "creating_run"
 export const EDIT_RUN           =   "edit_run"
-export const RESET_RUNS    =   "delete_all_runs"
+export const RESET_RUNS         =   "delete_all_runs"
 export const FETCHING_RUN_FAILED  = "fetching_run_failed"
 export const API_ERROR            = "api_error"
 export const STARTED_RUN          = "starteed_run"
-
+export const RUN_PRINTED          = "run_printed"
 
 export const SUBSCRIPTION_CREATED   =   "sub_created"
 export const SUBSCRIPTION_UPDATED   =   "sub_updated"
@@ -48,6 +48,11 @@ export const ADDING_CAR_TYPE_TO_SUB=   "adding_car_type_to_sub"
 //for ui
 
 export const UI_LOADED              =   "ui_loaded"
+export const UI = {
+  ENABLE_DISPLAY_MODE:"ENABLE_DISPLAY_MODE",
+  DISABLE_DISPLAY_MODE:"DISABLE_DISPLAY_MODE",
+  TOGGLE_DISPLAY_MODE:"TOGGLE_DISPLAY_MODE"
+}
 //filters
 
 export const ADD_FILTER             =   "filter_add"
@@ -71,11 +76,7 @@ export const FILTER_WAYPOINT_IN     =   "filter_waypoint_in"
 export const FILTER_USING_CAR       =   "filter_using_car"
 export const FILTER_USING_USER      =   "filter_using_user"
 
-/*display mode*/
-
-export const TOGGLE_DISPLAY_MODE    =   "toggle_display_mode"
-export const SET_DISPLAY_MODE       =   "set_display_mode"
-export const RESET_DISPLAY_MODE     =   "reset_display_mode"
+export const FILTER_TODAY           =   "filter_today"
 
 export const UPDATE_FILTER_TIME_START   =   "UPDATE_FILTER_TIME_START"
 export const UPDATE_FILTER_TIME_END     =   "UPDATE_FILTER_TIME_END"

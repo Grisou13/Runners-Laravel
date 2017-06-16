@@ -83,8 +83,11 @@ class UserObserver
   public function userCreated(UserCreatedEvent $event)
   {
     $user = $event->user;
+    \Log::info("Adding default profile image to user [$user->id]");
     $file = new File(public_path("images/profile/default_profile.bmp"));
     $user->addProfileImage($file);
+    $user->assignRole("runner");
+
   }
   public function userCreating(UserCreatingEvent $event)
   {

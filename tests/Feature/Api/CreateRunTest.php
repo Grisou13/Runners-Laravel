@@ -31,24 +31,29 @@ class CreateRunTest extends TestCase
     $user = $this->createDefaultUser();
     $date = Carbon::now();
     $waypoints = factory(Waypoint::class,2)->create();
-    $res = $this->json("POST","/api/runs",["name"=>"Test run","nb_passenger"=>3,"planned_at"=>$date->toDateString(),"waypoints"=>$waypoints->pluck("name")], ["x-access-token"=>$user->getAccessToken()]);
+    $run =factory(Run::class)->make()->toArray();
+    $res = $this->json("POST","/api/runs",array_merge($run,["waypoints"=>$waypoints->pluck("name")]), ["x-access-token"=>$user->getAccessToken()]);
+      
     $res->assertStatus(200)->assertJsonFragment([
-      "title"=>"Test run",
-      "nb_passenger"=>3
+      "title"=>$run["name"],
+      "nb_passenger"=>$run["nb_passenger"]
     ]);
-    $run = Run::find(1);
-    $this->assertEquals($run->name,"Test run");
-    $this->assertEquals($run->nb_passenger,3);
+    $model = Run::find(1);
+    $this->assertEquals($model->name,$run["name"]);
+    $this->assertEquals($model->nb_passenger,$run["nb_passenger"]);
   
     
   }
 
   /**
    * This run should fail
+   * @todo Redo this test with publishing the run
    * @test
+   * @skip
    */
   public function createRunWithouWaypoints()
   {
+    $this->markTestSkipped('must be revisited.');
     $this->createDefaultUser();
     $date = Carbon::now();
     $res = $this->json("POST","/api/runs",["name"=>"Test run","planned_at"=>$date], ["x-access-token"=>"root"]);

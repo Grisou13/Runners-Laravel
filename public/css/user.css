@@ -1,0 +1,8 @@
+.form-user{
+  position: relative;
+}
+.delete-user{
+  position: relative;
+  bottom: 52px;
+  right: 105%;
+}

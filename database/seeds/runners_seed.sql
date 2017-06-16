@@ -1,3 +1,4 @@
+SET NAMES 'utf8';
 -- Runners
 INSERT INTO groups (color, name, active) VALUES ('ff9933','A',1),('ffff00','B',1),('ff0000','C',1),('00ffff','D',1),('a6a6a6','E',1),('00ff00','F',1),('ff99ff','G',1),('0033cc','H',1);
 -- Coordinators

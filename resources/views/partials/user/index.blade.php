@@ -6,8 +6,8 @@ User: Joel.DE-SOUSA
       <tr>
           <td>Prénom</td>
           <td>Nom</td>
+          <td>Email</td>
           <td>Numéro de téléphone</td>
-          <td>Status</td>
       </tr>
   </thead>
   <tbody>

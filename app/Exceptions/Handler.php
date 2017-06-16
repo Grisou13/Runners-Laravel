@@ -44,6 +44,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+      if ($exception instanceof \Illuminate\Session\TokenMismatchException){
+        //redirect to a form. Here is an example of how I handle mine
+          return redirect($request->fullUrl())->with('error', 'Oops! Seems you didn\'t submit form for a longtime. Please try again.');
+      }
+      //recovered from https://github.com/dwightwatson/validating docs
+      if ($exception instanceof \Watson\Validating\ValidationException) {
+          return redirect()->back()->withErrors($exception->getErrors())->withInput($request->except(["_token","token","password"]));
+      }
+      if ($exception instanceof \Dingo\Api\Exception\ValidationHttpException) {
+        return redirect()->back()->withErrors($exception->getErrors())->withInput($request->except(["_token","token","password"]));
+      }
         return parent::render($request, $exception);
     }
 
@@ -59,13 +70,7 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson()) {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
-        //recovered from https://github.com/dwightwatson/validating docs
-        if ($exception instanceof \Watson\Validating\ValidationException) {
-            return redirect()->back()->withErrors($exception)->withInput();
-        }
-        if ($exception instanceof \Dingo\Api\Exception\ValidationHttpException) {
-          return redirect()->back()->withErrors($exception)->withInput();
-        }
+
         return redirect()->guest('login');
     }
 }

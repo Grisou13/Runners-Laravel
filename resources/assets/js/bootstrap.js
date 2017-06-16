@@ -1,6 +1,6 @@
 
 window._ = require('lodash');
-
+window.moment = require("moment");
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -42,7 +42,7 @@ import Echo from "laravel-echo"
 
 var echo = new Echo({
     broadcaster: 'socket.io',
-    host: "runners" /*window.location.hostname*/ + ':6001'
+    host: window.location.hostname + ':6001'
 });
 echo.registerAxiosRequestInterceptor()
 window.LaravelEcho = echo

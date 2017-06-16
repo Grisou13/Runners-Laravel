@@ -3,6 +3,8 @@ import {UPDATE_FILTER_TIME_START} from "./consts";
 import {UPDATE_FILTER_TIME_END, FILTER_USING_USER, FILTER_WAYPOINT_IN} from "./consts";
 import {FILTER_NAME} from "./consts";
 import {FILTER_USING_CAR} from "./consts";
+import {RESET_FILTERS} from "./consts";
+import {FILTER_TODAY} from "./consts";
 
 export const filter = (filter_name, value) => {
     return {
@@ -60,3 +62,11 @@ export const updateWaypointIn = (pointName) => {
     payload: pointName
   }
 }
+export const today = (flag) => ({
+    type: FILTER_TODAY,
+    payload: flag
+})
+
+export const resetFilters = () => ({
+    type: RESET_FILTERS
+})

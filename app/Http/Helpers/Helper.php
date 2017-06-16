@@ -8,6 +8,13 @@
 namespace App\Http\Helpers;
 
 class Helper{
+
+    /**
+     * This function is used to get the alphabet (characters)
+     * @param $start ex: 'A'
+     * @param $end ex: 'ZZ'
+     * @return array ex: ['A','B','C',...'ZZ']
+     */
     public static function mkRange($start,$end){
         $count = Helper::strToInt($end) - Helper::strToInt($start);
         $r = array();
@@ -24,11 +31,21 @@ class Helper{
         return $dec;
     }
 
+    /**
+     * Get a random color
+     * The available colors are in the config (config/group.php)
+     * @return string color
+     */
     public static function getRandomGroupColor(){
         $c = \Config::get("group.colors");
         return $c[mt_rand(0, count($c) -1)];
     }
 
+    /**
+     * Assign a color to the given based on its ID
+     * @param string $groupId
+     * @return string color
+     */
     public static function assignGroupColor($groupId){
         $c = \Config::get("group.colors");
 
@@ -39,7 +56,7 @@ class Helper{
         }else{ // but what append if we have 20 groups for only 10 colors ?
             $timesBigger = intval($groupId / $nbColor);
             return $c[
-                $groupdId - ($nbColor * $timesBigger)
+                $groupId - ($nbColor * $timesBigger)
             ];
         }
         return false;

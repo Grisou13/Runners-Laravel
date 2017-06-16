@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Lib\Models\Run;
+use App\Jobs\CheckRunsJob;
 
 class CheckRunsBeforePlanned extends Command
 {
@@ -39,9 +40,6 @@ class CheckRunsBeforePlanned extends Command
      */
     public function handle()
     {
-        $runs = Run::where("planned_at","<",Carbon::now("+15min"))->notOfStatus(["finished","gone"])->get();
-        $runs->each(function(Run $r){
-          $r->touch();//resave the runs, this will trigger every needed observer
-        });
+      dispatch(new CheckRunsJob());
     }
 }

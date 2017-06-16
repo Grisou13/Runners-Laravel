@@ -31,21 +31,7 @@ class CreateRunRequest extends FormRequest
         return [
             "name"=>"required|min:1",
             "nb_passenger"=>"required|numeric|max:255",
-//            "note"=>"sometimes|min:1",
-            "planned_at"=>"required|date",
-            "waypoints"=>"required|min:2",
-            "waypoints.*"=>"required|min:1",
-            "subscriptions"=>"sometimes|required|min:1"
-            //"waypoints.*"=>Rule::in(Waypoint::all()->pluck("id")->toArray()),
+//            "waypoints"=>"required|min:2",
         ];
-    }
-    public function messages()
-    {
-      return [
-        "waypoints.in"=>"Could not find waypoints ".collect($this->get("waypoints")),
-//        "car_types.in"=>"Could not find car types ".collect($this->get("convoy.*.car_types")),
-//        "cars.in"=>"Could not find cars ".collect($this->get("convoys.*.cars")),
-//        "runners.in"=>"Could not find drivers ".collect($this->get("convoys.*.user"))
-      ];
     }
 }

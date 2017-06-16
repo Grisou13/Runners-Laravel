@@ -46,7 +46,7 @@ trait StatusConcern{
     {
       return $query->whereIn('status', $this->prepareStatusForQuery($type));
     }
-  
+
   /**
    * @param $query Builder
    * @param $type array|string

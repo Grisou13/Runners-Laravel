@@ -34,7 +34,7 @@ const Subscription = ({id, user=null,car=null,vehicule_category=null}) => {
                  <span className="">{car ? car.name: (vehicule_category ? vehicule_category.type: " ")}</span>
              </div>
              <div className="col-md-6 col-xs-6 user">
-                 <span className="">{user ? user.name: " "}</span>
+                 <span className="">{user ? (user.name ? user.name : user.firstname+user.lastname ): " "}</span>
              </div>
          </div>
 
@@ -42,7 +42,9 @@ const Subscription = ({id, user=null,car=null,vehicule_category=null}) => {
 }
 Subscription.propTypes = {
     user: PropTypes.shape({
-        name:PropTypes.string.isRequired
+        firstname:PropTypes.string.isRequired,
+        lastname:PropTypes.string.isRequired,
+        name:PropTypes.string
     }),
     car: PropTypes.shape({
         name:PropTypes.string.isRequired

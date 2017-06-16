@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRunRequest;
 use App\Http\Requests\CreateCommentRequest;
+use App\Http\Requests\PublishRunRequest;
 use App\Http\Requests\RunPdfRequest;
 use Auth;
-use Dompdf\Options;
 use Lib\Models\RunSubscription;
 use PDF;
 use Dingo\Api\Exception\ValidationHttpException;
@@ -20,12 +20,11 @@ use Illuminate\Http\Request;
 use Lib\Models\User;
 use Lib\Models\Waypoint;
 use Lib\Models\Comment;
-use Dompdf\Dompdf;
 class RunController extends Controller
 {
-  public function __construct(){
-    $this->middleware("auth",["except"=>"display"]);
-  }
+    public function __construct(){
+      $this->middleware("auth",["except"=>"display"]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -33,9 +32,13 @@ class RunController extends Controller
      */
     public function index()
     {
-        //$runs = Run::withCount("waypoints")->with(["waypoints","users","subscriptions","subscriptions.car","subscriptions.user","subscriptions.car_type"])->orderBy("status")->orderBy("planned_at")->actif()->get();
         return view("run.index");
     }
+
+  /**
+   * Shows the big screen "display" mode of runs
+   * @return View
+   */
     public function display()
     {
       if(!Auth::check())
@@ -51,46 +54,16 @@ class RunController extends Controller
     {
         return view("run.create")->with("run",new Run)->with("car_types",CarType::all())->with("waypoints", Waypoint::all())->with("cars",Car::all())->with("users",User::all());
     }
-
     /**
-     * Store a newly created resource in storage.
+     * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Run $run
+     * @return View
+     * @internal param int $id
      */
-    public function store(CreateRunRequest $request)
-    {
-        $run_data = $request->except(["subscriptions","_token"]);
-        try{
-          $subs = [];
-          foreach($request->get("subscriptions",[]) as $sub){
-            $data = [
-              "car_type"=>$sub["car_type"] == "-1" ? null : $sub["car_type"],
-              "car"=>$sub["car"] == "-1" ? null : $sub["car"],
-              "user"=>$sub["user"] == "-1" ? null : $sub["user"],
-            ];
-            $subs[] = $data;
-          }
-          $data = array_merge($run_data,["subscriptions"=>$subs]);
-          //dd($data);
-          $run = $this->api->be(Auth::user())->post("/runs",$data);
-        }
-        catch (ValidationException $e){
-          redirect()->back()->withErrors($e)->withInput($request->all());
-        }
-        return redirect()->route("runs.index");
-    }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param Run $run
-   * @return View
-   * @internal param int $id
-   */
     public function show(Run $run)
     {
-        return view("run.show",compact("run"));
+      return view("run.show",compact("run"));
     }
 
     /**
@@ -104,61 +77,109 @@ class RunController extends Controller
       return view("run.edit")->with("run",$run)->with("car_types",CarType::all())->with("waypoints", Waypoint::all())->with("cars",Car::all())->with("users",User::all());
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(CreateRunRequest $request, Run $run)
+  /**
+   * Publishes a run through the api
+   * @param PublishRunRequest $request
+   * @param Run $run
+   * @return \Illuminate\Http\RedirectResponse
+   */
+    public function publish(PublishRunRequest $request, Run $run)
     {
-        //dd($request->all());
-        $run_data = $request->except(["subscriptions","_token"]);
-        $subs = [];
-        foreach($request->get("subscriptions",[]) as $sub) {
-          $d = [
-            "car_type" => $sub["car_type"] == "-1" ? null : $sub["car_type"],
-            "car" => $sub["car"] == "-1" ? null : $sub["car"],
-            "user" => $sub["user"] == "-1" ? null : $sub["user"],
-          ];
-          if(array_key_exists("id", $sub) && !empty($sub["id"]))
-            $d["id"] = $sub["id"];
-          $subs[] = $d;
-        }
+      // dd("IASZGDHASDJ");
+      // try{
+        $run_data = $request->except(["subscriptions","_token","_method"]);
+        $subs = $this->prepareSubsForApi($request);
         $data = array_merge($run_data, ["subscriptions"=>$subs]);
-        $run = $this->api->be(Auth::user())->patch("/runs/{$run->id}",$data);
-        // dd($run);
+        $run = $this->api->be(Auth::user())->post("/api/runs/{$run->id}/publish",$data);
+
+//       }
+//       catch (ValidationException $e){
+// //        dd("ASHGDAKSD");
+//           return redirect()->route("runs.edit",compact("run"))->withErrors($e)->withInput($request->all());
+//       }
+      // dd($run);
       //  return redirect()->route("runs.index");
-        return redirect()->back();
+      return redirect()->route("runs.edit",compact("run"));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param CreateRunRequest|Request $request
+   * @return \Illuminate\Http\Response
+   */
+    public function store(CreateRunRequest $request)
+    {
+        try{
+          $run_data = $request->except(["subscriptions","_token"]);
+          $subs = $this->prepareSubsForApi($request);
+          $data = array_merge($run_data, ["subscriptions"=>$subs]);
+          //dd($data);
+          $run = $this->api->be(Auth::user())->post("/runs",$data);
+        }
+        catch (ValidationException $e){
+          redirect()->back()->withErrors($e)->withInput($request->all());
+        }
+        return redirect()->route("runs.edit",compact("run"));
+    }
+
+  /**
+   * Update run through the api.
+   *
+   * @param CreateRunRequest|Request $request
+   * @param Run $run
+   * @return \Illuminate\Http\Response
+   * @internal param int $id
+   */
+    public function update(CreateRunRequest $request, Run $run)
+    {
+        $run_data = $request->except(["subscriptions","_token"]);
+        $subs = $this->prepareSubsForApi($request);
+        $data = array_merge($run_data, ["subscriptions"=>$subs]);
+        $run = $this->api->be(Auth::user())->patch("/runs/{$run->id}",$data);
+        return redirect()->back();
+    }
+    protected function prepareSubsForApi(Request $request)
+    {
+      $subs = [];
+      foreach($request->get("subscriptions",[]) as $sub) {
+        $d = [
+          "car_type" => $sub["car_type"] == "" ? null : $sub["car_type"],
+          "car" => $sub["car"] == "" ? null : $sub["car"],
+          "user" => $sub["user"] == "" ? null : $sub["user"],
+        ];
+        if(array_key_exists("id", $sub) && !empty($sub["id"]))
+          $d["id"] = $sub["id"];
+        $subs[] = $d;
+      }
+      return $subs;
+    }
+
+  /**
+   * Deletes a run through the api.
+   *
+   * @param Run $run
+   * @return \Illuminate\Http\Response
+   * @internal param int $id
+   */
     public function destroy(Run $run)
     {
-        /*$this->api->delete(app(UrlGenerator::class)->version("v1")->route("runs.destroy",$run));
-        return redirect()->back();*/
-        $run->delete();
+        $this->api->be(Auth::user())->delete("/runs/{$run->id}");
         return redirect()->route("runs.index");
     }
 
     public function addComment(CreateCommentRequest $request, Run $run){
-      $comment = new Comment;
-      $comment->fill($request->except("user"));
-      $comment->commentable()->associate($run);
-      $user = $request->user();
-      $comment->user()->associate($user);
-      $comment->save();
+      $this->api->be(Auth::user())->post("/runs/{$run->id}/comments",$request->except(["_token"]));
+//      $comment = new Comment;
+//      $comment->fill($request->except("user"));
+//      $comment->commentable()->associate($run);
+//      $user = $request->user();
+//      $comment->user()->associate($user);
+//      $comment->save();
       return redirect()->back();
     }
     public function pdf(RunPdfRequest $request){
-      \Debugbar::disable();
-      
+
       if($request->has("runs"))
         $runs = Run::whereIn("id",$request->get("runs",[]))->with(["waypoints","runners","runners.user","runners.car","runners.car_type"])->withCount(["runners"])->get();
       else
@@ -168,40 +189,16 @@ class RunController extends Controller
         "format"=>"A3"
       ]);
       return $pdf->stream('document.pdf');
-      return view("run.pdf",compact("runs"));
-//      $options = new Options();
-//      $options->setIsRemoteEnabled(true);
-//      $options->setDefaultMediaType("print");
-//      $options->setFontDir(public_path("fonts/"));
-//      $options->setTempDir(storage_path("tmp/"));
-//      $options->setDebugKeepTemp(true);
-//      $dompdf = new Dompdf($options);
-////      $dompdf->loadHtml('hello world');
-//
-//      $view = view("run.pdf",compact("runs"));
-//      $dompdf->loadHtml($view->render());
-//      $dompdf->setPaper('A3', 'landscape');
-//      return $dompdf->render();
-//      return $dompdf->stream();
-//      return ;
-      
-//      $pdf = PDF::loadView('run.pdf', compact("runs"));
-//
-//
-//      $pdf->save(storage_path("run.pdf"));
-//
-//
-//      file_put_contents(base_path("storage/test.html"),$pdf->html);
-//      return $pdf->setPaper('a3')->setOrientation('landscape')->setOption('margin-bottom', 0)->inline("runs.pdf");
-
     }
-    public function pdfTemplate(Request $request)
+
+    public function start(Request $request, Run $run)
     {
-      $run = new Run;
-      $sub = new RunSubscription();
-
-      $pdf = PDF::loadView('run.pdf-item', compact("run"));
-
-      return $pdf->setPaper('a3', 'landscape')->setWarnings(false)->stream("run-template.pdf");
+      $this->api()->be(auth()->user())->post("/runs/{$run->id}/start");
+      return redirect()->back();
+    }
+    public function stop(Request $request, Run $run)
+    {
+      $this->api()->be(auth()->user())->post("/runs/{$run->id}/stop");
+      return redirect()->back();
     }
 }

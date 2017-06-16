@@ -2,13 +2,15 @@ import { createStore,combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import runs from './runs'
 import filterReducer from './filters'
+import displayReducer from './display'
 import { reducer as rUiReducer } from 'redux-ui'
 import DevTools from './../components/containers/DevTools';
 import {middleware as wsMiddleware} from './../services/websocket';
 const reducers = combineReducers({
     filters: filterReducer,
     ui: rUiReducer,
-    runs,
+    display:displayReducer,
+    runs
 })
 const enhancer = compose(
     // Middleware you want to use in development:

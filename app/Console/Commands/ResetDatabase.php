@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class ResetDatabase extends Command
@@ -11,7 +12,11 @@ class ResetDatabase extends Command
      *
      * @var string
      */
-    protected $signature = 'db:reset {--no-seed} {--production}';
+    protected $signature = 'db:reset 
+    {--no-seed : Don\'t seed the database}
+    {--production : Use ProductionSeeder when seeding}
+    {--default : Use DatabaseSeeder when seeding}
+    {--date=now}';
 
     /**
      * The console command description.
@@ -42,9 +47,14 @@ class ResetDatabase extends Command
         if($this->option("no-seed"))
             return true;
         $this->info("populating...");
-        if($this->option("production"))
-          $this->call("db:seed",["--class"=>"ProductionSeeder"]);
-        else
+        if($this->option("production")) {
+          $date = new Carbon($this->option("date"));
+          $this->call("db:seed", ["--class" => "ProductionSeeder"]);
+          //TODO redo runs before and after this date
+        }
+        else if($this->option("default"))
           $this->call("db:seed");
+        else
+          $this->call("db:seed", ["--class" => "BaseSeeder"]);
     }
 }

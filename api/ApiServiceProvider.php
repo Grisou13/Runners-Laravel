@@ -10,6 +10,8 @@ use Api\Responses\Transformers\CarTypeTransformer;
 use Api\Responses\Transformers\GroupTransformer;
 use Api\Responses\Transformers\RunSubscriptionTransformer;
 use Api\Responses\Transformers\RunTransformer;
+use Api\Responses\Transformers\ScheduleTransformer;
+use Api\Responses\Transformers\SettingTransformer;
 use Api\Responses\Transformers\UserTransformer;
 use Api\Responses\Transformers\WaypointTransformer;
 use App\Providers\RouteServiceProvider;
@@ -26,6 +28,8 @@ use Lib\Models\CarType;
 use Lib\Models\Group;
 use Lib\Models\Run;
 use Lib\Models\RunSubscription;
+use Lib\Models\Schedule;
+use Lib\Models\Setting;
 use Lib\Models\User;
 use Lib\Models\Waypoint;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -98,6 +102,8 @@ class ApiServiceProvider extends RouteServiceProvider
       app('Dingo\Api\Transformer\Factory')->register(Car::class, CarTransformer::class);
       app('Dingo\Api\Transformer\Factory')->register(CarType::class, CarTypeTransformer::class);
       app('Dingo\Api\Transformer\Factory')->register(Waypoint::class, WaypointTransformer::class);
+      app('Dingo\Api\Transformer\Factory')->register(Setting::class, SettingTransformer::class);
+      app('Dingo\Api\Transformer\Factory')->register(Schedule::class, ScheduleTransformer::class);
 
     }
 

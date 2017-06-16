@@ -11,7 +11,7 @@ class Waypoint extends Model
   public $rules = [
     //"name"=>"required",
   ];
-  
+
   protected $dates = [];
   protected $fillable = ["geo","latlng","name"];
   protected $casts = ["latlng"=>"json"];
@@ -30,15 +30,17 @@ class Waypoint extends Model
   }
   public function setGeoAttribute($value)
   {
-    $this->attributes["geo"] = json_encode(json_decode(str_replace(["\n","\r","\t"],"",$value)));//just remove uneccessary spaces in the geocode result... takes less space huh
+    if(is_string($value))
+      $value =  json_decode(str_replace(["\n","\r","\t"],"",$value));//just remove uneccessary spaces in the geocode result... takes less space huh
+    $this->attributes["geo"] = json_encode($value);
   }
 
-    public function setNameAttribute($value){
-      if(array_key_exists("geo",$this->attributes) && !empty($this->attributes["geo"]) && empty($value)){
-        $this->attributes["name"]=$this->geo["address_components"][0]["short_name"];
-      }
-      else{
-        $this->attributes["name"] = $value;
-      }
+  public function getNameAttribute($value){
+    if(array_key_exists("geo",$this->attributes) && !empty($this->attributes["geo"]) && empty($value)){
+      return $this->attributes["name"]=$this->geo["address_components"][0]["short_name"];
     }
+    else{
+      return $this->attributes["name"] = $value;
+    }
+  }
 }

@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
 use Znck\Eloquent\Traits\BelongsToThrough;
-
-class Car extends Model
+use App\Contracts\StatusableContract;
+class Car extends Model implements StatusableContract
 {
     use SoftDeletes, BelongsToThrough, StatusConcern, ValidatingTrait;
     public $rules = [
@@ -19,7 +19,7 @@ class Car extends Model
       "nb_place"=>"nullable"
     ];
     protected $fillable = [
-        "plate_number","brand","model","color","nb_place","comment","name"
+        "plate_number","brand","model","color","nb_place","comment","name","status"
     ];
     public $events = [
       "saving"=>"App\\Events\\CarSavingEvent",

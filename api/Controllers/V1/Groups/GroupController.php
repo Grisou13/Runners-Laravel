@@ -18,22 +18,39 @@ use App\Http\Helpers;
 
 class GroupController extends BaseController
 {
+    /**
+     * Get all groups
+     * @param Request $request
+     * @return \Dingo\Api\Http\Response
+     */
     public function index(Request $request)
     {
         return $this->response()->collection(Group::all(), new GroupTransformer);
     }
 
+    /**
+     * Show specific group
+     * @param Request $request
+     * @param Group $group
+     * @return Group
+     */
     public function show(Request $request,Group $group)
     {
       return $group;
     }
+
+    /**
+     * Change value of the given group
+     * @param Request $request
+     * @param Group $group
+     * @return Group
+     */
     public function update(Request $request, Group $group)
     {
-      //dd($request->all());
+
         $group->update($request->all());
         $group->save();
 
-        //$userID = $request->input()["data"];
         if($request->has("user")){
           $user = User::findOrFail($request->get("user"));
           //dd($group);
@@ -42,6 +59,13 @@ class GroupController extends BaseController
 
       return $group;
     }
+
+    /**
+     * Create a new group
+     * The color assigned to it is random (check the helper for details)
+     * @param Request $request
+     * @return Group
+     */
     public function store(Request $request)
     {
         $group = new Group;
@@ -49,13 +73,25 @@ class GroupController extends BaseController
         $group->active = true;
         $group->color = Helpers\Helper::getRandomGroupColor();
         $group->save();
-        $alphabet = Helpers\Helper::mkrange("A", "ZZ");
-        $group->name = $alphabet[Group::count() - 1];
-        $group->save();
-        return $group;
-        return $this->response()->created(route("groups.show",$group->id));
+        // reload a fresh model instance from the database
+        if($group->fresh()->name == null){
+            // get the groups name (Group A, Group B, Group AA, etc...)
+            // can generate up to 702 different groups name
+            $alphabet = Helpers\Helper::mkrange("A", "ZZ");
 
+            $group->name = $alphabet[Group::count() - 1];
+            $group->save();
+        }
+        return $group;
     }
+
+    /**
+     * Destroy the given group
+     * @param Request $request
+     * @param Group $group
+     * @return \Dingo\Api\Http\Response
+     * @throws \Exception
+     */
     public function destroy(Request $request, Group $group)
     {
         // in this case, we want to delete the user from the given group
@@ -66,7 +102,8 @@ class GroupController extends BaseController
             return $this->response()->accepted();
         }
         $group->delete();
-        return $this->response()->accepted();
+        $this->response()->accepted();
+        return $group;
     }
 
 }

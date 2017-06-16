@@ -12,15 +12,8 @@ import {stopRun} from "./../../actions/runs";
 import {editRun} from "./../../actions/runs";
 import {fetchRuns, printRuns} from './../../actions/runs'
 import _ from "lodash";
+import {timeSplitter} from "../../utils";
 const swal = window.swal
-
-const selectionMode = ({toggle,toggleAll,action}) => {
-    return (
-        <div>
-
-        </div>
-    )
-}
 
 @ui({
     key:"run-list",
@@ -110,9 +103,10 @@ class RunList extends React.Component
                     <button onClick={(e)=>this.toggleSelectMode(e, {printing:true})} className="btn btn-default">
                         <span className="glyphicon glyphicon-print" />
                     </button>
-                    <button onClick={(e)=>this.toggleSelectMode(e, {exporting: true})} className="btn btn-default">
-                        <span className="glyphicon glyphicon-save-file"/>
-                    </button>
+                    {/* an export button, generating an excel spreadsheet of selected runs */}
+                    {/*<button onClick={(e)=>this.toggleSelectMode(e, {exporting: true})} className="btn btn-default">*/}
+                        {/*<span className="glyphicon glyphicon-save-file"/>*/}
+                    {/*</button>*/}
                 </div>
             );
         }
@@ -147,7 +141,9 @@ class RunList extends React.Component
                                         </div>
                                         )
                                     }
-                                <Run  {...run} />
+                                    <div onClick={()=>this.props.editRun(run)}>
+                                        <Run  {...run} />
+                                    </div>
                             </div>
                     )})}
                 </div>
@@ -161,7 +157,7 @@ class RunList extends React.Component
                     <Time UTCOffset={2} />
                 </div>
                 <div className="row">
-                    <p>No runs ... </p>
+                    <p>Pas de run... </p>
                 </div>
             </div>
         )
@@ -186,7 +182,8 @@ class RunList extends React.Component
                 </div>
                 <div className="row">
                     <div>
-                        <p>There has been an error fetching the runs, please try again later, or logging in</p>
+                        <p>Il y a eu un problème lors du chargement des runs</p>
+                        <p>Veuillez vous authentifier, et réessayer</p>
                     </div>
                 </div>
             </div>
@@ -215,15 +212,31 @@ class RunList extends React.Component
 }
 
 
-const getVisibleRuns = (runs, filters) => {
+const getVisibleRuns = (runs, displayModeEnabled, filters) => {
     runs = _(runs).orderBy(function(r){
-        return moment(r.begin_at).unix();
-    }).orderBy(function(r){
         return r.status
+    }).orderBy(function(r){
+        return moment(r.begin_at).unix();
     }).value()
     // runs = runs.filter( r => !r.start_at && !r.end_at)
-    if(filters.status.length)
-        runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
+
+    if(filters.today)
+        runs = runs.filter(r => moment(r.begin_at).isBetween(moment().subtract(12,"hours"),moment().add(24,"hours")) )
+    if(filters.time.start.length)
+        runs = runs.filter(r => moment(r.begin_at).minutes() >= parseInt(filters.time.start.split(timeSplitter)[1]) && moment(r.begin_at).hours() >= parseInt(filters.time.start.split(timeSplitter)[0]))
+    if(filters.time.end.length)
+        runs = runs.filter(r => moment(r.begin_at).minutes() <= parseInt(filters.time.end.split(timeSplitter)[1]) && moment(r.begin_at).hours() <= parseInt(filters.time.end.split(timeSplitter)[0]))
+
+    if( filters.status.indexOf("finished") === -1)
+        runs = runs.filter(r => r.status != "finished")
+    else if(filters.status.length)
+      runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
+
+
+    if(displayModeEnabled){
+        runs = runs.filter(r => r.status != "drafting")
+        runs = runs.filter(r => r.status != "finished")
+      }
     if(filters.name.length)
         runs = runs.filter(r => r.title.toLowerCase().startsWith(filters.name.toLowerCase()))
     if(filters.user.length)
@@ -242,17 +255,19 @@ const getVisibleRuns = (runs, filters) => {
         if(r.waypoints.filter(p => p.nickname.toLowerCase().startsWith(filters.waypoint_in.toLowerCase())).length)
           return r
       })
+
     return runs;
 }
 RunList.propTypes = {
-    runs:  PropTypes.array.isRequired
+    runs:  PropTypes.array,
 }
 
 const mapStateToProps = (state) => {
     return {
-        runs: getVisibleRuns(state.runs.items, state.filters),
+        runs: getVisibleRuns(state.runs.items, state.display.enabled, state.filters),
         loaded: state.runs.loaded,
-        error: state.runs.error
+        error: state.runs.error,
+        displayModeEnabled: state.display.enabled
     }
 }
 

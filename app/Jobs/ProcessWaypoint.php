@@ -31,13 +31,16 @@ class ProcessWaypoint implements ShouldQueue
      */
     public function handle()
     {
-      $url = "https://maps.googleapis.com/maps/api/geocode/json?key".env("GOOGLE_API_KEY","")."&region=CH&address=".urlencode($this->waypoint->name);
+      \Log::debug("[waypoint] processing waypoint for resolving geocoder");
+      $url = "https://maps.googleapis.com/maps/api/geocode/json?key=".env("GOOGLE_API_KEY","")."&region=CH&address=".urlencode($this->waypoint->name);
       $client = new \GuzzleHttp\Client();
       $res = $client->request('GET', $url);
       if($res->getStatusCode() != 200)
         return false;
-      $body = json_decode($res->getBody(),true);
-      $this->waypoint->geo = $body["results"][0];
+      $body = $res->getBody();
+      $this->waypoint->geo = count($body["results"])? $body["results"][0] : Waypoint::where("name","like","%paleo%")->first();
+      \Log::debug("[waypoint] resolved waypoint");
+      \Log::debug("[waypoint] ".print_r($this->waypoint->geo));
       $this->waypoint->save();
     }
 }

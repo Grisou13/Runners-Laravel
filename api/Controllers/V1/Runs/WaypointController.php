@@ -23,30 +23,27 @@ class WaypointController extends BaseController
     }
     public function show(Request $request, Run $run)
     {
-      return $run;
+      return $run->waypoints;
     }
     public function deleteAll(Run $run)
     {
       //TODO implement broadcasting for waypoints
-      $run->waypoints()->detach();
+      $run->waypoints()->sync([]);
       return $run;
     }
     
     public function store(Request $request, Run $run)
     {
-        
-
-        
-        $waypoints = $request->get("waypoints");
-        foreach($waypoints as $point)
-        {
-          $run->waypoints()->attach($point);
+      if($request->has("waypoints")) {
+        if($run->exists)//remove all waypoints and reassign them
+          $run->waypoints()->sync([]);
+        foreach($request->get("waypoints") as $point){
+          if(empty($point)) continue;
+          $run->waypoints()->attach(Waypoint::firstOrCreate(["name"=>$point]));
         }
-        
-        return $run;
+      }
+      
+      return $run->waypoints;
     }
-    public function delete(Run $run)
-    {
-        return $run->delete();
-    }
+    
 }

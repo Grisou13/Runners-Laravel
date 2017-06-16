@@ -1,6 +1,12 @@
 @extends("layouts.print")
 
 @section("content")
+@php
+$icon = base64_encode(file_get_contents(public_path("images/icons/next.png")));
+$type = pathinfo(public_path("images/icons/next.png"), PATHINFO_EXTENSION);
+$next = '<img src="data:image/'.$type.';base64,'.$icon.'" alt="->" width="12" />';
+@endphp
+
     <div class="display">
         @php
             $c = 0;

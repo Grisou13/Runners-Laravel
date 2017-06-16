@@ -7687,6 +7687,46 @@ button.close {
   }
 }
 
+.empty {
+  background-color: #ECEFF1 !important;
+}
+
+.organizing-users {
+  background-color: #fd8b2d !important;
+}
+
+.organizing-vehicles {
+  background-color: #fd8b2d !important;
+}
+
+.ready {
+  background-color: #69bb7b !important;
+}
+
+.gone {
+  background-color: #64B5F6 !important;
+}
+
+.needs_filling {
+  background-color: #fd8b2d !important;
+}
+
+.drafting {
+  background-color: #fd8b2d !important;
+}
+
+.finished {
+  background-color: #69bb7b !important;
+}
+
+.error {
+  background-color: #ff0000 !important;
+}
+
+.finished, .drafting {
+  opacity: .6;
+}
+
 #run-app {
   padding-right: 7px;
   padding-left: 15px;
@@ -7782,36 +7822,8 @@ button.close {
   text-overflow: ellipsis;
 }
 
-.run:nth-child(odd) {
-  background-color: #cfd6db;
-}
-
-.empty {
-  background-color: transparent;
-}
-
-.organizing-users {
-  background-color: #fd8b2d;
-}
-
-.organizing-vehicles {
-  background-color: #fd8b2d;
-}
-
-.ready {
-  background-color: #69bb7b;
-}
-
-.needs-filling {
-  background-color: #69bb7b;
-}
-
-.completed {
-  background-color: #69bb7b;
-}
-
-.error {
-  background-color: #ff0000;
+.run:hover {
+  cursor: pointer;
 }
 
 .waypoint-list {
@@ -7878,6 +7890,23 @@ button.close {
   font-size: 0.8rem;
 }
 
+.display .print-controls {
+  display: none;
+  visibility: hidden;
+}
+
+.display .run-container:hover {
+  padding-left: 0px !important;
+}
+
+.display .waypoint-list .glyphicon {
+  padding-top: 6px;
+}
+
+.display .waypoint-list li {
+  margin-right: 15px;
+}
+
 .display {
   font-size: 2rem;
 }
@@ -7889,7 +7918,7 @@ button.close {
 }
 
 .display .run .run-details .notes {
-  font-size: 1.8rem;
+  font-size: 2.5rem;
 }
 
 .display .run .run-details .date {
@@ -7897,7 +7926,7 @@ button.close {
 }
 
 .display .run .run-details .title {
-  font-size: 2.8rem;
+  font-size: 3.5rem;
   padding-left: 20px;
 }
 
@@ -7906,7 +7935,8 @@ button.close {
 }
 
 .display .run .time {
-  font-size: 2.5rem;
+  font-size: 3rem;
+  padding-left: 150px;
 }
 
 .display .run .subscription {
@@ -7914,15 +7944,16 @@ button.close {
 }
 
 .display .run .waypoint-list {
-  font-size: 1.8rem;
+  font-size: 3.5rem;
+  padding-left: 150px;
 }
 
 .display .run .waypoint-list li:first-of-type, .display .run .waypoint-list li:last-of-type {
-  font-size: 2rem;
+  font-size: 4rem;
 }
 
 .display .run .waypoint-list .glyphicon {
-  font-size: 1.2rem;
+  font-size: 2rem;
 }
 
 .display .title {
@@ -8024,6 +8055,84 @@ button.close {
 
 .twitter-typeahead > .form-control {
   width: inherit !important;
+}
+
+.home {
+  height: 60vh;
+  margin-top: -21px;
+}
+
+.home .row, .home .run {
+  height: 50%;
+}
+
+.home a {
+  height: 100%;
+  line-height: 100%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+
+.home .kiela::before {
+  background: url("/images/home/kiela-background.jpeg") no-repeat center center;
+  -webkit-filter: grayscale(50%);
+  filter: grayscale(50%);
+}
+
+.home .people::before {
+  background: url("/images/home/people-background.jpg") no-repeat center center;
+}
+
+.home .runs::before {
+  background: url("/images/home/cars-background.jpeg") no-repeat center center;
+}
+
+.home .schedule::before {
+  background: url("/images/home/schedule-background.jpg") no-repeat center center;
+}
+
+.home .display::before {
+  background: url("/images/home/run-display-bg-2.jpeg") no-repeat center center;
+}
+
+.home .kiela, .home .people, .home .runs, .home .schedule, .home .display {
+  opacity: 0.6;
+  color: #cccccc;
+  font-size: 3rem;
+  text-align: center;
+  vertical-align: middle;
+  transition: opacity .5s, font-size .1s;
+  border: 1px solid white;
+}
+
+.home .kiela:before, .home .people:before, .home .runs:before, .home .schedule:before, .home .display:before {
+  content: " ";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  -webkit-filter: blur(5px) brightness(0.7);
+  filter: blur(5px) brightness(0.7);
+  padding: 2px;
+}
+
+.home .kiela:hover, .home .people:hover, .home .runs:hover, .home .schedule:hover, .home .display:hover {
+  opacity: 0.8;
+  color: whitesmoke;
+  font-size: 4.5rem;
+  text-decoration: none;
+}
+
+.home .kiela:hover:before, .home .people:hover:before, .home .runs:hover:before, .home .schedule:hover:before, .home .display:hover:before {
+  -webkit-filter: blur(2px) brightness(0.5);
+  filter: blur(2px) brightness(0.5);
 }
 
 @media print {
@@ -8131,6 +8240,14 @@ button.close {
   text-decoration: none;
   color: #777777;
   background-color: #fff;
+}
+
+.form-group.required .control-label:after {
+  content: "*";
+  color: #d00;
+  position: absolute;
+  margin-left: 8px;
+  top: 7px;
 }
 
 /*# sourceMappingURL=app.css.map */

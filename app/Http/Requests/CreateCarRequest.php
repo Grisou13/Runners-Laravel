@@ -26,11 +26,12 @@ class CreateCarRequest extends FormRequest
     public function rules()
     {
         return [
-          'plate_number'   => 'required|unique:cars,plate_number',
-          'brand'            => 'required',
-          'model'            => 'required',
-          'type'     => 'required',
-          'nb_place'=>"nullable|numeric"
+          'plate_number'  => 'nullable|sometimes|unique:cars,plate_number',
+          'brand'         => 'nullable|sometimes',
+          'model'         => 'nullable|sometimes',
+          'name'          => 'nullable|sometimes|min:1',
+          'car_type'      => 'required',
+          'nb_place'      => "nullable|numeric"
         ];
     }
 }

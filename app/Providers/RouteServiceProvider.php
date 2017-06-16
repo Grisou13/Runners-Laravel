@@ -32,6 +32,7 @@ class RouteServiceProvider extends ServiceProvider
             return Setting::where('key', $value)->first();
         });
         Route::model('runner', \Lib\Models\RunSubscription::class);
+        Route::model('vehicle', \Lib\Models\Car::class);
         Route::model('subscription', \Lib\Models\RunSubscription::class);
     }
 

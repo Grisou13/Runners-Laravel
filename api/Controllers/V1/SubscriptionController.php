@@ -32,7 +32,7 @@ class SubscriptionController extends BaseController
    * @var RunSubscription
    */
   private $subscription;
-  
+
   /**
    * SubscriptionController constructor.
    * @param RunSubscription $subscription
@@ -41,7 +41,7 @@ class SubscriptionController extends BaseController
   {
     $this->subscription = $subscription;
   }
-  
+
   public function show(Request $request, RunSubscription $sub)
   {
     return $sub;
@@ -86,14 +86,15 @@ class SubscriptionController extends BaseController
         Log::debug("trying to associate to run ({$run->id} {$run->status}) car ({$car->id} {$car->status}) that isn't free");
         throw new BadRequestHttpException("The car is ".$car->status. ", therefor, you are not allowed to use it");
       }
-        
+
     }
     elseif($request->has("car_type"))
       $sub->car_type()->associate($request->get("car_type"));
-    
+
     $sub->save();
     return $sub;
   }
+
   public function update(UpdateRunSubscriptionRequest $request, RunSubscription $sub)
   {
     //runners / users
@@ -114,16 +115,16 @@ class SubscriptionController extends BaseController
         $sub->car_type()->dissociate();
       else
         $sub->car_type()->associate($request->get("car_type"));
-    
+
     $data = $request->except(["token","_token","user","car_type","car"]);
-    
+
     $sub->update($data);
     broadcast(new RunSubscriptionUpdatedEvent($sub));
     return $sub;
   }
   public function delete(RunSubscription $sub)
   {
-    
     $sub->delete();
+    return $sub;
   }
 }

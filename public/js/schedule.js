@@ -1,9 +1,8 @@
-/**
- * Created by Eric.BOUSBAA on 17.02.2017.
+/*
+ Credits to
+ credits to http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
  */
-
 function _hexToRgb(hex){
-    // credits to http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
     var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthandRegex, function(m, r, g, b) {
@@ -18,9 +17,11 @@ function _hexToRgb(hex){
         } : null;
 }
 
+/*
+ Get all dates in an array between 2 given dates
+ */
 function _getDates(startDate, stopDate) {
     // https://momentjs.com/
-    // credits to http://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates
     var dateArray = [];
     var currentDate = moment(startDate);
     var stopDate = moment(stopDate);
@@ -30,8 +31,9 @@ function _getDates(startDate, stopDate) {
     }
     return dateArray;
 }
-
-
+/*
+* !!! THIS METHOD DOES SYNCHRONOUS CALLS
+ */
 function ajaxRequest(method, url, data, callback) {
     // http://es6-features.org/#DefaultParameterValues
     // refer to https://kangax.github.io/compat-table/es6/#webkit for compatibility
@@ -39,15 +41,20 @@ function ajaxRequest(method, url, data, callback) {
     $.ajax({
         url: url,
         type: method,
+        headers:{
+          "x-access-token":window.Laravel.token
+        },
         data: data,
-        async: false, //yeah i know
+        async: false, //no ragrets
         success: callback ? callback : function(response){
                 returnedData = response;
             }
     });
     return returnedData;
 }
-
+/*
+ Updates the status (on the web api and the layout) of the given cell
+ */
 function updateCell(cellID){
     console.log("UPDATE");
     let cell = document.getElementById(cellID);
@@ -87,13 +94,17 @@ function updateCell(cellID){
     }
 }
 
+/*
+* Schedules of a day
+ */
 function createTable(schedule, groups, day, gridID){
     var grid = document.createElement("table");
     grid.style.width  = "80%";
     grid.setAttribute("border", "1");
 
-    // a little help here
+    // you can find a little help about the table structure here
     // http://stackoverflow.com/questions/14643617/create-table-using-javascript
+
     var theader = document.createElement("thead");
     var tbody = document.createElement("tbody");
     // table header
@@ -102,7 +113,7 @@ function createTable(schedule, groups, day, gridID){
     th.style.width = "25%";
     th.innerHTML = "Groupes";
     headerTR.appendChild(th);
-
+    // display the hour at the head of the table
     schedule.forEach(function(hour){
         var th = document.createElement("th");
         th.innerHTML = hour;
@@ -111,10 +122,11 @@ function createTable(schedule, groups, day, gridID){
         headerTR.appendChild(th);
     });
     theader.appendChild(headerTR);
-    var bgColor;
 
-    // listener vars
+    var bgColor;
+    // listener variable
     var isdown = false;
+    // keep all cells modified
     var modified = [];
     var lin = 0;
 
@@ -158,10 +170,11 @@ function createTable(schedule, groups, day, gridID){
                     td.style.backgroundColor = td.dataset.bgColor;
                 }
             };
+
             td.addEventListener("mousedown", function(e){
                 isdown = true;
                 lin = group.id;
-                modified.push(td.id);
+                modified.push(td.id); // keep track of the cells to modify
                 changeColor(td);
                 return false;
             });
@@ -178,22 +191,18 @@ function createTable(schedule, groups, day, gridID){
 
             td.addEventListener("mouseup",function(e){
                 // TODO maybe use time-slot instead of using each cell independently
+                // TODO loading animation only works with Firefox
                 console.log("before update");
-                loadingDiv.style.display = "block";
-
+                loadingDiv.style.display = "block"; // activate animation
                 modified.map(function(cellID){
-                    updateCell(cellID);
-                    // update the state of each selected div
+                    updateCell(cellID); // update the state of each selected div
                 });
                 console.log("updated...");
-                loadingDiv.style.display = "none";
+                loadingDiv.style.display = "none"; // disabled the animation
 
                 modified = [];
                 isdown = false;
             });
-
-            // td.onclick = cellListener;
-            // td.addEventListener("click", cellListener, false);
             bodyTR.appendChild(td);
         });
         tbody.appendChild(bodyTR);
@@ -204,7 +213,10 @@ function createTable(schedule, groups, day, gridID){
 
     return grid
 }
-
+/*
+* Iterate though each day of the schedule
+* Create the table that correspond to each day to display the schedules
+ */
 function createGrid(schedule, days, groups){
     var container = document.getElementsByClassName('schedule-container')[0];
     let i=1;
@@ -221,7 +233,9 @@ function createGrid(schedule, days, groups){
         i++;
     });
 }
-
+/**
+ * Get all available groups
+ */
 function getAllGroups(){
     var url = window.Laravel.basePath + "/api/groups?token=root&include=schedules";
     return ajaxRequest("get", url, "", null);
@@ -231,34 +245,38 @@ function getAllGroups(){
  * Get all days where we can assign schedule
  */
 function getAllDays(){
-    //TODO query the api to get start and end dates of the paléo
-    //for the moment, we only return an array of dates from now in one week
-    let startDate = moment('2017-07-13');
-    let endDate = moment(startDate).add(2, "week");
-    return _getDates(startDate.format(), endDate.format());
+    function _getSetting(setting){
+        let url = window.Laravel.basePath + "/api/settings/"+setting+"?token=root";
+        let res = ajaxRequest("get", url, "", null);
+        return res["value"];
+    }
+    let startDate = moment(_getSetting("start_date"));
+    let endDate = moment(_getSetting("end_date"));
+
+    return _getDates(startDate, endDate);
 }
 
 var days = getAllDays();
-console.log(days);
 
-schedule = ["08:00","08:30", "09:00","09:30",
-    "10:00","10:30", "11:00","11:30",
-    "12:00","12:30", "13:00","13:30",
-    "14:00","14:30", "15:00","15:30",
-    "16:00","16:30", "17:00","17:30",
-    "18:00","18:30", "19:00","19:30",
-    "20:00","20:30", "21:00","21:30",
-    "22:00","22:30", "23:00","23:30",
-    "00:00","00:30", "01:00","01:30",
-    "02:00","02:30", "03:00","03:30",
-    "04:00","04:30", "05:00","05:30",
-    "06:00","06:30", "07:00","07:30"
+//TODO generate format with/within the web api
+schedule = ["00:00","00:30", "01:00","01:30",
+            "02:00","02:30", "03:00","03:30",
+            "04:00","04:30", "05:00","05:30",
+            "06:00","06:30", "07:00","07:30",
+            "08:00","08:30", "09:00","09:30",
+            "10:00","10:30", "11:00","11:30",
+            "12:00","12:30", "13:00","13:30",
+            "14:00","14:30", "15:00","15:30",
+            "16:00","16:30", "17:00","17:30",
+            "18:00","18:30", "19:00","19:30",
+            "20:00","20:30", "21:00","21:30",
+            "22:00","22:30", "23:00","23:30",
 ];
+
 var loadingDiv = document.getElementById("loading");
 var groups = getAllGroups();
 
 createGrid(schedule, days, groups);
 
-//TODO https://laravel.com/docs/5.4/dusk#waiting-for-elements
-//TODO visual division of hours and day&night
-//TODO 'waiting' icon (or disable table)
+// TODO visual division of hours and day&night
+// TODO verify that forms input end_time > start_time

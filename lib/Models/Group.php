@@ -13,7 +13,8 @@ class Group extends Model
 {
     protected $fillable = [
         "active",
-        "color"
+        "color",
+        "name"
     ];
 
     protected $casts = [
