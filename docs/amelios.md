@@ -15,9 +15,9 @@ The app should have a cached version of the settings, use a database model if no
 ## Dashboard
 Enable the front-end to change some hard-coded settings such as :
 - Database reset
-- Change the avaiable groups colors
+- Change the available groups colors
 - Change icons for customisation
-- Allow permission assignement
+- Allow permission assignment
 
 ## Kiela
 Actually the schedule parsing is made in the JS front-end.
@@ -43,9 +43,9 @@ If it is done with the weird seeders, than that would be up to the developer to 
 
 There is nothing done for this right now. What needs to be done is a graph endpoint. It should allows for flexible querying on different models, count columns, etc..
 We were thinking something like
-/statstic/{model}?columns=[columns seperated by',']&count=[columns to count]
+/statistics/{model}?columns=[columns seperated by',']&count=[columns to count]
 
-Or the best for this would just be GRAPHQL. But Eh, you can't have everything can you?
+Or the best for this would just be GRAPHQL.
 
 But maybe you could just use the client and [reselect](https://github.com/reactjs/reselect) to create an intelligent selector for the data.
 
@@ -87,7 +87,7 @@ The tricky part comes in the app, where the app should keep the screen awake and
 
 How about some tests?
 We didn't really have time. We implemented some tests for the api (mainly the run features), but nothing on the app.
-This should be done, so that deployement in production is always stable.
+This should be done, so that deployment in production is always stable.
 
 # Api
 

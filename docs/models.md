@@ -2,11 +2,12 @@
 
 Models are not registered in the `app/` folder.
 This is for very simple reason. Models aren't exclusive to the app, nor the api.
-This is why the `lib/` folder.
+This is why there is a `lib/` folder.
 
 The only special Model here is `RunSubscription`
 
-__The status of any model is adapted in Observers and not in controllers__
+_The status of any model is adapted in Observers and not in controllers._
+_Please refer to [diagrams.md](diagrams.md)_
 
 ## User
 
@@ -60,3 +61,10 @@ This observer will change the runs status. Nothing is handeld in controllers!.
 | RunSavingEvent              | This event will trigger the run to change it's status.                |
 | RunDeletingEvent            | Set's the ended_at field of the run and makes it's status to finished |
 | RunCreatingEvent            | Set's the runs status to drafting                                     |
+
+## RunSubObserver
+
+| Event                       | Description                                                           |
+|-----------------------------|-----------------------------------------------------------------------|
+| RunSubscriptionSavedEvent   | This event will trigger the run to change it's status.                |
+| RunSubscriptionDeletedEvent | Deletes all run subscriptions                                         |

@@ -3,6 +3,11 @@
 namespace Lib\Models;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * TODO implement status in the database
+ * Class Status
+ * @package Lib\Models
+ */
 abstract class Status extends Model
 {
     public $timestamps = false;

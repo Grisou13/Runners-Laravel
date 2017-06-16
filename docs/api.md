@@ -8,9 +8,9 @@ This doc will details more the behind the scenes.
 # How the api works in general
 
 The api uses a module called `dingo/api`. 
-This module adds a number of very usefull features to the standard Api declaration of Laravel
+This module adds a number of very useful features to the standard Api declaration of Laravel
 
-Workflow:
+General workflow on how the api works:
 
 ![uml/api_workflow.png](uml/api_workflow.png)
 
@@ -42,33 +42,26 @@ To authenticate with the api you may use 3 methods :
  
 ## Getting an access token
 
-The default access token, and used right now to debug is ```root```.
-This token will allow you to get anywhere in the api because the user is an admin
+If you have seeded the database you have 2 access tokens available
+
+| access token | Extra                  |
+|--------------|------------------------|
+| root         | Has admin rights       |
+| runner       | Has normal user rights |
 
 # Request Examples
-Get the list of users
-```curl -X GET http://localhost/api/users?token=root```
 
-Get the user that has the token
-```curl -X GET http://localhost/api/users/me?token=root```
-
-Get the list of runs
-```curl -X GET http://localhost/api/runs?token=root```
-
-Get the list of groups
-```curl -X GET http://localhost/api/groups?token=root```
-
-Get the list of cars
-```curl -X GET http://localhost/api/cars?token=root```
+Please visit `/api` and use the test functionality.
 
 # What happens to models?
 
-If you see the data model, and the database, you will recognise that the api doesn't serve the same representation.
+If you take a look at the data model, you will recognise that the api doesn't serve the same representation in responses.
 
 That is due to an addition of an abstract layer called Transformers.
-Transformers allow the api to render a piece of data, and altering it only to render. Allowing the app to remain intact with it's data usage.
+Transformers allow the api to render a piece of data, and altering it only to render. 
+This makes the data model intact, but change it's final representation.
 
-Now that can complicate a bit things sometimes (just check out the runs).
+Now that can complicate a bit things sometimes (just check out the RunsController).
 
 If you want to check out a transformer for a model, it will be in `api/Responses/Transformers`.
 
@@ -193,3 +186,63 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
 ```
 
 And that's it, now ou can access it through `/api/profile`.
+
+## Creating a transformer
+
+Now let's say that we add a relationship to the profile, and we need to include it when we render.
+
+First off
+```
+in Lib\Models\Profile
+class Profile extends Model
+{
+    ...
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+}
+```
+
+And let's create a transformer in `api/Responses/Transformers/ProfileTransformer.php`
+
+```
+
+use League\Fractal\TransformerAbstract;
+use Lib\Models\Profile;
+
+class CarTypeTransformer extends  TransformerAbstract
+{
+  public $availableIncludes = [
+    "user"
+  ];
+  public function transform(Profile $profile)
+  {
+    return [
+      "profile_name"=>$profile->name,
+      "some_other_data"=>$profile->something_else
+    ];
+  }
+  public function includeUser(Profile $profile)
+  {
+    return $this->item($profile->user, new UserTransformer);
+  }
+}
+```
+
+To finish off, you know need to register it in `api/ApiServiceProvider`
+
+```
+use Lig\Models\Profile;
+use Api\Responses\Transformer\ProfileTransformer;
+
+class ApiServiceProvider extends RouteServiceProvider{
+     
+    protected function registerModelBindings(){
+      app('Dingo\Api\Transformer\Factory')->register(Profile::class, ProfileTransformer::class);
+      ....
+    }
+```
+
+Now whenever you ask the api for /profile, it will trigger this Transformer. 
+
+For more information on transformers please visit [the docs](http://fractal.thephpleague.com/transformers/).
