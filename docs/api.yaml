@@ -52,13 +52,23 @@ paths:
 
   /runs:
     post:
-      summary:
-      description:
+      summary: Create a new run
+      description: Create new run. This run won't be published
+      tags:
+        - Runs
       parameters:
         - name: name
           required: true
           in: body
           type: string
+        - name: nb_place
+          type: number
+          required: false
+          in: body
+        - name: note
+          type: number
+          required: false
+          in: body
         - name: waypoints
           required: false
           type: array
@@ -73,8 +83,7 @@ paths:
             ["car":2,"user":5] or
             ["id":1, "car":2, "user":null]
             None of the fields are required. If nothing is put in a subscription this basicly tells the run it must have 2 convoys, but that is it
-          type: array
-          items:
+          type:
             $ref: '#/definitions/RunSubscriptionInsert'
       responses:
         200:
@@ -136,6 +145,71 @@ paths:
             $ref: '#/definitions/Error'
 
   /runs/{id}:
+    patch:
+      summary: Update a run
+      tags:
+        - Runs
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the runner
+          required: true
+          type: number
+        - name: name
+          required: true
+          in: body
+          type: string
+        - name: nb_place
+          type: number
+          required: false
+          in: body
+        - name: note
+          type: number
+          required: false
+          in: body
+        - name: waypoints
+          required: false
+          type: array
+          description: Array of waypoint NAMES ["Somewhere","Over","The","Rainbow"]. If a waypoint doesn'0t exist, it will be create
+          items:
+            type: string
+        - name: subscriptions
+          required: false
+          description:
+            Array of subscriptions.
+            If provided with existing subscriptions, they will be updated.
+            ["car":2,"user":5] or
+            ["id":1, "car":2, "user":null]
+            None of the fields are required. If nothing is put in a subscription this basicly tells the run it must have 2 convoys, but that is it
+          type:
+            $ref: '#/definitions/RunSubscriptionInsert'
+      responses:
+        200:
+          description: The newly created run
+          schema:
+            $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Delete a run
+      tags:
+        - Runs
+      parameters:
+        - name: id
+          required: true
+          in: query
+          type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
     get:
       summary: Run Types
       description:
@@ -160,6 +234,55 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /runs/{id}/publish:
+    post:
+      summary: Publish a run.
+      description: A run must explicitly call this endpoint if it wants to be published.
+      tags:
+        - Runs
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the runner
+          required: true
+          type: number
+        - name: name
+          required: true
+          in: body
+          type: string
+        - name: nb_place
+          type: number
+          required: false
+          in: body
+        - name: note
+          type: number
+          required: false
+          in: body
+        - name: waypoints
+          required: false
+          type: array
+          description: Array of waypoint NAMES ["Somewhere","Over","The","Rainbow"]. If a waypoint doesn'0t exist, it will be create
+          items:
+            type: string
+        - name: subscriptions
+          required: false
+          description:
+            Array of subscriptions.
+            If provided with existing subscriptions, they will be updated.
+            ["car":2,"user":5] or
+            ["id":1, "car":2, "user":null]
+            None of the fields are required. If nothing is put in a subscription this basicly tells the run it must have 2 convoys, but that is it
+          type:
+            $ref: '#/definitions/RunSubscriptionInsert'
+      responses:
+        200:
+          description: The newly created run
+          schema:
+            $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /runs/{id}/start:
     post:
       summary: Start the run
@@ -173,9 +296,6 @@ paths:
           type: number
       tags:
         - Runs
-        - Users
-        - Geocoders
-        - Vehicles
       responses:
         200:
           description: Run object with the start_at filled
@@ -192,7 +312,7 @@ paths:
     post:
       summary: Stop the run
       description:
-        Indicates that the run has been completed. (filled end_at)
+        Indicates that the run has been completed.
       parameters:
         - name: id
           in: path
@@ -275,6 +395,67 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /cars/{id}:
+    delete:
+      summary: Delete a car
+      tags:
+        - Vehicles
+      parameters:
+        - name: id
+          required: true
+          in: query
+          type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Vehicle'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Update a car
+      tags:
+        - Vehicles
+      parameters:
+        - name: id
+          required: true
+          in: query
+          type: number
+        - name: car
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/Vehicle'
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Vehicle'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: Retrieve a specific car
+      tags:
+        - Vehicles
+      parameters:
+        - name: id
+          required: true
+          in: query
+          type: number
+      responses:
+        200:
+          description: An car
+          schema:
+            $ref: '#/definitions/Vehicle'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /cars:
     post:
       summary: Create a new car
@@ -311,7 +492,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Vehicle'
-
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
     get:
       summary: Vehicles Types
       description:
@@ -398,7 +582,72 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /groups/{id}:
+    delete:
+      summary: Delete a group
+      tags:
+        - Groups
+      parameters:
+        - name: id
+          required: true
+          in: query
+          type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Group'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Update a group
+      tags:
+        - Groups
+      parameters:
+        - name: id
+          required: true
+          in: query
+          type: number
+        - name: name
+          in: body
+          required: false
+          type: string
+        - name: user
+          in: body
+          required: false
+          type: number
+          description: If supplied, will change the user's group to the patched group.
+      responses:
+        200:
+          description: The newly created group
+          schema:
+            $ref: '#/definitions/Group'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /groups:
+
+    post:
+      summary: Create a new group
+      tags:
+        - Groups
+      parameters:
+        - name: name
+          in: body
+          required: true
+          type: string
+      responses:
+        200:
+          description: The newly created group
+          schema:
+            $ref: '#/definitions/Group'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
     get:
       summary: Return all the groups
       description: Return all the groups
@@ -447,10 +696,80 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /schedules/{id}:
+    get:
+      summary: Get a schedule
+      parameters:
+        - name: id
+          required: true
+          in: query
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Schedule'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+    delete:
+      summary: Destroy a schedule
+      operationId:
+      parameters:
+        - name: id
+          required: true
+          in: query
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Schedule'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Create a new schedule
+      parameters:
+        - name: id
+          required: true
+          in: query
+        - name: schedule
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/Schedule'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Schedule'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /schedules:
+    post:
+      summary: Create a new schedule
+      parameters:
+        - name: schedule
+          schema:
+            $ref: '#/definitions/Schedule'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Schedule'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
     get:
       summary: Returns all the schdules
       description: Allows you to get the schedule of everybody
+      tags:
+        - Schedule
       parameters:
         - name: between
           in: query
@@ -555,10 +874,12 @@ definitions:
   VehicleType:
     type: object
     properties:
+      id:
+        type: number
       type:
         type: string
-      description:
-        type: string
+
+
 
   VehicleStatus:
     type: object
@@ -582,6 +903,7 @@ definitions:
       waypoints:
         type: array
         description: "Lists the steps in geographical ways in order to complete the run"
+        minItems: 2
         items:
           $ref: '#/definitions/Waypoint'
       begin_date:
@@ -618,21 +940,6 @@ definitions:
       vehicle:
         $ref: '#/definitions/Vehicle'
 
-  RunSubscriptionInsert:
-    ẗype: object
-    properties:
-      id:
-        type: number
-        description: Unique identifier (ID)
-      car:
-        type: number
-        description: car id
-      user:
-        type: number
-        description: user id
-      car_type:
-        type: number
-        description: car type id
 # Google Map API
   Geocoder:
     type: object
