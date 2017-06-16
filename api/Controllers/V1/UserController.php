@@ -52,7 +52,8 @@ class UserController extends BaseController
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->all());
-        return $this->response()->accepted();
+        //$this->response()->accepted();
+        return $user;
     }
     public function store(CreateUserRequest $request)
     {
@@ -66,7 +67,8 @@ class UserController extends BaseController
     }
     public function delete(User $user)
     {
-        return $user->delete();
+        $user->delete();
+        return $user;
     }
 
     public function addGroup(Request $request, User $user)

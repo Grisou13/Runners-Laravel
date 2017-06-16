@@ -31,7 +31,7 @@ class SettingController extends BaseController
         throw new UnauthorizedHttpException("you can't update a setting. Please contact administrator");
       return Setting::create($request->except(["token","_token"]));
     }
-  
+
   /**
    * Display the specified resource.
    *
@@ -42,8 +42,8 @@ class SettingController extends BaseController
     {
         return $setting;
     }
-  
-  
+
+
   /**
    * Update the specified resource in storage.
    *
@@ -58,7 +58,7 @@ class SettingController extends BaseController
         $settings->update($request->except(["token","_token"]));
         return $settings;
     }
-  
+
   /**
    * Remove the specified resource from storage.
    *
@@ -70,5 +70,6 @@ class SettingController extends BaseController
       if(!$this->user()->hasPermissionTo("delete settings"))
         throw new UnauthorizedHttpException("you can't update a setting. Please contact administrator");
       $settings->delete();
+      return $settings;
     }
 }

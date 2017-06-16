@@ -48,7 +48,7 @@ class CarTypeController extends BaseController
       }
 
       return $query->get();
-      
+
     }
     public function show(Request $request, CarType $type)
     {
@@ -70,7 +70,8 @@ class CarTypeController extends BaseController
     }
     public function delete(CarType $type)
     {
-        return $type->delete();
+        $type->delete();
+        return $type;
     }
-    
+
 }
