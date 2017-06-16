@@ -17,3 +17,13 @@ The run can be published __ONLY IF__:
 - nb_passenger is defined
 - runners has atleast one car type, or car defined
 - has atleast 2 waypoints
+
+# Run list
+
+The run list is a bit tricky. It's a react-redux app.
+Here's why:
+- No need to bind the dom and data
+- Easy to create complexe ui without binding values back and forth
+
+The entry file is `/assets/js/runs/app.js`
+

@@ -14,6 +14,17 @@ Workflow:
 
 TODO create uml workflow registration
 
+# Internal requests
+
+Internal requests allow any controller from the app to communicate with api endpoints.
+This is very usefull and allows all logic to happen in the api, thus DRYing up your codebase.
+
+An example of an internal request would be `App\Http\Controllers\CarController@store`.
+
+Instead of reroute the logic of creation of a car, we juts reroute it to the api.
+
+In some cases, for example handling media, an api isn't adapted.
+This means that media handling must be done in a "normal" controller, within `App\Http\Controllers`.
 
 # Authentication
 

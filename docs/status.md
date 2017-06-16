@@ -39,8 +39,6 @@
 
 # Status handling
 
-All statuses are handled by Observers ( yeah i know, i know). This allows the app to be flexible, and only have one single point where statuses are handled!
-
-App\Observer\RunObserver handles run deletion, run sub deletion, and run saving
-App\Observer\RunSubObserver handles run starting, run deletion, run sub saving
-App\Observer\UserObserver handles run deletion, run sub deletion
+All statuses are handled by Observers.
+This allows the app to be flexible, and only have one single point where statuses are handled!
+For more information take a look at [models.md](models.md#Observers)

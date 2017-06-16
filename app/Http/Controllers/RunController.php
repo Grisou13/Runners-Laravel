@@ -144,9 +144,9 @@ class RunController extends Controller
       $subs = [];
       foreach($request->get("subscriptions",[]) as $sub) {
         $d = [
-          "car_type" => $sub["car_type"] == "-1" ? null : $sub["car_type"],
-          "car" => $sub["car"] == "-1" ? null : $sub["car"],
-          "user" => $sub["user"] == "-1" ? null : $sub["user"],
+          "car_type" => $sub["car_type"] == "" ? null : $sub["car_type"],
+          "car" => $sub["car"] == "" ? null : $sub["car"],
+          "user" => $sub["user"] == "" ? null : $sub["user"],
         ];
         if(array_key_exists("id", $sub) && !empty($sub["id"]))
           $d["id"] = $sub["id"];

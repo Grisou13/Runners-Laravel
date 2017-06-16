@@ -50,10 +50,10 @@ class Handler extends ExceptionHandler
       }
       //recovered from https://github.com/dwightwatson/validating docs
       if ($exception instanceof \Watson\Validating\ValidationException) {
-          return redirect($request->fullUrl())->withErrors($exception)->withInput();
+          return redirect()->back()->withErrors($exception->getErrors())->withInput($request->except(["_token","token","password"]));
       }
       if ($exception instanceof \Dingo\Api\Exception\ValidationHttpException) {
-        return redirect($request->fullUrl())->withErrors($exception)->withInput();
+        return redirect()->back()->withErrors($exception->getErrors())->withInput($request->except(["_token","token","password"]));
       }
         return parent::render($request, $exception);
     }

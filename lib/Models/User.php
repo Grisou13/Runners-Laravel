@@ -65,7 +65,10 @@ class User extends Authenticatable implements StatusableContract, ImageableContr
     }
     public function runs()
     {
-        return $this->hasManyThrough(Run::class,RunDriver::class);
+        $id = $this->id;
+        return Run::whereHas("runners",function($query) use ($id){
+          return $query->where("user_id",$id);
+        })->get();
     }
 
 

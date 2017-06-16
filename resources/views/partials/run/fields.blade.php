@@ -1,4 +1,3 @@
-
 @push("scripts")
 <script>
     window.resource_cache = {!! collect([
@@ -436,7 +435,7 @@ const generateSubscription = (sub) => {
     id_input.value = sub.id ? sub.id : null
 
     var emptyOption = document.createElement("option")
-    emptyOption.value=-1
+    emptyOption.value=""
     emptyOption.text=" "
 
     var delete_btn = document.createElement("button")
@@ -550,7 +549,7 @@ const generateSubscription = (sub) => {
     })
 
     car_types_input.addEventListener("change",(e) => {
-        var type = e.target.value && e.target.value != -1 ? e.target.value : false
+        var type = e.target.value && e.target.value !== "" ? e.target.value : false
         if(type != false){
             cars_input.innerHTML = "" //reset the cars
             cars_input.add(emptyOption)
@@ -576,9 +575,9 @@ const generateSubscription = (sub) => {
         else{
             cars_input.innerHTML = ""
             cars_input.add(emptyOption)
-            cars_input.value = -1
+            cars_input.value = ""
             //we can't do anything if there is a user
-            if(runners_input.value == -1){
+            if(runners_input.value === ""){
                 //reset the car_type input to full size
                 //set other inputs hidden
                 car_types_container.classList.toggle("col-md-5")
@@ -591,13 +590,13 @@ const generateSubscription = (sub) => {
         }
     })
     runners_input.addEventListener("change", (e)=>{
-        var user = e.target.value && e.target.value != -1 ? e.target.value : false
+        var user = e.target.value && e.target.value !== "" ? e.target.value : false
         if(user){
             return false
         }
         else{
-            if(car_types_input.value == -1){
-                cars_input.value = -1
+            if(car_types_input.value === ""){
+                cars_input.value = ""
 
                 car_types_container.classList.toggle("col-md-5")
                 car_types_container.classList.toggle("col-md-2")

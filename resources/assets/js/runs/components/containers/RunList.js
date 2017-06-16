@@ -15,14 +15,6 @@ import _ from "lodash";
 import {timeSplitter} from "../../utils";
 const swal = window.swal
 
-const selectionMode = ({toggle,toggleAll,action}) => {
-    return (
-        <div>
-
-        </div>
-    )
-}
-
 @ui({
     key:"run-list",
     state:{
@@ -111,6 +103,7 @@ class RunList extends React.Component
                     <button onClick={(e)=>this.toggleSelectMode(e, {printing:true})} className="btn btn-default">
                         <span className="glyphicon glyphicon-print" />
                     </button>
+                    {/* an export button, generating an excel spreadsheet of selected runs */}
                     {/*<button onClick={(e)=>this.toggleSelectMode(e, {exporting: true})} className="btn btn-default">*/}
                         {/*<span className="glyphicon glyphicon-save-file"/>*/}
                     {/*</button>*/}
@@ -236,10 +229,10 @@ const getVisibleRuns = (runs, displayModeEnabled, filters) => {
 
     if( filters.status.indexOf("finished") === -1)
         runs = runs.filter(r => r.status != "finished")
-    if(filters.status.length)
+    else if(filters.status.length)
       runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
-    else
-      runs = runs.filter(r => r.status != "finished")
+
+
     if(displayModeEnabled){
         runs = runs.filter(r => r.status != "drafting")
         runs = runs.filter(r => r.status != "finished")

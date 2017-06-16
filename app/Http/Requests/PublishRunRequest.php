@@ -29,14 +29,24 @@ class PublishRunRequest extends FormRequest
     public function rules()
     {
         return [
-            "name"=>"sometimes|min:1",
-            "nb_passenger"=>"sometimes|numeric|max:255",
-//            "note"=>"sometimes|min:1",
-            "planned_at"=>"sometimes|date",
-            "waypoints"=>"sometimes|min:2",
-            "waypoints.*"=>"sometimes|min:1",
-            "subscriptions"=>"sometimes|required|min:1",
-            "subscriptions.*.car_type"=>"sometimes|required"
+          "name"=>"sometimes|min:1",
+          "nb_passenger"=>"sometimes|numeric|max:255",
+          "note"=>"nullable|sometimes|min:1",
+          "planned_at"=>"sometimes|date",
+          "waypoints"=>"sometimes|min:2",
+          "waypoints.*"=>"sometimes|min:1",
+//          "subscriptions"                   =>"nullable|sometimes|required_without:runners|min:1",
+//          "subscriptions.*.car_type"        =>"nullable|sometimes|required|exists:car_types,id",
+//          "subscriptions.*.vehicle_category"=>"nullable|sometimes|required|exists:car_types,id",
+//          "subscriptions.*.user"            =>"nullable|sometimes|required|exists:users,id",
+//          "subscriptions.*.vehicle"         =>"nullable|sometimes|required|exists:cars,id",
+//          "subscriptions.*.car"             =>"nullable|sometimes|required|exists:cars,id",
+//          "runners"                   =>"nullable|sometimes|required_without:subscriptions|min:1",
+//          "runners.*.car_type"        =>"nullable|sometimes|required|exists:car_types,id",
+//          "runners.*.vehicle_category"=>"nullable|sometimes|required|exists:car_types,id",
+//          "runners.*.user"            =>"nullable|sometimes|required|exists:users,id",
+//          "runners.*.vehicle"         =>"nullable|sometimes|required|exists:cars,id",
+//          "runners.*.car"             =>"nullable|sometimes|required|exists:cars,id",
             //"waypoints.*"=>Rule::in(Waypoint::all()->pluck("id")->toArray()),
         ];
     }

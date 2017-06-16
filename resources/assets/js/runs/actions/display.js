@@ -6,6 +6,6 @@ export const enableDisplayMode = () => ({
 export const disableDisplayMode = () => ({
   type: UI.DISABLE_DISPLAY_MODE
 })
-export const tiggleDisplayMode = () => ({
+export const toggleDisplayMode = () => ({
   type: UI.TOGGLE_DISPLAY_MODE
 })

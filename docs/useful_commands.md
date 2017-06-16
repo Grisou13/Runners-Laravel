@@ -18,3 +18,15 @@ That's very simple, just run
 Now you are in an interactive console that can has access to php
 
 _You could also use `docker-compose run --rm app php artisan {command here}`_
+
+## Compiling assets
+
+We use sass, css, js, babel and alot of great stuff, but we need to compile some of them.
+
+This is why everytime we start developping, we run `gulp watch`
+
+This will compile all the javascript , and sass in `/assets`
+
+If something does wrong with sass compiling, this might be because your sharing the envirronement with a vagrant.
+
+Run `npm rebuild node-sass` and you should be good to go.

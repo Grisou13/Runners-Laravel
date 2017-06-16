@@ -7711,6 +7711,10 @@ button.close {
   background-color: #fd8b2d !important;
 }
 
+.drafting {
+  background-color: #fd8b2d !important;
+}
+
 .finished {
   background-color: #69bb7b !important;
 }
@@ -7719,7 +7723,7 @@ button.close {
   background-color: #ff0000 !important;
 }
 
-.finished {
+.finished, .drafting {
   opacity: .6;
 }
 

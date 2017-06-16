@@ -16,12 +16,13 @@ class App extends React.Component{
         const {
           displayModeEnabled
         } = this.props
+        console.log(this.props)
         let cl = displayModeEnabled ? "glyphicon-remove" : "glyphicon-fullscreen"
         return (
             <div className={["app-container ",displayModeEnabled ? "display" : ""].join(" ")}>
                 {/*<div className={ui.displayModeEnabled ? "display" : null}>*/}
                     {displayModeEnabled ? (<div className="hidden"><Filters /></div>) : <Filters />}
-                    <button className="display-toggle" onClick={()=>this.props.toggleDisplayMode()}>
+                    <button className="display-toggle" onClick={()=>this.props.dispatch(toggleDisplayMode())}>
                         <span className={["glyphicon", cl].join(" ")}/>
                     </button>
                     <RunList />
@@ -42,7 +43,10 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        toggleDisplayMode: () => dispatch(toggleDisplayMode())
+        dispatch
     }
+    // return {
+    //     toggleDisplayMode: () => dispatch(toggleDisplayMode())
+    // }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App)

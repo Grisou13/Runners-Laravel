@@ -21,6 +21,7 @@ use App\Events\RunSubscriptionUpdatedEvent;
 use App\Events\RunUpdatedEvent;
 use App\Http\Requests\CreateRunRequest;
 use App\Http\Requests\PublishRunRequest;
+use App\Http\Requests\UpdateRunRequest;
 use Carbon\Carbon;
 use Lib\Models\Run;
 use Lib\Models\RunSubscription;
@@ -95,20 +96,20 @@ class RunController extends BaseController
     {
       return $run;
     }
-
+  
   /**
    * Update a run
-   * @param Request $request
+   * @param UpdateRunRequest|Request $request
    * @param Run $run
    * @return Run
    */
-    public function update(Request $request, Run $run)
+    public function update(UpdateRunRequest $request, Run $run)
     {
         $run->fill($request->all());
         $run->save();
         $this->prepareSubscriptionsFromRequest($request, $run);
         $this->prepareWaypointsFromRequest($request, $run);
-
+        $run->save();
         // broadcast(new RunUpdatedEvent($run));
 
         return $run;
@@ -156,6 +157,11 @@ class RunController extends BaseController
         $userId = array_key_exists("user", $convoy) ? $convoy["user"] : null;
         $carId = array_key_exists("car", $convoy) ? $convoy["car"] : null;
         $carTypeId = array_key_exists("car_type", $convoy) ? $convoy["car_type"] : null;
+        if(is_null($carTypeId))
+          $carTypeId = array_key_exists("vehicle_category", $convoy) ? $convoy["vehicle_category"] : null;
+        if(is_null($carId))
+          $carId = array_key_exists("vehicle", $convoy) ? $convoy["vehicle"] : null;
+        
         $sub = array_key_exists("id", $convoy) ? RunSubscription::findOrFail($convoy["id"]) : new RunSubscription;
         $sub->user()->associate($userId);
         $sub->car()->associate($carId);
@@ -232,7 +238,7 @@ class RunController extends BaseController
           $sub->started_at = $run->started_at;
           $sub->save();
         });
-        $run->save();
+        $run->publish();
       //TODO: rethink where to put this event
       //notify the run has started, this will triger observers that will put every utalised car and runner on "gone" status
         broadcast(new RunStartedEvent($run))->toOthers();

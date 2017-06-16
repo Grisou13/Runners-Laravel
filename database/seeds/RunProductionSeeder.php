@@ -217,6 +217,7 @@ class RunProductionSeeder extends Seeder
                     'updated_at' => date('Y-m-d h:m:s'),
                     'deleted_at' => null,
                 ]);
+                $run->publish();
                 $nbwp = (rand(1, 100) > 80) ? (rand(1, 100) > 80) ? 4 : 3 : 2;
                 for ($wp = 0; $wp < $nbwp; $wp++) $run->waypoints()->attach(rand(1, count($this->wayPoints)));
 

@@ -92,15 +92,15 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       $api->post("/runs/{run}/start",["as"=>"runs.start","uses"=>"RunController@start"]);
       $api->post("/runs/{run}/stop",["as"=>"runs.stop","uses"=>"RunController@stop"]);
       $api->resource("runs","RunController");
-
+      
+      $api->delete("/runs/{run}/waypoints",["as"=>"runs.waypoints.destroy_all","uses"=>"WaypointController@deleteAll"]);
       $api->resource("runs.waypoints","WaypointController");
       $api->resource("runs.comments","CommentController");
       //this route is used as a shorthand for drivers to directly target the subscription they are in
       $api->post("/runs/{run}/subscriptions/{subscription}/start",["as"=>"runs.sub.start","uses"=>"SubscriptionController@start"]);
-      //this route is used as a shorthand for drivers to directly target the subscription they are in
       $api->post("/runs/{run}/subscriptions/{subscription}/stop",["as"=>"runs.sub.stop","uses"=>"SubscriptionController@stop"]);
-      
       $api->resource("runs.subscriptions","SubscriptionController");
+      
       $api->post("/runs/{run}/runners/{runner}/start",["as"=>"runs.runner.start","uses"=>"SubscriptionController@start"]);
       $api->post("/runs/{run}/runners/{runner}/stop",["as"=>"runs.runner.stop","uses"=>"SubscriptionController@stop"]);
       $api->resource("runs.runners","SubscriptionController");

@@ -16,6 +16,25 @@ produces:
   - application/json
 paths:
   /users:
+    post:
+      summary: Create a new user
+      tags:
+        - Users
+      parameters:
+        - name: user
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
     get:
       summary: User Types
       description:
@@ -33,10 +52,9 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
-  /users/me:
+  /me:
     get:
-      summary: User Types
+      summary: Current user
       description: "The authenticated user (Identified by the token)"
       tags:
         - Users
@@ -49,7 +67,61 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
+  /users/me:
+    get:
+      summary: User Types (DEPRECEATED). Used as legacy route for runners amobile app
+      description: "The authenticated user (Identified by the token)"
+      tags:
+        - Users
+      responses:
+        200:
+          description: A user
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /me/runs:
+    get:
+      summary: All the runs
+      description:
+        List all runs
+      tags:
+        - Runs
+      responses:
+        200:
+          description: An array of runs
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /runs/search:
+      get:
+        summary: Returns an array of runs depending on search
+        parameters:
+          - name: q
+            required: true
+            allowEmptyValue: false
+            type: string
+            in: query
+        tags:
+          - Waypoints
+        responses:
+          200:
+            description: An array of runs
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Run'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
   /runs:
     post:
       summary: Create a new run
@@ -57,34 +129,11 @@ paths:
       tags:
         - Runs
       parameters:
-        - name: name
+        - name: run
           required: true
           in: body
-          type: string
-        - name: nb_place
-          type: number
-          required: false
-          in: body
-        - name: note
-          type: number
-          required: false
-          in: body
-        - name: waypoints
-          required: false
-          type: array
-          description: Array of waypoint NAMES ["Somewhere","Over","The","Rainbow"]. If a waypoint doesn'0t exist, it will be create
-          items:
-            type: string
-        - name: subscriptions
-          required: false
-          description:
-            Array of subscriptions.
-            If provided with existing subscriptions, they will be updated.
-            ["car":2,"user":5] or
-            ["id":1, "car":2, "user":null]
-            None of the fields are required. If nothing is put in a subscription this basicly tells the run it must have 2 convoys, but that is it
-          type:
-            $ref: '#/definitions/RunSubscriptionInsert'
+          schema:
+            $ref: '#/definitions/Run'
       responses:
         200:
           description: The newly created run
@@ -94,9 +143,8 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
     get:
-      summary: User Types
+      summary: All the runs
       description:
         List all runs
       parameters:
@@ -143,7 +191,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
   /runs/{id}:
     patch:
       summary: Update a run
@@ -155,34 +202,11 @@ paths:
           description: Unique identifier of the runner
           required: true
           type: number
-        - name: name
+        - name: run
           required: true
           in: body
-          type: string
-        - name: nb_place
-          type: number
-          required: false
-          in: body
-        - name: note
-          type: number
-          required: false
-          in: body
-        - name: waypoints
-          required: false
-          type: array
-          description: Array of waypoint NAMES ["Somewhere","Over","The","Rainbow"]. If a waypoint doesn'0t exist, it will be create
-          items:
-            type: string
-        - name: subscriptions
-          required: false
-          description:
-            Array of subscriptions.
-            If provided with existing subscriptions, they will be updated.
-            ["car":2,"user":5] or
-            ["id":1, "car":2, "user":null]
-            None of the fields are required. If nothing is put in a subscription this basicly tells the run it must have 2 convoys, but that is it
-          type:
-            $ref: '#/definitions/RunSubscriptionInsert'
+          schema:
+            $ref: '#/definitions/Run'
       responses:
         200:
           description: The newly created run
@@ -199,7 +223,7 @@ paths:
       parameters:
         - name: id
           required: true
-          in: query
+          in: path
           type: number
       responses:
         200:
@@ -233,6 +257,75 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /runs/{id}/waypoints:
+    delete:
+      summary: Delete all waypoints from a run
+      tags:
+        - Waypoints
+        - Runs
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Bulk insert waypoints to a run
+      tags:
+        - Waypoints
+        - Runs
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: number
+        - name: waypoints
+          in: body
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Waypoint'
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Waypoint'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: Returns all the waypoints of a run
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: number
+      tags:
+        - Waypoints
+        - Runs
+      responses:
+        200:
+          description: An array of waypoints
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Waypoint'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 
   /runs/{id}/publish:
     post:
@@ -246,34 +339,11 @@ paths:
           description: Unique identifier of the runner
           required: true
           type: number
-        - name: name
+        - name: run
+          in: body
           required: true
-          in: body
-          type: string
-        - name: nb_place
-          type: number
-          required: false
-          in: body
-        - name: note
-          type: number
-          required: false
-          in: body
-        - name: waypoints
-          required: false
-          type: array
-          description: Array of waypoint NAMES ["Somewhere","Over","The","Rainbow"]. If a waypoint doesn'0t exist, it will be create
-          items:
-            type: string
-        - name: subscriptions
-          required: false
-          description:
-            Array of subscriptions.
-            If provided with existing subscriptions, they will be updated.
-            ["car":2,"user":5] or
-            ["id":1, "car":2, "user":null]
-            None of the fields are required. If nothing is put in a subscription this basicly tells the run it must have 2 convoys, but that is it
-          type:
-            $ref: '#/definitions/RunSubscriptionInsert'
+          schema:
+            $ref: '#/definitions/Run'
       responses:
         200:
           description: The newly created run
@@ -307,7 +377,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
   /runs/{id}/stop:
     post:
       summary: Stop the run
@@ -332,7 +401,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
   /runners/{id}:
     patch:
       summary: Runners
@@ -361,7 +429,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
   /runners/{id}/vehicles:
     get:
       summary: Vehicles for a runner
@@ -383,7 +450,7 @@ paths:
            - free
            - taken
       tags:
-       - Runners
+       - Runs
       responses:
         200:
           description: An array of vehicles
@@ -403,7 +470,7 @@ paths:
       parameters:
         - name: id
           required: true
-          in: query
+          in: path
           type: number
       responses:
         200:
@@ -421,7 +488,7 @@ paths:
       parameters:
         - name: id
           required: true
-          in: query
+          in: path
           type: number
         - name: car
           required: true
@@ -445,7 +512,7 @@ paths:
       parameters:
         - name: id
           required: true
-          in: query
+          in: path
           type: number
       responses:
         200:
@@ -456,6 +523,28 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /cars/search:
+      get:
+        summary: Returns an array of cars depending on search
+        parameters:
+          - name: q
+            required: true
+            allowEmptyValue: false
+            type: string
+            in: query
+        tags:
+          - Waypoints
+        responses:
+          200:
+            description: An array of cars
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Vehicle'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
   /cars:
     post:
       summary: Create a new car
@@ -463,30 +552,11 @@ paths:
       tags:
         - Vehicles
       parameters:
-        - name: plate_number
-          in: body
-          description: THe plate number of the car. A validation error will be thrown if plate number alredy exist in db.
-          required: false
-          type: string
-        - name: brand
-          in: body
-          required: false
-          description: Brand of the car
-          type: string
-        - name: model
-          in: body
-          required: false
-          description: Model of the car
-          type: string
-        - name: car_type
-          in: body
+        - name: car
           required: true
-          type: number
-          description: Car type identifier. Only required field.
-        - name: nb_place
           in: body
-          required: false
-          description: Number of seats available in car. If nothing is provided, will take number of seats of car.
+          schema:
+            $ref: '#/definitions/Vehicle'
       responses:
         200:
           description: OK
@@ -561,7 +631,34 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
+  /status/{model}:
+    get:
+      summary: Status for a given model
+      parameters:
+        - name: model
+          in: path
+          required: true
+          allowEmptyValue: false
+          enum:
+            - car
+            - user
+            - run
+            - run_subscription
+      description:
+        Lists available status for a model
+      tags:
+       - Status
+      responses:
+        200:
+          description: An array of status of status
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Status'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /status/vehicles:
     get:
       summary: Vehicle Status (DEPRECATED)
@@ -581,7 +678,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
   /groups/{id}:
     delete:
       summary: Delete a group
@@ -590,7 +686,7 @@ paths:
       parameters:
         - name: id
           required: true
-          in: query
+          in: path
           type: number
       responses:
         200:
@@ -608,17 +704,13 @@ paths:
       parameters:
         - name: id
           required: true
-          in: query
+          in: path
           type: number
-        - name: name
+        - name: group
           in: body
-          required: false
-          type: string
-        - name: user
-          in: body
-          required: false
-          type: number
-          description: If supplied, will change the user's group to the patched group.
+          required: true
+          schema:
+            $ref: '#/definitions/Group'
       responses:
         200:
           description: The newly created group
@@ -635,10 +727,11 @@ paths:
       tags:
         - Groups
       parameters:
-        - name: name
+        - name: group
           in: body
           required: true
-          type: string
+          schema:
+            $ref: '#/definitions/Group'
       responses:
         200:
           description: The newly created group
@@ -664,7 +757,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
   /groups/{id}/:
     patch:
       summary: Update a group
@@ -675,13 +767,11 @@ paths:
           description: Unique identifier of the run
           required: true
           type: number
-        - name: user
+        - name: group
           in: body
-          description:
-            ID of user. Changes the group of the user to the group {id}
-          required: false
+          required: true
           schema:
-            type: string
+            $ref: '#/definitions/Group'
       tags:
         - Groups
       responses:
@@ -695,14 +785,16 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
   /schedules/{id}:
     get:
       summary: Get a schedule
+      tags:
+        - Schedule
       parameters:
         - name: id
           required: true
-          in: query
+          in: path
+          type: number
       responses:
         200:
           description: OK
@@ -715,11 +807,13 @@ paths:
 
     delete:
       summary: Destroy a schedule
-      operationId:
+      tags:
+        - Schedule
       parameters:
         - name: id
           required: true
-          in: query
+          in: path
+          type: number
       responses:
         200:
           description: OK
@@ -731,10 +825,13 @@ paths:
             $ref: '#/definitions/Error'
     patch:
       summary: Create a new schedule
+      tags:
+        - Schedule
       parameters:
         - name: id
           required: true
-          in: query
+          in: path
+          type: number
         - name: schedule
           required: true
           in: body
@@ -752,8 +849,12 @@ paths:
   /schedules:
     post:
       summary: Create a new schedule
+      tags:
+        - Schedule
       parameters:
         - name: schedule
+          in: body
+          required: true
           schema:
             $ref: '#/definitions/Schedule'
       responses:
@@ -787,8 +888,226 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /waypoints/search:
+    get:
+      summary: Returns an array of waypoints depending on search
+      parameters:
+        - name: q
+          required: true
+          allowEmptyValue: false
+          type: string
+          in: query
+      tags:
+        - Waypoints
+      responses:
+        200:
+          description: An array of waypoints
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Waypoint'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /waypoints:
+    post:
+      summary: Create a new waypoint
+      tags:
+        - Waypoints
+      parameters:
+        - name: waypoint
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Waypoint'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Waypoint'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: Returns all the waypoints
+      tags:
+        - Waypoints
+      responses:
+        200:
+          description: An array of waypoints
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Waypoint'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /waypoints/{id}:
+    get:
+      summary: Get a waypoint
+      tags:
+        - Waypoints
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Waypoint'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 
+    delete:
+      summary: Destroy a waypoint
+      tags:
+        - Schedule
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Waypoint'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Create a new waypoint
+      tags:
+        - Schedule
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: number
+        - name: waypoint
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/Waypoint'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Waypoint'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /settings:
+    post:
+      summary: Create a new waypoint
+      tags:
+        - Waypoints
+      parameters:
+        - name: waypoint
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Waypoint'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Waypoint'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: Returns all the waypoints
+      tags:
+        - Waypoints
+      responses:
+        200:
+          description: An array of waypoints
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Waypoint'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /settings/{id}:
+    get:
+      summary: Get a setting
+      tags:
+        - Settings
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Setting'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Destroy a setting
+      tags:
+        - Settings
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Setting'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Create a new setting
+      tags:
+        - Settings
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: number
+        - name: waypoint
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/Setting'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Waypoint'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
+  Status:
+    type: array
+    minItems: 2
+    maxItems: 2
+    items:
+      type: string
   Schedule:
     type: object
     properties:

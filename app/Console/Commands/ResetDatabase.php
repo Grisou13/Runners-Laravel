@@ -12,7 +12,11 @@ class ResetDatabase extends Command
      *
      * @var string
      */
-    protected $signature = 'db:reset {--no-seed} {--production} {--date=now}';
+    protected $signature = 'db:reset 
+    {--no-seed : Don\'t seed the database}
+    {--production : Use ProductionSeeder when seeding}
+    {--default : Use DatabaseSeeder when seeding}
+    {--date=now}';
 
     /**
      * The console command description.
@@ -48,7 +52,9 @@ class ResetDatabase extends Command
           $this->call("db:seed", ["--class" => "ProductionSeeder"]);
           //TODO redo runs before and after this date
         }
-        else
+        else if($this->option("default"))
           $this->call("db:seed");
+        else
+          $this->call("db:seed", ["--class" => "BaseSeeder"]);
     }
 }

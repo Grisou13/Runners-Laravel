@@ -16,6 +16,7 @@ $runStatus: (
   ready: #69bb7b,
   gone: #64B5F6,
   needs_filling: #fd8b2d,
+  drafting: #fd8b2d,
   finished: #69bb7b,
   error: #ff0000,
 );
@@ -25,6 +26,6 @@ $runStatus: (
     background-color: $color !important
   }
 }
-.finished{
+.finished, .drafting{
   opacity: .6;
 }
