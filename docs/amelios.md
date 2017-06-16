@@ -3,12 +3,11 @@
 The app currently has permissions for starting and stopping runs.
 The app should have everything regulated by permissions.
 
-If you want to add permissions, do it in the RoleSeeder, and then implement them in your controllers.
+If you want to **add permissions**, do it in the RoleSeeder, and then implement them in your controllers.
 
 # Settings
 
-As of right now settings aren't cache. That's a huge performance dump.
-
+As of right now **settings** aren't **cache**. That's a huge performance dump.
 The app should have a cached version of the settings, use a database model if nothing is found. As a last resort, use the configs if nothing was found.
 
 
@@ -21,12 +20,19 @@ Enable the front-end to change some hard-coded settings such as :
 - Allow permission assignement
 
 ## Kiela
+Actually the schedule parsing is made in the JS front-end.
+The parsing means take the raw schedule data and sort them so we only keep a time between 2 moment when there's change.
+Go go _public/js/kiela.js_ to have an idea of how it is made and the data-structure
+The point is that this **parsing should be done by the API**. The JS should only display it in the slider.
+
+And in the 'precedent' and 'next' **buttons**, display the hour of the next and the previous shift.
+
 ## Schedule
-## Groups
+The **loading animation** only works on **Firefox**.
 
 # Roles
 
-As of right now the default created users are only `runners`
+As of right now the **default created users** are only **`runners`**
 
 The ui doesn't provide anything to assign roles to users!!! Not good!!! Bad.
 
@@ -54,13 +60,13 @@ As of right now, we created validation rules. But the UI doesn't have any valida
 
 # Runs
 
-The first thing that needs to be done is add multi stage creation for the run.
-The fact the app is built with react is a big step forward already.
-This means that when creating a run, the app should ask for a name, date, etc... then ask to add people.
+The first thing that needs to be done is add **multi stage creation** for the run.
+The app is built with reach which is already a big step forward.
+This means that **when creating a run, the app should ask for a name, date, etc... then ask to add people**.
 This allows the ui to display users that are going to be present, and are free at the declared time of the run.
 And when finishing give the user a recap page and tell them they can change later.
 
-The second thing would be a fast edit option to add people, adn change dates directly from the list.
+The second thing would be a **fast edit option** to add people, adn change dates directly from the list.
 This allows coordinators to be much faster in their job.
 If they need to insert waypoints, or anything else much more complex than a simple update, they can still go to the basic UI.
 
@@ -79,15 +85,13 @@ The tricky part comes in the app, where the app should keep the screen awake and
 
 # Unit and integration testing
 
-Hey, how about some tests?
-
+How about some tests?
 We didn't really have time. We implemented some tests for the api (mainly the run features), but nothing on the app.
-
 This should be done, so that deployement in production is always stable.
 
 # Api
 
-The api is mostly done, the only real thing that needs to be done is a reverse mapping between transformers and models.
+The api is mostly done, the only real thing that needs to be done is a reverse **mapping between transformers and models**.
 As of right now models are transformed to render a request, but not the other way around.
 
 These means that the api binds the model representation only when representing the models, but cannot interpret a request and create a model.

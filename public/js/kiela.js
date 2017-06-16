@@ -1,3 +1,11 @@
+/**
+* The purpose of Kiela is to display the runners present now.
+* A slider allow the front-end user to navigate through the shift of the day.
+* A shift is a period between hours when there's no group change.
+* Ex : Shift 1 is Grp1+Grp2 from 8AM to 12PM, Shift 2 is Grp2 FROM 12PM to 4PM,
+* and Shift 3 is Grp 1 FROM 6PM to 10PM..
+*/
+
 let scheduleFormat, schedules;
 // attach the .equals method to Array's prototype to call it on any array
 Array.prototype.equals = function (array) {
