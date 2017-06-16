@@ -64,7 +64,7 @@ And simply run. It may take a little few minutes to install.
 ```
 composer install
 php artisan key:generate
-sudo npm i -g gulp
+npm i -g gulp
 npm i 
 ```
 _note : if you have an error with gulp, use use `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share` and re-run de command_
