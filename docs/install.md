@@ -6,7 +6,7 @@
     - Tokenizer PHP Extension
     - XML PHP Extension
 - Webserver (nginx or apache)
-- Mysql >= 13.04
+- Mysql >= 5.7
 - Composer
 - Node >= 7.0.0
 
@@ -28,6 +28,33 @@ Now you have 3 possibilities of installation
 
 # Installation
 
+## On windows
+
+On windows you will need to install a mysql server >= 5.7.[https://dev.mysql.com/downloads/mysql/]()
+Then install php >= 7.0. Don't forget to add php.exe to your path. [Here's a useful tutorial](http://kizu514.com/blog/install-php7-and-composer-on-windows-10/).
+Now you need to install composer. [Please refer to getcomposer.org](http://getcomposer.org)
+You also need gulp and therefor node. [nodejs.org](https://nodejs.org)
+Now launch the following
+```
+composer install
+npm install -g gulp
+npm install
+gulp
+```
+
+And finally
+```
+php artisan db:reset --production
+php artisan serve
+```
+
+Now you can access the app at `localhost:8000`.
+
+__If you have problems with npm and path lengths, you can skip the npm install, and gulp__.
+You won't be able to compile assets though. The only workaround this is putting your project folder closer to the driver root.
+
+__You don't need to do the Post install operations!__
+
 ## With docker
 
 First get yourself a fresh copy of docker, with docker-compose **>= 1.8** (we need api v2).
@@ -44,6 +71,8 @@ Since PHP Dotenv doesn't override by default already environment variables, plea
 All variables that aren't set in that file, can be set via your `.env` file.
 For more examples look at `.env.example`.
 Or you could specify them in your config files, instead of `.env`.
+
+__The docker install wasn't tested on a windows environment__
 
 ### Using Docker-Machine
 If you are running docker on windows or mac, you will probably be running docker-machine. If that is the case, you need to put the prject folder in your personnal directory!
