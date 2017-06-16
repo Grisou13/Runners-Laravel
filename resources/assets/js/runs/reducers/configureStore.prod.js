@@ -9,7 +9,7 @@ import {middleware as wsMiddleware} from './../services/websocket';
 const reducers = combineReducers({
     filters: filterReducer,
     ui: rUiReducer,
-    display:displayReducer
+    display:displayReducer,
     runs,
 
 })
