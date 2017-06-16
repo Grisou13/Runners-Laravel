@@ -2,7 +2,11 @@
 
 ## Install
 
-Please refer to the documentation @ [doc/install.md](doc/install.md)
+Please refer to the documentation @ [docs/install.md](doc/install.md)
+
+# Docs
+
+Docs are available in [docs/](docs/).
 
 # Using the app
 
@@ -24,6 +28,3 @@ To access the api, please visit the url `/api`. This page will display informati
 
 Please refer to the documentation @ [docs/api.md](docs/api.md)
 And `/api` to get a listing of all available endpoints.
-
-
-
