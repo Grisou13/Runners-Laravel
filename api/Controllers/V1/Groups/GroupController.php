@@ -102,7 +102,8 @@ class GroupController extends BaseController
             return $this->response()->accepted();
         }
         $group->delete();
-        return $this->response()->accepted();
+        $this->response()->accepted();
+        return $group;
     }
 
 }

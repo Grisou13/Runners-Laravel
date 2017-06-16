@@ -108,7 +108,8 @@ class CarController extends BaseController
     }
     public function delete(Car $car)
     {
-        return $car->delete();
+        $car->delete();
+        return $car;
     }
     public function showAllComments(Request $request, Car $car){
       return $car->comments;
@@ -127,6 +128,6 @@ class CarController extends BaseController
     }
     public function removeComment(Request $request, Comment $comment){
       $comment->delete();
-
+      return $comment;
     }
 }
