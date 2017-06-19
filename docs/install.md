@@ -83,8 +83,10 @@ You first need to download [a vagrant homestead box](https://laravel.com/docs/5.
 Then configure your _Homestead.yaml_ by adding your working directory in the _folder_ field.
 At the end of the same file, add in the _"sites:"_ directive.
 `schedule: true`
-[Here's an example](https://laravel.com/docs/5.4/homestead#configuring-cron-schedules)
-TO VERIFY
+[Here's an example](https://laravel.com/docs/5.4/homestead#configuring-cron-schedules)  
+
+**Then follow the install procedure as for the LAMP (just below).**  
+
 ## With a LAMP
 
 Edit the .env file to suit your need. You need to provide at least a setted database.
