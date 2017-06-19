@@ -85,7 +85,7 @@ At the end of the same file, add in the _"sites:"_ directive.
 `schedule: true`
 [Here's an example](https://laravel.com/docs/5.4/homestead#configuring-cron-schedules)  
 
-**Then follow the install procedure as for the LAMP (just below).**  
+**Then follow the procedure for LAMP (just below)**  
 
 ## With a LAMP
 
