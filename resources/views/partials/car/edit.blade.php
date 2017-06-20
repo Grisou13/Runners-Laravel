@@ -64,7 +64,7 @@
         </div>
       </div>
     </div>
-@if(!$car->exists)
+
   @push("scripts")
   <script type="text/javascript">
     $(document).ready(function(){
@@ -88,4 +88,4 @@
     })
   </script>
   @endpush
-@endif
+

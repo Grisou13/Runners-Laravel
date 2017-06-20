@@ -11,6 +11,7 @@ import {subscribeSubscription} from "../services/websocket";
 import {unsubscribeRun} from "../services/websocket";
 import {RESET_RUNS} from "./consts";
 import {STARTED_RUN,RUN_PRINTED} from "./consts";
+import {GOT_RUN_BULK} from "./consts";
 // const jsPDF = window.jsPDF
 export const gotRuns = (runs) => {
     return {
@@ -100,6 +101,12 @@ export const gotRun = (run) => {
     }
 
 };
+export const gotRunsBulk = (runs) => {
+    return {
+        type: GOT_RUN_BULK,
+        payload: runs
+    }
+}
 export const updateRun = (run) => {
     return {
         type: UPDATE_RUN,
@@ -182,11 +189,37 @@ export const fetchingFailed = (error) => {
         error
     }
 };
+const url = "/runs?sortBy=planned_at,status&finished=true"
+const handlePaginator = (res,dispatch) => {
+    let next = res.meta.pagination.links.next || null
+    dispatch(gotRuns(res.data))
+    if(!next)
+        return false
+    dispatch(fetchRunPaginator(res.meta.pagination.current_page))
+}
+export const fetchRunPaginator = currentPage => dispatch => {
+    let next = currentPage+1
+    console.log(next)
+    console.log(currentPage)
+    console.log(typeof currentPage)
+    let u = url+"&page="+next
+    console.log(u)
+    api.get(u)
+        .then(res => res.data)
+        .then(res => {
+            handlePaginator(res,dispatch)
+        })
+        .catch((res)=>{
+            dispatch(fetchingFailed(res))
+        })
+}
 export const fetchRuns = () => {
     return (dispatch) => {
-        api.get("/runs?sortBy=planned_at,status&finished=true").then(
-            res => dispatch(gotRuns(res.data))
-        )
+        api.get(url)
+        .then(res => res.data)
+        //TODO paginate getting runs
+        .then(runs => dispatch(gotRunsBulk(runs)))
+        // .then(res => handlePaginator(res,dispatch) )
         .catch((res)=>{
             dispatch(fetchingFailed(res))
         })

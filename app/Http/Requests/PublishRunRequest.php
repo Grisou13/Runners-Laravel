@@ -18,7 +18,12 @@ class PublishRunRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+      /** @var User */
+      $user = $this->user();
+      if(!$user)
+        $user = app('Dingo\Api\Auth\Auth')->user();
+      
+      return $user && $user->hasPermissionTo("publish run");
     }
 
     /**

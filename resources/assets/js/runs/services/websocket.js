@@ -102,6 +102,8 @@ export const unsubscribeRun = (run) =>{
     run.runners.forEach( r =>  unsubscribeSubscription(r) );
 }
 export const unsubscribeSubscription = (sub) => {
+    var echo = window.LaravelEcho
+    if(echo && !window.LaravelEcho.connector.socket.connected) return false
   echo.channel(`runs.${sub.run_id}.subscriptions.${sub.id}`).unsubscribe()
 }
 export const subscribeSubscription = (sub,dispatcher) => {

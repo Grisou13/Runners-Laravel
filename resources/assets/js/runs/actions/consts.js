@@ -17,6 +17,7 @@ export const FETCHING_RUN_FAILED  = "fetching_run_failed"
 export const API_ERROR            = "api_error"
 export const STARTED_RUN          = "starteed_run"
 export const RUN_PRINTED          = "run_printed"
+export const GOT_RUN_BULK         = "got_run_bulk"
 
 export const SUBSCRIPTION_CREATED   =   "sub_created"
 export const SUBSCRIPTION_UPDATED   =   "sub_updated"

@@ -7,7 +7,7 @@ import services from './services'
 import {enableDisplayMode} from './actions/display'
 console.log(process.env.NODE_ENV)
 services(store.dispatch)
-if(window.location.pathname.includes("display"))
+if( typeof window.forceDisplayMode !== "undefined" && window.forceDisplayMode)
     store.dispatch(enableDisplayMode())
 render(
     <Provider store={store}>

@@ -118,6 +118,11 @@ If you don't want to use the production data, remove the argument and use the co
 If you are using **docker**, run the commands above prefixed with `docker-compose run --rm app {command}`
 
 ## Install laravel echo
+
+This install is optional, you are not required to install laravel-echo for the app to work.
+
+If you want to know what is [laravel echo all about](laravel_echo.md).
+
 ### Prerequisites
 
 - Redis [for more info on how to install redis]((https://redis.io/download)), (or use [this link](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04) if you use ubuntu)
@@ -129,8 +134,6 @@ If you are using **docker**, run the commands above prefixed with `docker-compos
 $ npm i -g laravel-echo-server
 ```
 
-Make sure redis is running, and that you have already changed the `.env` to suit your needs.
-
 Now edit the `.env` and change
 ```
 ...
@@ -139,7 +142,9 @@ QUEUE_DRIVER=redis
 ....
 ```
 
-Now you will need to start a few deamons:
+**Don't forget to configure redis in the .env**
+
+Now you will need to start a few deamons for everything to communicate:
 1. Start a redis-server instance
     `$ sudo service redis-server start`
 2. start laravel-echo-server as a deamon or just as bacjground process

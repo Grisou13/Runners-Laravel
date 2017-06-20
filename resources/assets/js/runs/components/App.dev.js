@@ -9,27 +9,36 @@ import {connect} from 'react-redux'
 import DevTools from './containers/DevTools'
 import {toggleDisplayMode} from './../actions/display'
 import ui from 'redux-ui';
-console.log(toggleDisplayMode)
 class App extends React.Component{
-
-    render() {
+    renderApp = () =>{
         const {
-          displayModeEnabled
+            displayModeEnabled
         } = this.props
-        console.log(this.props)
         let cl = displayModeEnabled ? "glyphicon-remove" : "glyphicon-fullscreen"
         return (
             <div className={["app-container ",displayModeEnabled ? "display" : ""].join(" ")}>
-                {/*<div className={ui.displayModeEnabled ? "display" : null}>*/}
-                    {displayModeEnabled ? (<div className="hidden"><Filters /></div>) : <Filters />}
-                    <button className="display-toggle" onClick={()=>this.props.dispatch(toggleDisplayMode())}>
-                        <span className={["glyphicon", cl].join(" ")}/>
-                    </button>
-                    <RunList />
-                    <DevTools />
-                {/*</div>*/}
+                {displayModeEnabled ? (<div className="hidden"></div>) : <Filters />}
+                <button className="display-toggle" onClick={()=>this.props.dispatch(toggleDisplayMode())}>
+                    <span className={[ "glyphicon", cl ].join(" ")}/>
+                </button>
+                <RunList />
+                <DevTools />
             </div>
         )
+    }
+    renderStaticDisplayMode = () => {
+        return (
+            <div className="app-container display">
+                <RunList />
+                <DevTools />
+            </div>
+        )
+    }
+    render() {
+        const force =  typeof window.forceDisplayMode !== "undefined" && window.forceDisplayMode
+        if(force)
+            return this.renderStaticDisplayMode()
+        return this.renderApp()
     }
 }
 App.propTypes = {
@@ -45,8 +54,5 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatch
     }
-    // return {
-    //     toggleDisplayMode: () => dispatch(toggleDisplayMode())
-    // }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App)

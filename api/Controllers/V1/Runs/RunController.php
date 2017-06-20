@@ -72,6 +72,10 @@ class RunController extends BaseController
       if( ! (int) filter_var($request->get("finished",false), FILTER_VALIDATE_BOOLEAN)) {
         $query->notOfStatus("finished");
       }
+      if($request->has("limit")) {
+        $paginator = $query->paginate($request->get("limit"));
+        return $this->response()->paginator($paginator, new RunTransformer(), ["key"=>"data"]);
+      }
       return $this->response()->collection($query->get(), new RunTransformer);
     }
 

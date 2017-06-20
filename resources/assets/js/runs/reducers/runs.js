@@ -10,6 +10,7 @@ import {SUBSCRIPTION_DELETED} from "../actions/consts";
 import {SUBSCRIPTION_UPDATED} from "../actions/consts";
 import {FETCHING_RUN_FAILED} from "../actions/consts";
 import {RESET_RUNS} from "../actions/consts";
+import {GOT_RUN_BULK} from "../actions/consts";
 const activeRun = (state = {}, action) =>{
     switch(action.type){
         case ADD_RUN:
@@ -20,8 +21,10 @@ const activeRun = (state = {}, action) =>{
 }
 const runs = (state = defaultState, action) => {
     switch(action.type){
-        case GOT_RUNS:
+        case GOT_RUN_BULK:
             return Object.assign({},state, {loaded:true, items: action.payload})
+        case GOT_RUNS:
+            return Object.assign({},state, {loaded:true, items: state.items.concat(action.payload)})
         case ADD_RUN:
             return Object.assign({},state, {items: [...state.items, action.payload]})
         case DELETE_RUN:

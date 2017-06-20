@@ -5,6 +5,7 @@
 namespace Api;
 
 use Api\ApiAuthProvider;
+use Api\Responses\FractalTransformer;
 use Api\Responses\Transformers\CarTransformer;
 use Api\Responses\Transformers\CarTypeTransformer;
 use Api\Responses\Transformers\GroupTransformer;
@@ -80,6 +81,11 @@ class ApiServiceProvider extends RouteServiceProvider
           $fractal->setSerializer(new Responses\NoDataArraySerializer);
           return new Fractal($fractal,"include",",",false);
         });
+//        app('Dingo\Api\Transformer\Factory')->setAdapter(function ($app) {
+//          $fractal = new Manager;
+//          $fractal->setSerializer(new Responses\NoDataArraySerializer);
+//          return new FractalTransformer($fractal, 'include', ',', false);
+//        });
         //change the not found model exception to a symfony exception (dingo handles only symfony... )
         app('Dingo\Api\Exception\Handler')->register(function (ModelNotFoundException $exception) {
             throw new NotFoundHttpException($exception->getMessage() ,$previous = $exception);

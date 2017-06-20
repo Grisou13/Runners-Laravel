@@ -5,10 +5,12 @@
 import wsService from './websocket'
 import printService from './print'
 import {fetchRuns} from "../actions/runs";
+import {resetRuns} from "../actions/runs";
 export default (dispatcher) => {
     if(!wsService(dispatcher))
         window.setInterval(()=>{
             console.log("refreshing runs");
+
             dispatcher(fetchRuns())
         },10*1000);
     printService(dispatcher)

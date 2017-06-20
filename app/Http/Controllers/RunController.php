@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRunRequest;
 use App\Http\Requests\CreateCommentRequest;
+use App\Http\Requests\EditRunRequest;
 use App\Http\Requests\PublishRunRequest;
 use App\Http\Requests\RunPdfRequest;
 use Auth;
@@ -23,7 +24,7 @@ use Lib\Models\Comment;
 class RunController extends Controller
 {
     public function __construct(){
-      $this->middleware("auth",["except"=>"display"]);
+      $this->middleware("auth");
     }
     /**
      * Display a listing of the resource.
@@ -65,14 +66,16 @@ class RunController extends Controller
     {
       return view("run.show",compact("run"));
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return View
-     */
-    public function edit(Request $request,Run $run)
+  
+  /**
+   * Show the form for editing the specified resource.
+   *
+   * @param EditRunRequest|Request $request
+   * @param Run $run
+   * @return View
+   * @internal param int $id
+   */
+    public function edit(EditRunRequest $request,Run $run)
     {
       return view("run.edit")->with("run",$run)->with("car_types",CarType::all())->with("waypoints", Waypoint::all())->with("cars",Car::all())->with("users",User::all());
     }
@@ -85,20 +88,11 @@ class RunController extends Controller
    */
     public function publish(PublishRunRequest $request, Run $run)
     {
-      // dd("IASZGDHASDJ");
-      // try{
-        $run_data = $request->except(["subscriptions","_token","_method"]);
-        $subs = $this->prepareSubsForApi($request);
-        $data = array_merge($run_data, ["subscriptions"=>$subs]);
-        $run = $this->api->be(Auth::user())->post("/api/runs/{$run->id}/publish",$data);
 
-//       }
-//       catch (ValidationException $e){
-// //        dd("ASHGDAKSD");
-//           return redirect()->route("runs.edit",compact("run"))->withErrors($e)->withInput($request->all());
-//       }
-      // dd($run);
-      //  return redirect()->route("runs.index");
+      $run_data = $request->except(["subscriptions","_token","_method"]);
+      $subs = $this->prepareSubsForApi($request);
+      $data = array_merge($run_data, ["subscriptions"=>$subs]);
+      $run = $this->api->be(Auth::user())->post("/api/runs/{$run->id}/publish",$data);
       return redirect()->route("runs.edit",compact("run"));
     }
 
@@ -114,7 +108,6 @@ class RunController extends Controller
           $run_data = $request->except(["subscriptions","_token"]);
           $subs = $this->prepareSubsForApi($request);
           $data = array_merge($run_data, ["subscriptions"=>$subs]);
-          //dd($data);
           $run = $this->api->be(Auth::user())->post("/runs",$data);
         }
         catch (ValidationException $e){
@@ -167,17 +160,23 @@ class RunController extends Controller
         $this->api->be(Auth::user())->delete("/runs/{$run->id}");
         return redirect()->route("runs.index");
     }
-
+  
+  /**
+   * Adds a comment to a run
+   * @param CreateCommentRequest $request
+   * @param Run $run
+   * @return \Illuminate\Http\RedirectResponse
+   */
     public function addComment(CreateCommentRequest $request, Run $run){
       $this->api->be(Auth::user())->post("/runs/{$run->id}/comments",$request->except(["_token"]));
-//      $comment = new Comment;
-//      $comment->fill($request->except("user"));
-//      $comment->commentable()->associate($run);
-//      $user = $request->user();
-//      $comment->user()->associate($user);
-//      $comment->save();
       return redirect()->back();
     }
+  
+  /**
+   * Generates a pdf or runs from a blade view
+   * @param RunPdfRequest $request
+   * @return mixed
+   */
     public function pdf(RunPdfRequest $request){
 
       if($request->has("runs"))
@@ -190,12 +189,25 @@ class RunController extends Controller
       ]);
       return $pdf->stream('document.pdf');
     }
-
+  
+  /**
+   * Force start of a run
+   * @param Request $request
+   * @param Run $run
+   * @return \Illuminate\Http\RedirectResponse
+   */
     public function start(Request $request, Run $run)
     {
       $this->api()->be(auth()->user())->post("/runs/{$run->id}/start");
       return redirect()->back();
     }
+  
+  /**
+   * Force stop of a run
+   * @param Request $request
+   * @param Run $run
+   * @return \Illuminate\Http\RedirectResponse
+   */
     public function stop(Request $request, Run $run)
     {
       $this->api()->be(auth()->user())->post("/runs/{$run->id}/stop");
