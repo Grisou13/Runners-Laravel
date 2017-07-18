@@ -77,9 +77,10 @@ function display(entries, container){
                 let users = res["data"].users;
                 users.forEach(function(user){
                     let userDiv = document.createElement("div");
-                    userDiv.innerHTML += user.firstname + " ";
-                    userDiv.innerHTML += user.lastname + "<br>";
+                    userDiv.innerHTML += user.firstname + "<br>";
                     userDiv.innerHTML += "<img src='" + user.profile_image + "'>";
+                    userDiv.innerHTML += "<br>";
+                    userDiv.innerHTML += user.phone_number;
                     userDiv.innerHTML += "<br>";
                     userDiv.className += "col-md-2";
 
@@ -305,3 +306,4 @@ function getScheduleFormat(callback){
 }
 
 getScheduleFormat(getAllSchedules);
+
