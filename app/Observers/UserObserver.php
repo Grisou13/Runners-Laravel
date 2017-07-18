@@ -39,7 +39,7 @@ class UserObserver
       "App\\Events\\RunSubscriptionSavingEvent",
       [$this,"makeUserUnavailable"]
     );
-  
+
     $events->listen(
       "App\\Events\\UserCreatingEvent",
       [$this,"userCreating"]
@@ -49,7 +49,7 @@ class UserObserver
       [$this,"userCreated"]
     );
 
-    
+
     $events->listen(
       "App\\Events\\RunStartedEvent",
       [$this,"makeUserGone"]
@@ -86,7 +86,7 @@ class UserObserver
     \Log::info("Adding default profile image to user [$user->id]");
     $file = new File(public_path("images/profile/default_profile.bmp"));
     $user->addProfileImage($file);
-    $user->assignRole("runner");
+    //$user->assignRole("runner");
 
   }
   public function userCreating(UserCreatingEvent $event)
