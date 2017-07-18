@@ -123,21 +123,28 @@ class UserController extends Controller
       return redirect()->route("users.show",$user)->with("message","Utilisateur crée !");
   }
 
-  public function storeLicenseImage(Request $request)
+  public function storeLicenseImage(Request $request, User $user)
   {
     $file = $request->file("image");
-    $user = $request->user();
+    $currentUser = $request->user();
+    if($currentUser->id !== $user->id && !$currentUser->hasPermissionTo("edit all profile images")){
+      return abort(401, "You cannot edit another's users profile image without being them");//
+    }
     if($user->licenseImage() != null)
       $user->removeLicenseImage();
+
     //notify the user that we need to move the file
     $user->addLicenseImage(new File($file),true);
     Session::flash('success', 'Chargement réussi');
     return redirect()->back();
   }
-  public function storeProfileImage(Request $request)
+  public function storeProfileImage(Request $request, User $user)
   {
       $file = $request->file("image");
-      $user = $request->user();
+      $currentUser = $request->user();
+      if($currentUser->id !== $user->id && !$currentUser->hasPermissionTo("edit all profile images")){
+        return abort(401, "You cannot edit another's users profile image without being them");//
+      }
       if($user->profileImage() != null)
         $user->removeProfileImage();
 

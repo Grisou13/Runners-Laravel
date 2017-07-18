@@ -24,11 +24,16 @@ class RoleSeeder extends Seeder
       Permission::create(["name"=>"edit settings"]);
       Permission::create(["name"=>"create settings"]);
       Permission::create(["name"=>"delete settings"]);
-      
+
+      Permission::create(["name"=>"edit all profile images"]);
+
+
       Role::create([
         "name"=>"anonymous"
-      ]);
-      
+      ])
+      ->givePermissionTo('view runs')
+      ;
+
       Role::create([
           "name" => "runner"
       ])
@@ -49,6 +54,7 @@ class RoleSeeder extends Seeder
       ->givePermissionTo('edit settings')
       ->givePermissionTo('create settings')
       ->givePermissionTo('delete settings')
+      ->givePermissionTo('edit all profile images')
       ;
 
       Role::create([
@@ -64,10 +70,13 @@ class RoleSeeder extends Seeder
       ->givePermissionTo('edit settings')
       ->givePermissionTo('create settings')
       ->givePermissionTo('delete settings')
+      ->givePermissionTo('edit all profile images')
       ;
 
       Role::create([
         "name" => "production_assistante"
-      ]);
+      ])
+      ->givePermissionTo('view runs')
+      ;
     }
 }

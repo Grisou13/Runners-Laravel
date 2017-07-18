@@ -40,7 +40,7 @@ class UserController extends BaseController
     {
       if($user->profileImage() == null)
         throw new NotFoundHttpException("unable to find image of user {$user->id}");
-      $imagePath = public_path("images/".$user->profileImage()->filename);
+      $imagePath = public_path($user->profileImage()->filename);
       $img = Intervention::make($imagePath);
       return $img->response();
     }
