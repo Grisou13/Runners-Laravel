@@ -77,7 +77,7 @@ function display(entries, container){
                 let users = res["data"].users;
                 users.forEach(function(user){
                     let userDiv = document.createElement("div");
-                    userDiv.innerHTML += user.firstname + "<br>";
+                    userDiv.innerHTML += user.firstname + " (" + user.name + ")" + "<br>";
                     userDiv.innerHTML += "<img src='" + user.profile_image + "'>";
                     userDiv.innerHTML += "<br>";
                     userDiv.innerHTML += user.phone_number;
