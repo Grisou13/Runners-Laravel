@@ -25,17 +25,6 @@
       </span>
      @endif
  </div>
-<div class="form-group">
-    <label for="note" class="col-md-4 control-label">Extra</label>
-    <div class="col-md-6">
-        <textarea name="note" class="form-control">{{ (string)$run->note }}</textarea>
-    </div>
-    @if ($errors->has("note"))
-        <span class="help-block">
-          <strong>{{ $errors->first("note") }}</strong>
-      </span>
-    @endif
-</div>
  @php
      $waypoints = $waypoints->mapWithKeys(function($p){
          return [(string)$p->id => $p->name];
@@ -176,6 +165,19 @@
                 </div>
             @endif
         @endforeach
+    @endif
+</div>
+
+<br>
+<div class="form-group">
+    <label for="note" class="col-md-4 control-label">Extra</label>
+    <div class="col-md-6">
+        <textarea name="note" class="form-control">{{ (string)$run->note }}</textarea>
+    </div>
+    @if ($errors->has("note"))
+        <span class="help-block">
+          <strong>{{ $errors->first("note") }}</strong>
+      </span>
     @endif
 </div>
 
