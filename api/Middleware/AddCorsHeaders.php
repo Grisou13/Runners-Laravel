@@ -18,12 +18,13 @@ class AddCorsHeaders
      * @var $response \Illuminate\Http\Response
      */
     $response = $next($request);
-  
+
     // Perform action
     $response->withHeaders([
       "Access-Control-Allow-Origin"=>"*",
       "Access-Control-Allow-Headers" => "X-Requested-With, Content-Type, X-Access-Token, x-access-token, Authorization, api_key",
       "Access-Control-Request-Method"=>"GET, POST, PUT, PATCH, DELETE",
+      "Access-Control-Allow-Methods"=>"GET, POST, PUT, PATCH, DELETE",
       "Access-Control-Request-Headers"=>"X-Requested-With, Content-Type, X-Access-Token, x-access-token, Authorization, api_key",
       "Access-Control-Max-Age"=>0
     ]);
