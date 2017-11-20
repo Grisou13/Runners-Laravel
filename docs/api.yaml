@@ -68,6 +68,55 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /user/{id}:
+    patch:
+      summary: Update a user
+      tags:
+        - Users
+      security:
+        - AccessToken: []
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the user
+          required: true
+          type: number
+        - name: run
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: The newly created user
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+    get:
+      summary: Get a user
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the user
+          required: true
+          type: number
+      security:
+        - AccessToken: []
+      responses:
+        200:
+          description: A user
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /me:
     get:
       summary: Current user

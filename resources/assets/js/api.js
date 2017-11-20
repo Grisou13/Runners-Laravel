@@ -1,4 +1,5 @@
 import { SwaggerUIBundle, SwaggerUIStandalonePreset } from 'swagger-ui-dist'
+console.log(SwaggerUIBundle);
 const ui = SwaggerUIBundle({
     url: window.Laravel.basePath + "/api/spec.yaml",
     dom_id: '#swagger-ui',
