@@ -17,7 +17,7 @@ class RunSubscriptionTransformer extends TransformerAbstract
   protected $defaultIncludes = [
     "user",
     "car",
-    "vehicule_category",
+    "vehicle_category",
   ];
   protected $availableIncludes = [
     "run"
@@ -48,7 +48,7 @@ class RunSubscriptionTransformer extends TransformerAbstract
       return $this->item($c, new CarTransformer);
     return $this->null();
   }
-  public function includeVehiculeCategory(RunSubscription $sub)
+  public function includeVehicleCategory(RunSubscription $sub)
   {
     if($c = $sub->car_type)
       return $this->item($c, new CarTypeTransformer);

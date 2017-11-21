@@ -111,10 +111,13 @@ class SubscriptionController extends BaseController
   {
     //runners / users
     if($request->has("user")) {
+
       if ($request->get("user") == null)
         $sub->user()->dissociate();
-      else
+      else if($run->subsriptions()->whereHas("user_id", $request->get("user"))->count() <= 0)
         $sub->user()->associate($request->get("user"));
+      else
+        throw new BadRequestHttpException("The user ".$request->get("user")." is already in this run");
     }
     //cars
     if($request->has("car")) {

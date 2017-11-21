@@ -129,7 +129,7 @@ class ApiServiceProvider extends RouteServiceProvider
         {
           foreach($this->version as $version)
           {
-            $api->group(['version'=>$version,'namespace' => $this->namespace . "\\" . ucfirst($version),"middleware"=>"bindings"], function ($api) use($version) {
+            $api->group(['version'=>$version,'namespace' => $this->namespace . "\\" . ucfirst($version),"middleware"=>"bindings","prefix"=>$version], function ($api) use($version) {
               require base_path("api/routes_".$version.".php");
             });
           }
@@ -140,7 +140,7 @@ class ApiServiceProvider extends RouteServiceProvider
             require base_path('api/routes.php');
           });
         }
-        
+
     }
 
 

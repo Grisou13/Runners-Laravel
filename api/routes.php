@@ -24,7 +24,7 @@ $api->get("/spec.yaml","HomeController@spec");
  */
 $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api){
     $api->get("/users/search",["as"=>"users.search","uses"=>"UserController@search"]);
-  
+
     $api->get("/me",["uses"=>"AuthenticatedUserController@me","as"=>"users.me"]);
     $api->get("users/me",["uses"=>"AuthenticatedUserController@me"]);
     $api->get("/me/runs","AuthenticatedUserController@runs");
@@ -50,23 +50,23 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
 
     //$api->resource("kiela", "KielaController");
     $api->resource("settings", "SettingController");
-  
+
     $api->group(["namespace"=>"Cars"],function($api) {
       /**
        * @var $api Dingo\Api\Routing\Router
        */
       $api->get("/cars/search",["as"=>"cars.search","uses"=>"CarController@search"]);
       $api->get("/vehicles/search",["as"=>"vehicles.search","uses"=>"CarController@search"]);
-  
+
       $api->get("/cars/{car}/type",["as"=>"cars.type","uses"=>"CarController@type"]);
       $api->get("/vehicles/{vehicle}/type",["as"=>"cars.type","uses"=>"CarController@type"]);
-  
+
       $api->resource("cars.comments","CommentController",["except"=>["update"]]);
-      
+
       $api->resource("cars",'CarController');
       $api->resource("vehicles",'CarController');
     });
-    
+
 
     $api->get("/car_types/search",["as"=>"car_types.search","uses"=>"CarTypeController@search"]);
     $api->get("/car_types/{car_type}/cars",["as"=>"car_types.cars","uses"=>"CarTypeController@carList"]);
@@ -82,6 +82,8 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
 
     $api->get("/status","StatusController@index");
     $api->get("/status/vehicle","StatusController@vehicle"); //not for us, but for ionic app
+    $api->get("/status/vehicles","StatusController@vehicle"); //not for us, but for ionic app
+
     $api->get("/status/{model}","StatusController@model");
 
     $api->group(["namespace"=>"Runs"],function($api){
@@ -93,7 +95,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       $api->post("/runs/{run}/start",["as"=>"runs.start","uses"=>"RunController@start"]);
       $api->post("/runs/{run}/stop",["as"=>"runs.stop","uses"=>"RunController@stop"]);
       $api->resource("runs","RunController");
-      
+
       $api->delete("/runs/{run}/waypoints",["as"=>"runs.waypoints.destroy_all","uses"=>"WaypointController@deleteAll"]);
       $api->resource("runs.waypoints","WaypointController");
       $api->resource("runs.comments","CommentController");
@@ -101,7 +103,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       $api->post("/runs/{run}/subscriptions/{subscription}/start",["as"=>"runs.sub.start","uses"=>"SubscriptionController@start"]);
       $api->post("/runs/{run}/subscriptions/{subscription}/stop",["as"=>"runs.sub.stop","uses"=>"SubscriptionController@stop"]);
       $api->resource("runs.subscriptions","SubscriptionController");
-      
+
       $api->post("/runs/{run}/runners/{runner}/start",["as"=>"runs.runner.start","uses"=>"SubscriptionController@start"]);
       $api->post("/runs/{run}/runners/{runner}/stop",["as"=>"runs.runner.stop","uses"=>"SubscriptionController@stop"]);
       $api->resource("runs.runners","SubscriptionController");
