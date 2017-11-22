@@ -97,27 +97,35 @@ class SubscriptionController extends BaseController
 
   public function update(UpdateRunSubscriptionRequest $request, RunSubscription $sub)
   {
+    // dd($request->get("user") == null);
+
     //runners / users
-    if($request->has("user"))
-      if($request->get("user") == null)
+    if($request->exists("user")){
+      if($request->get("user") == null){
         $sub->user()->dissociate();
-      else
+      }
+      else if(RunSubscription::where("run_id",$sub->run_id)->where("user_id", $request->get("user"))->count() <= 0) // the user is registered once
         $sub->user()->associate($request->get("user"));
+      else
+        throw new BadRequestHttpException("The user you enetered is already in a convoy");
+    }
     //cars
-    if($request->has("car"))
+    if($request->exists("car"))
       if($request->get("car") == null)
         $sub->car()->dissociate();
-      else
+      else if(RunSubscription::where("run_id",$sub->run_id)->where("car_id", $request->get("car"))->count() <= 0) // the car is registered once
         $sub->car()->associate($request->get("car"));
+      else
+        throw new BadRequestHttpException("The car you enetered is already in a convoy");
+
     //car types
-    if($request->has("car_type"))
+    if($request->exists("car_type"))
       if($request->get("car_type") == null)
         $sub->car_type()->dissociate();
       else
         $sub->car_type()->associate($request->get("car_type"));
 
     $data = $request->except(["token","_token","user","car_type","car"]);
-
     $sub->update($data);
     broadcast(new RunSubscriptionUpdatedEvent($sub));
     return $sub;

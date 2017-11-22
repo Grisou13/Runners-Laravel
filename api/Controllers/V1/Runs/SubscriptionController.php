@@ -109,25 +109,28 @@ class SubscriptionController extends BaseController
   }
   public function update(UpdateRunSubscriptionRequest $request, Run $run, RunSubscription $sub)
   {
+    //TODO handle permissions to check if user is allowed to dissociate from run (if driver can only remove himself and not somebody else)
+    
     //runners / users
-    if($request->has("user")) {
-
+    if($request->exists("user")) {
       if ($request->get("user") == null)
         $sub->user()->dissociate();
-      else if($run->subsriptions()->whereHas("user_id", $request->get("user"))->count() <= 0)
+      else if(RunSubscription::where("run_id",$run->id)->where("user_id", $request->get("user"))->count() <= 0) // the user is registered once
         $sub->user()->associate($request->get("user"));
       else
-        throw new BadRequestHttpException("The user ".$request->get("user")." is already in this run");
+        throw new BadRequestHttpException("The user you enetered is already in a convoy");
     }
     //cars
-    if($request->has("car")) {
+    if($request->exists("car")) {
       if ($request->get("car") == null)
         $sub->car()->dissociate();
-      else
+      else if(RunSubscription::where("run_id",$run->id)->where("car_id", $request->get("car"))->count() <= 0) // the car is registered once
         $sub->car()->associate($request->get("car"));
+      else
+        throw new BadRequestHttpException("The car you enetered is already in a convoy");
     }
     //car types
-    if($request->has("car_type")) {
+    if($request->exists("car_type")) {
       if ($request->get("car_type") == null)
         $sub->car_type()->dissociate();
       else
