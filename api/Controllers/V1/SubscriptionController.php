@@ -100,6 +100,7 @@ class SubscriptionController extends BaseController
     // dd($request->get("user") == null);
 
     //runners / users
+      //TODO check if user can update the subscription and add other users
     if($request->exists("user")){
       if($request->get("user") == null){
         $sub->user()->dissociate();
@@ -110,14 +111,28 @@ class SubscriptionController extends BaseController
         throw new BadRequestHttpException("The user you enetered is already in a convoy");
     }
     //cars
-    if($request->exists("car"))
-      if($request->get("car") == null)
-        $sub->car()->dissociate();
-      else if(RunSubscription::where("run_id",$sub->run_id)->where("car_id", $request->get("car"))->count() <= 0) // the car is registered once
-        $sub->car()->associate($request->get("car"));
-      else
-        throw new BadRequestHttpException("The car you enetered is already in a convoy");
+    if($request->exists("car")) {
+        //check if user can associate anybody
+        if ($this->auth()->user()->hasAnyRole(["coordinator", "admin"])) { //TODO hard coded permissions
+            if ($request->get("car") == null)
+                $sub->car()->dissociate();
+            else if(RunSubscription::where("run_id",$sub->run_id)->where("car_id", $request->get("car"))->count() <= 0) // the car is registered once
+                $sub->car()->associate($request->get("car"));
+            else
+                throw new BadRequestHttpException("The car you enetered is already in a convoy");
 
+        } //otherwise check if it's his subscription
+        else if ($sub->user_id == $this->auth()->user()->id) {
+            dd("YOU ARE THE USER");
+            if ($request->get("car") == null)
+                $sub->car()->dissociate();
+            else if(RunSubscription::where("run_id",$sub->run_id)->where("car_id", $request->get("car"))->count() <= 0) // the car is registered once
+                $sub->car()->associate($request->get("car"));
+            else
+                throw new BadRequestHttpException("The car you enetered is already in a convoy");
+
+        }
+    }
     //car types
     if($request->exists("car_type"))
       if($request->get("car_type") == null)
