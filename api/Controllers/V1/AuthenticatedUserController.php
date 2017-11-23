@@ -19,6 +19,6 @@ class AuthenticatedUserController extends Base
   }
   public function schedule()
   {
-    return $this->user()->schedule();
+    return $this->user()->group->schedules();
   }
 }

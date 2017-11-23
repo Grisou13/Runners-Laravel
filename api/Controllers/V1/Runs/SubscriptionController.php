@@ -133,7 +133,6 @@ class SubscriptionController extends BaseController
 
           } //otherwise check if it's his subscription
           else if ($sub->user_id == $this->auth()->user()->id) {
-              dd("YOU ARE THE USER");
               if ($request->get("car") == null)
                   $sub->car()->dissociate();
               else if(RunSubscription::where("run_id",$sub->run_id)->where("car_id", $request->get("car"))->count() <= 0) // the car is registered once
