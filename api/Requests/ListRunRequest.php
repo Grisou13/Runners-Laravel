@@ -22,7 +22,7 @@ class ListRunRequest extends FormRequest
   public function rules()
   {
     return [
-      "status"=>["nullable","sometimes",Rule::in(Status::getStatusForRessource("run"))]
+      // "status"=>["nullable","sometimes",Rule::in(Status::getStatusForRessource("run"))]
     ];
   }
 }

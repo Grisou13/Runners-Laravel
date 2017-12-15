@@ -55,7 +55,7 @@ class RunController extends BaseController
       if($request->has("actif"))
         $query->actif();//retrive all active runs @see Lib\Models\Run::scopeActif
       if($request->has("status"))
-        $query->ofStatus($request->get("status"));
+        $query->ofStatus(explode(",",$request->get("status")));
       if($request->has("sortBy")){
           $sorts = explode(",",$request->get("sortBy"));
           foreach($sorts as $sort){
@@ -100,7 +100,7 @@ class RunController extends BaseController
     {
       return $run;
     }
-  
+
   /**
    * Update a run
    * @param UpdateRunRequest|Request $request
@@ -165,7 +165,7 @@ class RunController extends BaseController
           $carTypeId = array_key_exists("vehicle_category", $convoy) ? $convoy["vehicle_category"] : null;
         if(is_null($carId))
           $carId = array_key_exists("vehicle", $convoy) ? $convoy["vehicle"] : null;
-        
+
         $sub = array_key_exists("id", $convoy) ? RunSubscription::findOrFail($convoy["id"]) : new RunSubscription;
         $sub->user()->associate($userId);
         $sub->car()->associate($carId);

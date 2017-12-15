@@ -227,24 +227,24 @@ const getVisibleRuns = (runs, displayModeEnabled, filters) => {
     if(filters.time.end.length)
         runs = runs.filter(r => moment(r.begin_at).minutes() <= parseInt(filters.time.end.split(timeSplitter)[1]) && moment(r.begin_at).hours() <= parseInt(filters.time.end.split(timeSplitter)[0]))
 
-    if( filters.status.indexOf("finished") === -1)
-        runs = runs.filter(r => r.status != "finished")
-    else if(filters.status.length)
-      runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
 
+    if(filters.status.length)
+      runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
+    if( filters.status.indexOf("finished") === -1) //allways filter finished runs if nothing specified
+        runs = runs.filter(r => r.status != "finished")
 
     if(displayModeEnabled){
         runs = runs.filter(r => r.status != "drafting")
         runs = runs.filter(r => r.status != "finished")
       }
-    if(filters.name.length)
+    if(filters.name.length >= 2)
         runs = runs.filter(r => r.title.toLowerCase().startsWith(filters.name.toLowerCase()))
-    if(filters.user.length)
+    if(filters.user.length >= 2)
       runs = runs.filter(r => {
-         if ( r.runners.filter( r => r.user && r.user.name.toLowerCase().startsWith(filters.user.toLowerCase())).length )
+         if ( r.runners.filter( r => r.user && r.user.name && r.user.name.toLowerCase().startsWith(filters.user.toLowerCase())).length )
           return r
       })
-    if(filters.car.length)
+    if(filters.car.length >= 2)
         runs = runs.filter(r => {
           //check cars and car types
           if ( r.runners.filter( r => r.car && r.car.name.toLowerCase().startsWith(filters.car.toLowerCase())).length ||  r.runners.filter( r => r.vehicule_category && r.vehicule_category.type.toLowerCase().startsWith(filters.car.toLowerCase())).length)

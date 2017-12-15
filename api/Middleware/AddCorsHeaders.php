@@ -22,11 +22,13 @@ class AddCorsHeaders
     // Perform action
     $response->withHeaders([
       "Access-Control-Allow-Origin"=>"*",
-      "Access-Control-Allow-Headers" => "X-Requested-With, Content-Type, X-Access-Token, x-access-token, Authorization, api_key",
-      "Access-Control-Request-Method"=>"GET, POST, PUT, PATCH, DELETE",
-      "Access-Control-Allow-Methods"=>"GET, POST, PUT, PATCH, DELETE",
-      "Access-Control-Request-Headers"=>"X-Requested-With, Content-Type, X-Access-Token, x-access-token, Authorization, api_key",
-      "Access-Control-Max-Age"=>0
+      "Access-Control-Allow-Headers" => "X-Requested-With, Content-Type, X-Access-Token, x-access-token, Authorization, api_key, x-xsrf-token",
+      // "Access-Control-Allow-Headers" => "True",
+      "Access-Control-Request-Method"=>"GET, POST, PUT, PATCH, DELETE, OPTIONS",
+      "Access-Control-Allow-Methods"=>"GET, POST, PUT, PATCH, DELETE, OPTIONS",
+      "Access-Control-Request-Headers"=>"X-Requested-With, Content-Type, X-Access-Token, x-access-token, Authorization, api_key, x-xsrf-token",
+      "Access-Control-Max-Age"=>0,
+
     ]);
     return $response;
   }
