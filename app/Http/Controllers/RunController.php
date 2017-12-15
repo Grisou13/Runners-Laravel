@@ -66,7 +66,7 @@ class RunController extends Controller
     {
       return view("run.show",compact("run"));
     }
-  
+
   /**
    * Show the form for editing the specified resource.
    *
@@ -160,7 +160,7 @@ class RunController extends Controller
         $this->api->be(Auth::user())->delete("/runs/{$run->id}");
         return redirect()->route("runs.index");
     }
-  
+
   /**
    * Adds a comment to a run
    * @param CreateCommentRequest $request
@@ -171,7 +171,7 @@ class RunController extends Controller
       $this->api->be(Auth::user())->post("/runs/{$run->id}/comments",$request->except(["_token"]));
       return redirect()->back();
     }
-  
+
   /**
    * Generates a pdf or runs from a blade view
    * @param RunPdfRequest $request
@@ -189,7 +189,7 @@ class RunController extends Controller
       ]);
       return $pdf->stream('document.pdf');
     }
-  
+
   /**
    * Force start of a run
    * @param Request $request
@@ -201,7 +201,7 @@ class RunController extends Controller
       $this->api()->be(auth()->user())->post("/runs/{$run->id}/start");
       return redirect()->back();
     }
-  
+
   /**
    * Force stop of a run
    * @param Request $request

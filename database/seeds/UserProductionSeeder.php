@@ -24,8 +24,22 @@ class UserProductionSeeder extends Seeder
         "password"=>bcrypt("root")
       ]);
       $root->assignRole("admin");
+
+      //create a system user, used for comments, and "automatic data insertion in models"
+      //TODO secure these models and passwords
+      $system = Lib\Models\User::create([
+        "email"=>"system@localhost",
+        "phone_number"=>"",
+        "sex"=>true,
+        "accesstoken"=>"system",
+        "firstname"=>"system",
+        "name"=>"system",
+        "lastname"=>"system",
+        "password"=>bcrypt("system")
+      ]);
+      $system->assignRole("admin");
       // création d'un utilisateur driver
-  
+
       $user = Lib\Models\User::create([
         "email" => "runner@localhost",
         "phone_number" => "",
@@ -66,6 +80,6 @@ class UserProductionSeeder extends Seeder
       $coordUsers->each(function($user){
         $user->assignRole("coordinator");
       });
-      
+
     }
 }

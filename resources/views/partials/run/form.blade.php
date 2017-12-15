@@ -30,7 +30,7 @@
         </div>
         @if(!$run->drafting)
           <div class="">
-            <button onclick="document.getElementById('form-action').submit()" type="submit" id="delete" class="btn btn-danger col-md-3" >
+            <button onclick="document.getElementById('form-action').submit()" type="button" id="delete" class="btn btn-danger col-md-3" >
               <span>
               @if($run->status == "ready")
                 Démarrer la course
