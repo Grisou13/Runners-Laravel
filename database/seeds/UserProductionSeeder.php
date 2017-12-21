@@ -27,7 +27,7 @@ class UserProductionSeeder extends Seeder
 
       //create a system user, used for comments, and "automatic data insertion in models"
       //TODO secure these models and passwords
-      $system = Lib\Models\User::create([
+      /* $system = Lib\Models\User::create([
         "email"=>"system@localhost",
         "phone_number"=>"",
         "sex"=>true,
@@ -37,7 +37,7 @@ class UserProductionSeeder extends Seeder
         "lastname"=>"system",
         "password"=>bcrypt("system")
       ]);
-      $system->assignRole("admin");
+      $system->assignRole("admin"); */
       // création d'un utilisateur driver
 
       $user = Lib\Models\User::create([

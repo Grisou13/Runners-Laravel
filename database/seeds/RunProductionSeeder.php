@@ -151,7 +151,7 @@ class RunProductionSeeder extends Seeder
 
         $this->wayPoints->each(function ($n)
         {
-            Waypoint::create(["name" => $n]);
+            Waypoint::create(["name" => $n, "geo"=>null]);
         });
 
         $this->cars = Car::all();

@@ -11,6 +11,7 @@ use App\Events\RunDeletingEvent;
 use App\Events\RunSubscriptionSavingEvent;
 use App\Events\WaypointCreatingEvent;
 use App\Events\WaypointSavingEvent;
+use App\Events\WaypointSavedEvent;
 use App\Jobs\ProcessWaypoint;
 use Lib\Models\RunSubscription;
 
@@ -44,7 +45,7 @@ class RunSubObserver
     if($point->geo == null)
       dispatch(new ProcessWaypoint($point));
   }
-  public function saved(WaypointSavingEvent $event)
+  public function saved(WaypointSavedEvent $event)
   {
     $point = $event->waypoint;
     if($point->geo == null)
