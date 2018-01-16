@@ -85,10 +85,12 @@ class RunObserver
   }
 
   protected function runNotReady(Run $run){
+
       $date = Carbon::now();
-      $date->addMinutes(15);
-      if($date->lte($run->planned_at))
-        $run->status = "error";
+      $date = $date->addMinutes(15);
+      if($date->lte($run->planned_at)){
+          $run->status = "error";
+      }
       else
         $run->status="needs_filling";
       return $run;

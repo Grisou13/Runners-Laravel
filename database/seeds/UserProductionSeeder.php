@@ -64,11 +64,11 @@ class UserProductionSeeder extends Seeder
 //      $count = User::count();
 //      $skip = 2;
 //      $limit = $count - $skip; // the limit
-      $users = User::where("id",">",2)->get();
+      $users = User::where("id",">",3)->get();
       dump($users->count());
       $users->each(function(User $user){
-        \File::copy(storage_path("fixtures/profile_images/".($user->id-1).".png"),storage_path("tmp/".($user->id-1).".png"));
-        $user->addProfileImage(new Illuminate\Http\File(storage_path("tmp/".($user->id-1).".png")),true);
+        \File::copy(storage_path("fixtures/profile_images/".($user->id-2).".png"),storage_path("tmp/".($user->id-2).".png"));
+        $user->addProfileImage(new Illuminate\Http\File(storage_path("tmp/".($user->id-2).".png")),true);
         $user->password = bcrypt($user->password);
         $user->name = $user->firstname;
         $user->email=filter_var(strtolower($user->firstname).".".strtolower($user->lastname)."@paleo.ch",FILTER_SANITIZE_EMAIL);

@@ -8,7 +8,9 @@ const StatusFilter = ({status,addFilter, removeFilter}) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
+        console.log(value)
         if(!value) //if unchecked and is in status array, remove it
+
             removeFilter(name)
         else
             addFilter(name)

@@ -230,8 +230,8 @@ const getVisibleRuns = (runs, displayModeEnabled, filters) => {
 
     if(filters.status.length)
       runs = runs.filter(r=>filters.status.indexOf(r.status) > -1)
-    if( filters.status.indexOf("finished") === -1) //allways filter finished runs if nothing specified
-        runs = runs.filter(r => r.status != "finished")
+    // if( filters.status.indexOf("finished") === -1) //allways filter finished runs if nothing specified
+    //     runs = runs.filter(r => r.status != "finished")
 
     if(displayModeEnabled){
         runs = runs.filter(r => r.status != "drafting")
