@@ -37,7 +37,9 @@ class ProcessWaypoint implements ShouldQueue
       $res = $client->request('GET', $url);
       if($res->getStatusCode() != 200)
         return false;
-      $body = $res->getBody();
+      $body = $res->getBody()->getContents();
+	\Log::debug("[waypoint] response body : \n".$body);
+	$body = json_decode($body, true);
       $this->waypoint->geo = count($body["results"])? $body["results"][0] : Waypoint::where("name","like","%paleo%")->first();
       \Log::debug("[waypoint] resolved waypoint");
       \Log::debug("[waypoint] ".print_r($this->waypoint->geo));

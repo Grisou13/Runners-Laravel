@@ -9,19 +9,20 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Lib\Models\Waypoint;
 
 class WaypointSavedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+    public $waypoint;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Waypoint $waypoint)
     {
-        //
+        $this->waypoint = $waypoint;
     }
 
     /**
