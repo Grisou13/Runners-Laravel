@@ -14,7 +14,7 @@ import {FILTER_TODAY} from "../actions/consts";
  */
 
 export const defaultState = {
-    status:[],
+    status:["needs_filling","ready","drafting","error"],
     name:"",
     waypoint_between:[],
     waypoint_in:"",

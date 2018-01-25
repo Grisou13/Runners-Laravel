@@ -318,7 +318,7 @@ $( function() {
       altFieldTimeOnly: false,
     	altFormat: "yy-mm-dd",
     	altTimeFormat: "hh:mm:ss",
-      timeFormat:"hh:mm",
+      timeFormat:"HH:mm",
       secondSlider:false,
       showSecond:false,
       dateFormat: 'dd/mm',
