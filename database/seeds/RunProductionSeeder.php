@@ -160,14 +160,22 @@ class RunProductionSeeder extends Seeder
         echo count($this->drivers) . " chauffeurs\n";
 
         // seeds creation ========================
+        $dateOffset = env("TEST_DATA_DATE_OFFSET",0); // Number of days until start of festival
+        $startDate = new DateTime(); // now
+        if ($dateOffset >= 0)
+            $startDate->add(new DateInterval("P".$dateOffset."D"));
+        else
+            $startDate->sub(new DateInterval("P".(-$dateOffset)."D"));
+        echo "Runs start " . $startDate->format("Y-m-d") . "\n";
+
         collect([
-            ["day" => new DateTime('2017-07-18'), "nbRuns" => random_int(30, 50)],
-            ["day" => new DateTime('2017-07-19'), "nbRuns" => random_int(40, 70)],
-            ["day" => new DateTime('2017-07-20'), "nbRuns" => random_int(50, 90)],
-            ["day" => new DateTime('2017-07-21'), "nbRuns" => random_int(50, 70)],
-            ["day" => new DateTime('2017-07-22'), "nbRuns" => random_int(50, 70)],
-            ["day" => new DateTime('2017-07-23'), "nbRuns" => random_int(45, 60)],
-            ["day" => new DateTime('2017-07-24'), "nbRuns" => random_int(10, 30)]
+            ["day" => $startDate, "nbRuns" => random_int(10, 30)],
+            ["day" => (clone $startDate)->add(new DateInterval('P1D')), "nbRuns" => random_int(20, 50)],
+            ["day" => (clone $startDate)->add(new DateInterval('P2D')), "nbRuns" => random_int(30, 70)],
+            ["day" => (clone $startDate)->add(new DateInterval('P3D')), "nbRuns" => random_int(30, 50)],
+            ["day" => (clone $startDate)->add(new DateInterval('P4D')), "nbRuns" => random_int(30, 50)],
+            ["day" => (clone $startDate)->add(new DateInterval('P5D')), "nbRuns" => random_int(25, 40)],
+            ["day" => (clone $startDate)->add(new DateInterval('P6D')), "nbRuns" => random_int(10, 20)]
         ])->each(function ($onedate)
         {
             echo "Runs for " . $onedate["day"]->format("Y-m-d") . "\n";
