@@ -26,6 +26,22 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->get("/users/search",["as"=>"users.search","uses"=>"UserController@search"]);
 
     $api->get("/me",["uses"=>"AuthenticatedUserController@me","as"=>"users.me"]);
+    $api->get("/me/workinghours",function(){
+      $first_start = \Lib\Models\Run::all()->orderBy("planned_at","ASC")->first()->planned_at;
+
+      $ret = [];
+      // from 10 -> 20 days ago
+      $to = rand(10,20);
+      for($i = 0; $i <= $to; $i++){
+        $start = $first_start;
+        $start = $start->addDays($i);
+        $ret[] = [
+          "start_at"=>(string)$start,
+          "end_at"=> (string)$start->addHours(rand(2,8))
+        ];
+      }
+      return $ret;
+    });
     $api->get("users/me",["uses"=>"AuthenticatedUserController@me"]);
     $api->get("/me/runs","AuthenticatedUserController@runs");
     $api->get("/me/schedule","AuthenticatedUserController@schedule");
