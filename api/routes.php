@@ -28,12 +28,13 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
     $api->get("/me",["uses"=>"AuthenticatedUserController@me","as"=>"users.me"]);
     $api->get("/me/workinghours",function(){
       $first_start = \DB::table("runs")->orderBy("planned_at","ASC")->first()->planned_at;
+	$first_date = \Carbon\Carbon::parse($first_start);
 
       $ret = [];
       // from 10 -> 20 days ago
       $to = rand(10,20);
       for($i = 0; $i <= $to; $i++){
-        $start = $first_start;
+        $start = $first_date;
         $start = $start->addDays($i);
         $ret[] = [
           "start_at"=>(string)$start,
