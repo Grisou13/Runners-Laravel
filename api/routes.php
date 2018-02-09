@@ -27,7 +27,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
 
     $api->get("/me",["uses"=>"AuthenticatedUserController@me","as"=>"users.me"]);
     $api->get("/me/workinghours",function(){
-      $first_start = \Lib\Models\Run::all()->orderBy("planned_at","ASC")->first()->planned_at;
+      $first_start = \DB::table("runs")->orderBy("planned_at","ASC")->first()->planned_at;
 
       $ret = [];
       // from 10 -> 20 days ago
