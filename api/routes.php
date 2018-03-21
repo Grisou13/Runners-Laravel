@@ -79,7 +79,7 @@ $api->group(["middleware"=>["api.auth"]],function(Dingo\Api\Routing\Router $api)
       $api->get("/vehicles/{vehicle}/type",["as"=>"cars.type","uses"=>"CarController@type"]);
 
       $api->resource("cars.comments","CommentController",["except"=>["update"]]);
-
+      $api->resource("vehicles.comments", "CommentController", ["except"=>["update"]]);
       $api->resource("cars",'CarController');
       $api->resource("vehicles",'CarController');
     });

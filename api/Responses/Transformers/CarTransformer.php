@@ -19,7 +19,8 @@ class CarTransformer extends TransformerAbstract
     "user"
   ];
   public $defaultIncludes = [
-    "type"
+    "type",
+	"comments"
   ];
   public function transform(Car $car)
   {
@@ -43,4 +44,7 @@ class CarTransformer extends TransformerAbstract
     else
       return $this->null();
   }
+	public function includeComments(Car $car){
+		return $this->collection($car->comments, new CommentTransformer);
+	}
 }

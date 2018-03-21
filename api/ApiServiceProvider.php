@@ -34,6 +34,7 @@ use Lib\Models\Setting;
 use Lib\Models\User;
 use Lib\Models\Waypoint;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Api\Responses\Transformers\CommentTransformer;
 
 class ApiServiceProvider extends RouteServiceProvider
 {
@@ -110,7 +111,7 @@ class ApiServiceProvider extends RouteServiceProvider
       app('Dingo\Api\Transformer\Factory')->register(Waypoint::class, WaypointTransformer::class);
       app('Dingo\Api\Transformer\Factory')->register(Setting::class, SettingTransformer::class);
       app('Dingo\Api\Transformer\Factory')->register(Schedule::class, ScheduleTransformer::class);
-
+      app('Dingo\Api\Transformer\Factory')->register(\Lib\Models\Comment::class, CommentTransformer::class);
     }
 
     /**
